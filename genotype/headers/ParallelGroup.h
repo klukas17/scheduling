@@ -11,7 +11,6 @@
 class ParallelGroup : TopologyElement {
 public:
     long group_id;
-
     std::vector<TopologyElement*> elements;
 };
 
