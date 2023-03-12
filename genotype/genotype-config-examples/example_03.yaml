@@ -1,0 +1,37 @@
+# FFc - flexible flow shop
+topology:
+  serial:
+    id: 1
+    body:
+      - parallel:
+          id: 2
+          body:
+            - machine:
+                id: 6
+            - machine:
+                id: 7
+      - parallel:
+          id: 3
+          body:
+            - machine:
+                id: 8
+            - machine:
+                id: 9
+            - machine:
+                id: 10
+            - machine:
+                id: 11
+      - parallel:
+          id: 4
+          body:
+            - machine:
+                id: 12
+            - machine:
+                id: 13
+            - machine:
+                id: 14
+      - parallel:
+          id: 5
+          body:
+            - machine:
+                id: 15
