@@ -1,0 +1,17 @@
+# Jm - open shop
+topology:
+  open:
+    id: 1
+    body:
+      - machine:
+          id: 2
+      - machine:
+          id: 3
+      - machine:
+          id: 4
+      - machine:
+          id: 5
+      - machine:
+          id: 6
+      - machine:
+          id: 7

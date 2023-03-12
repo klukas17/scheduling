@@ -1,0 +1,49 @@
+# FJc - flexible job shop
+topology:
+  route:
+    id: 1
+    body:
+      - parallel:
+          id: 2
+          body:
+            - machine:
+                id: 8
+            - machine:
+                id: 9
+            - machine:
+                id: 10
+      - parallel:
+          id: 3
+          body:
+            - machine:
+                id: 11
+            - machine:
+                id: 12
+      - parallel:
+          id: 4
+          body:
+            - machine:
+                id: 13
+            - machine:
+                id: 14
+            - machine:
+                id: 15
+      - parallel:
+          id: 5
+          body:
+            - machine:
+                id: 16
+            - machine:
+                id: 17
+      - parallel:
+          id: 6
+          body:
+            - machine:
+                id: 18
+      - parallel:
+          id: 7
+          body:
+            - machine:
+                id: 19
+            - machine:
+                id: 20
