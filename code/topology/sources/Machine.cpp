@@ -7,5 +7,5 @@
 Machine::Machine(long id, MachineType *machine_type) {
     this->id = id;
     this->machine_type = machine_type;
-    this->topology_element_type = MACHINE;
+    this->topology_element_type = MACHINE_TOPOLOGY_ELEMENT;
 }

@@ -5,7 +5,11 @@
 #include "TopologyElement.h"
 
 TopologyElement::TopologyElement() {
-    this->topology_element_type = ABSTRACT;
+    this->topology_element_type = ABSTRACT_TOPOLOGY_ELEMENT;
 }
 
 TopologyElement::~TopologyElement() {}
+
+TopologyElementType TopologyElement::getTopologyElementType() {
+    return topology_element_type;
+}

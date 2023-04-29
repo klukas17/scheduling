@@ -12,6 +12,7 @@ private:
     TopologyElement* topology_root_element;
 public:
     Topology(TopologyElement* topology_root_element);
+    TopologyElement* getRootElement();
 };
 
 
