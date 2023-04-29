@@ -1,3 +1,7 @@
 jobs:
   - job:
       id: 1
+      processing_times:
+        - machine:
+            id: 1
+            time: 5

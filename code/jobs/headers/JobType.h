@@ -5,12 +5,16 @@
 #ifndef SCHEDULING_JOBTYPE_H
 #define SCHEDULING_JOBTYPE_H
 
+#include "map"
 
 class JobType {
 protected:
     long id;
+    std::map<long, long> processing_times;
 public:
     JobType(long id);
+    std::map<long, long> getProcessingTimes();
+    void setProcessingTime(long machine_id, long processing_time);
 };
 
 

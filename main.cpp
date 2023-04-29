@@ -30,7 +30,7 @@ int main() {
     Individual* individual = genotype_deserializer->deserialize(dir + "individual_1.yaml");
 
     GenotypeSerializer* genotype_serializer = new GenotypeSerializer();
-    genotype_serializer->serialize(dir + "individual_2.yaml", individual);
+    genotype_serializer->serialize(dir + "individual_1_copy.yaml", individual);
 
     return 0;
 }
