@@ -2,6 +2,7 @@
 #include "MachineSpecificationsParser.h"
 #include "MachineTopologyParser.h"
 #include "JobSpecificationsParser.h"
+#include "JobSequenceParser.h"
 #include "MachineType.h"
 #include "Topology.h"
 
@@ -18,6 +19,9 @@ int main() {
 
     JobSpecificationsParser* jobSpecificationsParser = new JobSpecificationsParser();
     std::map<long, JobType*> job_type_map = jobSpecificationsParser->parse(dir + "job_specifications.yaml");
+
+    JobSequenceParser* jobSequenceParser = new JobSequenceParser();
+    std::vector<Job*> jobs = jobSequenceParser->parse(dir + "job_sequence.yaml", job_type_map);
 
     return 0;
 }
