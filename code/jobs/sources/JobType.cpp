@@ -7,3 +7,11 @@
 JobType::JobType(long id) {
     this->id = id;
 }
+
+std::map<long, long> JobType::getProcessingTimes() {
+    return processing_times;
+}
+
+void JobType::setProcessingTime(long machine_id, long processing_time) {
+    processing_times[machine_id] = processing_time;
+}

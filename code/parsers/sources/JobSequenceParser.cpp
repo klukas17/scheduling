@@ -20,8 +20,33 @@ std::vector<Job *> JobSequenceParser::parse(std::string path, std::map<long, Job
             const YAML::Node& job_node = (*it)["job"];
             long id = job_node["id"].as<long>();
             long job_type_id = job_node["job_type_id"].as<long>();
-            Job* job = new Job(id, job_type_map[job_type_id]);
+            JobType* job_type = job_type_map[job_type_id];
+            Job* job = new Job(id, job_type);
             jobs.push_back(job);
+
+            std::map<long, long> job_type_processing_times = job_type->getProcessingTimes();
+            for (auto & job_type_processing_time : job_type_processing_times) {
+                job->setProcessingTime(job_type_processing_time.first, job_type_processing_time.second);
+            }
+
+            const YAML::Node& processing_route_node = job_node["processing_route"];
+            if (processing_route_node) {
+                for (YAML::const_iterator proc_it = processing_route_node.begin(); proc_it != processing_route_node.end(); proc_it++) {
+                    const YAML::Node& processing_route_entry = (*proc_it)["machine"];
+                    long machine_id = processing_route_entry["id"].as<long>();
+                    job->addMachineToProcessingRoute(machine_id);
+                    const YAML::Node& processing_time_node = processing_route_entry["time"];
+                    if (processing_time_node) {
+                        long time = processing_time_node.as<long>();
+                        job->setProcessingTime(machine_id, time);
+                    }
+                }
+            }
+            else {
+                // todo:error
+                std::cerr << "Error: 'processing_route' node not found in " << path << " file." << std::endl;
+                exit(1);
+            }
         }
     }
 

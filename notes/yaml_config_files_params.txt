@@ -2,6 +2,7 @@ job_specifications.yaml:
     required:
         id
     optional:
+        processing_times
         job_families
         preempt
 
@@ -9,7 +10,7 @@ job_sequence.yaml:
     required:
         id
         job_type_id
-        processing_route (+ preceded_by)
+        processing_route (+ processing_times) (+ preceded_by)
     optional:
         release_date
         due_date
