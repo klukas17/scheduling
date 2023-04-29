@@ -1,0 +1,18 @@
+//
+// Created by mihael on 29/04/23.
+//
+
+#ifndef SCHEDULING_TOPOLOGY_H
+#define SCHEDULING_TOPOLOGY_H
+
+#include "TopologyElement.h"
+
+class Topology {
+private:
+    TopologyElement* topology_root_element;
+public:
+    Topology(TopologyElement* topology_root_element);
+};
+
+
+#endif //SCHEDULING_TOPOLOGY_H
