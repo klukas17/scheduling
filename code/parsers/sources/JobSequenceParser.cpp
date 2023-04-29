@@ -35,11 +35,6 @@ std::vector<Job *> JobSequenceParser::parse(std::string path, std::map<long, Job
                     const YAML::Node& processing_route_entry = (*proc_it)["machine"];
                     long machine_id = processing_route_entry["id"].as<long>();
                     job->addMachineToProcessingRoute(machine_id);
-                    const YAML::Node& processing_time_node = processing_route_entry["time"];
-                    if (processing_time_node) {
-                        long time = processing_time_node.as<long>();
-                        job->setProcessingTime(machine_id, time);
-                    }
                 }
             }
             else {
