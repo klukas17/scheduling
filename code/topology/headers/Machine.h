@@ -11,9 +11,9 @@
 class Machine : public TopologyElement {
 private:
     long id;
-    MachineType* machineType;
+    MachineType* machine_type;
 public:
-    Machine(long id, MachineType* machineType);
+    Machine(long id, MachineType* machine_type);
 };
 
 

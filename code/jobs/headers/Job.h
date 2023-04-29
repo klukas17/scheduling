@@ -10,9 +10,9 @@
 class Job {
 private:
     long id;
-    JobType* jobType;
+    JobType* job_type;
 public:
-    Job(long id, JobType* jobType);
+    Job(long id, JobType* job_type);
 };
 
 

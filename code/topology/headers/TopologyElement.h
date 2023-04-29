@@ -9,7 +9,7 @@
 
 class TopologyElement {
 protected:
-    TopologyElementType topologyElementType;
+    TopologyElementType topology_element_type;
 public:
     TopologyElement();
     virtual ~TopologyElement() = 0;
