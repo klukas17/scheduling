@@ -1,0 +1,2 @@
+multiple machines with the same id in machine_specifications.yaml
+multiple jobs with the same id in job_specifications.yaml

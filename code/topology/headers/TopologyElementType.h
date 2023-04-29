@@ -1,0 +1,17 @@
+//
+// Created by mihael on 29/04/23.
+//
+
+#ifndef SCHEDULING_TOPOLOGYELEMENTTYPE_H
+#define SCHEDULING_TOPOLOGYELEMENTTYPE_H
+
+enum TopologyElementType {
+    ABSTRACT,
+    MACHINE,
+    SERIAL_GROUP,
+    PARALLEL_GROUP,
+    ROUTE_GROUP,
+    OPEN_GROUP
+};
+
+#endif //SCHEDULING_TOPOLOGYELEMENTTYPE_H
