@@ -7,3 +7,5 @@
 TopologyElement::TopologyElement() {
     this->topologyElementType = ABSTRACT;
 }
+
+TopologyElement::~TopologyElement() {}
