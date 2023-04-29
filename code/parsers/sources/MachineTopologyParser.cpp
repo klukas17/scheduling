@@ -12,17 +12,15 @@ MachineTopologyParser::MachineTopologyParser() {}
 Topology *MachineTopologyParser::parse(std::string path, std::map<long, MachineType *> machine_type_map) {
 
     YAML::Node doc = YAML::LoadFile(path);
-    YAML::Node topologyNode = doc["topology"];
+    YAML::Node topology_node = doc["topology"];
 
-    if (topologyNode) {
+    if (topology_node) {
 
-        //TopologyElement* topologyElement = new Machine(topologyNode["machine"]["id"])
+        long id = topology_node["machine"]["id"].as<long>();
+        MachineType* machine_type = machine_type_map[topology_node["machine"]["machine_type_id"].as<long>()];
 
-        long id = topologyNode["machine"]["id"].as<long>();
-        MachineType* machineType = machine_type_map[topologyNode["machine"]["machine_type_id"].as<long>()];
-
-        TopologyElement* topologyElement = new Machine(id, machineType);
-        Topology* topology = new Topology(topologyElement);
+        TopologyElement* topology_element = new Machine(id, machine_type);
+        Topology* topology = new Topology(topology_element);
 
         return topology;
     }

@@ -13,12 +13,12 @@ std::map<long, MachineType*> MachineSpecificationsParser::parse(std::string path
     std::map<long, MachineType*> machine_type_map;
 
     YAML::Node doc = YAML::LoadFile(path);
-    YAML::Node machinesNode = doc["machines"];
+    YAML::Node machines_node = doc["machines"];
 
-    if (machinesNode) {
-        for (YAML::const_iterator it = machinesNode.begin(); it != machinesNode.end(); ++it) {
-            const YAML::Node& machineNode = (*it)["machine"];
-            long id = machineNode["id"].as<long>();
+    if (machines_node) {
+        for (YAML::const_iterator it = machines_node.begin(); it != machines_node.end(); ++it) {
+            const YAML::Node& machine_node = (*it)["machine"];
+            long id = machine_node["id"].as<long>();
             MachineType* machine_type = new MachineType(id);
             machine_type_map[id] = machine_type;
         }

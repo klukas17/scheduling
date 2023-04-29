@@ -13,10 +13,10 @@ std::map<long, JobType *> JobSpecificationsParser::parse(std::string path) {
     std::map<long, JobType*> job_type_map;
 
     YAML::Node doc = YAML::LoadFile(path);
-    YAML::Node jobsNode = doc["jobs"];
+    YAML::Node jobs_node = doc["jobs"];
 
-    if (jobsNode) {
-        for (YAML::const_iterator it = jobsNode.begin(); it != jobsNode.end(); ++it) {
+    if (jobs_node) {
+        for (YAML::const_iterator it = jobs_node.begin(); it != jobs_node.end(); ++it) {
             const YAML::Node& job_node = (*it)["job"];
             long id = job_node["id"].as<long>();
             JobType* job_type = new JobType(id);

@@ -4,8 +4,8 @@
 
 #include "Machine.h"
 
-Machine::Machine(long id, MachineType *machineType) {
+Machine::Machine(long id, MachineType *machine_type) {
     this->id = id;
-    this->machineType = machineType;
-    this->topologyElementType = MACHINE;
+    this->machine_type = machine_type;
+    this->topology_element_type = MACHINE;
 }
