@@ -1,0 +1,14 @@
+r_j - release date
+    field release_date in job_sequence.yaml
+    if not specified, assumed to be zero
+
+d_j - due date
+    field due_date in job_sequence.yaml
+    if not specified, assumed to be equal to release date
+
+w_j - weight
+    field weight in job_sequence.yaml
+    if not specified, assumed to be one
+
+route through the system + p_ij (processing time for each machine)
+    field processing_route in job_sequence.yaml

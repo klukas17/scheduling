@@ -36,7 +36,7 @@ void print_node(const YAML::Node& node, int indent = 0, bool is_sub_node = false
 int main() {
     std::cout << "Hello, World!" << std::endl;
 
-    YAML::Node doc = YAML::LoadFile("../genotype/genotype-config-examples/example_05.yaml");
+    YAML::Node doc = YAML::LoadFile("../../examples/genotype_config/example_01/machine_topology.yaml");
 
     print_node(doc);
 

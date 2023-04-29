@@ -8,10 +8,29 @@ set(YAML_CPP_DIR ~/libs/yaml-cpp)
 include_directories(${YAML_CPP_DIR}/include)
 link_directories(${YAML_CPP_DIR}/build)
 
-include_directories(genotype/headers parsers/headers)
+include_directories(
+        code/genotype/headers
+        code/jobs/headers
+        code/machines/headers
+        code/parsers/headers
+        code/simulator/headers
+)
 
-file(GLOB PROJECT_HEADERS genotype/headers/*.hpp genotype/headers/*.h parsers/headers/*.hpp parsers/headers/*.h)
-file(GLOB PROJECT_SOURCES genotype/sources/*.cpp parsers/sources/*.cpp)
+file(GLOB PROJECT_HEADERS
+        code/genotype/headers/*.h
+        code/jobs/headers/*.h
+        code/machines/headers/*.h
+        code/parsers/headers/*.h
+        code/simulator/headers/*.h
+)
+
+file(GLOB PROJECT_SOURCES
+        code/genotype/sources/*.cpp
+        code/jobs/sources/*.cpp
+        code/machines/sources/*.cpp
+        code/parsers/sources/*.cpp
+        code/simulator/sources/*.cpp
+)
 
 source_group("Headers" FILES ${PROJECT_HEADERS})
 source_group("Sources" FILES ${PROJECT_SOURCES})

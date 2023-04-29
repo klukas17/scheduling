@@ -1,0 +1,47 @@
+prmp - preemptions
+    field preempt in job_specifications.yaml and job_sequence.yaml
+    if not specified, assumed to be false
+    job_sequence.yaml overrides job_specifications.yaml
+
+prec - precedence constraints
+    field preceded_by in job_sequence.yaml/processing_route
+    field requires_completion_of in job_sequence.yaml
+
+s_jk - sequence dependent setup times
+    field setup_times in machine_specifications.yaml (only for single machines, not for groups)
+    list of entries
+    entry can contain only field new_family, or fields new_family and old_family
+    the latter overrides the former
+
+fmls - job families
+    field job_families in job_specifications.yaml
+    a job can belong to multiple families, so this field is a list
+
+batch(b) - batch processing
+    field batch_processing in machine_specifications.yaml
+    this field is a list
+
+brkdwn - breakdowns
+    field breakdowns in machine_topology.yaml
+    this field is a list of entries
+    each entry contains the start and finish fields, which contain an integer number - time unit
+
+Mj - machine eligibility restrictions
+    NONE (covered by other parameters)
+
+prmu - permutations
+    NONE (covered by other parameters)
+
+block - blocking
+    NONE (covered by buffers)
+
+nwt - no-wait
+    NONE (covered by buffers)
+
+rcrc - recirculation
+    NONE (can be adjusted in the job_sequence.yaml by default)
+
+buff - buffers at the entrance and the exit of each machine
+    field buffer_size in machine_topology.yaml
+    corresponds to the buffer at the entrance of the machine (or the group)
+    if not specified, assumed to be unlimited

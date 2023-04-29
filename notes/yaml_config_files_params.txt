@@ -1,0 +1,33 @@
+job_specifications.yaml:
+    required:
+        id
+    optional:
+        job_families
+        preempt
+
+job_sequence.yaml:
+    required:
+        id
+        job_type_id
+        processing_route (+ preceded_by)
+    optional:
+        release_date
+        due_date
+        weight
+        preempt
+        requires_completion_of
+
+machine_specifications.yaml:
+    required:
+        id
+    optional:
+        batch_processing
+        setup_times
+
+machine_topology.yaml:
+    required:
+        id
+        machine_type_id
+    optional:
+        breakdowns
+        buffer_size
