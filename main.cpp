@@ -3,8 +3,10 @@
 #include "MachineTopologyParser.h"
 #include "JobSpecificationsParser.h"
 #include "JobSequenceParser.h"
+#include "GenotypeDeserializer.h"
 #include "MachineType.h"
 #include "Topology.h"
+#include "Individual.h"
 
 std::string dir = "../examples/example_01/";
 
@@ -22,6 +24,9 @@ int main() {
 
     JobSequenceParser* job_sequence_parser = new JobSequenceParser();
     std::vector<Job*> jobs = job_sequence_parser->parse(dir + "job_sequence.yaml", job_type_map);
+
+    GenotypeDeserializer* genotype_deserializer = new GenotypeDeserializer(topology);
+    Individual* individual = genotype_deserializer->deserialize(dir + "individual_1.yaml");
 
     return 0;
 }

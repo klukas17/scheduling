@@ -13,6 +13,7 @@ protected:
 public:
     TopologyElement();
     virtual ~TopologyElement() = 0;
+    TopologyElementType getTopologyElementType();
 };
 
 
