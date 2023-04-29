@@ -11,3 +11,7 @@ MachineNode::MachineNode() {
 void MachineNode::add_job(long job_id) {
     this->job_processing_order.push_back(job_id);
 }
+
+std::vector<long> MachineNode::getJobProcessingOrder() {
+    return job_processing_order;
+}

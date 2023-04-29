@@ -4,6 +4,7 @@
 #include "JobSpecificationsParser.h"
 #include "JobSequenceParser.h"
 #include "GenotypeDeserializer.h"
+#include "GenotypeSerializer.h"
 #include "MachineType.h"
 #include "Topology.h"
 #include "Individual.h"
@@ -27,6 +28,9 @@ int main() {
 
     GenotypeDeserializer* genotype_deserializer = new GenotypeDeserializer(topology);
     Individual* individual = genotype_deserializer->deserialize(dir + "individual_1.yaml");
+
+    GenotypeSerializer* genotype_serializer = new GenotypeSerializer();
+    genotype_serializer->serialize(dir + "individual_2.yaml", individual);
 
     return 0;
 }

@@ -14,6 +14,7 @@ private:
 public:
     MachineNode();
     void add_job(long job_id);
+    std::vector<long> getJobProcessingOrder();
 };
 
 
