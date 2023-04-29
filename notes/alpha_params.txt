@@ -1,0 +1,38 @@
+topology -> topology_element
+topology_element ->
+    machine     |
+    serial      |
+    parallel    |
+    route       |
+    open
+serial -> [topology_element]
+parallel -> [topology_element]
+route -> [topology_element]
+open-> [topology_element]
+
+1 - Single machine
+    topology = machine
+
+Pm - Identical machines in parallel
+    topology = parallel(machine, machine, ..., machine)
+
+Qm - Machines in parallel with different speeds
+    topology = parallel(machine, machine, ..., machine)
+
+Rm - Unrelated machines in parallel
+    topology = parallel(machine, machine, ..., machine)
+
+Fm - Flow shop
+    topology = serial(machine, machine, ..., machine)
+
+FFc - Flexible flow shop
+    topology = serial(parallel(machine, ..., machine), ..., parallel(machine, ..., machine))
+
+Jm - Job shop
+    topology = route(machine, machine, ..., machine)
+
+FJc - Flexible job shop
+    topology = route(parallel(machine, ..., machine), ..., parallel(machine, ..., machine))
+
+Om - Open shop
+    topology = open(machine, machine, ..., machine)
