@@ -11,6 +11,7 @@ protected:
     long id;
 public:
     explicit MachineType(long id);
+    [[nodiscard]] long getId() const;
 };
 
 

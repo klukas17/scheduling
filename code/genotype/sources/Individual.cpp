@@ -17,7 +17,8 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
     switch (topology_element->getTopologyElementType()) {
 
         case MACHINE_TOPOLOGY_ELEMENT: {
-            return new MachineNode(topology_element->getId());
+            auto machine_element = (Machine*) topology_element;
+            return new MachineNode(topology_element->getId(), machine_element->getMachineType());
         }
 
         case SERIAL_GROUP_TOPOLOGY_ELEMENT: {
