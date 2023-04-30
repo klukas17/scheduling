@@ -7,3 +7,7 @@
 MachineType::MachineType(long id) {
     this->id = id;
 }
+
+long MachineType::getId() const {
+    return id;
+}

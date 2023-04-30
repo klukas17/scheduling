@@ -6,11 +6,15 @@
 #define SCHEDULING_MACHINENODE_H
 
 #include "GenotypeNode.h"
+#include "MachineType.h"
 #include "vector"
 
 class MachineNode : public GenotypeNode {
+private:
+    MachineType* machine_type;
 public:
-    explicit MachineNode(long id);
+    MachineNode(long id, MachineType* machine_type);
+    MachineType* getMachineType();
 };
 
 
