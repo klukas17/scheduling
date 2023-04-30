@@ -1,0 +1,18 @@
+//
+// Created by mihael on 29/04/23.
+//
+
+#ifndef SCHEDULING_EVENTTYPE_H
+#define SCHEDULING_EVENTTYPE_H
+
+enum EventType {
+    ABSTRACT,
+    SYSTEM_ENTRY,
+    SYSTEM_EXIT,
+    MACHINE_BUFFER_ENTRY,
+    MACHINE_ENTRY,
+    MACHINE_EXIT,
+    WAKE_MACHINE
+};
+
+#endif //SCHEDULING_EVENTTYPE_H

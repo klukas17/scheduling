@@ -17,8 +17,10 @@ private:
     std::map<long, long> processing_times;
 public:
     Job(long id, JobType* job_type);
+    long getId();
     void addMachineToProcessingRoute(long machine_id);
     void setProcessingTime(long machine_id, long processing_time);
+    long getProcessingTime(long machine_id);
 };
 
 

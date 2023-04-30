@@ -5,6 +5,7 @@
 #include "JobSequenceParser.h"
 #include "GenotypeDeserializer.h"
 #include "GenotypeSerializer.h"
+#include "Simulator.h"
 #include "MachineType.h"
 #include "Topology.h"
 #include "Individual.h"
@@ -31,6 +32,9 @@ int main() {
 
     GenotypeSerializer* genotype_serializer = new GenotypeSerializer();
     genotype_serializer->serialize(dir + "individual_1_copy.yaml", individual);
+
+    Simulator* simulator = new Simulator();
+    simulator->simulate(individual, jobs, dir + "simulator_logs.txt");
 
     return 0;
 }

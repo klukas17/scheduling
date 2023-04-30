@@ -4,8 +4,13 @@
 
 #include "MachineNode.h"
 
-MachineNode::MachineNode() {
+MachineNode::MachineNode(long id) {
+    this->id = id;
     this->node_type = MACHINE_NODE_TYPE;
+}
+
+long MachineNode::getId() {
+    return id;
 }
 
 void MachineNode::add_job(long job_id) {

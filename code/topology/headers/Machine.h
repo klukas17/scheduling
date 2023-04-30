@@ -14,6 +14,7 @@ private:
     MachineType* machine_type;
 public:
     Machine(long id, MachineType* machine_type);
+    long getId();
 };
 
 

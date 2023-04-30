@@ -9,3 +9,7 @@ Machine::Machine(long id, MachineType *machine_type) {
     this->machine_type = machine_type;
     this->topology_element_type = MACHINE_TOPOLOGY_ELEMENT;
 }
+
+long Machine::getId() {
+    return id;
+}
