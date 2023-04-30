@@ -4,14 +4,9 @@
 
 #include "Machine.h"
 
-Machine::Machine(long id, MachineType *machine_type) {
-    this->id = id;
+Machine::Machine(long id, MachineType *machine_type) : TopologyElement(id) {
     this->machine_type = machine_type;
     this->topology_element_type = MACHINE_TOPOLOGY_ELEMENT;
-}
-
-long Machine::getId() const {
-    return id;
 }
 
 MachineType *Machine::getMachineType() {

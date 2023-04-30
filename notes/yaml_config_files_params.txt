@@ -33,4 +33,4 @@ machine_topology.yaml:
         machine_type_id
     optional:
         breakdowns
-        buffer_size
+        buffer_size (for each machine/group and for whole system)

@@ -1,8 +1,13 @@
 serial:
   job_processing_order:
-    - 1
     - 2
+    - 5
+    - 1
+    - 4
+    - 6
+    - 3
   body:
+    - machine:
     - machine:
     - machine:
     - machine:
