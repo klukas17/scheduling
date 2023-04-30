@@ -5,16 +5,33 @@
 #include "Individual.h"
 #include "Machine.h"
 #include "MachineNode.h"
+#include "SerialGroup.h"
+#include "SerialGroupNode.h"
 
 Individual::Individual(Topology *topology) {
+    this->root_node = createNode(topology->getRootElement());
+}
 
-    TopologyElement* topology_root_element = topology->getRootElement();
-    TopologyElementType topology_root_element_type = topology_root_element->getTopologyElementType();
+GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
 
-    if (topology_root_element_type == MACHINE_TOPOLOGY_ELEMENT) {
-        auto machine = (Machine*) topology_root_element;
-        GenotypeNode* genotype_node = new MachineNode(machine->getId());
-        this->root_node = genotype_node;
+    switch (topology_element->getTopologyElementType()) {
+
+        case MACHINE_TOPOLOGY_ELEMENT: {
+            return new MachineNode(topology_element->getId());
+        }
+
+        case SERIAL_GROUP_TOPOLOGY_ELEMENT: {
+            auto node = new SerialGroupNode(topology_element->getId());
+            for (auto body_element : ((SerialGroup*)topology_element)->getBody()) {
+                node->addNodeToBody(createNode(body_element));
+            }
+            return node;
+        }
+
+        default: {
+            // todo:error
+            break;
+        }
     }
 }
 

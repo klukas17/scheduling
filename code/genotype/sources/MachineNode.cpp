@@ -13,5 +13,5 @@ std::vector<long> MachineNode::getJobProcessingOrder() {
 }
 
 void MachineNode::add_job(long job_id) {
-    this->job_processing_order.push_back(job_id);
+    job_processing_order.push_back(job_id);
 }
