@@ -8,6 +8,10 @@ JobType::JobType(long id) {
     this->id = id;
 }
 
+long JobType::getId() const {
+    return id;
+}
+
 std::map<long, long> JobType::getProcessingTimes() {
     return processing_times;
 }

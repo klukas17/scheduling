@@ -11,7 +11,7 @@ public:
     long job_id;
     MachineBufferElement* prev;
     MachineBufferElement* next;
-    MachineBufferElement(long job_id);
+    explicit MachineBufferElement(long job_id);
 };
 
 

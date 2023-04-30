@@ -11,7 +11,7 @@
 class GenotypeSerializer {
 public:
     GenotypeSerializer();
-    void serialize(std::string path, Individual* individual);
+    static void serialize(const std::string& path, Individual* individual);
 };
 
 

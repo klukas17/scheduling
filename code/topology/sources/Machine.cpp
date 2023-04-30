@@ -10,6 +10,10 @@ Machine::Machine(long id, MachineType *machine_type) {
     this->topology_element_type = MACHINE_TOPOLOGY_ELEMENT;
 }
 
-long Machine::getId() {
+long Machine::getId() const {
     return id;
+}
+
+MachineType *Machine::getMachineType() {
+    return machine_type;
 }

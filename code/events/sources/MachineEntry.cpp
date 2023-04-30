@@ -10,10 +10,10 @@ MachineEntry::MachineEntry(long time, long job_id, long machine_id) : Event(time
     this->event_type = MACHINE_ENTRY;
 }
 
-long MachineEntry::getJobId() {
+long MachineEntry::getJobId() const {
     return job_id;
 }
 
-long MachineEntry::getMachineId() {
+long MachineEntry::getMachineId() const {
     return machine_id;
 }

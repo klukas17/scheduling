@@ -7,9 +7,9 @@
 #include "Machine.h"
 #include "yaml-cpp/yaml.h"
 
-MachineTopologyParser::MachineTopologyParser() {}
+MachineTopologyParser::MachineTopologyParser() = default;
 
-Topology *MachineTopologyParser::parse(std::string path, std::map<long, MachineType *> machine_type_map) {
+Topology *MachineTopologyParser::parse(const std::string& path, std::map<long, MachineType *> machine_type_map) {
 
     YAML::Node doc = YAML::LoadFile(path);
     YAML::Node topology_node = doc["topology"];
@@ -20,7 +20,7 @@ Topology *MachineTopologyParser::parse(std::string path, std::map<long, MachineT
         MachineType* machine_type = machine_type_map[topology_node["machine"]["machine_type_id"].as<long>()];
 
         TopologyElement* topology_element = new Machine(id, machine_type);
-        Topology* topology = new Topology(topology_element);
+        auto topology = new Topology(topology_element);
 
         return topology;
     }

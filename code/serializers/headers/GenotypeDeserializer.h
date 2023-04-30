@@ -11,10 +11,9 @@
 
 class GenotypeDeserializer {
 private:
-    Topology* topology;
 public:
-    GenotypeDeserializer(Topology* topology);
-    Individual* deserialize(std::string path);
+    explicit GenotypeDeserializer();
+    static Individual* deserialize(const std::string& path, Topology* topology);
 };
 
 

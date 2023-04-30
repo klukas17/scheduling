@@ -6,9 +6,9 @@
 #include "yaml-cpp/yaml.h"
 #include <iostream>
 
-JobSpecificationsParser::JobSpecificationsParser() {}
+JobSpecificationsParser::JobSpecificationsParser() = default;
 
-std::map<long, JobType *> JobSpecificationsParser::parse(std::string path) {
+std::map<long, JobType *> JobSpecificationsParser::parse(const std::string& path) {
 
     std::map<long, JobType*> job_type_map;
 
@@ -19,7 +19,7 @@ std::map<long, JobType *> JobSpecificationsParser::parse(std::string path) {
         for (YAML::const_iterator it = jobs_node.begin(); it != jobs_node.end(); ++it) {
             const YAML::Node& job_node = (*it)["job"];
             long id = job_node["id"].as<long>();
-            JobType* job_type = new JobType(id);
+            auto job_type = new JobType(id);
             job_type_map[id] = job_type;
 
             const YAML::Node& processing_times_node = job_node["processing_times"];

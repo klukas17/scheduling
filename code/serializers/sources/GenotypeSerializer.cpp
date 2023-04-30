@@ -7,11 +7,11 @@
 #include <yaml-cpp/yaml.h>
 #include "fstream"
 
-GenotypeSerializer::GenotypeSerializer() {}
+GenotypeSerializer::GenotypeSerializer() = default;
 
-void GenotypeSerializer::serialize(std::string path, Individual *individual) {
+void GenotypeSerializer::serialize(const std::string& path, Individual *individual) {
 
-    MachineNode* node = (MachineNode*) individual->getRootNode();
+    auto node = (MachineNode*) individual->getRootNode();
 
     YAML::Emitter out;
     out << YAML::BeginMap;

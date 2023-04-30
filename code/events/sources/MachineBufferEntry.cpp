@@ -11,10 +11,10 @@ MachineBufferEntry::MachineBufferEntry(long time, long job_id, long machine_id) 
     this->message = "Job " + std::to_string(job_id) + ": Machine " + std::to_string(machine_id) + " buffer entry";
 }
 
-long MachineBufferEntry::getJobId() {
+long MachineBufferEntry::getJobId() const {
     return job_id;
 }
 
-long MachineBufferEntry::getMachineId() {
+long MachineBufferEntry::getMachineId() const {
     return machine_id;
 }

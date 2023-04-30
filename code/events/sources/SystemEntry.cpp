@@ -10,6 +10,6 @@ SystemEntry::SystemEntry(long time, long job_id) : Event(time) {
     this->message = "Job " + std::to_string(job_id) + ": System entry";
 }
 
-long SystemEntry::getJobId() {
+long SystemEntry::getJobId() const {
     return job_id;
 }

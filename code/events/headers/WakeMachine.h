@@ -12,6 +12,7 @@ private:
     long machine_id;
 public:
     WakeMachine(long time, long machine_id);
+    [[nodiscard]] long getMachineId() const;
 };
 
 

@@ -13,7 +13,7 @@
 class MachineTopologyParser {
 public:
     MachineTopologyParser();
-    Topology* parse(std::string path, std::map<long, MachineType*> machine_type_map);
+    static Topology* parse(const std::string& path, std::map<long, MachineType*> machine_type_map);
 };
 
 

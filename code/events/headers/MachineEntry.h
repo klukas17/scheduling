@@ -13,8 +13,8 @@ private:
     long machine_id;
 public:
     MachineEntry(long time, long job_id, long machine_id);
-    long getJobId();
-    long getMachineId();
+    [[nodiscard]] long getJobId() const;
+    [[nodiscard]] long getMachineId() const;
 };
 
 

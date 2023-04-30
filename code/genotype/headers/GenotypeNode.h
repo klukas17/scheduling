@@ -9,10 +9,13 @@
 
 class GenotypeNode {
 protected:
+    long id;
     NodeType node_type;
 public:
-    GenotypeNode();
+    explicit GenotypeNode(long id);
     virtual ~GenotypeNode() = 0;
+    [[nodiscard]] long getId() const;
+    NodeType getNodeType();
 };
 
 

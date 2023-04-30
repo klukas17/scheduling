@@ -10,7 +10,7 @@ class MachineType {
 protected:
     long id;
 public:
-    MachineType(long id);
+    explicit MachineType(long id);
 };
 
 

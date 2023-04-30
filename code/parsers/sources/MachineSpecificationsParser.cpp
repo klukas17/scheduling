@@ -6,9 +6,9 @@
 #include "MachineSpecificationsParser.h"
 #include "yaml-cpp/yaml.h"
 
-MachineSpecificationsParser::MachineSpecificationsParser() {}
+MachineSpecificationsParser::MachineSpecificationsParser() = default;
 
-std::map<long, MachineType*> MachineSpecificationsParser::parse(std::string path) {
+std::map<long, MachineType*> MachineSpecificationsParser::parse(const std::string& path) {
 
     std::map<long, MachineType*> machine_type_map;
 
@@ -19,7 +19,7 @@ std::map<long, MachineType*> MachineSpecificationsParser::parse(std::string path
         for (YAML::const_iterator it = machines_node.begin(); it != machines_node.end(); ++it) {
             const YAML::Node& machine_node = (*it)["machine"];
             long id = machine_node["id"].as<long>();
-            MachineType* machine_type = new MachineType(id);
+            auto machine_type = new MachineType(id);
             machine_type_map[id] = machine_type;
         }
     }

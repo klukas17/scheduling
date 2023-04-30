@@ -15,14 +15,15 @@ private:
     long jobs_in_buffer;
     bool currently_working;
 public:
-    MachineProcessingContext(MachineNode* machine);
-    void addJobToBuffer(long job_id);
-    bool getCurrentlyWorking();
-    long takeJobFromBuffer();
+    explicit MachineProcessingContext(MachineNode* machine);
     MachineNode* getMachine();
+    void addJobToBuffer(long job_id);
+    long takeJobFromBuffer();
+    [[nodiscard]] long getJobsInBuffer() const;
     void decreaseJobsInBuffer();
-    long getJobsInBuffer();
+    [[nodiscard]] bool getCurrentlyWorking() const;
     void setCurrentlyWorking();
+    void unsetCurrentlyWorking();
 };
 
 

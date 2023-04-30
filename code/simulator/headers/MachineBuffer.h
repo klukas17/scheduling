@@ -12,12 +12,11 @@
 class MachineBuffer {
 private:
     MachineBufferElement* head;
-    std::vector<long> preferred_processing_order;
     std::map<long, long> job_index_to_processing_index;
     std::map<long, long> processing_index_to_job_index;
     std::map<long, MachineBufferElement*> job_index_to_node;
 public:
-    MachineBuffer(std::vector<long> preferred_processing_order);
+    explicit MachineBuffer(std::vector<long> preferred_processing_order);
     void addJobToBuffer(long job_id);
     long takeJobFromBuffer();
 };
