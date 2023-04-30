@@ -13,6 +13,7 @@ private:
     GenotypeNode* root_node;
 public:
     explicit Individual(Topology* topology);
+    static GenotypeNode* createNode(TopologyElement* topology_element);
     GenotypeNode* getRootNode();
 };
 

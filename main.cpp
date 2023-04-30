@@ -9,7 +9,7 @@
 #include "Topology.h"
 #include "Individual.h"
 
-std::string dir = "../examples/example_04/";
+std::string dir = "../examples/example_03/";
 
 int main() {
 
@@ -21,9 +21,9 @@ int main() {
 
     std::map<long, Job*> jobs = JobSequenceParser::parse(dir + "job_sequence.yaml", job_type_map);
 
-    //Individual* individual = GenotypeDeserializer::deserialize(dir + "individual_1.yaml", topology);
+    Individual* individual = GenotypeDeserializer::deserialize(dir + "individual_1.yaml", topology);
 
-    //GenotypeSerializer::serialize(dir + "individual_1_copy.yaml", individual);
+    GenotypeSerializer::serialize(dir + "individual_1_copy.yaml", individual);
 
     //Simulator::simulate(individual, jobs, true, dir + "simulator_logs.txt");
 

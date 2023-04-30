@@ -7,11 +7,13 @@
 
 #include "string"
 #include "Individual.h"
+#include <yaml-cpp/yaml.h>
 
 class GenotypeSerializer {
 public:
     GenotypeSerializer();
     static void serialize(const std::string& path, Individual* individual);
+    static void serializeNode(GenotypeNode* node, YAML::Emitter& out);
 };
 
 
