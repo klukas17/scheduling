@@ -10,12 +10,9 @@
 
 class SerialGroupNode : public GenotypeNode {
 private:
-    std::vector<long> job_processing_order;
     std::vector<GenotypeNode*> body;
 public:
     explicit SerialGroupNode(long id);
-    std::vector<long> getJobProcessingOrder();
-    void add_job(long job_id);
     std::vector<GenotypeNode*> getBody();
     void addNodeToBody(GenotypeNode* node);
 };

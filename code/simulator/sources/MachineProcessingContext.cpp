@@ -4,15 +4,15 @@
 
 #include "MachineProcessingContext.h"
 
-MachineProcessingContext::MachineProcessingContext(MachineNode *machine) {
-    this->machine = machine;
-    this->machine_buffer = new MachineBuffer(machine->getJobProcessingOrder());
+MachineProcessingContext::MachineProcessingContext(GenotypeNode *node) {
+    this->node = node;
+    this->machine_buffer = new MachineBuffer(node->getJobProcessingOrder());
     this->jobs_in_buffer = 0;
     this->currently_working = false;
 }
 
-MachineNode *MachineProcessingContext::getMachine() {
-    return machine;
+GenotypeNode *MachineProcessingContext::getNode() {
+    return node;
 }
 
 void MachineProcessingContext::addJobToBuffer(long job_id) {

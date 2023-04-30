@@ -6,16 +6,20 @@
 #define SCHEDULING_GENOTYPENODE_H
 
 #include "NodeType.h"
+#include "vector"
 
 class GenotypeNode {
 protected:
     long id;
     NodeType node_type;
+    std::vector<long> job_processing_order;
 public:
     explicit GenotypeNode(long id);
     virtual ~GenotypeNode() = 0;
     [[nodiscard]] long getId() const;
     NodeType getNodeType();
+    std::vector<long> getJobProcessingOrder();
+    void add_job(long job_id);
 };
 
 

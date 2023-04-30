@@ -18,3 +18,11 @@ long GenotypeNode::getId() const {
 NodeType GenotypeNode::getNodeType() {
     return node_type;
 }
+
+std::vector<long> GenotypeNode::getJobProcessingOrder() {
+    return job_processing_order;
+}
+
+void GenotypeNode::add_job(long job_id) {
+    job_processing_order.push_back(job_id);
+}

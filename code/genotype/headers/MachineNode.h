@@ -9,12 +9,8 @@
 #include "vector"
 
 class MachineNode : public GenotypeNode {
-private:
-    std::vector<long> job_processing_order;
 public:
     explicit MachineNode(long id);
-    std::vector<long> getJobProcessingOrder();
-    void add_job(long job_id);
 };
 
 
