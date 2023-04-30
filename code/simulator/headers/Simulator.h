@@ -13,7 +13,7 @@
 class Simulator {
 public:
     Simulator();
-    static void simulate(Individual* individual, const std::vector<Job*>& jobs, bool enable_logging = false, const std::string& logs_path = "");
+    static void simulate(Individual* individual, const std::map<long, Job*>& jobs, bool enable_logging = false, const std::string& logs_path = "");
 };
 
 

@@ -19,7 +19,7 @@ int main() {
 
     std::map<long, JobType*> job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
 
-    std::vector<Job*> jobs = JobSequenceParser::parse(dir + "job_sequence.yaml", job_type_map);
+    std::map<long, Job*> jobs = JobSequenceParser::parse(dir + "job_sequence.yaml", job_type_map);
 
     Individual* individual = GenotypeDeserializer::deserialize(dir + "individual_1.yaml", topology);
 
