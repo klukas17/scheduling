@@ -10,7 +10,8 @@ job_sequence.yaml:
     required:
         id
         job_type_id
-        processing_route (+ preceded_by)
+        processing_route
+            preceded_by
     optional:
         release_date
         due_date

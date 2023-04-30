@@ -3,6 +3,7 @@
 //
 
 #include "Individual.h"
+#include "Machine.h"
 #include "MachineNode.h"
 
 Individual::Individual(Topology *topology) {
@@ -11,7 +12,8 @@ Individual::Individual(Topology *topology) {
     TopologyElementType topology_root_element_type = topology_root_element->getTopologyElementType();
 
     if (topology_root_element_type == MACHINE_TOPOLOGY_ELEMENT) {
-        GenotypeNode* genotype_node = new MachineNode();
+        Machine* machine = (Machine*) topology_root_element;
+        GenotypeNode* genotype_node = new MachineNode(machine->getId());
         this->root_node = genotype_node;
     }
 }
