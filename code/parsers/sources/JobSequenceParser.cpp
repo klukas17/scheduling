@@ -6,9 +6,9 @@
 #include "JobSequenceParser.h"
 #include "yaml-cpp/yaml.h"
 
-JobSequenceParser::JobSequenceParser() {}
+JobSequenceParser::JobSequenceParser() = default;
 
-std::vector<Job *> JobSequenceParser::parse(std::string path, std::map<long, JobType *> job_type_map) {
+std::vector<Job *> JobSequenceParser::parse(const std::string& path, std::map<long, JobType *> job_type_map) {
 
     std::vector<Job*> jobs;
 

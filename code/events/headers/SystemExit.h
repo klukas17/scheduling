@@ -12,7 +12,7 @@ private:
     long job_id;
 public:
     SystemExit(long time, long job_id);
-    long getJobId();
+    [[nodiscard]] long getJobId() const;
 };
 
 

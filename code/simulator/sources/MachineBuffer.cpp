@@ -6,7 +6,6 @@
 
 MachineBuffer::MachineBuffer(std::vector<long> preferred_processing_order) {
     this->head = nullptr;
-    this->preferred_processing_order = preferred_processing_order;
     for (int i = 0; i < preferred_processing_order.size(); i++) {
         job_index_to_processing_index[preferred_processing_order[i]] = i;
         processing_index_to_job_index[i] = preferred_processing_order[i];
@@ -16,7 +15,7 @@ MachineBuffer::MachineBuffer(std::vector<long> preferred_processing_order) {
 
 void MachineBuffer::addJobToBuffer(long job_id) {
 
-    MachineBufferElement* new_job = new MachineBufferElement(job_id);
+    auto new_job = new MachineBufferElement(job_id);
     job_index_to_node[job_id] = new_job;
 
     if (head == nullptr) {

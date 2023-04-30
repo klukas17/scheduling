@@ -14,11 +14,11 @@ protected:
     EventType event_type;
     std::string message;
 public:
-    Event(long time);
+    explicit Event(long time);
     virtual ~Event() = 0;
-    std::string getMessage();
+    [[nodiscard]] long getTime() const;
     EventType getEventType();
-    long getTime();
+    std::string getMessage();
 };
 
 

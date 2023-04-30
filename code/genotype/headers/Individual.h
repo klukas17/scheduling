@@ -12,7 +12,7 @@ class Individual {
 private:
     GenotypeNode* root_node;
 public:
-    Individual(Topology* topology);
+    explicit Individual(Topology* topology);
     GenotypeNode* getRootNode();
 };
 

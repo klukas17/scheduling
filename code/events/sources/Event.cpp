@@ -10,16 +10,16 @@ Event::Event(long time) {
     this->message = "";
 }
 
-Event::~Event() {}
+Event::~Event() = default;
 
-std::string Event::getMessage() {
-    return message;
+long Event::getTime() const {
+    return time;
 }
 
 EventType Event::getEventType() {
     return event_type;
 }
 
-long Event::getTime() {
-    return time;
+std::string Event::getMessage() {
+    return message;
 }

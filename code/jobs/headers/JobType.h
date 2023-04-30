@@ -12,7 +12,8 @@ protected:
     long id;
     std::map<long, long> processing_times;
 public:
-    JobType(long id);
+    explicit JobType(long id);
+    [[nodiscard]] long getId() const;
     std::map<long, long> getProcessingTimes();
     void setProcessingTime(long machine_id, long processing_time);
 };

@@ -16,9 +16,9 @@
 #include "MachineEntry.h"
 #include "MachineExit.h"
 
-Simulator::Simulator() {}
+Simulator::Simulator() = default;
 
-void Simulator::simulate(Individual *individual, std::vector<Job *> jobs, std::string logs_path) {
+void Simulator::simulate(Individual *individual, const std::vector<Job *>& jobs, bool enable_logging, const std::string& logs_path) {
 
     long time = 0;
     std::ofstream log_file(logs_path);
@@ -26,7 +26,7 @@ void Simulator::simulate(Individual *individual, std::vector<Job *> jobs, std::s
     std::queue<Event*> immediate_event_queue;
     std::map<long, MachineNode*> machine_map;
 
-    MachineNode* root_node = (MachineNode*) individual->getRootNode();
+    auto root_node = (MachineNode*) individual->getRootNode();
     machine_map[root_node->getId()] = root_node;
 
     std::map<long, MachineProcessingContext*> machine_processing_context_map;
@@ -71,13 +71,15 @@ void Simulator::simulate(Individual *individual, std::vector<Job *> jobs, std::s
                 break;
 
             case MACHINE_ENTRY:
-                log_file << "[" << time << "] " << "Job " + std::to_string(((MachineEntry*)event)->getJobId()) + ": Started processing on Machine " + std::to_string(((MachineEntry*)event)->getMachineId()) << std::endl;
+                if (enable_logging)
+                    log_file << "[" << time << "] " << "Job " + std::to_string(((MachineEntry*)event)->getJobId()) + ": Started processing on Machine " + std::to_string(((MachineEntry*)event)->getMachineId()) << std::endl;
                 event_queue.push(new MachineExit(job_map[((MachineEntry*)event)->getJobId()]->getProcessingTime(machine_processing_context_map[root_node->getId()]->getMachine()->getId()), ((MachineEntry*)event)->getJobId(), ((MachineEntry*)event)->getMachineId()));
                 break;
 
             case MACHINE_EXIT:
                 immediate_event_queue.push(new SystemExit(0, ((SystemExit*)event)->getJobId()));
                 machine_processing_context_map[root_node->getId()]->decreaseJobsInBuffer();
+                machine_processing_context_map[root_node->getId()]->unsetCurrentlyWorking();
                 if (machine_processing_context_map[root_node->getId()]->getJobsInBuffer() > 0 && !machine_processing_context_map[root_node->getId()]->getCurrentlyWorking()) {
                     long job_id = machine_processing_context_map[root_node->getId()]->takeJobFromBuffer();
                     immediate_event_queue.push(new MachineEntry(0, job_id, machine_processing_context_map[root_node->getId()]->getMachine()->getId()));
@@ -98,7 +100,7 @@ void Simulator::simulate(Individual *individual, std::vector<Job *> jobs, std::s
                 break;
         }
 
-        if (!event->getMessage().empty())
+        if (enable_logging && !event->getMessage().empty())
             log_file << "[" << time << "] " << event->getMessage() << std::endl;
 
         delete event;

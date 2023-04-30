@@ -4,8 +4,17 @@
 
 #include "GenotypeNode.h"
 
-GenotypeNode::GenotypeNode() {
+GenotypeNode::GenotypeNode(long id) {
+    this->id = id;
     this->node_type = ABSTRACT_NODE_TYPE;
 }
 
-GenotypeNode::~GenotypeNode() {}
+GenotypeNode::~GenotypeNode() = default;
+
+long GenotypeNode::getId() const {
+    return id;
+}
+
+NodeType GenotypeNode::getNodeType() {
+    return node_type;
+}

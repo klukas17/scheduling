@@ -11,7 +11,7 @@ class Topology {
 private:
     TopologyElement* topology_root_element;
 public:
-    Topology(TopologyElement* topology_root_element);
+    explicit Topology(TopologyElement* topology_root_element);
     TopologyElement* getRootElement();
 };
 

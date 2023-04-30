@@ -12,7 +12,7 @@
 class MachineSpecificationsParser {
 public:
     MachineSpecificationsParser();
-    std::map<long, MachineType*> parse(std::string path);
+    static std::map<long, MachineType*> parse(const std::string& path);
 };
 
 

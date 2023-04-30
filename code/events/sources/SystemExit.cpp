@@ -11,6 +11,6 @@ SystemExit::SystemExit(long time, long job_id) : Event(time) {
 
 }
 
-long SystemExit::getJobId() {
+long SystemExit::getJobId() const {
     return job_id;
 }

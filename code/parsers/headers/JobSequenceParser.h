@@ -14,7 +14,7 @@
 class JobSequenceParser {
 public:
     JobSequenceParser();
-    std::vector<Job*> parse(std::string path, std::map<long, JobType*> job_type_map);
+    static std::vector<Job*> parse(const std::string& path, std::map<long, JobType*> job_type_map);
 };
 
 

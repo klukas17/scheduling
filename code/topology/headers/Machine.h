@@ -14,7 +14,8 @@ private:
     MachineType* machine_type;
 public:
     Machine(long id, MachineType* machine_type);
-    long getId();
+    [[nodiscard]] long getId() const;
+    MachineType* getMachineType();
 };
 
 

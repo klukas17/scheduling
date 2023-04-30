@@ -12,7 +12,7 @@ Individual::Individual(Topology *topology) {
     TopologyElementType topology_root_element_type = topology_root_element->getTopologyElementType();
 
     if (topology_root_element_type == MACHINE_TOPOLOGY_ELEMENT) {
-        Machine* machine = (Machine*) topology_root_element;
+        auto machine = (Machine*) topology_root_element;
         GenotypeNode* genotype_node = new MachineNode(machine->getId());
         this->root_node = genotype_node;
     }

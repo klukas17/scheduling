@@ -11,10 +11,10 @@ MachineExit::MachineExit(long time, long job_id, long machine_id) : Event(time) 
     this->message = "Job " + std::to_string(job_id) + ": Finished processing on Machine " + std::to_string(machine_id);
 }
 
-long MachineExit::getJobId() {
+long MachineExit::getJobId() const {
     return job_id;
 }
 
-long MachineExit::getMachineId() {
+long MachineExit::getMachineId() const {
     return machine_id;
 }

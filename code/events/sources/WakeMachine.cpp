@@ -8,3 +8,7 @@ WakeMachine::WakeMachine(long time, long machine_id) : Event(time) {
     this->machine_id = machine_id;
     this->event_type = WAKE_MACHINE;
 }
+
+long WakeMachine::getMachineId() const {
+    return machine_id;
+}
