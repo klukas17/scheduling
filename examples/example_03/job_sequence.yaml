@@ -7,13 +7,13 @@ job_sequence:
             id: 1
   - job:
       id: 2
-      job_type_id: 1
+      job_type_id: 2
       processing_route:
         - machine:
             id: 1
   - job:
       id: 3
-      job_type_id: 1
+      job_type_id: 3
       processing_route:
         - machine:
             id: 1
@@ -25,37 +25,13 @@ job_sequence:
             id: 1
   - job:
       id: 5
-      job_type_id: 1
+      job_type_id: 2
       processing_route:
         - machine:
             id: 1
   - job:
       id: 6
-      job_type_id: 1
-      processing_route:
-        - machine:
-            id: 1
-  - job:
-      id: 7
-      job_type_id: 1
-      processing_route:
-        - machine:
-            id: 1
-  - job:
-      id: 8
-      job_type_id: 1
-      processing_route:
-        - machine:
-            id: 1
-  - job:
-      id: 9
-      job_type_id: 1
-      processing_route:
-        - machine:
-            id: 1
-  - job:
-      id: 10
-      job_type_id: 1
+      job_type_id: 3
       processing_route:
         - machine:
             id: 1

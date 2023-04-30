@@ -1,0 +1,7 @@
+Fm - Flow shop
+
+3 types of machines, 2 of each, 6 in total
+
+3 types of jobs, 2 of each, 6 in total
+
+Purpose: Test Serial Group implementation
