@@ -1,5 +1,5 @@
-Fm - Flow shop
+1 - Single machine
 
-3 types of machines, 2 of each, 6 in total
+1 type of jobs, 10 jobs in total
 
-3 types of jobs, 2 of each, 6 in total
+Purpose: test MachineBuffer implementation

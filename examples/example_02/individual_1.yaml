@@ -1,1 +1,12 @@
-todo
+machine:
+  job_processing_order:
+    - 4
+    - 7
+    - 2
+    - 6
+    - 1
+    - 8
+    - 9
+    - 3
+    - 10
+    - 5
