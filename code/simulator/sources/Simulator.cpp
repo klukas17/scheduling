@@ -59,25 +59,25 @@ void Simulator::simulate(Individual *individual, const std::vector<Job *>& jobs,
         switch (event->getEventType()) {
 
             case SYSTEM_ENTRY:
-                immediate_event_queue.push(new MachineBufferEntry(0, ((SystemEntry*)event)->getJobId(), root_node->getId()));
-                machine_processing_context_map[root_node->getId()]->addJobToBuffer(((SystemEntry*)event)->getJobId());
+                immediate_event_queue.push(new MachineBufferEntry(0, dynamic_cast<SystemEntry*>(event)->getJobId(), root_node->getId()));
+                machine_processing_context_map[root_node->getId()]->addJobToBuffer(dynamic_cast<SystemEntry*>(event)->getJobId());
                 break;
 
             case SYSTEM_EXIT:
                 break;
 
             case MACHINE_BUFFER_ENTRY:
-                immediate_event_queue.push(new WakeMachine(0, ((MachineBufferEntry*)event)->getMachineId()));
+                immediate_event_queue.push(new WakeMachine(0, dynamic_cast<MachineBufferEntry*>(event)->getMachineId()));
                 break;
 
             case MACHINE_ENTRY:
                 if (enable_logging)
-                    log_file << "[" << time << "] " << "Job " + std::to_string(((MachineEntry*)event)->getJobId()) + ": Started processing on Machine " + std::to_string(((MachineEntry*)event)->getMachineId()) << std::endl;
-                event_queue.push(new MachineExit(job_map[((MachineEntry*)event)->getJobId()]->getProcessingTime(machine_processing_context_map[root_node->getId()]->getMachine()->getId()), ((MachineEntry*)event)->getJobId(), ((MachineEntry*)event)->getMachineId()));
+                    log_file << "[" << time << "] " << "Job " + std::to_string(dynamic_cast<MachineEntry*>(event)->getJobId()) + ": Started processing on Machine " + std::to_string(dynamic_cast<MachineEntry*>(event)->getMachineId()) << std::endl;
+                event_queue.push(new MachineExit(job_map[dynamic_cast<MachineEntry*>(event)->getJobId()]->getProcessingTime(machine_processing_context_map[root_node->getId()]->getMachine()->getId()), dynamic_cast<MachineEntry*>(event)->getJobId(), dynamic_cast<MachineEntry*>(event)->getMachineId()));
                 break;
 
             case MACHINE_EXIT:
-                immediate_event_queue.push(new SystemExit(0, ((SystemExit*)event)->getJobId()));
+                immediate_event_queue.push(new SystemExit(0, dynamic_cast<MachineExit*>(event)->getJobId()));
                 machine_processing_context_map[root_node->getId()]->decreaseJobsInBuffer();
                 machine_processing_context_map[root_node->getId()]->unsetCurrentlyWorking();
                 if (machine_processing_context_map[root_node->getId()]->getJobsInBuffer() > 0 && !machine_processing_context_map[root_node->getId()]->getCurrentlyWorking()) {

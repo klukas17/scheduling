@@ -5,16 +5,12 @@
 #ifndef SCHEDULING_MACHINEBUFFERENTRY_H
 #define SCHEDULING_MACHINEBUFFERENTRY_H
 
-#include "Event.h"
+#include "JobEvent.h"
+#include "MachineEvent.h"
 
-class MachineBufferEntry : public Event {
-private:
-    long job_id;
-    long machine_id;
+class MachineBufferEntry : public JobEvent, public MachineEvent {
 public:
     MachineBufferEntry(long time, long job_id, long machine_id);
-    [[nodiscard]] long getJobId() const;
-    [[nodiscard]] long getMachineId() const;
 };
 
 

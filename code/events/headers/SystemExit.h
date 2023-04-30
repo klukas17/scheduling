@@ -5,14 +5,11 @@
 #ifndef SCHEDULING_SYSTEMEXIT_H
 #define SCHEDULING_SYSTEMEXIT_H
 
-#include "Event.h"
+#include "JobEvent.h"
 
-class SystemExit : public Event {
-private:
-    long job_id;
+class SystemExit : public JobEvent {
 public:
     SystemExit(long time, long job_id);
-    [[nodiscard]] long getJobId() const;
 };
 
 

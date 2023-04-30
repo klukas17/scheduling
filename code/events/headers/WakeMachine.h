@@ -5,14 +5,11 @@
 #ifndef SCHEDULING_WAKEMACHINE_H
 #define SCHEDULING_WAKEMACHINE_H
 
-#include "Event.h"
+#include "MachineEvent.h"
 
-class WakeMachine : public Event {
-private:
-    long machine_id;
+class WakeMachine : public MachineEvent {
 public:
     WakeMachine(long time, long machine_id);
-    [[nodiscard]] long getMachineId() const;
 };
 
 

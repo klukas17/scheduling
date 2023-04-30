@@ -5,16 +5,12 @@
 #ifndef SCHEDULING_MACHINEEXIT_H
 #define SCHEDULING_MACHINEEXIT_H
 
-#include "Event.h"
+#include "JobEvent.h"
+#include "MachineEvent.h"
 
-class MachineExit : public Event {
-private:
-    long job_id;
-    long machine_id;
+class MachineExit : public JobEvent, public MachineEvent{
 public:
     MachineExit(long time, long job_id, long machine_id);
-    [[nodiscard]] long getJobId() const;
-    [[nodiscard]] long getMachineId() const;
 };
 
 
