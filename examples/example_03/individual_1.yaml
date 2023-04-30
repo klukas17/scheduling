@@ -1,1 +1,8 @@
-todo
+serial:
+  job_processing_order:
+    - 2
+    - 5
+    - 1
+    - 4
+    - 6
+    - 3

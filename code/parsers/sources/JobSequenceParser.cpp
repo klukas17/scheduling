@@ -8,9 +8,9 @@
 
 JobSequenceParser::JobSequenceParser() = default;
 
-std::vector<Job *> JobSequenceParser::parse(const std::string& path, std::map<long, JobType *> job_type_map) {
+std::map<long, Job *> JobSequenceParser::parse(const std::string& path, std::map<long, JobType *> job_type_map) {
 
-    std::vector<Job*> jobs;
+    std::map<long, Job*> jobs;
 
     YAML::Node doc = YAML::LoadFile(path);
     YAML::Node job_sequence_node = doc["job_sequence"];
@@ -22,7 +22,7 @@ std::vector<Job *> JobSequenceParser::parse(const std::string& path, std::map<lo
             long job_type_id = job_node["job_type_id"].as<long>();
             JobType* job_type = job_type_map[job_type_id];
             Job* job = new Job(id, job_type);
-            jobs.push_back(job);
+            jobs[id] = job;
 
             std::map<long, long> job_type_processing_times = job_type->getProcessingTimes();
             for (auto & job_type_processing_time : job_type_processing_times) {

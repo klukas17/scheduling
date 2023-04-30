@@ -8,13 +8,12 @@
 #include "string"
 #include "map"
 #include "JobType.h"
-#include "vector"
 #include "Job.h"
 
 class JobSequenceParser {
 public:
     JobSequenceParser();
-    static std::vector<Job*> parse(const std::string& path, std::map<long, JobType*> job_type_map);
+    static std::map<long, Job*> parse(const std::string& path, std::map<long, JobType*> job_type_map);
 };
 
 

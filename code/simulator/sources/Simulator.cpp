@@ -18,7 +18,7 @@
 
 Simulator::Simulator() = default;
 
-void Simulator::simulate(Individual *individual, const std::vector<Job *>& jobs, bool enable_logging, const std::string& logs_path) {
+void Simulator::simulate(Individual *individual, const std::map<long, Job *>& jobs, bool enable_logging, const std::string& logs_path) {
 
     long time = 0;
     std::ofstream log_file(logs_path);
@@ -32,13 +32,8 @@ void Simulator::simulate(Individual *individual, const std::vector<Job *>& jobs,
     std::map<long, MachineProcessingContext*> machine_processing_context_map;
     machine_processing_context_map[root_node->getId()] = new MachineProcessingContext(root_node);
 
-    std::map<long, Job*> job_map;
-    for (Job* job : jobs) {
-        job_map[job->getId()] = job;
-    }
-
-    for (Job* job : jobs) {
-        immediate_event_queue.push(new SystemEntry(time, job->getId()));
+    for (const auto& pair : jobs) {
+        immediate_event_queue.push(new SystemEntry(time, pair.first));
     }
 
     while (!immediate_event_queue.empty() || !event_queue.empty()) {
@@ -73,7 +68,7 @@ void Simulator::simulate(Individual *individual, const std::vector<Job *>& jobs,
             case MACHINE_ENTRY:
                 if (enable_logging)
                     log_file << "[" << time << "] " << "Job " + std::to_string(dynamic_cast<MachineEntry*>(event)->getJobId()) + ": Started processing on Machine " + std::to_string(dynamic_cast<MachineEntry*>(event)->getMachineId()) << std::endl;
-                event_queue.push(new MachineExit(job_map[dynamic_cast<MachineEntry*>(event)->getJobId()]->getProcessingTime(machine_processing_context_map[root_node->getId()]->getMachine()->getId()), dynamic_cast<MachineEntry*>(event)->getJobId(), dynamic_cast<MachineEntry*>(event)->getMachineId()));
+                event_queue.push(new MachineExit(jobs.find(dynamic_cast<MachineEntry*>(event)->getJobId())->second->getProcessingTime(machine_processing_context_map[root_node->getId()]->getMachine()->getId()), dynamic_cast<MachineEntry*>(event)->getJobId(), dynamic_cast<MachineEntry*>(event)->getMachineId()));
                 break;
 
             case MACHINE_EXIT:
