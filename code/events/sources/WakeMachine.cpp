@@ -4,11 +4,6 @@
 
 #include "WakeMachine.h"
 
-WakeMachine::WakeMachine(long time, long machine_id) : Event(time) {
-    this->machine_id = machine_id;
+WakeMachine::WakeMachine(long time, long machine_id) : Event(time), MachineEvent(time, machine_id) {
     this->event_type = WAKE_MACHINE;
-}
-
-long WakeMachine::getMachineId() const {
-    return machine_id;
 }
