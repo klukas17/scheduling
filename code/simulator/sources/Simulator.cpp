@@ -7,7 +7,9 @@
 #include "queue"
 #include "fstream"
 #include "MachineNode.h"
+#include "SerialGroupNode.h"
 #include "MachineProcessingContext.h"
+#include "JobRoute.h"
 #include "Event.h"
 #include "SystemEntry.h"
 #include "SystemExit.h"
@@ -18,19 +20,26 @@
 
 Simulator::Simulator() = default;
 
-void Simulator::simulate(Individual *individual, const std::map<long, Job *>& jobs, bool enable_logging, const std::string& logs_path) {
+void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jobs, bool enable_logging, const std::string &logs_path) {
 
     long time = 0;
     std::ofstream log_file(logs_path);
+
     std::queue<Event*> event_queue;
     std::queue<Event*> immediate_event_queue;
-    std::map<long, MachineNode*> machine_map;
 
-    auto root_node = (MachineNode*) individual->getRootNode();
-    machine_map[root_node->getId()] = root_node;
+    std::map<long, GenotypeNode*> machine_map;
+    mapAllMachines(individual->getRootNode(), machine_map);
 
     std::map<long, MachineProcessingContext*> machine_processing_context_map;
-    machine_processing_context_map[root_node->getId()] = new MachineProcessingContext(root_node);
+    for (auto entry : machine_map) {
+        machine_processing_context_map[entry.first] = new MachineProcessingContext(entry.second);
+    }
+
+    std::map<long, JobRoute*> job_route_map;
+    for (const auto& pair : jobs) {
+        job_route_map[pair.first] = new JobRoute(pair.first, individual);
+    }
 
     for (const auto& pair : jobs) {
         immediate_event_queue.push(new SystemEntry(time, pair.first));
@@ -53,46 +62,80 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *>& jo
 
         switch (event->getEventType()) {
 
-            case SYSTEM_ENTRY:
-                immediate_event_queue.push(new MachineBufferEntry(0, dynamic_cast<SystemEntry*>(event)->getJobId(), root_node->getId()));
-                machine_processing_context_map[root_node->getId()]->addJobToBuffer(dynamic_cast<SystemEntry*>(event)->getJobId());
+            case SYSTEM_ENTRY: {
+                auto system_entry_event = dynamic_cast<SystemEntry*>(event);
+                long job_id = system_entry_event->getJobId();
+                long next_machine_id = job_route_map[job_id]->getNextMachine();
+                auto machine_processing_context = machine_processing_context_map[next_machine_id];
+                immediate_event_queue.push(new MachineBufferEntry(0, job_id, next_machine_id));
+                machine_processing_context->addJobToBuffer(job_id);
                 break;
+            }
 
-            case SYSTEM_EXIT:
+            case SYSTEM_EXIT: {
+                auto system_exit_event = dynamic_cast<SystemExit*>(event);
                 break;
+            }
 
-            case MACHINE_BUFFER_ENTRY:
-                immediate_event_queue.push(new WakeMachine(0, dynamic_cast<MachineBufferEntry*>(event)->getMachineId()));
+            case MACHINE_BUFFER_ENTRY: {
+                auto machine_buffer_entry_event = dynamic_cast<MachineBufferEntry*>(event);
+                long machine_id = machine_buffer_entry_event->getMachineId();
+                immediate_event_queue.push(new WakeMachine(0, machine_id));
                 break;
+            }
 
-            case MACHINE_ENTRY:
-                if (enable_logging)
-                    log_file << "[" << time << "] " << "Job " + std::to_string(dynamic_cast<MachineEntry*>(event)->getJobId()) + ": Started processing on Machine " + std::to_string(dynamic_cast<MachineEntry*>(event)->getMachineId()) << std::endl;
-                event_queue.push(new MachineExit(jobs.find(dynamic_cast<MachineEntry*>(event)->getJobId())->second->getProcessingTime(machine_processing_context_map[root_node->getId()]->getMachine()->getId()), dynamic_cast<MachineEntry*>(event)->getJobId(), dynamic_cast<MachineEntry*>(event)->getMachineId()));
+            case MACHINE_ENTRY: {
+                auto machine_entry_event = dynamic_cast<MachineEntry*>(event);
+                long job_id = machine_entry_event->getJobId();
+                long machine_id = machine_entry_event->getMachineId();
+                long processing_duration = jobs.find(job_id)->second->getProcessingTime(machine_id);
+                if (enable_logging) {
+                    log_file << "[" << time << "] " << "Job " << job_id << ": Started processing on Machine " << machine_id << std::endl;
+                }
+                event_queue.push(new MachineExit(processing_duration, job_id, machine_id));
                 break;
+            }
 
-            case MACHINE_EXIT:
-                immediate_event_queue.push(new SystemExit(0, dynamic_cast<MachineExit*>(event)->getJobId()));
-                machine_processing_context_map[root_node->getId()]->decreaseJobsInBuffer();
-                machine_processing_context_map[root_node->getId()]->unsetCurrentlyWorking();
-                if (machine_processing_context_map[root_node->getId()]->getJobsInBuffer() > 0 && !machine_processing_context_map[root_node->getId()]->getCurrentlyWorking()) {
-                    long job_id = machine_processing_context_map[root_node->getId()]->takeJobFromBuffer();
-                    immediate_event_queue.push(new MachineEntry(0, job_id, machine_processing_context_map[root_node->getId()]->getMachine()->getId()));
-                    machine_processing_context_map[root_node->getId()]->setCurrentlyWorking();
+            case MACHINE_EXIT: {
+                auto machine_exit_event = dynamic_cast<MachineExit*>(event);
+                long job_id = machine_exit_event->getJobId();
+                long machine_id = machine_exit_event->getMachineId();
+                auto machine_processing_context = machine_processing_context_map[machine_id];
+                auto job_route = job_route_map[job_id];
+                if (job_route->checkHasFinished()) {
+                    immediate_event_queue.push(new SystemExit(0, job_id));
+                }
+                else {
+                    long next_machine_id = job_route->getNextMachine();
+                    immediate_event_queue.push(new MachineBufferEntry(0, job_id, next_machine_id));
+                }
+                machine_processing_context->decreaseJobsInBuffer();
+                machine_processing_context->unsetCurrentlyWorking();
+                if (machine_processing_context->getJobsInBuffer() > 0 && !machine_processing_context->getCurrentlyWorking()) {
+                    long new_job_id = machine_processing_context->takeJobFromBuffer();
+                    immediate_event_queue.push(new MachineEntry(0, new_job_id, machine_id));
+                    machine_processing_context->setCurrentlyWorking();
                 }
                 break;
+            }
 
-            case WAKE_MACHINE:
-                if (machine_processing_context_map[root_node->getId()]->getJobsInBuffer() > 0 && !machine_processing_context_map[root_node->getId()]->getCurrentlyWorking()) {
-                    long job_id = machine_processing_context_map[root_node->getId()]->takeJobFromBuffer();
-                    immediate_event_queue.push(new MachineEntry(0, job_id, machine_processing_context_map[root_node->getId()]->getMachine()->getId()));
-                    machine_processing_context_map[root_node->getId()]->setCurrentlyWorking();
+            case WAKE_MACHINE: {
+                auto wake_machine_event = dynamic_cast<WakeMachine*>(event);
+                long machine_id = wake_machine_event->getMachineId();
+                MachineProcessingContext* machine_processing_context = machine_processing_context_map[machine_id];
+                if (machine_processing_context->getJobsInBuffer() > 0 && !machine_processing_context->getCurrentlyWorking()) {
+                    long job_id = machine_processing_context->takeJobFromBuffer();
+                    immediate_event_queue.push(new MachineEntry(0, job_id, machine_id));
+                    machine_processing_context->setCurrentlyWorking();
                 }
                 break;
+            }
 
-            default:
+            default: {
                 // todo:error
                 break;
+            }
+            
         }
 
         if (enable_logging && !event->getMessage().empty())
@@ -102,4 +145,31 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *>& jo
     }
 
     log_file.close();
+}
+
+void Simulator::mapAllMachines(GenotypeNode *node, std::map<long, GenotypeNode *> &machine_map) {
+
+    switch (node->getNodeType()) {
+
+        case MACHINE_NODE_TYPE: {
+            auto machine_node = (MachineNode*) node;
+            machine_map[machine_node->getId()] = machine_node;
+            break;
+        }
+
+        case SERIAL_GROUP_NODE_TYPE: {
+            auto serial_group_node = (SerialGroupNode*) node;
+            machine_map[serial_group_node->getId()] = serial_group_node;
+            for (auto body_element : serial_group_node->getBody()) {
+                mapAllMachines(body_element, machine_map);
+            }
+            break;
+        }
+
+        default: {
+            // todo: error
+            break;
+        }
+
+    }
 }

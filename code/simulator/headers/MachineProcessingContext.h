@@ -5,18 +5,18 @@
 #ifndef SCHEDULING_MACHINEPROCESSINGCONTEXT_H
 #define SCHEDULING_MACHINEPROCESSINGCONTEXT_H
 
-#include "MachineNode.h"
+#include "GenotypeNode.h"
 #include "MachineBuffer.h"
 
 class MachineProcessingContext {
 private:
-    MachineNode* machine;
+    GenotypeNode* node;
     MachineBuffer* machine_buffer;
     long jobs_in_buffer;
     bool currently_working;
 public:
-    explicit MachineProcessingContext(MachineNode* machine);
-    MachineNode* getMachine();
+    explicit MachineProcessingContext(GenotypeNode* node);
+    GenotypeNode* getNode();
     void addJobToBuffer(long job_id);
     long takeJobFromBuffer();
     [[nodiscard]] long getJobsInBuffer() const;

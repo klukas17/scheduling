@@ -9,7 +9,7 @@
 #include "Topology.h"
 #include "Individual.h"
 
-std::string dir = "../examples/example_03/";
+std::string dir = "../examples/example_02/";
 
 int main() {
 
@@ -25,7 +25,7 @@ int main() {
 
     GenotypeSerializer::serialize(dir + "individual_1_copy.yaml", individual);
 
-    //Simulator::simulate(individual, jobs, true, dir + "simulator_logs.txt");
+    Simulator::simulate(individual, jobs, true, dir + "simulator_logs.txt");
 
     return 0;
 }
