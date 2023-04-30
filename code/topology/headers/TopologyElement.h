@@ -9,10 +9,12 @@
 
 class TopologyElement {
 protected:
+    long id;
     TopologyElementType topology_element_type;
 public:
-    TopologyElement();
+    explicit TopologyElement(long id);
     virtual ~TopologyElement() = 0;
+    [[nodiscard]] long getId() const;
     TopologyElementType getTopologyElementType();
 };
 
