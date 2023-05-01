@@ -5,5 +5,5 @@
 #include "ParallelGroupNode.h"
 
 ParallelGroupNode::ParallelGroupNode(long id) : GroupNode(id) {
-    this->node_type = PARALLEL_GROUP_NODE_TYPE;
+    this->node_type = PARALLEL_GROUP_NODE;
 }

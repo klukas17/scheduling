@@ -5,7 +5,7 @@
 #include "JobRoute.h"
 #include "MachineNode.h"
 
-JobRoute::JobRoute(Job* job, Individual* individual) {
+JobRoute::JobRoute(Job *job) {
     this->job = job;
     this->current_index = 0;
 }

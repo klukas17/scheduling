@@ -6,7 +6,8 @@
 
 MachineNode::MachineNode(long id, MachineType *machine_type) : GenotypeNode(id) {
     this->machine_type = machine_type;
-    this->node_type = MACHINE_NODE_TYPE;
+    this->node_type = MACHINE_NODE;
+    this->general_node_type = MACHINE_GENERAL_NODE;
 }
 
 MachineType *MachineNode::getMachineType() {

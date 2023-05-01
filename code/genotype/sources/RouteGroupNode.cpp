@@ -5,5 +5,5 @@
 #include "RouteGroupNode.h"
 
 RouteGroupNode::RouteGroupNode(long id) : GroupNode(id) {
-    this->node_type = ROUTE_GROUP_NODE_TYPE;
+    this->node_type = ROUTE_GROUP_NODE;
 }

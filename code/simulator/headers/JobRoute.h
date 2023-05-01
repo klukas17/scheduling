@@ -15,7 +15,7 @@ private:
     std::vector<long> machine_list;
     long current_index;
 public:
-    JobRoute(Job* job, Individual* individual);
+    explicit JobRoute(Job *job);
     std::vector<long> getMachineList();
     void addMachineToMachineList(long machine_id);
     long getNextMachine();

@@ -6,7 +6,8 @@
 
 GenotypeNode::GenotypeNode(long id) {
     this->id = id;
-    this->node_type = ABSTRACT_NODE_TYPE;
+    this->node_type = ABSTRACT_NODE;
+    this->general_node_type = ABSTRACT_GENERAL_NODE;
 }
 
 GenotypeNode::~GenotypeNode() = default;
@@ -17,6 +18,10 @@ long GenotypeNode::getId() const {
 
 NodeType GenotypeNode::getNodeType() {
     return node_type;
+}
+
+GeneralNodeType GenotypeNode::getGeneralNodeType() {
+    return general_node_type;
 }
 
 std::vector<long> GenotypeNode::getJobProcessingOrder() {

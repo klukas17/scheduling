@@ -4,7 +4,9 @@
 
 #include "Group.h"
 
-Group::Group(long id) : TopologyElement(id) {}
+Group::Group(long id) : TopologyElement(id) {
+    this->general_topology_element_type = GROUP_GENERAL_TOPOLOGY_ELEMENT;
+}
 
 Group::~Group() = default;
 
