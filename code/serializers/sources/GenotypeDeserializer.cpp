@@ -5,6 +5,7 @@
 #include "GenotypeDeserializer.h"
 #include "MachineNode.h"
 #include "SerialGroupNode.h"
+#include "ParallelGroupNode.h"
 #include "yaml-cpp/yaml.h"
 
 GenotypeDeserializer::GenotypeDeserializer() = default;
@@ -26,13 +27,13 @@ void GenotypeDeserializer::deserializeNode(const YAML::Node &node, GenotypeNode 
         YAML::Node job_processing_order_node = node["machine"]["job_processing_order"];
         if (pass_job_processing_order) {
             for (long id : job_processing_order) {
-                machine_node->add_job(id);
+                machine_node->addJob(id);
             }
         }
         else if (job_processing_order_node) {
             auto job_order = job_processing_order_node.as<std::vector<long>>();
             for (long id : job_order)
-                machine_node->add_job(id);
+                machine_node->addJob(id);
         }
     }
 
@@ -43,14 +44,14 @@ void GenotypeDeserializer::deserializeNode(const YAML::Node &node, GenotypeNode 
 
         if (pass_job_processing_order) {
             for (long id : job_processing_order) {
-                serial_group_node->add_job(id);
+                serial_group_node->addJob(id);
             }
         }
 
         else if (job_processing_order_node) {
             auto job_order = job_processing_order_node.as<std::vector<long>>();
             for (long id : job_order)
-                serial_group_node->add_job(id);
+                serial_group_node->addJob(id);
         }
 
         YAML::Node body_node = node["serial"]["body"];
@@ -60,6 +61,38 @@ void GenotypeDeserializer::deserializeNode(const YAML::Node &node, GenotypeNode 
         if (body_node) {
             for (int i = 0; i < serial_group_node_body.size(); i++) {
                 deserializeNode(body_node[i], serial_group_node_body[i], true, serial_group_node_job_processing_order);
+            }
+        }
+
+        else {
+            // todo:error
+        }
+    }
+
+    else if (node["parallel"]) {
+
+        auto parallel_group_node = (ParallelGroupNode*) genotype_node;
+        YAML::Node job_processing_order_node = node["parallel"]["job_processing_order"];
+
+        if (pass_job_processing_order) {
+            for (long id : job_processing_order) {
+                parallel_group_node->addJob(id);
+            }
+        }
+
+        else if (job_processing_order_node) {
+            auto job_order = job_processing_order_node.as<std::vector<long>>();
+            for (long id : job_order)
+                parallel_group_node->addJob(id);
+        }
+
+        YAML::Node body_node = node["parallel"]["body"];
+        auto serial_group_node_body = parallel_group_node->getBody();
+        auto serial_group_node_job_processing_order = parallel_group_node->getJobProcessingOrder();
+
+        if (body_node) {
+            for (int i = 0; i < serial_group_node_body.size(); i++) {
+                deserializeNode(body_node[i], serial_group_node_body[i]);
             }
         }
 

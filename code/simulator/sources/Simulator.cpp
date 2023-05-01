@@ -8,6 +8,7 @@
 #include "fstream"
 #include "MachineNode.h"
 #include "SerialGroupNode.h"
+#include "ParallelGroupNode.h"
 #include "MachineProcessingContext.h"
 #include "JobRoute.h"
 #include "Event.h"
@@ -169,6 +170,15 @@ void Simulator::mapAllMachines(GenotypeNode *node, std::map<long, GenotypeNode *
             auto serial_group_node = (SerialGroupNode*) node;
             machine_map[serial_group_node->getId()] = serial_group_node;
             for (auto body_element : serial_group_node->getBody()) {
+                mapAllMachines(body_element, machine_map);
+            }
+            break;
+        }
+
+        case PARALLEL_GROUP_NODE_TYPE: {
+            auto parallel_group_node = (ParallelGroupNode*) node;
+            machine_map[parallel_group_node->getId()] = parallel_group_node;
+            for (auto body_element : parallel_group_node->getBody()) {
                 mapAllMachines(body_element, machine_map);
             }
             break;
