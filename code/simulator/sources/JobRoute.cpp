@@ -6,10 +6,15 @@
 #include "MachineNode.h"
 #include "SerialGroupNode.h"
 #include "ParallelGroupNode.h"
+#include "RouteGroupNode.h"
 
-JobRoute::JobRoute(long job_id, Individual* individual) {
-    this->job_id = job_id;
+JobRoute::JobRoute(Job* job, Individual* individual) {
+    this->job_id = job->getId();
+    this->job = job;
     this->current_index = 0;
+    for (long machine_id : job->getProcessingRoute()) {
+        machine_set.insert(machine_id);
+    }
     this->fillMachineList(individual->getRootNode());
 }
 
@@ -56,6 +61,16 @@ void JobRoute::fillMachineList(GenotypeNode *node) {
                 // todo:error
             }
             break;
+        }
+
+        case ROUTE_GROUP_NODE_TYPE: {
+            auto route_group_node = (RouteGroupNode*) node;
+            machine_list.push_back(route_group_node->getId());
+            for (auto body_node : route_group_node->getBody()) {
+                if (this->machine_set.find(body_node->getId()) != this->machine_set.end()) {
+                    this->fillMachineList(body_node);
+                }
+            }
         }
 
         default: {

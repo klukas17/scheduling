@@ -5,16 +5,12 @@
 #ifndef SCHEDULING_SERIALGROUP_H
 #define SCHEDULING_SERIALGROUP_H
 
-#include "TopologyElement.h"
+#include "Group.h"
 #include "vector"
 
-class SerialGroup : public TopologyElement {
-private:
-    std::vector<TopologyElement*> body;
+class SerialGroup : public Group {
 public:
     explicit SerialGroup(long id);
-    std::vector<TopologyElement*> getBody();
-    void addElementToBody(TopologyElement* element);
 };
 
 

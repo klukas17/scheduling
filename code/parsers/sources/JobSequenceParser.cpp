@@ -32,9 +32,7 @@ std::map<long, Job *> JobSequenceParser::parse(const std::string& path, std::map
             const YAML::Node& processing_route_node = job_node["processing_route"];
             if (processing_route_node) {
                 for (YAML::const_iterator proc_it = processing_route_node.begin(); proc_it != processing_route_node.end(); proc_it++) {
-                    const YAML::Node& processing_route_entry = (*proc_it)["machine"];
-                    long machine_id = processing_route_entry["id"].as<long>();
-                    job->addMachineToProcessingRoute(machine_id);
+                    parseMachineList(*proc_it, job);
                 }
             }
             else {
@@ -52,4 +50,17 @@ std::map<long, Job *> JobSequenceParser::parse(const std::string& path, std::map
     }
 
     return jobs;
+}
+
+void JobSequenceParser::parseMachineList(const YAML::Node& node, Job *job) {
+    const YAML::Node& processing_route_entry = node["machine"];
+    long machine_id = processing_route_entry["id"].as<long>();
+    job->addMachineToProcessingRoute(machine_id);
+
+    const YAML::Node& sub_machines_node = processing_route_entry["sub_machines"];
+    if (sub_machines_node) {
+        for (YAML::const_iterator sub_machine_it = sub_machines_node.begin(); sub_machine_it != sub_machines_node.end(); sub_machine_it++) {
+            parseMachineList(*sub_machine_it, job);
+        }
+    }
 }

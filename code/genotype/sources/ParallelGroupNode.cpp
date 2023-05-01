@@ -4,14 +4,6 @@
 
 #include "ParallelGroupNode.h"
 
-ParallelGroupNode::ParallelGroupNode(long id) : GenotypeNode(id) {
+ParallelGroupNode::ParallelGroupNode(long id) : GroupNode(id) {
     this->node_type = PARALLEL_GROUP_NODE_TYPE;
-}
-
-std::vector<GenotypeNode *> ParallelGroupNode::getBody() {
-    return body;
-}
-
-void ParallelGroupNode::addNodeToBody(GenotypeNode *node) {
-    body.push_back(node);
 }

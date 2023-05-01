@@ -6,6 +6,7 @@
 #include "MachineNode.h"
 #include "SerialGroupNode.h"
 #include "ParallelGroupNode.h"
+#include "RouteGroupNode.h"
 #include "fstream"
 
 GenotypeSerializer::GenotypeSerializer() = default;
@@ -74,6 +75,28 @@ void GenotypeSerializer::serializeNode(GenotypeNode *node, YAML::Emitter& out) {
             out << YAML::Key << "body";
             out << YAML::Value << YAML::BeginSeq;
             for (auto body_node : parallel_group_node->getBody()) {
+                serializeNode(body_node, out);
+            }
+            out << YAML::EndSeq;
+            out << YAML::EndMap;
+            out << YAML::EndMap;
+            break;
+        }
+
+        case ROUTE_GROUP_NODE_TYPE: {
+            auto route_group_node = (RouteGroupNode*) node;
+            out << YAML::BeginMap;
+            out << YAML::Key << "route";
+            out << YAML::Value << YAML::BeginMap;
+            out << YAML::Key << "job_processing_order";
+            out << YAML::Value << YAML::BeginSeq;
+            for (const auto& job : route_group_node->getJobProcessingOrder()) {
+                out << job;
+            }
+            out << YAML::EndSeq;
+            out << YAML::Key << "body";
+            out << YAML::Value << YAML::BeginSeq;
+            for (auto body_node : route_group_node->getBody()) {
                 serializeNode(body_node, out);
             }
             out << YAML::EndSeq;

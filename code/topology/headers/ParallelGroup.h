@@ -5,16 +5,12 @@
 #ifndef SCHEDULING_PARALLELGROUP_H
 #define SCHEDULING_PARALLELGROUP_H
 
-#include "TopologyElement.h"
+#include "Group.h"
 #include "vector"
 
-class ParallelGroup : public TopologyElement {
-private:
-    std::vector<TopologyElement*> body;
+class ParallelGroup : public Group {
 public:
     explicit ParallelGroup(long id);
-    std::vector<TopologyElement*> getBody();
-    void addElementToBody(TopologyElement* element);
 };
 
 

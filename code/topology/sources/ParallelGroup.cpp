@@ -4,14 +4,6 @@
 
 #include "ParallelGroup.h"
 
-ParallelGroup::ParallelGroup(long id) : TopologyElement(id) {
+ParallelGroup::ParallelGroup(long id) : Group(id) {
     this->topology_element_type = PARALLEL_GROUP_TOPOLOGY_ELEMENT;
-}
-
-std::vector<TopologyElement *> ParallelGroup::getBody() {
-    return body;
-}
-
-void ParallelGroup::addElementToBody(TopologyElement *element) {
-    body.push_back(element);
 }

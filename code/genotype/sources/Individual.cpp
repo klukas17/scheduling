@@ -9,6 +9,8 @@
 #include "SerialGroupNode.h"
 #include "ParallelGroup.h"
 #include "ParallelGroupNode.h"
+#include "RouteGroup.h"
+#include "RouteGroupNode.h"
 
 Individual::Individual(Topology *topology) {
     this->root_node = createNode(topology->getRootElement());
@@ -34,6 +36,14 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
         case PARALLEL_GROUP_TOPOLOGY_ELEMENT: {
             auto node = new ParallelGroupNode(topology_element->getId());
             for (auto body_element : ((ParallelGroup*)topology_element)->getBody()) {
+                node->addNodeToBody(createNode(body_element));
+            }
+            return node;
+        }
+
+        case ROUTE_GROUP_TOPOLOGY_ELEMENT: {
+            auto node = new RouteGroupNode(topology_element->getId());
+            for (auto body_element : ((RouteGroup*)topology_element)->getBody()) {
                 node->addNodeToBody(createNode(body_element));
             }
             return node;

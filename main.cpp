@@ -9,7 +9,7 @@
 #include "Topology.h"
 #include "Individual.h"
 
-std::string dir = "../examples/example_05/";
+std::string dir = "../examples/example_06/";
 
 int main() {
 
