@@ -1,0 +1,27 @@
+open:
+  job_processing_order:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+  body:
+    - machine:
+        job_processing_order:
+          - 1
+          - 2
+          - 4
+          - 5
+    - machine:
+        job_processing_order:
+          - 1
+          - 2
+          - 4
+          - 5
+    - machine:
+        job_processing_order:
+          - 3
+          - 6
+          - 3
+          - 6

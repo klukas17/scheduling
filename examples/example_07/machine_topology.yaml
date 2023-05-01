@@ -1,0 +1,13 @@
+topology:
+  open:
+    id: 1
+    body:
+      - machine:
+          id: 2
+          machine_type_id: 1
+      - machine:
+          id: 3
+          machine_type_id: 1
+      - machine:
+          id: 4
+          machine_type_id: 1
