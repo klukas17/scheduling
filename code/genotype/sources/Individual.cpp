@@ -11,6 +11,8 @@
 #include "ParallelGroupNode.h"
 #include "RouteGroup.h"
 #include "RouteGroupNode.h"
+#include "OpenGroup.h"
+#include "OpenGroupNode.h"
 
 Individual::Individual(Topology *topology) {
     this->root_node = createNode(topology->getRootElement());
@@ -44,6 +46,14 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
         case ROUTE_GROUP_TOPOLOGY_ELEMENT: {
             auto node = new RouteGroupNode(topology_element->getId());
             for (auto body_element : ((RouteGroup*)topology_element)->getBody()) {
+                node->addNodeToBody(createNode(body_element));
+            }
+            return node;
+        }
+
+        case OPEN_GROUP_TOPOLOGY_ELEMENT: {
+            auto node = new OpenGroupNode(topology_element->getId());
+            for (auto body_element : ((OpenGroup*)topology_element)->getBody()) {
                 node->addNodeToBody(createNode(body_element));
             }
             return node;

@@ -6,7 +6,6 @@
 #define SCHEDULING_ROUTEGROUP_H
 
 #include "Group.h"
-#include "vector"
 
 class RouteGroup : public Group {
 public:
