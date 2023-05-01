@@ -2,7 +2,7 @@ job_sequence:
   - job:
       id: 1
       job_type_id: 1
-      job_processing_route:
+      processing_route:
         - machine:
             id: 1
             sub_machines:
@@ -13,7 +13,7 @@ job_sequence:
   - job:
       id: 2
       job_type_id: 1
-      job_processing_route:
+      processing_route:
         - machine:
             id: 1
             sub_machines:
@@ -24,7 +24,7 @@ job_sequence:
   - job:
       id: 3
       job_type_id: 1
-      job_processing_route:
+      processing_route:
         - machine:
             id: 1
             sub_machines:
@@ -35,7 +35,7 @@ job_sequence:
   - job:
       id: 4
       job_type_id: 1
-      job_processing_route:
+      processing_route:
         - machine:
             id: 1
             sub_machines:
@@ -46,7 +46,7 @@ job_sequence:
   - job:
       id: 5
       job_type_id: 1
-      job_processing_route:
+      processing_route:
         - machine:
             id: 1
             sub_machines:
@@ -57,7 +57,7 @@ job_sequence:
   - job:
       id: 6
       job_type_id: 1
-      job_processing_route:
+      processing_route:
         - machine:
             id: 1
             sub_machines:

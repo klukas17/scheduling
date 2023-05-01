@@ -5,16 +5,11 @@
 #ifndef SCHEDULING_SERIALGROUPNODE_H
 #define SCHEDULING_SERIALGROUPNODE_H
 
-#include "GenotypeNode.h"
-#include "vector"
+#include "GroupNode.h"
 
-class SerialGroupNode : public GenotypeNode {
-private:
-    std::vector<GenotypeNode*> body;
+class SerialGroupNode : public GroupNode {
 public:
     explicit SerialGroupNode(long id);
-    std::vector<GenotypeNode*> getBody();
-    void addNodeToBody(GenotypeNode* node);
 };
 
 

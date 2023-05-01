@@ -4,14 +4,6 @@
 
 #include "SerialGroupNode.h"
 
-SerialGroupNode::SerialGroupNode(long id) : GenotypeNode(id) {
+SerialGroupNode::SerialGroupNode(long id) : GroupNode(id) {
     this->node_type = SERIAL_GROUP_NODE_TYPE;
-}
-
-std::vector<GenotypeNode *> SerialGroupNode::getBody() {
-    return body;
-}
-
-void SerialGroupNode::addNodeToBody(GenotypeNode *node) {
-    body.push_back(node);
 }

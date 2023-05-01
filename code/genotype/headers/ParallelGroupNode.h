@@ -5,16 +5,11 @@
 #ifndef SCHEDULING_PARALLELGROUPNODE_H
 #define SCHEDULING_PARALLELGROUPNODE_H
 
-#include "GenotypeNode.h"
-#include "vector"
+#include "GroupNode.h"
 
-class ParallelGroupNode : public GenotypeNode {
-private:
-    std::vector<GenotypeNode*> body;
+class ParallelGroupNode : public GroupNode {
 public:
     explicit ParallelGroupNode(long id);
-    std::vector<GenotypeNode*> getBody();
-    void addNodeToBody(GenotypeNode* node);
 };
 
 

@@ -9,6 +9,7 @@
 #include "MachineNode.h"
 #include "SerialGroupNode.h"
 #include "ParallelGroupNode.h"
+#include "RouteGroupNode.h"
 #include "MachineProcessingContext.h"
 #include "JobRoute.h"
 #include "Event.h"
@@ -38,7 +39,7 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
 
     std::map<long, JobRoute*> job_route_map;
     for (const auto& pair : jobs) {
-        job_route_map[pair.first] = new JobRoute(pair.first, individual);
+        job_route_map[pair.first] = new JobRoute(jobs.find(pair.first)->second, individual);
     }
 
     std::map<long, std::map<long, long>> job_processing_times;
@@ -182,6 +183,14 @@ void Simulator::mapAllMachines(GenotypeNode *node, std::map<long, GenotypeNode *
                 mapAllMachines(body_element, machine_map);
             }
             break;
+        }
+
+        case ROUTE_GROUP_NODE_TYPE: {
+            auto route_group_node = (RouteGroupNode*) node;
+            machine_map[route_group_node->getId()] = route_group_node;
+            for (auto body_element : route_group_node->getBody()) {
+                mapAllMachines(body_element, machine_map);
+            }
         }
 
         default: {

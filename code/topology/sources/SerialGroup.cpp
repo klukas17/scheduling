@@ -4,14 +4,6 @@
 
 #include "SerialGroup.h"
 
-SerialGroup::SerialGroup(long id) : TopologyElement(id) {
+SerialGroup::SerialGroup(long id) : Group(id) {
     this->topology_element_type = SERIAL_GROUP_TOPOLOGY_ELEMENT;
-}
-
-std::vector<TopologyElement *> SerialGroup::getBody() {
-    return body;
-}
-
-void SerialGroup::addElementToBody(TopologyElement *element) {
-    body.push_back(element);
 }

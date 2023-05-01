@@ -7,14 +7,18 @@
 
 #include "vector"
 #include "Individual.h"
+#include "Job.h"
+#include "set"
 
 class JobRoute {
 private:
     long job_id;
+    Job* job;
     std::vector<long> machine_list;
+    std::set<long> machine_set;
     long current_index;
 public:
-    JobRoute(long job_id, Individual* individual);
+    JobRoute(Job* job, Individual* individual);
     [[nodiscard]] long getJobId() const;
     std::vector<long> getMachineList();
     void fillMachineList(GenotypeNode* node);
