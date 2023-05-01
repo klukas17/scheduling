@@ -5,6 +5,7 @@
 #include "GenotypeSerializer.h"
 #include "MachineNode.h"
 #include "SerialGroupNode.h"
+#include "ParallelGroupNode.h"
 #include "fstream"
 
 GenotypeSerializer::GenotypeSerializer() = default;
@@ -21,7 +22,7 @@ void GenotypeSerializer::serializeNode(GenotypeNode *node, YAML::Emitter& out) {
 
     switch (node->getNodeType()) {
 
-        case MACHINE_NODE_TYPE : {
+        case MACHINE_NODE_TYPE: {
             auto machine_node = (MachineNode*) node;
             out << YAML::BeginMap;
             out << YAML::Key << "machine";
@@ -37,7 +38,7 @@ void GenotypeSerializer::serializeNode(GenotypeNode *node, YAML::Emitter& out) {
             break;
         }
 
-        case SERIAL_GROUP_NODE_TYPE : {
+        case SERIAL_GROUP_NODE_TYPE: {
             auto serial_group_node = (SerialGroupNode*) node;
             out << YAML::BeginMap;
             out << YAML::Key << "serial";
@@ -51,6 +52,28 @@ void GenotypeSerializer::serializeNode(GenotypeNode *node, YAML::Emitter& out) {
             out << YAML::Key << "body";
             out << YAML::Value << YAML::BeginSeq;
             for (auto body_node : serial_group_node->getBody()) {
+                serializeNode(body_node, out);
+            }
+            out << YAML::EndSeq;
+            out << YAML::EndMap;
+            out << YAML::EndMap;
+            break;
+        }
+
+        case PARALLEL_GROUP_NODE_TYPE: {
+            auto parallel_group_node = (ParallelGroupNode*) node;
+            out << YAML::BeginMap;
+            out << YAML::Key << "parallel";
+            out << YAML::Value << YAML::BeginMap;
+            out << YAML::Key << "job_processing_order";
+            out << YAML::Value << YAML::BeginSeq;
+            for (const auto& job : parallel_group_node->getJobProcessingOrder()) {
+                out << job;
+            }
+            out << YAML::EndSeq;
+            out << YAML::Key << "body";
+            out << YAML::Value << YAML::BeginSeq;
+            for (auto body_node : parallel_group_node->getBody()) {
                 serializeNode(body_node, out);
             }
             out << YAML::EndSeq;

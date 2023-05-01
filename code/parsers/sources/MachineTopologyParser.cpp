@@ -6,6 +6,7 @@
 #include "MachineTopologyParser.h"
 #include "Machine.h"
 #include "SerialGroup.h"
+#include "ParallelGroup.h"
 
 MachineTopologyParser::MachineTopologyParser() = default;
 
@@ -43,6 +44,23 @@ TopologyElement *MachineTopologyParser::parseElement(const YAML::Node& node, con
         auto topology_element = new SerialGroup(id);
 
         YAML::Node body_node = node["serial"]["body"];
+        if (body_node) {
+            for (auto it = body_node.begin(); it != body_node.end(); it++) {
+                TopologyElement* child_element = parseElement(*it, machine_type_map);
+                topology_element->addElementToBody(child_element);
+            }
+        }
+        else {
+            // todo:error
+        }
+        return topology_element;
+    }
+
+    else if (node["parallel"]) {
+        long id = node["parallel"]["id"].as<long>();
+        auto topology_element = new ParallelGroup(id);
+
+        YAML::Node body_node = node["parallel"]["body"];
         if (body_node) {
             for (auto it = body_node.begin(); it != body_node.end(); it++) {
                 TopologyElement* child_element = parseElement(*it, machine_type_map);

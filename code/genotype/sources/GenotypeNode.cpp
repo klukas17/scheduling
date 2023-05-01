@@ -23,6 +23,11 @@ std::vector<long> GenotypeNode::getJobProcessingOrder() {
     return job_processing_order;
 }
 
-void GenotypeNode::add_job(long job_id) {
+void GenotypeNode::addJob(long job_id) {
     job_processing_order.push_back(job_id);
+    job_set.insert(job_id);
+}
+
+std::set<long> GenotypeNode::getJobSet() {
+    return job_set;
 }
