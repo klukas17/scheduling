@@ -26,7 +26,6 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
     std::ofstream log_file(logs_path);
 
     std::deque<Event*> event_queue;
-    std::queue<Event*> immediate_event_queue;
 
     std::map<long, GenotypeNode*> machine_map;
     mapAllMachines(individual->getRootNode(), machine_map);
@@ -56,29 +55,15 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
     }
 
     for (const auto& pair : jobs) {
-        immediate_event_queue.push(new SystemEntry(time, pair.first));
+        addToEventQueue(new SystemEntry(time, pair.first), event_queue);
     }
 
-    while (!immediate_event_queue.empty() || !event_queue.empty()) {
+    while (!event_queue.empty()) {
 
-        Event* event = nullptr;
-
-        if (!immediate_event_queue.empty()) {
-            event = immediate_event_queue.front();
-            immediate_event_queue.pop();
-        }
-
-        else if (!event_queue.empty()) {
-            event = event_queue.front();
-            event_queue.pop_front();
-            long event_time = event->getTime();
-            time = event_time;
-            while (!event_queue.empty() && event_queue.front()->getTime() == event_time) {
-                Event* other_event = event_queue.front();
-                event_queue.pop_front();
-                immediate_event_queue.push(other_event);
-            }
-        }
+        Event* event = event_queue.front();
+        event_queue.pop_front();
+        long event_time = event->getTime();
+        time = event_time;
 
         switch (event->getEventType()) {
 
@@ -87,7 +72,7 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
                 long job_id = system_entry_event->getJobId();
                 long next_machine_id = job_route_map[job_id]->getNextMachine();
                 auto machine_processing_context = machine_processing_context_map[next_machine_id];
-                immediate_event_queue.push(new MachineBufferEntry(time, job_id, next_machine_id));
+                addToEventQueue(new MachineBufferEntry(time, job_id, next_machine_id), event_queue);
                 machine_processing_context->addJobToBuffer(job_id);
                 break;
             }
@@ -100,7 +85,7 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
             case MACHINE_BUFFER_ENTRY: {
                 auto machine_buffer_entry_event = dynamic_cast<MachineBufferEntry*>(event);
                 long machine_id = machine_buffer_entry_event->getMachineId();
-                immediate_event_queue.push(new WakeMachine(time, machine_id));
+                addToEventQueue(new WakeMachine(time, machine_id), event_queue);
                 break;
             }
 
@@ -123,19 +108,19 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
                 auto machine_processing_context = machine_processing_context_map[machine_id];
                 auto job_route = job_route_map[job_id];
                 if (job_route->checkHasFinished()) {
-                    immediate_event_queue.push(new SystemExit(time, job_id));
+                    addToEventQueue(new SystemExit(time, job_id), event_queue);
                 }
                 else {
                     long next_machine_id = job_route->getNextMachine();
                     auto next_machine_processing_context = machine_processing_context_map[next_machine_id];
-                    immediate_event_queue.push(new MachineBufferEntry(time, job_id, next_machine_id));
+                    addToEventQueue(new MachineBufferEntry(time, job_id, next_machine_id), event_queue);
                     next_machine_processing_context->addJobToBuffer(job_id);
                 }
                 machine_processing_context->decreaseJobsInBuffer();
                 machine_processing_context->unsetCurrentlyWorking();
                 if (machine_processing_context->getJobsInBuffer() > 0 && !machine_processing_context->getCurrentlyWorking()) {
                     long new_job_id = machine_processing_context->takeJobFromBuffer();
-                    immediate_event_queue.push(new MachineEntry(time, new_job_id, machine_id));
+                    addToEventQueue(new MachineEntry(time, new_job_id, machine_id), event_queue);
                     machine_processing_context->setCurrentlyWorking();
                 }
                 break;
@@ -147,7 +132,7 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
                 MachineProcessingContext* machine_processing_context = machine_processing_context_map[machine_id];
                 if (machine_processing_context->getJobsInBuffer() > 0 && !machine_processing_context->getCurrentlyWorking()) {
                     long job_id = machine_processing_context->takeJobFromBuffer();
-                    immediate_event_queue.push(new MachineEntry(time, job_id, machine_id));
+                    addToEventQueue(new MachineEntry(time, job_id, machine_id), event_queue);
                     machine_processing_context->setCurrentlyWorking();
                 }
                 break;
