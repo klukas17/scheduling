@@ -13,7 +13,7 @@ protected:
     std::vector<TopologyElement*> body;
 public:
     explicit Group(long id);
-    virtual ~Group() = 0;
+    ~Group() override = 0;
     std::vector<TopologyElement*> getBody();
     void addElementToBody(TopologyElement* element);
 };

@@ -24,7 +24,7 @@ void GenotypeSerializer::serializeNode(GenotypeNode *node, YAML::Emitter& out) {
 
     switch (node->getNodeType()) {
 
-        case MACHINE_NODE_TYPE: {
+        case MACHINE_NODE: {
             auto machine_node = (MachineNode*) node;
             out << YAML::BeginMap;
             out << YAML::Key << "machine";
@@ -40,7 +40,7 @@ void GenotypeSerializer::serializeNode(GenotypeNode *node, YAML::Emitter& out) {
             break;
         }
 
-        case SERIAL_GROUP_NODE_TYPE: {
+        case SERIAL_GROUP_NODE: {
             auto serial_group_node = (SerialGroupNode*) node;
             out << YAML::BeginMap;
             out << YAML::Key << "serial";
@@ -62,7 +62,7 @@ void GenotypeSerializer::serializeNode(GenotypeNode *node, YAML::Emitter& out) {
             break;
         }
 
-        case PARALLEL_GROUP_NODE_TYPE: {
+        case PARALLEL_GROUP_NODE: {
             auto parallel_group_node = (ParallelGroupNode*) node;
             out << YAML::BeginMap;
             out << YAML::Key << "parallel";
@@ -84,7 +84,7 @@ void GenotypeSerializer::serializeNode(GenotypeNode *node, YAML::Emitter& out) {
             break;
         }
 
-        case ROUTE_GROUP_NODE_TYPE: {
+        case ROUTE_GROUP_NODE: {
             auto route_group_node = (RouteGroupNode*) node;
             out << YAML::BeginMap;
             out << YAML::Key << "route";
@@ -106,7 +106,7 @@ void GenotypeSerializer::serializeNode(GenotypeNode *node, YAML::Emitter& out) {
             break;
         }
 
-        case OPEN_GROUP_NODE_TYPE: {
+        case OPEN_GROUP_NODE: {
             auto open_group_node = (OpenGroupNode*) node;
             out << YAML::BeginMap;
             out << YAML::Key << "open";

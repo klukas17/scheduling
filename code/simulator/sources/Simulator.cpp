@@ -40,7 +40,7 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
 
     std::map<long, JobRoute*> job_route_map;
     for (const auto& pair : jobs) {
-        job_route_map[pair.first] = new JobRoute(jobs.find(pair.first)->second, individual);
+        job_route_map[pair.first] = new JobRoute(jobs.find(pair.first)->second);
     }
     fillJobRouteMachineLists(job_route_map, individual->getRootNode());
 
@@ -48,7 +48,7 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
     for (const auto& pair : jobs) {
         long job_id = pair.first;
         for (auto machine_id : job_route_map[job_id]->getMachineList()) {
-            if (machine_map[machine_id]->getNodeType() == MACHINE_NODE_TYPE) {
+            if (machine_map[machine_id]->getNodeType() == MACHINE_NODE) {
                 auto machine_node = (MachineNode*) machine_map[machine_id];
                 job_processing_times[job_id][machine_id] = jobs.find(job_id)->second->getProcessingTime(machine_node->getMachineType()->getId());
             }
@@ -161,53 +161,30 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
 
 void Simulator::mapAllMachines(GenotypeNode *node, std::map<long, GenotypeNode *> &machine_map) {
 
-    switch (node->getNodeType()) {
+    switch (node->getGeneralNodeType()) {
 
-        case MACHINE_NODE_TYPE: {
+        case MACHINE_GENERAL_NODE: {
             auto machine_node = (MachineNode*) node;
             machine_map[machine_node->getId()] = machine_node;
             break;
         }
 
-        case SERIAL_GROUP_NODE_TYPE: {
-            auto serial_group_node = (SerialGroupNode*) node;
-            machine_map[serial_group_node->getId()] = serial_group_node;
-            for (auto body_element : serial_group_node->getBody()) {
+        case GROUP_GENERAL_NODE: {
+            auto group_node = (GroupNode*) node;
+            machine_map[group_node->getId()] = group_node;
+            for (auto body_element : group_node->getBody()) {
                 mapAllMachines(body_element, machine_map);
             }
             break;
         }
 
-        case PARALLEL_GROUP_NODE_TYPE: {
-            auto parallel_group_node = (ParallelGroupNode*) node;
-            machine_map[parallel_group_node->getId()] = parallel_group_node;
-            for (auto body_element : parallel_group_node->getBody()) {
-                mapAllMachines(body_element, machine_map);
-            }
+        case ABSTRACT_GENERAL_NODE: {
+            // todo:error
             break;
         }
 
-        case ROUTE_GROUP_NODE_TYPE: {
-            auto route_group_node = (RouteGroupNode*) node;
-            machine_map[route_group_node->getId()] = route_group_node;
-            for (auto body_element : route_group_node->getBody()) {
-                mapAllMachines(body_element, machine_map);
-            }
-        }
-
-        case OPEN_GROUP_NODE_TYPE: {
-            auto open_group_node = (OpenGroupNode*) node;
-            machine_map[open_group_node->getId()] = open_group_node;
-            for (auto body_element : open_group_node->getBody()) {
-                mapAllMachines(body_element, machine_map);
-            }
-        }
-
-        default: {
-            // todo: error
-            break;
-        }
     }
+
 }
 
 void Simulator::addToEventQueue(Event *event, std::deque<Event*> &event_queue) {
@@ -219,9 +196,9 @@ void Simulator::addToEventQueue(Event *event, std::deque<Event*> &event_queue) {
 
 void Simulator::fillJobRouteMachineLists(const std::map<long, JobRoute *>& job_route_map, GenotypeNode* node) {
 
-    switch(node->getNodeType()) {
+    switch (node->getGeneralNodeType()) {
 
-        case MACHINE_NODE_TYPE: {
+        case MACHINE_GENERAL_NODE: {
             auto machine_node = (MachineNode*) node;
             long machine_id = machine_node->getId();
             for (long job_id : machine_node->getJobProcessingOrder()) {
@@ -230,57 +207,22 @@ void Simulator::fillJobRouteMachineLists(const std::map<long, JobRoute *>& job_r
             break;
         }
 
-        case SERIAL_GROUP_NODE_TYPE: {
-            auto serial_group_node = (SerialGroupNode*) node;
-            long machine_id = serial_group_node->getId();
-            for (long job_id : serial_group_node->getJobProcessingOrder()) {
+        case GROUP_GENERAL_NODE: {
+            auto group_node = (GroupNode*) node;
+            long machine_id = group_node->getId();
+            for (long job_id : group_node->getJobProcessingOrder()) {
                 job_route_map.find(job_id)->second->addMachineToMachineList(machine_id);
             }
-            for (auto sub_node : serial_group_node->getBody()) {
+            for (auto sub_node : group_node->getBody()) {
                 fillJobRouteMachineLists(job_route_map, sub_node);
             }
             break;
         }
 
-        case PARALLEL_GROUP_NODE_TYPE: {
-            auto parallel_group_node = (ParallelGroupNode*) node;
-            long machine_id = parallel_group_node->getId();
-            for (long job_id : parallel_group_node->getJobProcessingOrder()) {
-                job_route_map.find(job_id)->second->addMachineToMachineList(machine_id);
-            }
-            for (auto sub_node : parallel_group_node->getBody()) {
-                fillJobRouteMachineLists(job_route_map, sub_node);
-            }
-            break;
-        }
-
-        case ROUTE_GROUP_NODE_TYPE: {
-            auto route_group_node = (RouteGroupNode*) node;
-            long machine_id = route_group_node->getId();
-            for (long job_id : route_group_node->getJobProcessingOrder()) {
-                job_route_map.find(job_id)->second->addMachineToMachineList(machine_id);
-            }
-            for (auto sub_node : route_group_node->getBody()) {
-                fillJobRouteMachineLists(job_route_map, sub_node);
-            }
-            break;
-        }
-
-        case OPEN_GROUP_NODE_TYPE: {
-            auto open_group_node = (OpenGroupNode*) node;
-            long machine_id = open_group_node->getId();
-            for (long job_id : open_group_node->getJobProcessingOrder()) {
-                job_route_map.find(job_id)->second->addMachineToMachineList(machine_id);
-            }
-            for (auto sub_node : open_group_node->getBody()) {
-                fillJobRouteMachineLists(job_route_map, sub_node);
-            }
-            break;
-        }
-
-        default: {
+        case ABSTRACT_GENERAL_NODE: {
             // todo:error
             break;
         }
+
     }
 }

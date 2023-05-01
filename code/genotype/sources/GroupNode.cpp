@@ -4,7 +4,9 @@
 
 #include "GroupNode.h"
 
-GroupNode::GroupNode(long id) : GenotypeNode(id) {}
+GroupNode::GroupNode(long id) : GenotypeNode(id) {
+    this->general_node_type = GROUP_GENERAL_NODE;
+}
 
 std::vector<GenotypeNode *> GroupNode::getBody() {
     return body;

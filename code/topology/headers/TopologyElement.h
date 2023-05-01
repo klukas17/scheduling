@@ -11,11 +11,13 @@ class TopologyElement {
 protected:
     long id;
     TopologyElementType topology_element_type;
+    GeneralTopologyElementType general_topology_element_type;
 public:
     explicit TopologyElement(long id);
     virtual ~TopologyElement() = 0;
     [[nodiscard]] long getId() const;
     TopologyElementType getTopologyElementType();
+    GeneralTopologyElementType getGeneralTopologyElementType();
 };
 
 
