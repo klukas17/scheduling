@@ -6,7 +6,6 @@
 #define SCHEDULING_PARALLELGROUP_H
 
 #include "Group.h"
-#include "vector"
 
 class ParallelGroup : public Group {
 public:

@@ -6,6 +6,8 @@
 #include "MachineNode.h"
 #include "SerialGroupNode.h"
 #include "ParallelGroupNode.h"
+#include "RouteGroupNode.h"
+#include "OpenGroupNode.h"
 #include "yaml-cpp/yaml.h"
 
 GenotypeDeserializer::GenotypeDeserializer() = default;
@@ -87,12 +89,11 @@ void GenotypeDeserializer::deserializeNode(const YAML::Node &node, GenotypeNode 
         }
 
         YAML::Node body_node = node["parallel"]["body"];
-        auto serial_group_node_body = parallel_group_node->getBody();
-        auto serial_group_node_job_processing_order = parallel_group_node->getJobProcessingOrder();
+        auto parallel_group_node_body = parallel_group_node->getBody();
 
         if (body_node) {
-            for (int i = 0; i < serial_group_node_body.size(); i++) {
-                deserializeNode(body_node[i], serial_group_node_body[i]);
+            for (int i = 0; i < parallel_group_node_body.size(); i++) {
+                deserializeNode(body_node[i], parallel_group_node_body[i]);
             }
         }
 
@@ -103,7 +104,7 @@ void GenotypeDeserializer::deserializeNode(const YAML::Node &node, GenotypeNode 
 
     else if (node["route"]) {
 
-        auto route_group_node = (SerialGroupNode*) genotype_node;
+        auto route_group_node = (RouteGroupNode*) genotype_node;
         YAML::Node job_processing_order_node = node["route"]["job_processing_order"];
 
         if (pass_job_processing_order) {
@@ -119,12 +120,11 @@ void GenotypeDeserializer::deserializeNode(const YAML::Node &node, GenotypeNode 
         }
 
         YAML::Node body_node = node["route"]["body"];
-        auto serial_group_node_body = route_group_node->getBody();
-        auto serial_group_node_job_processing_order = route_group_node->getJobProcessingOrder();
+        auto route_group_node_body = route_group_node->getBody();
 
         if (body_node) {
-            for (int i = 0; i < serial_group_node_body.size(); i++) {
-                deserializeNode(body_node[i], serial_group_node_body[i]);
+            for (int i = 0; i < route_group_node_body.size(); i++) {
+                deserializeNode(body_node[i], route_group_node_body[i]);
             }
         }
 
@@ -132,6 +132,37 @@ void GenotypeDeserializer::deserializeNode(const YAML::Node &node, GenotypeNode 
             // todo:error
         }
 
+    }
+
+    else if (node["open"]) {
+
+        auto open_group_node = (OpenGroupNode*) genotype_node;
+        YAML::Node job_processing_order_node = node["open"]["job_processing_order"];
+
+        if (pass_job_processing_order) {
+            for (long id : job_processing_order) {
+                open_group_node->addJob(id);
+            }
+        }
+
+        else if (job_processing_order_node) {
+            auto job_order = job_processing_order_node.as<std::vector<long>>();
+            for (long id : job_order)
+                open_group_node->addJob(id);
+        }
+
+        YAML::Node body_node = node["open"]["body"];
+        auto open_group_node_body = open_group_node->getBody();
+
+        if (body_node) {
+            for (int i = 0; i < open_group_node_body.size(); i++) {
+                deserializeNode(body_node[i], open_group_node_body[i]);
+            }
+        }
+
+        else {
+            // todo:error
+        }
     }
 
     else {

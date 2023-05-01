@@ -14,7 +14,6 @@ protected:
     long id;
     NodeType node_type;
     std::vector<long> job_processing_order;
-    std::set<long> job_set;
 public:
     explicit GenotypeNode(long id);
     virtual ~GenotypeNode() = 0;
@@ -22,7 +21,6 @@ public:
     NodeType getNodeType();
     std::vector<long> getJobProcessingOrder();
     void addJob(long job_id);
-    std::set<long> getJobSet();
 };
 
 

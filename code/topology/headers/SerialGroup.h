@@ -6,7 +6,6 @@
 #define SCHEDULING_SERIALGROUP_H
 
 #include "Group.h"
-#include "vector"
 
 class SerialGroup : public Group {
 public:
