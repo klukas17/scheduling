@@ -1,0 +1,21 @@
+parallel:
+  job_processing_order:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+  body:
+    - machine:
+        job_processing_order:
+          - 1
+          - 2
+    - machine:
+        job_processing_order:
+          - 3
+          - 4
+    - machine:
+        job_processing_order:
+          - 5
+          - 6

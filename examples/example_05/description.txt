@@ -1,0 +1,7 @@
+Parallel machines
+
+1 type of jobs, 6 jobs in total
+
+1 type of machines, 3 machines in parallel
+
+Purpose: Test Parallel Machine implementation
