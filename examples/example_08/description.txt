@@ -1,0 +1,7 @@
+Flow shop - serial(parallel, parallel, parallel)
+
+1 type of jobs, 6 jobs in total
+
+1 type of machines, 9 machines, 3 per parallel group
+
+Purpose: test interaction between serial and parallel groups
