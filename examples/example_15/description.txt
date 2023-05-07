@@ -1,0 +1,7 @@
+Parallel(route, route, route)
+
+1 type of machines, 9 in total, 3 per route group
+
+1 type of jobs, 9 in total
+
+Purpose: test interactions between parallel and route groups

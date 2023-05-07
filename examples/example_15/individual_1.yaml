@@ -1,0 +1,239 @@
+topology:
+  parallel:
+    step_processing_order:
+      - 1
+      - 6
+      - 11
+      - 16
+      - 21
+      - 26
+      - 31
+      - 36
+      - 41
+    body:
+      - route:
+          step_processing_order:
+            - 2
+            - 17
+            - 32
+          body:
+            - machine:
+                step_processing_order:
+                  - 3
+                  - 20
+                  - 34
+            - machine:
+                step_processing_order:
+                  - 4
+                  - 18
+                  - 35
+            - machine:
+                step_processing_order:
+                  - 5
+                  - 19
+                  - 33
+      - route:
+          step_processing_order:
+            - 7
+            - 22
+            - 37
+          body:
+            - machine:
+                step_processing_order:
+                  - 8
+                  - 25
+                  - 39
+            - machine:
+                step_processing_order:
+                  - 9
+                  - 23
+                  - 40
+            - machine:
+                step_processing_order:
+                  - 10
+                  - 24
+                  - 38
+      - route:
+          step_processing_order:
+            - 12
+            - 27
+            - 42
+          body:
+            - machine:
+                step_processing_order:
+                  - 13
+                  - 30
+                  - 44
+            - machine:
+                step_processing_order:
+                  - 14
+                  - 28
+                  - 45
+            - machine:
+                step_processing_order:
+                  - 15
+                  - 29
+                  - 43
+jobs:
+  - job:
+      id: 1
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 1
+        - entry:
+            machine_id: 2
+            processing_step_id: 2
+        - entry:
+            machine_id: 5
+            processing_step_id: 3
+        - entry:
+            machine_id: 6
+            processing_step_id: 4
+        - entry:
+            machine_id: 7
+            processing_step_id: 5
+  - job:
+      id: 2
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 6
+        - entry:
+            machine_id: 3
+            processing_step_id: 7
+        - entry:
+            machine_id: 8
+            processing_step_id: 8
+        - entry:
+            machine_id: 9
+            processing_step_id: 9
+        - entry:
+            machine_id: 10
+            processing_step_id: 10
+  - job:
+      id: 3
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 11
+        - entry:
+            machine_id: 4
+            processing_step_id: 12
+        - entry:
+            machine_id: 11
+            processing_step_id: 13
+        - entry:
+            machine_id: 12
+            processing_step_id: 14
+        - entry:
+            machine_id: 13
+            processing_step_id: 15
+  - job:
+      id: 4
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 16
+        - entry:
+            machine_id: 2
+            processing_step_id: 17
+        - entry:
+            machine_id: 6
+            processing_step_id: 18
+        - entry:
+            machine_id: 7
+            processing_step_id: 19
+        - entry:
+            machine_id: 5
+            processing_step_id: 20
+  - job:
+      id: 5
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 21
+        - entry:
+            machine_id: 3
+            processing_step_id: 22
+        - entry:
+            machine_id: 9
+            processing_step_id: 23
+        - entry:
+            machine_id: 10
+            processing_step_id: 24
+        - entry:
+            machine_id: 8
+            processing_step_id: 25
+  - job:
+      id: 6
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 26
+        - entry:
+            machine_id: 4
+            processing_step_id: 27
+        - entry:
+            machine_id: 12
+            processing_step_id: 28
+        - entry:
+            machine_id: 13
+            processing_step_id: 29
+        - entry:
+            machine_id: 11
+            processing_step_id: 30
+  - job:
+      id: 7
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 31
+        - entry:
+            machine_id: 2
+            processing_step_id: 32
+        - entry:
+            machine_id: 7
+            processing_step_id: 33
+        - entry:
+            machine_id: 5
+            processing_step_id: 34
+        - entry:
+            machine_id: 6
+            processing_step_id: 35
+  - job:
+      id: 8
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 36
+        - entry:
+            machine_id: 3
+            processing_step_id: 37
+        - entry:
+            machine_id: 10
+            processing_step_id: 38
+        - entry:
+            machine_id: 8
+            processing_step_id: 39
+        - entry:
+            machine_id: 9
+            processing_step_id: 40
+  - job:
+      id: 9
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 41
+        - entry:
+            machine_id: 4
+            processing_step_id: 42
+        - entry:
+            machine_id: 13
+            processing_step_id: 43
+        - entry:
+            machine_id: 11
+            processing_step_id: 44
+        - entry:
+            machine_id: 12
+            processing_step_id: 45
