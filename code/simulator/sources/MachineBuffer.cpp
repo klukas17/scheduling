@@ -54,6 +54,7 @@ std::pair<long, long> MachineBuffer::takeStepFromBuffer() {
     if (head != nullptr) {
         long step_id = head->step_id;
         long job_id = head->job_id;
+        step_index_to_node[step_id] = nullptr;
         MachineBufferElement* old_head = head;
         head = head->next;
         delete old_head;

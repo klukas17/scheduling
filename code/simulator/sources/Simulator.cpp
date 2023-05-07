@@ -147,13 +147,7 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
                     }
                     machine_processing_context->decreaseStepsInBuffer();
                     machine_processing_context->unsetCurrentlyWorking();
-                    if (machine_processing_context->getStepsInBuffer() > 0 && !machine_processing_context->getCurrentlyWorking()) {
-                        auto processing_pair = machine_processing_context->takeStepFromBuffer();
-                        long new_step_id = processing_pair.first;
-                        long new_job_id = processing_pair.second;
-                        addToEventQueue(new MachineEntry(time, new_job_id, machine_id, new_step_id), event_queue);
-                        machine_processing_context->setCurrentlyWorking();
-                    }
+                    wake_machines_queue.push(new WakeMachine(time, machine_id, step_id));
                     break;
                 }
 

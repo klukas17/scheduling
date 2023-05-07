@@ -1,0 +1,79 @@
+job_sequence:
+  - job:
+      id: 1
+      job_type_id: 1
+      processing_route:
+        - machine:
+            id: 1
+            sub_machines:
+              - machine:
+                  id: 2
+                  sub_machines:
+                    - machine:
+                        id: 6
+              - machine:
+                  id: 3
+                  sub_machines:
+                    - machine:
+                        id: 9
+              - machine:
+                  id: 4
+              - machine:
+                  id: 5
+                  sub_machines:
+                    - machine:
+                        id: 10
+                    - machine:
+                        id: 10
+                    - machine:
+                        id: 10
+                    - machine:
+                        id: 10
+                    - machine:
+                        id: 10
+              - machine:
+                  id: 3
+                  sub_machines:
+                    - machine:
+                        id: 8
+                    - machine:
+                        id: 9
+                    - machine:
+                        id: 8
+                    - machine:
+                        id: 9
+              - machine:
+                  id: 2
+                  sub_machines:
+                    - machine:
+                        id: 7
+  - job:
+      id: 2
+      job_type_id: 1
+      processing_route:
+        - machine:
+            id: 1
+            sub_machines:
+              - machine:
+                  id: 5
+                  sub_machines:
+                    - machine:
+                        id: 10
+                    - machine:
+                        id: 10
+                    - machine:
+                        id: 10
+                    - machine:
+                        id: 10
+                    - machine:
+                        id: 10
+                    - machine:
+                        id: 11
+                    - machine:
+                        id: 11
+                    - machine:
+                        id: 11
+                    - machine:
+                        id: 11
+                    - machine:
+                        id: 11
