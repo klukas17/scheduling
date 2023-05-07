@@ -1,0 +1,31 @@
+topology:
+  open:
+    id: 1
+    body:
+      - parallel:
+          id: 2
+          body:
+            - machine:
+                id: 5
+                machine_type_id: 1
+            - machine:
+                id: 6
+                machine_type_id: 1
+      - parallel:
+          id: 3
+          body:
+            - machine:
+                id: 7
+                machine_type_id: 1
+            - machine:
+                id: 8
+                machine_type_id: 1
+      - parallel:
+          id: 4
+          body:
+            - machine:
+                id: 9
+                machine_type_id: 1
+            - machine:
+                id: 10
+                machine_type_id: 1
