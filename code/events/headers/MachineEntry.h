@@ -10,7 +10,7 @@
 
 class MachineEntry : public JobEvent, public MachineEvent {
 public:
-    MachineEntry(long time, long job_id, long machine_id);
+    MachineEntry(long time, long job_id, long machine_id, long step_id);
 };
 
 

@@ -1,2 +1,2 @@
 machine
-    job_processing_order (list of longs)
+    step_processing_order (list of longs)

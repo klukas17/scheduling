@@ -6,8 +6,8 @@
 
 MachineProcessingContext::MachineProcessingContext(GenotypeNode *node) {
     this->node = node;
-    this->machine_buffer = new MachineBuffer(node->getJobProcessingOrder());
-    this->jobs_in_buffer = 0;
+    this->machine_buffer = new MachineBuffer(node->getStepProcessingOrder());
+    this->steps_in_buffer = 0;
     this->currently_working = false;
 }
 
@@ -15,21 +15,21 @@ GenotypeNode *MachineProcessingContext::getNode() {
     return node;
 }
 
-void MachineProcessingContext::addJobToBuffer(long job_id) {
-    machine_buffer->addJobToBuffer(job_id);
-    jobs_in_buffer++;
+void MachineProcessingContext::addStepToBuffer(long step_id, long job_id) {
+    machine_buffer->addStepToBuffer(step_id, job_id);
+    steps_in_buffer++;
 }
 
-long MachineProcessingContext::takeJobFromBuffer() {
-    return machine_buffer->takeJobFromBuffer();
+std::pair<long, long> MachineProcessingContext::takeStepFromBuffer() {
+    return machine_buffer->takeStepFromBuffer();
 }
 
-long MachineProcessingContext::getJobsInBuffer() const {
-    return jobs_in_buffer;
+long MachineProcessingContext::getStepsInBuffer() const {
+    return steps_in_buffer;
 }
 
-void MachineProcessingContext::decreaseJobsInBuffer() {
-    jobs_in_buffer--;
+void MachineProcessingContext::decreaseStepsInBuffer() {
+    steps_in_buffer--;
 }
 
 bool MachineProcessingContext::getCurrentlyWorking() const {

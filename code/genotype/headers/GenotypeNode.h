@@ -14,15 +14,15 @@ protected:
     long id;
     NodeType node_type;
     GeneralNodeType general_node_type;
-    std::vector<long> job_processing_order;
+    std::vector<long> step_processing_order;
 public:
     explicit GenotypeNode(long id);
     virtual ~GenotypeNode() = 0;
     [[nodiscard]] long getId() const;
     NodeType getNodeType();
     GeneralNodeType getGeneralNodeType();
-    std::vector<long> getJobProcessingOrder();
-    void addJob(long job_id);
+    std::vector<long> getStepProcessingOrder();
+    void addStep(long step_id);
 };
 
 

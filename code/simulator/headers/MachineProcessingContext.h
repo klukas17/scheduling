@@ -12,15 +12,15 @@ class MachineProcessingContext {
 private:
     GenotypeNode* node;
     MachineBuffer* machine_buffer;
-    long jobs_in_buffer;
+    long steps_in_buffer;
     bool currently_working;
 public:
     explicit MachineProcessingContext(GenotypeNode* node);
     GenotypeNode* getNode();
-    void addJobToBuffer(long job_id);
-    long takeJobFromBuffer();
-    [[nodiscard]] long getJobsInBuffer() const;
-    void decreaseJobsInBuffer();
+    void addStepToBuffer(long step_id, long job_id);
+    std::pair<long, long> takeStepFromBuffer();
+    [[nodiscard]] long getStepsInBuffer() const;
+    void decreaseStepsInBuffer();
     [[nodiscard]] bool getCurrentlyWorking() const;
     void setCurrentlyWorking();
     void unsetCurrentlyWorking();

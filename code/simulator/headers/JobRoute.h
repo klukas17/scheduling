@@ -8,17 +8,17 @@
 #include "vector"
 #include "Individual.h"
 #include "Job.h"
+#include "JobProcessingRoute.h"
 
 class JobRoute {
 private:
     Job* job;
-    std::vector<long> machine_list;
+    JobProcessingRoute* job_processing_route;
     long current_index;
 public:
-    explicit JobRoute(Job *job);
-    std::vector<long> getMachineList();
-    void addMachineToMachineList(long machine_id);
-    long getNextMachine();
+    JobRoute(Job *job, JobProcessingRoute* job_processing_route);
+    JobProcessingRoute* getProcessingRoute();
+    JobProcessingStep* getNextProcessingStep();
     [[nodiscard]] long getCurrentIndex() const;
     bool checkHasFinished();
 };

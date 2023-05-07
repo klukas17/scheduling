@@ -1,5 +1,25 @@
-machine:
-  job_processing_order:
-    - 2
-    - 3
-    - 1
+topology:
+  machine:
+    step_processing_order:
+      - 2
+      - 3
+      - 1
+jobs:
+  - job:
+      id: 1
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 1
+  - job:
+      id: 2
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 2
+  - job:
+      id: 3
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 3

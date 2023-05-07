@@ -3,25 +3,23 @@
 //
 
 #include "JobRoute.h"
+#include <utility>
 #include "MachineNode.h"
 
-JobRoute::JobRoute(Job *job) {
+JobRoute::JobRoute(Job *job, JobProcessingRoute* job_processing_route) {
     this->job = job;
+    this->job_processing_route = job_processing_route;
     this->current_index = 0;
 }
 
-std::vector<long> JobRoute::getMachineList() {
-    return machine_list;
+JobProcessingRoute *JobRoute::getProcessingRoute() {
+    return job_processing_route;
 }
 
-void JobRoute::addMachineToMachineList(long machine_id) {
-    machine_list.push_back(machine_id);
-}
-
-long JobRoute::getNextMachine() {
+JobProcessingStep *JobRoute::getNextProcessingStep() {
     long index = current_index;
     current_index++;
-    return machine_list[index];
+    return job_processing_route->getProcessingStep(index);
 }
 
 long JobRoute::getCurrentIndex() const {
@@ -29,5 +27,5 @@ long JobRoute::getCurrentIndex() const {
 }
 
 bool JobRoute::checkHasFinished() {
-    return current_index == machine_list.size();
+    return current_index == job_processing_route->getStepCount();
 }

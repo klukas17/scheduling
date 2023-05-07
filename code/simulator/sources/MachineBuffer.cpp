@@ -7,16 +7,16 @@
 MachineBuffer::MachineBuffer(std::vector<long> preferred_processing_order) {
     this->head = nullptr;
     for (int i = 0; i < preferred_processing_order.size(); i++) {
-        job_index_to_processing_index[preferred_processing_order[i]] = i;
-        processing_index_to_job_index[i] = preferred_processing_order[i];
-        job_index_to_node[preferred_processing_order[i]] = nullptr;
+        step_index_to_processing_index[preferred_processing_order[i]] = i;
+        processing_index_to_step_index[i] = preferred_processing_order[i];
+        step_index_to_node[preferred_processing_order[i]] = nullptr;
     }
 }
 
-void MachineBuffer::addJobToBuffer(long job_id) {
+void MachineBuffer::addStepToBuffer(long step_id, long job_id) {
 
-    auto new_job = new MachineBufferElement(job_id);
-    job_index_to_node[job_id] = new_job;
+    auto new_job = new MachineBufferElement(step_id, job_id);
+    step_index_to_node[step_id] = new_job;
 
     if (head == nullptr) {
         head = new_job;
@@ -24,8 +24,8 @@ void MachineBuffer::addJobToBuffer(long job_id) {
 
     else {
 
-        long other_index = job_index_to_processing_index[job_id] - 1;
-        while (other_index >= 0 && job_index_to_node[processing_index_to_job_index[other_index]] == nullptr) {
+        long other_index = step_index_to_processing_index[step_id] - 1;
+        while (other_index >= 0 && step_index_to_node[processing_index_to_step_index[other_index]] == nullptr) {
             other_index--;
         }
 
@@ -36,7 +36,7 @@ void MachineBuffer::addJobToBuffer(long job_id) {
         }
 
         else {
-            MachineBufferElement* other = job_index_to_node[processing_index_to_job_index[other_index]];
+            MachineBufferElement* other = step_index_to_node[processing_index_to_step_index[other_index]];
             MachineBufferElement* other_next = other->next;
             if (other_next) {
                 other_next->prev = new_job;
@@ -49,14 +49,15 @@ void MachineBuffer::addJobToBuffer(long job_id) {
     }
 }
 
-long MachineBuffer::takeJobFromBuffer() {
+std::pair<long, long> MachineBuffer::takeStepFromBuffer() {
 
     if (head != nullptr) {
+        long step_id = head->step_id;
         long job_id = head->job_id;
         MachineBufferElement* old_head = head;
         head = head->next;
         delete old_head;
-        return job_id;
+        return std::pair<long, long>{step_id, job_id};
     }
 
     else {

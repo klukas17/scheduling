@@ -10,7 +10,7 @@
 
 class MachineBufferEntry : public JobEvent, public MachineEvent {
 public:
-    MachineBufferEntry(long time, long job_id, long machine_id);
+    MachineBufferEntry(long time, long job_id, long machine_id, long step_id);
 };
 
 

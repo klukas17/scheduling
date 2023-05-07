@@ -24,10 +24,10 @@ GeneralNodeType GenotypeNode::getGeneralNodeType() {
     return general_node_type;
 }
 
-std::vector<long> GenotypeNode::getJobProcessingOrder() {
-    return job_processing_order;
+std::vector<long> GenotypeNode::getStepProcessingOrder() {
+    return step_processing_order;
 }
 
-void GenotypeNode::addJob(long job_id) {
-    job_processing_order.push_back(job_id);
+void GenotypeNode::addStep(long step_id) {
+    step_processing_order.push_back(step_id);
 }

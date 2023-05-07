@@ -9,7 +9,7 @@
 
 class WakeMachine : public MachineEvent {
 public:
-    WakeMachine(long time, long machine_id);
+    WakeMachine(long time, long machine_id, long step_id);
 };
 
 

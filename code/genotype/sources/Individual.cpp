@@ -69,3 +69,15 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
 GenotypeNode *Individual::getRootNode() {
     return root_node;
 }
+
+JobProcessingRoute *Individual::getProcessingRoute(long job_id) {
+    return processing_routes[job_id];
+}
+
+std::map<long, JobProcessingRoute *> Individual::getProcessingRoutes() {
+    return processing_routes;
+}
+
+void Individual::setProcessingRoute(long job_id, JobProcessingRoute *job_processing_route) {
+    processing_routes[job_id] = job_processing_route;
+}
