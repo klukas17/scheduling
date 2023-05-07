@@ -1,0 +1,7 @@
+Open(parallel, parallel, parallel)
+
+1 type of jobs, 2 jobs in total
+
+1 type of machines, 6 machines in total, 2 per parallel group
+
+Purpose: test interaction between open and parallel groups
