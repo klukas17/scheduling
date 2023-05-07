@@ -1,0 +1,7 @@
+Serial(parallel, machine)
+
+1 type of machines, 3 in total - 2 in parallel group and 1 single machine
+
+1 type of jobs, 2 jobs in total
+
+Purpose: Test precedence when entering buffers at the same time
