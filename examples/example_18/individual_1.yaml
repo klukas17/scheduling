@@ -1,0 +1,158 @@
+topology:
+  route:
+    step_processing_order:
+      - 1
+      - 20
+    body:
+      - open:
+          step_processing_order:
+            - 2
+            - 18
+          body:
+            - machine:
+                step_processing_order:
+                  - 3
+            - machine:
+                step_processing_order:
+                  - 19
+      - route:
+          step_processing_order:
+            - 4
+            - 13
+          body:
+            - machine:
+                step_processing_order:
+                  - 14
+                  - 16
+            - machine:
+                step_processing_order:
+                  - 5
+                  - 15
+                  - 17
+      - machine:
+          step_processing_order:
+            - 6
+      - open:
+          step_processing_order:
+            - 7
+            - 21
+          body:
+            - machine:
+                step_processing_order:
+                  - 8
+                  - 9
+                  - 10
+                  - 11
+                  - 12
+                  - 22
+                  - 23
+                  - 24
+                  - 25
+                  - 26
+            - machine:
+                step_processing_order:
+                  - 27
+                  - 28
+                  - 29
+                  - 30
+                  - 31
+jobs:
+  - job:
+      id: 1
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 1
+        - entry:
+            machine_id: 2
+            processing_step_id: 2
+        - entry:
+            machine_id: 6
+            processing_step_id: 3
+        - entry:
+            machine_id: 3
+            processing_step_id: 4
+        - entry:
+            machine_id: 9
+            processing_step_id: 5
+        - entry:
+            machine_id: 4
+            processing_step_id: 6
+        - entry:
+            machine_id: 5
+            processing_step_id: 7
+        - entry:
+            machine_id: 10
+            processing_step_id: 8
+        - entry:
+            machine_id: 10
+            processing_step_id: 9
+        - entry:
+            machine_id: 10
+            processing_step_id: 10
+        - entry:
+            machine_id: 10
+            processing_step_id: 11
+        - entry:
+            machine_id: 10
+            processing_step_id: 12
+        - entry:
+            machine_id: 3
+            processing_step_id: 13
+        - entry:
+            machine_id: 8
+            processing_step_id: 14
+        - entry:
+            machine_id: 9
+            processing_step_id: 15
+        - entry:
+            machine_id: 8
+            processing_step_id: 16
+        - entry:
+            machine_id: 9
+            processing_step_id: 17
+        - entry:
+            machine_id: 2
+            processing_step_id: 18
+        - entry:
+            machine_id: 7
+            processing_step_id: 19
+  - job:
+      id: 2
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 20
+        - entry:
+            machine_id: 5
+            processing_step_id: 21
+        - entry:
+            machine_id: 10
+            processing_step_id: 22
+        - entry:
+            machine_id: 10
+            processing_step_id: 23
+        - entry:
+            machine_id: 10
+            processing_step_id: 24
+        - entry:
+            machine_id: 10
+            processing_step_id: 25
+        - entry:
+            machine_id: 10
+            processing_step_id: 26
+        - entry:
+            machine_id: 11
+            processing_step_id: 27
+        - entry:
+            machine_id: 11
+            processing_step_id: 28
+        - entry:
+            machine_id: 11
+            processing_step_id: 29
+        - entry:
+            machine_id: 11
+            processing_step_id: 30
+        - entry:
+            machine_id: 11
+            processing_step_id: 31
