@@ -23,3 +23,11 @@ TopologyElementType TopologyElement::getTopologyElementType() {
 GeneralTopologyElementType TopologyElement::getGeneralTopologyElementType() {
     return general_topology_element_type;
 }
+
+std::set<long> TopologyElement::getPredecessorIds() {
+    return predecessor_element_ids;
+}
+
+void TopologyElement::addPredecessorId(long element_id) {
+    predecessor_element_ids.insert(element_id);
+}

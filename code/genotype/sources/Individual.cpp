@@ -24,11 +24,18 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
 
         case MACHINE_TOPOLOGY_ELEMENT: {
             auto machine_element = (Machine*) topology_element;
-            return new MachineNode(topology_element->getId(), machine_element->getMachineType());
+            auto node = new MachineNode(topology_element->getId(), machine_element->getMachineType());
+            for (auto predecessor_id : topology_element->getPredecessorIds()) {
+                node->addPredecessorId(predecessor_id);
+            }
+            return node;
         }
 
         case SERIAL_GROUP_TOPOLOGY_ELEMENT: {
             auto node = new SerialGroupNode(topology_element->getId());
+            for (auto predecessor_id : topology_element->getPredecessorIds()) {
+                node->addPredecessorId(predecessor_id);
+            }
             for (auto body_element : ((SerialGroup*)topology_element)->getBody()) {
                 node->addNodeToBody(createNode(body_element));
             }
@@ -37,6 +44,9 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
 
         case PARALLEL_GROUP_TOPOLOGY_ELEMENT: {
             auto node = new ParallelGroupNode(topology_element->getId());
+            for (auto predecessor_id : topology_element->getPredecessorIds()) {
+                node->addPredecessorId(predecessor_id);
+            }
             for (auto body_element : ((ParallelGroup*)topology_element)->getBody()) {
                 node->addNodeToBody(createNode(body_element));
             }
@@ -45,6 +55,9 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
 
         case ROUTE_GROUP_TOPOLOGY_ELEMENT: {
             auto node = new RouteGroupNode(topology_element->getId());
+            for (auto predecessor_id : topology_element->getPredecessorIds()) {
+                node->addPredecessorId(predecessor_id);
+            }
             for (auto body_element : ((RouteGroup*)topology_element)->getBody()) {
                 node->addNodeToBody(createNode(body_element));
             }
@@ -53,6 +66,9 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
 
         case OPEN_GROUP_TOPOLOGY_ELEMENT: {
             auto node = new OpenGroupNode(topology_element->getId());
+            for (auto predecessor_id : topology_element->getPredecessorIds()) {
+                node->addPredecessorId(predecessor_id);
+            }
             for (auto body_element : ((OpenGroup*)topology_element)->getBody()) {
                 node->addNodeToBody(createNode(body_element));
             }
