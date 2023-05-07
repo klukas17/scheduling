@@ -1,0 +1,7 @@
+Route machines
+
+1 type of jobs, 1 job in total
+
+1 type of machines, 3 machines in route group
+
+Purpose: Test Route Machine implementation with different job processing_order and repetition
