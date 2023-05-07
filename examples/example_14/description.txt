@@ -1,0 +1,7 @@
+Open(serial, parallel, serial)
+
+1 type of machines, 9 machines in total, 3 per serial/parallel group
+
+1 type of jobs, 1 job
+
+Purpose: test interactions between serial, parallel and open groups
