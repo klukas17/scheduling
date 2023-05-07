@@ -1,0 +1,7 @@
+Parallel(serial, serial, serial)
+
+1 type of jobs, 6 jobs in total
+
+1 type of machines, 9 in total, 3 per serial group
+
+Purpose: test interaction between serial and parallel groups
