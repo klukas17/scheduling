@@ -1,0 +1,7 @@
+Route(open, open, open)
+
+1 type of jobs, 1 job in total
+
+1 type of machines, 9 in total, 3 per open group
+
+Purpose: test interactions between route and open groups
