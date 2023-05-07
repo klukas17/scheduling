@@ -10,7 +10,7 @@
 
 class MachineExit : public JobEvent, public MachineEvent{
 public:
-    MachineExit(long time, long job_id, long machine_id);
+    MachineExit(long time, long job_id, long machine_id, long step_id);
 };
 
 

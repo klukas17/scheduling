@@ -40,14 +40,14 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
 
     std::map<long, JobRoute*> job_route_map;
     for (const auto& pair : jobs) {
-        job_route_map[pair.first] = new JobRoute(jobs.find(pair.first)->second);
+        job_route_map[pair.first] = new JobRoute(jobs.find(pair.first)->second, individual->getProcessingRoute(pair.first));
     }
-    fillJobRouteMachineLists(job_route_map, individual->getRootNode());
 
     std::map<long, std::map<long, long>> job_processing_times;
     for (const auto& pair : jobs) {
         long job_id = pair.first;
-        for (auto machine_id : job_route_map[job_id]->getMachineList()) {
+        for (auto processing_step : job_route_map[job_id]->getProcessingRoute()->getProcessingSteps()) {
+            long machine_id = processing_step->getMachineId();
             if (machine_map[machine_id]->getNodeType() == MACHINE_NODE) {
                 auto machine_node = (MachineNode*) machine_map[machine_id];
                 job_processing_times[job_id][machine_id] = jobs.find(job_id)->second->getProcessingTime(machine_node->getMachineType()->getId());
@@ -74,10 +74,12 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
             case SYSTEM_ENTRY: {
                 auto system_entry_event = dynamic_cast<SystemEntry*>(event);
                 long job_id = system_entry_event->getJobId();
-                long next_machine_id = job_route_map[job_id]->getNextMachine();
-                auto machine_processing_context = machine_processing_context_map[next_machine_id];
-                addToEventQueue(new MachineBufferEntry(time, job_id, next_machine_id), event_queue);
-                machine_processing_context->addJobToBuffer(job_id);
+                auto processing_step = job_route_map[job_id]->getNextProcessingStep();
+                long machine_id = processing_step->getMachineId();
+                long step_id = processing_step->getProcessingStepId();
+                auto machine_processing_context = machine_processing_context_map[machine_id];
+                addToEventQueue(new MachineBufferEntry(time, job_id, machine_id, step_id), event_queue);
+                machine_processing_context->addStepToBuffer(step_id, job_id);
                 break;
             }
 
@@ -89,7 +91,8 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
             case MACHINE_BUFFER_ENTRY: {
                 auto machine_buffer_entry_event = dynamic_cast<MachineBufferEntry*>(event);
                 long machine_id = machine_buffer_entry_event->getMachineId();
-                addToEventQueue(new WakeMachine(time, machine_id), event_queue);
+                long step_id = machine_buffer_entry_event->getStepId();
+                addToEventQueue(new WakeMachine(time, machine_id, step_id), event_queue);
                 break;
             }
 
@@ -97,34 +100,54 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
                 auto machine_entry_event = dynamic_cast<MachineEntry*>(event);
                 long job_id = machine_entry_event->getJobId();
                 long machine_id = machine_entry_event->getMachineId();
+                long step_id = machine_entry_event->getStepId();
                 long processing_duration = job_processing_times[job_id][machine_id];
                 if (enable_logging) {
-                    log_file << "[" << time << "] " << "Job " << job_id << ": Started processing on Machine " << machine_id << std::endl;
+                    log_file << "[" << time << "] " << "Job " << job_id << ": Started processing on Machine " << machine_id << " (step_id = " << step_id << ")" << std::endl;
                 }
-                addToEventQueue(new MachineExit(time + processing_duration, job_id, machine_id), event_queue);
+                addToEventQueue(new MachineExit(time + processing_duration, job_id, machine_id, step_id), event_queue);
                 break;
             }
+
+            /*
+             case SYSTEM_ENTRY: {
+                auto system_entry_event = dynamic_cast<SystemEntry*>(event);
+                long job_id = system_entry_event->getJobId();
+                auto processing_step = job_route_map[job_id]->getNextProcessingStep();
+                long machine_id = processing_step->getMachineId();
+                long step_id = processing_step->getProcessingStepId();
+                auto machine_processing_context = machine_processing_context_map[machine_id];
+                addToEventQueue(new MachineBufferEntry(time, job_id, machine_id, step_id), event_queue);
+                machine_processing_context->addStepToBuffer(step_id, job_id);
+                break;
+            }
+             */
 
             case MACHINE_EXIT: {
                 auto machine_exit_event = dynamic_cast<MachineExit*>(event);
                 long job_id = machine_exit_event->getJobId();
                 long machine_id = machine_exit_event->getMachineId();
+                long step_id = machine_exit_event->getStepId();
                 auto machine_processing_context = machine_processing_context_map[machine_id];
                 auto job_route = job_route_map[job_id];
                 if (job_route->checkHasFinished()) {
                     addToEventQueue(new SystemExit(time, job_id), event_queue);
                 }
                 else {
-                    long next_machine_id = job_route->getNextMachine();
+                    auto processing_step = job_route->getNextProcessingStep();
+                    long next_machine_id = processing_step->getMachineId();
+                    long next_step_id = processing_step->getProcessingStepId();
                     auto next_machine_processing_context = machine_processing_context_map[next_machine_id];
-                    addToEventQueue(new MachineBufferEntry(time, job_id, next_machine_id), event_queue);
-                    next_machine_processing_context->addJobToBuffer(job_id);
+                    addToEventQueue(new MachineBufferEntry(time, job_id, next_machine_id, next_step_id), event_queue);
+                    next_machine_processing_context->addStepToBuffer(next_step_id, job_id);
                 }
-                machine_processing_context->decreaseJobsInBuffer();
+                machine_processing_context->decreaseStepsInBuffer();
                 machine_processing_context->unsetCurrentlyWorking();
-                if (machine_processing_context->getJobsInBuffer() > 0 && !machine_processing_context->getCurrentlyWorking()) {
-                    long new_job_id = machine_processing_context->takeJobFromBuffer();
-                    addToEventQueue(new MachineEntry(time, new_job_id, machine_id), event_queue);
+                if (machine_processing_context->getStepsInBuffer() > 0 && !machine_processing_context->getCurrentlyWorking()) {
+                    auto processing_pair = machine_processing_context->takeStepFromBuffer();
+                    long new_step_id = processing_pair.first;
+                    long new_job_id = processing_pair.second;
+                    addToEventQueue(new MachineEntry(time, new_job_id, machine_id, new_step_id), event_queue);
                     machine_processing_context->setCurrentlyWorking();
                 }
                 break;
@@ -134,9 +157,11 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
                 auto wake_machine_event = dynamic_cast<WakeMachine*>(event);
                 long machine_id = wake_machine_event->getMachineId();
                 MachineProcessingContext* machine_processing_context = machine_processing_context_map[machine_id];
-                if (machine_processing_context->getJobsInBuffer() > 0 && !machine_processing_context->getCurrentlyWorking()) {
-                    long job_id = machine_processing_context->takeJobFromBuffer();
-                    addToEventQueue(new MachineEntry(time, job_id, machine_id), event_queue);
+                if (machine_processing_context->getStepsInBuffer() > 0 && !machine_processing_context->getCurrentlyWorking()) {
+                    auto processing_pair = machine_processing_context->takeStepFromBuffer();
+                    long step_id = processing_pair.first;
+                    long job_id = processing_pair.second;
+                    addToEventQueue(new MachineEntry(time, job_id, machine_id, step_id), event_queue);
                     machine_processing_context->setCurrentlyWorking();
                 }
                 break;
@@ -192,37 +217,4 @@ void Simulator::addToEventQueue(Event *event, std::deque<Event*> &event_queue) {
         return a->getTime() < b->getTime();
     });
     event_queue.insert(it, event);
-}
-
-void Simulator::fillJobRouteMachineLists(const std::map<long, JobRoute *>& job_route_map, GenotypeNode* node) {
-
-    switch (node->getGeneralNodeType()) {
-
-        case MACHINE_GENERAL_NODE: {
-            auto machine_node = (MachineNode*) node;
-            long machine_id = machine_node->getId();
-            for (long job_id : machine_node->getJobProcessingOrder()) {
-                job_route_map.find(job_id)->second->addMachineToMachineList(machine_id);
-            }
-            break;
-        }
-
-        case GROUP_GENERAL_NODE: {
-            auto group_node = (GroupNode*) node;
-            long machine_id = group_node->getId();
-            for (long job_id : group_node->getJobProcessingOrder()) {
-                job_route_map.find(job_id)->second->addMachineToMachineList(machine_id);
-            }
-            for (auto sub_node : group_node->getBody()) {
-                fillJobRouteMachineLists(job_route_map, sub_node);
-            }
-            break;
-        }
-
-        case ABSTRACT_GENERAL_NODE: {
-            // todo:error
-            break;
-        }
-
-    }
 }

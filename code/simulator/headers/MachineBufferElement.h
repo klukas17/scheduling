@@ -8,10 +8,11 @@
 
 class MachineBufferElement {
 public:
+    long step_id;
     long job_id;
     MachineBufferElement* prev;
     MachineBufferElement* next;
-    explicit MachineBufferElement(long job_id);
+    MachineBufferElement(long step_id, long job_id);
 };
 
 

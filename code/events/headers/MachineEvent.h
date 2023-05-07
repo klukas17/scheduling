@@ -10,10 +10,12 @@
 class MachineEvent : public virtual Event {
 protected:
     long machine_id;
+    long step_id;
 public:
-    MachineEvent(long time, long machine_id);
+    MachineEvent(long time, long machine_id, long step_id);
     ~MachineEvent() override = 0;
     [[nodiscard]] long getMachineId() const;
+    [[nodiscard]] long getStepId() const;
 };
 
 

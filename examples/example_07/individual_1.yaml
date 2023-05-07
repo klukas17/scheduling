@@ -1,27 +1,101 @@
-open:
-  job_processing_order:
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
-  body:
-    - machine:
-        job_processing_order:
-          - 1
-          - 2
-          - 4
-          - 5
-    - machine:
-        job_processing_order:
-          - 1
-          - 2
-          - 4
-          - 5
-    - machine:
-        job_processing_order:
-          - 3
-          - 6
-          - 3
-          - 6
+topology:
+  open:
+    step_processing_order:
+      - 1
+      - 4
+      - 7
+      - 10
+      - 13
+      - 16
+    body:
+      - machine:
+          step_processing_order:
+            - 2
+            - 5
+            - 11
+            - 14
+      - machine:
+          step_processing_order:
+            - 3
+            - 6
+            - 12
+            - 15
+      - machine:
+          step_processing_order:
+            - 8
+            - 17
+            - 9
+            - 18
+jobs:
+  - job:
+      id: 1
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 1
+        - entry:
+            machine_id: 2
+            processing_step_id: 2
+        - entry:
+            machine_id: 3
+            processing_step_id: 3
+  - job:
+      id: 2
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 4
+        - entry:
+            machine_id: 2
+            processing_step_id: 5
+        - entry:
+            machine_id: 3
+            processing_step_id: 6
+  - job:
+      id: 3
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 7
+        - entry:
+            machine_id: 4
+            processing_step_id: 8
+        - entry:
+            machine_id: 4
+            processing_step_id: 9
+  - job:
+      id: 4
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 10
+        - entry:
+            machine_id: 2
+            processing_step_id: 11
+        - entry:
+            machine_id: 3
+            processing_step_id: 12
+  - job:
+      id: 5
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 13
+        - entry:
+            machine_id: 2
+            processing_step_id: 14
+        - entry:
+            machine_id: 3
+            processing_step_id: 15
+  - job:
+      id: 6
+      processing_route:
+        - entry:
+            machine_id: 1
+            processing_step_id: 16
+        - entry:
+            machine_id: 4
+            processing_step_id: 17
+        - entry:
+            machine_id: 4
+            processing_step_id: 18

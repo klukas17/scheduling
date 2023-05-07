@@ -13,7 +13,9 @@ class GenotypeSerializer {
 public:
     GenotypeSerializer();
     static void serialize(const std::string& path, Individual* individual);
-    static void serializeNode(GenotypeNode* node, YAML::Emitter& out);
+    static void serializeTopologyNode(Individual* individual, YAML::Emitter& out);
+    static void serializeJobsNode(Individual* individual, YAML::Emitter& out);
+    static void serializeTopologyElementNode(GenotypeNode* node, YAML::Emitter& out);
 };
 
 
