@@ -1,0 +1,17 @@
+[0] Job 8: System entry
+[0] Job 8: Machine 1 buffer entry (step_id = 36)
+[0] Job 8: Started processing on Machine 1 (step_id = 36)
+[0] Job 8: Finished processing on Machine 1 (step_id = 36)
+[0] Job 8: Machine 3 buffer entry (step_id = 37)
+[0] Job 8: Started processing on Machine 3 (step_id = 37)
+[0] Job 8: Finished processing on Machine 3 (step_id = 37)
+[0] Job 8: Machine 10 buffer entry (step_id = 38)
+[0] Job 8: Started processing on Machine 10 (step_id = 38)
+[5] Job 8: Finished processing on Machine 10 (step_id = 38)
+[5] Job 8: Machine 8 buffer entry (step_id = 39)
+[5] Job 8: Started processing on Machine 8 (step_id = 39)
+[10] Job 8: Finished processing on Machine 8 (step_id = 39)
+[10] Job 8: Machine 9 buffer entry (step_id = 40)
+[10] Job 8: Started processing on Machine 9 (step_id = 40)
+[15] Job 8: Finished processing on Machine 9 (step_id = 40)
+[15] Job 8: System exit

@@ -8,24 +8,22 @@
 #include "MachineType.h"
 #include "Topology.h"
 #include "Individual.h"
+#include "filesystem"
 
-std::string dir = "../examples/example_21/";
+void run_example(const std::string& dir) {
+    std::map<long, MachineType*> machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
+    Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
+    std::map<long, JobType*> job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
+    std::map<long, Job*> jobs = JobSequenceParser::parse(dir + "job_sequence.yaml", job_type_map);
+    Individual* individual = GenotypeDeserializer::deserialize(dir + "individual.yaml", topology);
+    GenotypeSerializer::serialize(dir + "individual_copy.yaml", individual);
+    Simulator::simulate(individual, jobs, true, dir + "simulator_logs.txt");
+}
 
 int main() {
-
-    std::map<long, MachineType*> machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
-
-    Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
-
-    std::map<long, JobType*> job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
-
-    std::map<long, Job*> jobs = JobSequenceParser::parse(dir + "job_sequence.yaml", job_type_map);
-
-    Individual* individual = GenotypeDeserializer::deserialize(dir + "individual_1.yaml", topology);
-
-    GenotypeSerializer::serialize(dir + "individual_1_copy.yaml", individual);
-
-    Simulator::simulate(individual, jobs, true, dir + "simulator_logs.txt");
-
-    return 0;
+    for (const auto& entry : std::filesystem::directory_iterator("../examples/")) {
+        if (entry.is_directory()) {
+            run_example(entry.path().string() + "/");
+        }
+    }
 }
