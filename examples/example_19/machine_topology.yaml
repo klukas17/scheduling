@@ -1,0 +1,34 @@
+topology:
+  route:
+    id: 1
+    body:
+      - open:
+          id: 2
+          body:
+            - machine:
+                id: 6
+                machine_type_id: 1
+            - machine:
+                id: 7
+                machine_type_id: 1
+      - route:
+          id: 3
+          body:
+            - machine:
+                id: 8
+                machine_type_id: 1
+            - machine:
+                id: 9
+                machine_type_id: 1
+      - machine:
+          id: 4
+          machine_type_id: 1
+      - open:
+          id: 5
+          body:
+            - machine:
+                id: 10
+                machine_type_id: 1
+            - machine:
+                id: 11
+                machine_type_id: 1
