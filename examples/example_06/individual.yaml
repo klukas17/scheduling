@@ -1,4 +1,4 @@
-topology:
+    topology:
   route:
     step_processing_order:
       - 1
