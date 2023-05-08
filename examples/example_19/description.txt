@@ -1,0 +1,7 @@
+Route(open, route, machine, open) with more complex open group processing order
+
+1 type of machines, 7 in total - 2 per open/route group and one single machine
+
+1 type of jobs, 2 in total
+
+Purpose: test interactions between single machines, route groups and open groups
