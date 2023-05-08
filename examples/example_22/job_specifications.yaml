@@ -1,0 +1,31 @@
+jobs:
+  - job:
+      id: 1
+      processing_times:
+        - machine:
+            id: 1
+            time: 4
+        - machine:
+            id: 2
+            time: 1
+        - machine:
+            id: 3
+            time: 0
+        - machine:
+            id: 4
+            time: 5
+  - job:
+      id: 2
+      processing_times:
+        - machine:
+            id: 1
+            time: 5
+        - machine:
+            id: 2
+            time: 0
+        - machine:
+            id: 3
+            time: 0
+        - machine:
+            id: 4
+            time: 5
