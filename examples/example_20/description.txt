@@ -1,0 +1,7 @@
+Open(machine)
+
+1 type of machines, 1 in total
+
+1 type of jobs, 5 in total
+
+Purpose: test open group with 1 machine which is a bottleneck
