@@ -6,16 +6,20 @@
 #define SCHEDULING_JOBTYPE_H
 
 #include "map"
+#include "set"
 
 class JobType {
 protected:
     long id;
     std::map<long, long> processing_times;
+    std::set<long> job_families;
 public:
     explicit JobType(long id);
     [[nodiscard]] long getId() const;
     std::map<long, long> getProcessingTimes();
     void setProcessingTime(long machine_id, long processing_time);
+    std::set<long> getJobFamilies();
+    void addJobFamily(long job_family_id);
 };
 
 

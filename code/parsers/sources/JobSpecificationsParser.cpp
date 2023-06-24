@@ -29,6 +29,13 @@ std::map<long, JobType *> JobSpecificationsParser::parse(const std::string& path
                     job_type->setProcessingTime(machine_id, time);
                 }
             }
+
+            const YAML::Node& job_families_node = (*it)["job_families"];
+            if (job_families_node) {
+                for (YAML::const_iterator job_family_id = job_families_node.begin(); job_family_id != job_families_node.end(); job_family_id++) {
+                    job_type->addJobFamily((*job_family_id).as<long>());
+                }
+            }
         }
     }
 

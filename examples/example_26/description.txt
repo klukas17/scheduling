@@ -1,0 +1,7 @@
+Machine
+
+1 type of machine, 1 machine in total
+
+3 types of jobs, 3 jobs in total
+
+Purpose: test job_families parameter
