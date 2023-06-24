@@ -27,3 +27,11 @@ std::set<long> JobType::getJobFamilies() {
 void JobType::addJobFamily(long job_family_id) {
     job_families.insert(job_family_id);
 }
+
+std::set<long> JobType::getForbiddenMachineTypes() {
+    return forbidden_machine_types;
+}
+
+void JobType::addForbiddenMachineType(long machine_type_id) {
+    forbidden_machine_types.insert(machine_type_id);
+}

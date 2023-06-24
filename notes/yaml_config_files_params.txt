@@ -4,6 +4,7 @@ job_specifications.yaml:
     optional:
         processing_times
         job_families
+        forbidden_machine_types
         preempt
 
 job_sequence.yaml:
@@ -16,7 +17,6 @@ job_sequence.yaml:
         due_date
         weight
         requires_completion_of
-        forbidden_machine_list
 
 machine_specifications.yaml:
     required:

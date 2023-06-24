@@ -36,6 +36,13 @@ std::map<long, JobType *> JobSpecificationsParser::parse(const std::string& path
                     job_type->addJobFamily((*job_family_id).as<long>());
                 }
             }
+
+            const YAML::Node& forbidden_machine_types_node = (*it)["forbidden_machine_types"];
+            if (forbidden_machine_types_node) {
+                for (YAML::const_iterator machine_type_id = forbidden_machine_types_node.begin(); machine_type_id != forbidden_machine_types_node.end(); machine_type_id++) {
+                    job_type->addForbiddenMachineType((*machine_type_id).as<long>());
+                }
+            }
         }
     }
 

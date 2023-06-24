@@ -1,0 +1,7 @@
+Parallel(machine, machine)
+
+1 type of machines, 2 machines in total
+
+2 types of jobs, 2 jobs in total
+
+Purpose: test forbidden_machine_types field
