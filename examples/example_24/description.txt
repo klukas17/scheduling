@@ -1,0 +1,7 @@
+Serial(parallel(serial, serial (machine, parallel, machine), open), machine, machine, parallel)
+
+1 types of machines, 20 in total
+
+1 type of jobs, 1 jobs in total
+
+Purpose: Test nesting of components

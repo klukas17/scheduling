@@ -19,14 +19,9 @@ Topology *MachineTopologyParser::parse(const std::string& path, const std::map<l
 
     if (topology_node) {
 
-        std::deque<long> predecessor_ids;
-        TopologyElement* topology_element = parseElement(topology_node, machine_type_map, predecessor_ids);
+        std::set<long> predecessor_ids, successor_ids;
+        TopologyElement* topology_element = parseElement(topology_node, machine_type_map, predecessor_ids, successor_ids);
         auto topology = new Topology(topology_element);
-
-        if (predecessor_ids.size() != 1) {
-            // todo:error
-            exit(1);
-        }
 
         return topology;
     }
@@ -38,7 +33,7 @@ Topology *MachineTopologyParser::parse(const std::string& path, const std::map<l
     }
 }
 
-TopologyElement *MachineTopologyParser::parseElement(const YAML::Node& node, const std::map<long, MachineType*>& machine_type_map, std::deque<long>& predecessor_ids) {
+TopologyElement *MachineTopologyParser::parseElement(const YAML::Node& node, const std::map<long, MachineType*>& machine_type_map, std::set<long>& predecessor_ids, std::set<long>& successor_ids) {
 
     if (node["machine"]) {
         long id = node["machine"]["id"].as<long>();
@@ -47,7 +42,7 @@ TopologyElement *MachineTopologyParser::parseElement(const YAML::Node& node, con
         for (auto predecessor_id : predecessor_ids) {
             topology_element->addPredecessorId(predecessor_id);
         }
-        predecessor_ids.push_back(id);
+        successor_ids.insert(id);
         return topology_element;
     }
 
@@ -57,18 +52,21 @@ TopologyElement *MachineTopologyParser::parseElement(const YAML::Node& node, con
         for (auto predecessor_id : predecessor_ids) {
             topology_element->addPredecessorId(predecessor_id);
         }
-        predecessor_ids.push_back(id);
+        successor_ids.insert(id);
+
+        std::set<long> children_predecessor_ids(predecessor_ids);
+        children_predecessor_ids.insert(id);
 
         YAML::Node body_node = node["serial"]["body"];
         if (body_node) {
-            int direct_children_count = 0;
             for (auto it = body_node.begin(); it != body_node.end(); it++) {
-                direct_children_count++;
-                TopologyElement* child_element = parseElement(*it, machine_type_map, predecessor_ids);
+                std::set<long> child_successor_ids;
+                TopologyElement* child_element = parseElement(*it, machine_type_map, children_predecessor_ids, child_successor_ids);
                 topology_element->addElementToBody(child_element);
-            }
-            for (int i = 0; i < direct_children_count; i++) {
-                predecessor_ids.pop_back();
+                for (auto successor_id : child_successor_ids) {
+                    successor_ids.insert(successor_id);
+                    children_predecessor_ids.insert(successor_id);
+                }
             }
         }
         else {
@@ -83,18 +81,20 @@ TopologyElement *MachineTopologyParser::parseElement(const YAML::Node& node, con
         for (auto predecessor_id : predecessor_ids) {
             topology_element->addPredecessorId(predecessor_id);
         }
-        predecessor_ids.push_back(id);
+        successor_ids.insert(id);
+
+        std::set<long> children_predecessor_ids(predecessor_ids);
+        children_predecessor_ids.insert(id);
 
         YAML::Node body_node = node["parallel"]["body"];
         if (body_node) {
-            int direct_children_count = 0;
             for (auto it = body_node.begin(); it != body_node.end(); it++) {
-                direct_children_count++;
-                TopologyElement* child_element = parseElement(*it, machine_type_map, predecessor_ids);
+                std::set<long> child_successor_ids;
+                TopologyElement* child_element = parseElement(*it, machine_type_map, children_predecessor_ids, child_successor_ids);
                 topology_element->addElementToBody(child_element);
-            }
-            for (int i = 0; i < direct_children_count; i++) {
-                predecessor_ids.pop_back();
+                for (auto successor_id : child_successor_ids) {
+                    successor_ids.insert(successor_id);
+                }
             }
         }
         else {
@@ -109,18 +109,20 @@ TopologyElement *MachineTopologyParser::parseElement(const YAML::Node& node, con
         for (auto predecessor_id : predecessor_ids) {
             topology_element->addPredecessorId(predecessor_id);
         }
-        predecessor_ids.push_back(id);
+        successor_ids.insert(id);
+
+        std::set<long> children_predecessor_ids(predecessor_ids);
+        children_predecessor_ids.insert(id);
 
         YAML::Node body_node = node["route"]["body"];
         if (body_node) {
-            int direct_children_count = 0;
             for (auto it = body_node.begin(); it != body_node.end(); it++) {
-                direct_children_count++;
-                TopologyElement* child_element = parseElement(*it, machine_type_map, predecessor_ids);
+                std::set<long> child_successor_ids;
+                TopologyElement* child_element = parseElement(*it, machine_type_map, children_predecessor_ids, child_successor_ids);
                 topology_element->addElementToBody(child_element);
-            }
-            for (int i = 0; i < direct_children_count; i++) {
-                predecessor_ids.pop_back();
+                for (auto successor_id : child_successor_ids) {
+                    successor_ids.insert(successor_id);
+                }
             }
         }
         else {
@@ -135,18 +137,20 @@ TopologyElement *MachineTopologyParser::parseElement(const YAML::Node& node, con
         for (auto predecessor_id : predecessor_ids) {
             topology_element->addPredecessorId(predecessor_id);
         }
-        predecessor_ids.push_back(id);
+        successor_ids.insert(id);
+
+        std::set<long> children_predecessor_ids(predecessor_ids);
+        children_predecessor_ids.insert(id);
 
         YAML::Node body_node = node["open"]["body"];
         if (body_node) {
-            int direct_children_count = 0;
             for (auto it = body_node.begin(); it != body_node.end(); it++) {
-                direct_children_count++;
-                TopologyElement* child_element = parseElement(*it, machine_type_map, predecessor_ids);
+                std::set<long> child_successor_ids;
+                TopologyElement* child_element = parseElement(*it, machine_type_map, children_predecessor_ids, child_successor_ids);
                 topology_element->addElementToBody(child_element);
-            }
-            for (int i = 0; i < direct_children_count; i++) {
-                predecessor_ids.pop_back();
+                for (auto successor_id : child_successor_ids) {
+                    successor_ids.insert(successor_id);
+                }
             }
         }
         else {

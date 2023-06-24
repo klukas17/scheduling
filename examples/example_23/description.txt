@@ -1,0 +1,7 @@
+Serial(serial, serial, serial)
+
+1 types of machines, 9 in total - 3 per inner serial group
+
+1 type of jobs, 1 jobs in total
+
+Purpose: Test nesting of serial components

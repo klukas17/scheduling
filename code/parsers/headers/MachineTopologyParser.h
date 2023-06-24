@@ -10,13 +10,13 @@
 #include "map"
 #include "MachineType.h"
 #include "yaml-cpp/yaml.h"
-#include "deque"
+#include "set"
 
 class MachineTopologyParser {
 public:
     MachineTopologyParser();
     static Topology* parse(const std::string& path, const std::map<long, MachineType*>& machine_type_map);
-    static TopologyElement* parseElement(const YAML::Node& node, const std::map<long, MachineType*>& machine_type_map, std::deque<long>& predecessor_ids);
+    static TopologyElement* parseElement(const YAML::Node& node, const std::map<long, MachineType*>& machine_type_map, std::set<long>& predecessor_ids, std::set<long>& successor_ids);
 };
 
 
