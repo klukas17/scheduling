@@ -17,9 +17,8 @@ std::map<long, Job *> JobSequenceParser::parse(const std::string& path, std::map
 
     if (job_sequence_node) {
         for (YAML::const_iterator it = job_sequence_node.begin(); it != job_sequence_node.end(); it++) {
-            const YAML::Node& job_node = (*it)["job"];
-            long id = job_node["id"].as<long>();
-            long job_type_id = job_node["job_type_id"].as<long>();
+            long id = (*it)["job_id"].as<long>();
+            long job_type_id = (*it)["job_type_id"].as<long>();
             JobType* job_type = job_type_map[job_type_id];
             Job* job = new Job(id, job_type);
             jobs[id] = job;
@@ -29,7 +28,7 @@ std::map<long, Job *> JobSequenceParser::parse(const std::string& path, std::map
                 job->setProcessingTime(job_type_processing_time.first, job_type_processing_time.second);
             }
 
-            const YAML::Node& processing_route_node = job_node["processing_route"];
+            const YAML::Node& processing_route_node = (*it)["processing_route"];
             if (processing_route_node) {
                 for (YAML::const_iterator proc_it = processing_route_node.begin(); proc_it != processing_route_node.end(); proc_it++) {
                     parseMachineList(*proc_it, job);
@@ -53,11 +52,10 @@ std::map<long, Job *> JobSequenceParser::parse(const std::string& path, std::map
 }
 
 void JobSequenceParser::parseMachineList(const YAML::Node& node, Job *job) {
-    const YAML::Node& processing_route_entry = node["machine"];
-    long machine_id = processing_route_entry["id"].as<long>();
+    long machine_id = node["machine_id"].as<long>();
     job->addMachineToProcessingRoute(machine_id);
 
-    const YAML::Node& sub_machines_node = processing_route_entry["sub_machines"];
+    const YAML::Node& sub_machines_node = node["sub_machines"];
     if (sub_machines_node) {
         for (YAML::const_iterator sub_machine_it = sub_machines_node.begin(); sub_machine_it != sub_machines_node.end(); sub_machine_it++) {
             parseMachineList(*sub_machine_it, job);

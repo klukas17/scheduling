@@ -1,136 +1,76 @@
 job_sequence:
-  - job:
-      id: 1
-      job_type_id: 1
-      processing_route:
-        - machine:
-            id: 1
-            sub_machines:
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-  - job:
-      id: 2
-      job_type_id: 1
-      processing_route:
-        - machine:
-            id: 1
-            sub_machines:
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-  - job:
-      id: 3
-      job_type_id: 1
-      processing_route:
-        - machine:
-            id: 1
-            sub_machines:
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-  - job:
-      id: 4
-      job_type_id: 1
-      processing_route:
-        - machine:
-            id: 1
-            sub_machines:
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-  - job:
-      id: 5
-      job_type_id: 1
-      processing_route:
-        - machine:
-            id: 1
-            sub_machines:
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
-              - machine:
-                  id: 2
+  - job_id: 1
+    job_type_id: 1
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+  - job_id: 2
+    job_type_id: 1
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+  - job_id: 3
+    job_type_id: 1
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+  - job_id: 4
+    job_type_id: 1
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+  - job_id: 5
+    job_type_id: 1
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2
+          - machine_id: 2

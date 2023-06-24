@@ -1,37 +1,25 @@
 jobs:
-  - job:
-      id: 1
-      processing_times:
-        - machine:
-            id: 1
-            time: 5
-        - machine:
-            id: 2
-            time: 8
-        - machine:
-            id: 3
-            time: 4
-  - job:
-      id: 2
-      processing_times:
-        - machine:
-            id: 1
-            time: 3
-        - machine:
-            id: 2
-            time: 9
-        - machine:
-            id: 3
-            time: 6
-  - job:
-      id: 3
-      processing_times:
-        - machine:
-            id: 1
-            time: 11
-        - machine:
-            id: 2
-            time: 2
-        - machine:
-            id: 3
-            time: 7
+  - job_id: 1
+    processing_times:
+      - machine_id: 1
+        time: 5
+      - machine_id: 2
+        time: 8
+      - machine_id: 3
+        time: 4
+  - job_id: 2
+    processing_times:
+      - machine_id: 1
+        time: 3
+      - machine_id: 2
+        time: 9
+      - machine_id: 3
+        time: 6
+  - job_id: 3
+    processing_times:
+      - machine_id: 1
+        time: 11
+      - machine_id: 2
+        time: 2
+      - machine_id: 3
+        time: 7

@@ -1,7 +1,4 @@
 machines:
-  - machine:
-      id: 1
-  - machine:
-      id: 2
-  - machine:
-      id: 3
+  - machine_id: 1
+  - machine_id: 2
+  - machine_id: 3

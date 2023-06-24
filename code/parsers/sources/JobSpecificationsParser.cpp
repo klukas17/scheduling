@@ -17,17 +17,15 @@ std::map<long, JobType *> JobSpecificationsParser::parse(const std::string& path
 
     if (jobs_node) {
         for (YAML::const_iterator it = jobs_node.begin(); it != jobs_node.end(); ++it) {
-            const YAML::Node& job_node = (*it)["job"];
-            long id = job_node["id"].as<long>();
+            long id = (*it)["job_id"].as<long>();
             auto job_type = new JobType(id);
             job_type_map[id] = job_type;
 
-            const YAML::Node& processing_times_node = job_node["processing_times"];
+            const YAML::Node& processing_times_node = (*it)["processing_times"];
             if (processing_times_node) {
                 for (YAML::const_iterator proc_it = processing_times_node.begin(); proc_it != processing_times_node.end(); proc_it++) {
-                    const YAML::Node& processing_time_node = (*proc_it)["machine"];
-                    long machine_id = processing_time_node["id"].as<long>();
-                    long time = processing_time_node["time"].as<long>();
+                    long machine_id = (*proc_it)["machine_id"].as<long>();
+                    long time = (*proc_it)["time"].as<long>();
                     job_type->setProcessingTime(machine_id, time);
                 }
             }
