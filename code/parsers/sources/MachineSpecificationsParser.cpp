@@ -17,8 +17,7 @@ std::map<long, MachineType*> MachineSpecificationsParser::parse(const std::strin
 
     if (machines_node) {
         for (YAML::const_iterator it = machines_node.begin(); it != machines_node.end(); ++it) {
-            const YAML::Node& machine_node = (*it)["machine"];
-            long id = machine_node["id"].as<long>();
+            long id = (*it)["machine_id"].as<long>();
             auto machine_type = new MachineType(id);
             machine_type_map[id] = machine_type;
         }

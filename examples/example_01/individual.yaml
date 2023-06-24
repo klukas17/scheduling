@@ -5,21 +5,15 @@ topology:
       - 3
       - 1
 jobs:
-  - job:
-      id: 1
-      processing_route:
-        - entry:
-            machine_id: 1
-            processing_step_id: 1
-  - job:
-      id: 2
-      processing_route:
-        - entry:
-            machine_id: 1
-            processing_step_id: 2
-  - job:
-      id: 3
-      processing_route:
-        - entry:
-            machine_id: 1
-            processing_step_id: 3
+  - job_id: 1
+    processing_route:
+      - machine_id: 1
+        processing_step_id: 1
+  - job_id: 2
+    processing_route:
+      - machine_id: 1
+        processing_step_id: 2
+  - job_id: 3
+    processing_route:
+      - machine_id: 1
+        processing_step_id: 3

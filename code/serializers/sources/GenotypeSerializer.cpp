@@ -34,25 +34,19 @@ void GenotypeSerializer::serializeJobsNode(Individual *individual, YAML::Emitter
     auto processing_routes_map = individual->getProcessingRoutes();
     for (auto &it : processing_routes_map) {
         out << YAML::BeginMap << YAML::Flow;
-        out << YAML::Key << "job";
-        out << YAML::Value << YAML::BeginMap;
-        out << YAML::Key << "id";
+        out << YAML::Key << "job_id";
         out << YAML::Value << it.first;
         out << YAML::Key << "processing_route";
         out << YAML::Value << YAML::BeginSeq;
         for (auto entry : it.second->getProcessingSteps()) {
             out << YAML::BeginMap;
-            out << YAML::Key << "entry";
-            out << YAML::Value << YAML::BeginMap;
             out << YAML::Key << "machine_id";
             out << YAML::Value << entry->getMachineId();
             out << YAML::Key << "processing_step_id";
             out << YAML::Value << entry->getProcessingStepId();
             out << YAML::EndMap;
-            out << YAML::EndMap;
         }
         out << YAML::EndSeq;
-        out << YAML::EndMap;
         out << YAML::EndMap;
     }
     out << YAML::EndSeq;

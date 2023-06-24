@@ -48,57 +48,39 @@ topology:
                   - 9
                   - 15
 jobs:
-  - job:
-      id: 1
-      processing_route:
-        - entry:
-            machine_id: 1
-            processing_step_id: 1
-        - entry:
-            machine_id: 2
-            processing_step_id: 2
-        - entry:
-            machine_id: 5
-            processing_step_id: 3
-        - entry:
-            machine_id: 6
-            processing_step_id: 4
-        - entry:
-            machine_id: 7
-            processing_step_id: 5
-        - entry:
-            machine_id: 4
-            processing_step_id: 6
-        - entry:
-            machine_id: 11
-            processing_step_id: 7
-        - entry:
-            machine_id: 12
-            processing_step_id: 8
-        - entry:
-            machine_id: 13
-            processing_step_id: 9
-        - entry:
-            machine_id: 3
-            processing_step_id: 10
-        - entry:
-            machine_id: 8
-            processing_step_id: 11
-        - entry:
-            machine_id: 4
-            processing_step_id: 12
-        - entry:
-            machine_id: 11
-            processing_step_id: 13
-        - entry:
-            machine_id: 12
-            processing_step_id: 14
-        - entry:
-            machine_id: 13
-            processing_step_id: 15
-        - entry:
-            machine_id: 3
-            processing_step_id: 16
-        - entry:
-            machine_id: 9
-            processing_step_id: 17
+  - job_id: 1
+    processing_route:
+      - machine_id: 1
+        processing_step_id: 1
+      - machine_id: 2
+        processing_step_id: 2
+      - machine_id: 5
+        processing_step_id: 3
+      - machine_id: 6
+        processing_step_id: 4
+      - machine_id: 7
+        processing_step_id: 5
+      - machine_id: 4
+        processing_step_id: 6
+      - machine_id: 11
+        processing_step_id: 7
+      - machine_id: 12
+        processing_step_id: 8
+      - machine_id: 13
+        processing_step_id: 9
+      - machine_id: 3
+        processing_step_id: 10
+      - machine_id: 8
+        processing_step_id: 11
+      - machine_id: 4
+        processing_step_id: 12
+      - machine_id: 11
+        processing_step_id: 13
+      - machine_id: 12
+        processing_step_id: 14
+      - machine_id: 13
+        processing_step_id: 15
+      - machine_id: 3
+        processing_step_id: 16
+      - machine_id: 9
+        processing_step_id: 17

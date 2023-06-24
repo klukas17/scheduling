@@ -149,15 +149,13 @@ void GenotypeDeserializer::deserializeJobsNode(const YAML::Node &node, Individua
 
     if (node) {
         for (YAML::const_iterator it = node.begin(); it != node.end(); it++) {
-            const YAML::Node& job_node = (*it)["job"];
-            long id = job_node["id"].as<long>();
-            const YAML::Node processing_route_node = job_node["processing_route"];
+            long id = (*it)["job_id"].as<long>();
+            const YAML::Node processing_route_node = (*it)["processing_route"];
             if (processing_route_node) {
                 auto job_processing_route = new JobProcessingRoute(id);
                 for (YAML::const_iterator it_route = processing_route_node.begin(); it_route != processing_route_node.end(); it_route++) {
-                    const YAML::Node& entry_node = (*it_route)["entry"];
-                    long machine_id = entry_node["machine_id"].as<long>();
-                    long processing_step_id = entry_node["processing_step_id"].as<long>();
+                    long machine_id = (*it_route)["machine_id"].as<long>();
+                    long processing_step_id = (*it_route)["processing_step_id"].as<long>();
                     auto job_processing_step = new JobProcessingStep(processing_step_id, machine_id);
                     job_processing_route->addProcessingStep(job_processing_step);
                 }
