@@ -11,12 +11,10 @@ job_sequence.yaml:
         id
         job_type_id
         processing_route
-            preceded_by
     optional:
         release_date
         due_date
         weight
-        preempt
         requires_completion_of
         forbidden_machine_list
 

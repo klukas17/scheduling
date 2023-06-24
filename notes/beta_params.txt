@@ -1,11 +1,9 @@
 prmp - preemptions
-    field preempt in job_specifications.yaml and job_sequence.yaml
+    field preempt in job_specifications.yaml
     if not specified, assumed to be false
-    job_sequence.yaml overrides job_specifications.yaml
 
 prec - precedence constraints
-    field preceded_by in job_sequence.yaml/processing_route
-    field requires_completion_of in job_sequence.yaml
+    field requires_completion_of in job_sequence.yaml (per processing step)
 
 s_jk - sequence dependent setup times
     field setup_times in machine_specifications.yaml (only for single machines, not for groups)

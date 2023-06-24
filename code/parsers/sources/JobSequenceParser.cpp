@@ -20,7 +20,10 @@ std::map<long, Job *> JobSequenceParser::parse(const std::string& path, std::map
             long id = (*it)["job_id"].as<long>();
             long job_type_id = (*it)["job_type_id"].as<long>();
             JobType* job_type = job_type_map[job_type_id];
-            Job* job = new Job(id, job_type);
+            long release_date = ((*it)["release_date"]) ? (*it)["release_date"].as<long>() : 0;
+            long due_date = ((*it)["due_date"]) ? (*it)["due_date"].as<long>() : release_date;
+            long weight = ((*it)["weight"]) ? (*it)["weight"].as<long>() : 1;
+            Job* job = new Job(id, job_type, release_date, due_date, weight);
             jobs[id] = job;
 
             std::map<long, long> job_type_processing_times = job_type->getProcessingTimes();

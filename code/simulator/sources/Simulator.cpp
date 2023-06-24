@@ -75,7 +75,7 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
     std::priority_queue<WakeMachine*, std::vector<WakeMachine*>, decltype(comparator)> wake_machines_queue(comparator);
 
     for (const auto& pair : jobs) {
-        addToEventQueue(new SystemEntry(time, pair.first), event_queue);
+        addToEventQueue(new SystemEntry(pair.second->getReleaseDate(), pair.first), event_queue);
     }
 
     while (!event_queue.empty() || !wake_machines_queue.empty()) {

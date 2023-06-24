@@ -13,12 +13,18 @@ class Job {
 private:
     long id;
     JobType* job_type;
+    long release_date;
+    long due_date;
+    long weight;
     std::vector<long> processing_route;
     std::map<long, long> processing_times;
 public:
-    Job(long id, JobType* job_type);
+    Job(long id, JobType* job_type, long release_date, long due_date, long weight);
     [[nodiscard]] long getId() const;
     JobType* getJobType();
+    long getReleaseDate();
+    long getDueDate();
+    long getWeight();
     std::vector<long> getProcessingRoute();
     void addMachineToProcessingRoute(long machine_id);
     long getProcessingTime(long machine_id);
