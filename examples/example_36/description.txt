@@ -1,0 +1,7 @@
+Open(parallel(machine, machine), machine)
+
+1 type of machines, 2 machines in total
+
+1 type of jobs, 2 jobs in total
+
+Purpose: prerequisite test - open(parallel)

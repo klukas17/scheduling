@@ -3,7 +3,7 @@ prmp - preemptions
     if not specified, assumed to be false
 
 prec - precedence constraints
-    field requires_completion_of in job_sequence.yaml (per processing step)
+    field prerequisites in job_sequence.yaml (per processing step)
 
 s_jk - sequence dependent setup times
     field setup_times in machine_specifications.yaml (only for single machines, not for groups)
