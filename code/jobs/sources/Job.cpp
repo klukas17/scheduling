@@ -4,11 +4,12 @@
 
 #include "Job.h"
 
-Job::Job(long id, JobType* job_type, long release_date, long due_date, long weight) {
+Job::Job(long id, JobType* job_type, PathNode* paths_root_node, long release_time, long due_time, long weight) {
     this->id = id;
     this->job_type = job_type;
-    this->release_date = release_date;
-    this->due_date = due_date;
+    this->paths_root_node = paths_root_node;
+    this->release_time = release_time;
+    this->due_time = due_time;
     this->weight = weight;
 }
 
@@ -20,30 +21,18 @@ JobType *Job::getJobType() {
     return job_type;
 }
 
-long Job::getReleaseDate() {
-    return release_date;
+PathNode *Job::getPathsRootNode() {
+    return paths_root_node;
 }
 
-long Job::getDueDate() {
-    return due_date;
+long Job::getReleaseTime() {
+    return release_time;
+}
+
+long Job::getDueTime() {
+    return due_time;
 }
 
 long Job::getWeight() {
     return weight;
-}
-
-std::vector<long> Job::getProcessingRoute() {
-    return processing_route;
-}
-
-void Job::addMachineToProcessingRoute(long machine_id) {
-    processing_route.push_back(machine_id);
-}
-
-long Job::getProcessingTime(long machine_id) {
-    return processing_times[machine_id];
-}
-
-void Job::setProcessingTime(long machine_id, long processing_time) {
-    processing_times[machine_id] = processing_time;
 }

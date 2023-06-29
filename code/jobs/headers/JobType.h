@@ -17,7 +17,7 @@ protected:
 public:
     explicit JobType(long id);
     [[nodiscard]] long getId() const;
-    std::map<long, long> getProcessingTimes();
+    long getProcessingTime(long machine_type_id);
     void setProcessingTime(long machine_id, long processing_time);
     std::set<long> getJobFamilies();
     void addJobFamily(long job_family_id);

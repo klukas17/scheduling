@@ -12,8 +12,8 @@ long JobType::getId() const {
     return id;
 }
 
-std::map<long, long> JobType::getProcessingTimes() {
-    return processing_times;
+long JobType::getProcessingTime(long machine_type_id) {
+    return processing_times[machine_type_id];
 }
 
 void JobType::setProcessingTime(long machine_id, long processing_time) {
