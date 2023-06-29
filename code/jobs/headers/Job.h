@@ -6,6 +6,7 @@
 #define SCHEDULING_JOB_H
 
 #include "JobType.h"
+#include "PathNode.h"
 #include "map"
 #include "vector"
 
@@ -13,22 +14,18 @@ class Job {
 private:
     long id;
     JobType* job_type;
-    long release_date;
-    long due_date;
+    PathNode* paths_root_node;
+    long release_time;
+    long due_time;
     long weight;
-    std::vector<long> processing_route;
-    std::map<long, long> processing_times;
 public:
-    Job(long id, JobType* job_type, long release_date, long due_date, long weight);
+    Job(long id, JobType* job_type, PathNode* paths_root_node, long release_time, long due_time, long weight);
     [[nodiscard]] long getId() const;
     JobType* getJobType();
-    long getReleaseDate();
-    long getDueDate();
+    PathNode* getPathsRootNode();
+    long getReleaseTime();
+    long getDueTime();
     long getWeight();
-    std::vector<long> getProcessingRoute();
-    void addMachineToProcessingRoute(long machine_id);
-    long getProcessingTime(long machine_id);
-    void setProcessingTime(long machine_id, long processing_time);
 };
 
 

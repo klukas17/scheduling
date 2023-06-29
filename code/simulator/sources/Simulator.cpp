@@ -47,7 +47,7 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
             long machine_id = processing_step->getMachineId();
             if (machine_map[machine_id]->getNodeType() == MACHINE_NODE) {
                 auto machine_node = (MachineNode*) machine_map[machine_id];
-                job_processing_times[job_id][machine_id] = jobs.find(job_id)->second->getProcessingTime(machine_node->getMachineType()->getId());
+                job_processing_times[job_id][machine_id] = jobs.find(job_id)->second->getJobType()->getProcessingTime(machine_node->getMachineType()->getId());
             }
             else {
                 job_processing_times[job_id][machine_id] = 0;
@@ -75,7 +75,7 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
     std::priority_queue<WakeMachine*, std::vector<WakeMachine*>, decltype(comparator)> wake_machines_queue(comparator);
 
     for (const auto& pair : jobs) {
-        addToEventQueue(new SystemEntry(pair.second->getReleaseDate(), pair.first), event_queue);
+        addToEventQueue(new SystemEntry(pair.second->getReleaseTime(), pair.first), event_queue);
     }
 
     while (!event_queue.empty() || !wake_machines_queue.empty()) {
@@ -167,6 +167,7 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
 
         else {
 
+            // WAKE_MACHINE
             auto wake_machine_event = wake_machines_queue.top();
             wake_machines_queue.pop();
             long machine_id = wake_machine_event->getMachineId();
