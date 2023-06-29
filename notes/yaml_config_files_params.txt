@@ -13,10 +13,10 @@ job_sequence.yaml:
         job_type_id
         processing_route
     optional:
-        release_date
-        due_date
+        release_time
+        due_time
         weight
-        requires_completion_of
+        prerequisites
 
 machine_specifications.yaml:
     required:

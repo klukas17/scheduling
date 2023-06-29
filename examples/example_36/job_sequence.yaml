@@ -1,0 +1,67 @@
+job_sequence:
+  - job_id: 1
+    job_type_id: 1
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 3
+          - machine_id: 3
+          - machine_id: 3
+          - machine_id: 3
+          - machine_id: 3
+          - machine_id: 3
+          - machine_id: 3
+          - machine_id: 3
+  - job_id: 2
+    job_type_id: 1
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+            sub_machines:
+              - machine_id: 4
+                prerequisites:
+                  - job_id: 1
+                    machine_id: 3
+                    repetitions: 1
+              - machine_id: 4
+                prerequisites:
+                  - job_id: 1
+                    machine_id: 3
+                    repetitions: 2
+          - machine_id: 2
+            sub_machines:
+              - machine_id: 4
+                prerequisites:
+                  - job_id: 1
+                    machine_id: 3
+                    repetitions: 3
+              - machine_id: 4
+                prerequisites:
+                  - job_id: 1
+                    machine_id: 3
+                    repetitions: 4
+          - machine_id: 2
+            sub_machines:
+              - machine_id: 4
+                prerequisites:
+                  - job_id: 1
+                    machine_id: 3
+                    repetitions: 5
+              - machine_id: 4
+                prerequisites:
+                  - job_id: 1
+                    machine_id: 3
+                    repetitions: 6
+          - machine_id: 2
+            sub_machines:
+              - machine_id: 4
+                prerequisites:
+                  - job_id: 1
+                    machine_id: 3
+                    repetitions: 7
+              - machine_id: 4
+                prerequisites:
+                  - job_id: 1
+                    machine_id: 3
+                    repetitions: 8

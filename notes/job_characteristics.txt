@@ -1,9 +1,9 @@
 r_j - release date
-    field release_date in job_sequence.yaml
+    field release_time in job_sequence.yaml
     if not specified, assumed to be zero
 
 d_j - due date
-    field due_date in job_sequence.yaml
+    field due_time in job_sequence.yaml
     if not specified, assumed to be equal to release date
 
 w_j - weight

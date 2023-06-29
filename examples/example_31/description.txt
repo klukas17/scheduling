@@ -1,0 +1,7 @@
+Serial(machine, machine)
+
+1 type of machines, 2 machines in total
+
+1 type of jobs, 3 jobs in total
+
+Purpose: prerequisite test - waiting on multiple events
