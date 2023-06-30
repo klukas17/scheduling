@@ -4,7 +4,7 @@
 
 /**
  * @file MachineType.h
- * @brief Defines the MachineType class for representing machine types
+ * @brief Defines the MachineType class for representing machine types.
  */
 
 #ifndef SCHEDULING_MACHINETYPE_H
@@ -12,7 +12,7 @@
 
 /**
  * @class MachineType
- * @brief Class for representing a machine type
+ * @brief Class for representing a machine type.
  */
 class MachineType {
 protected:
@@ -20,14 +20,14 @@ protected:
 
 public:
     /**
-     * @brief Constructs a MachineType object
-     * @param id The ID of the machine type
+     * @brief Constructs a MachineType object.
+     * @param id The ID of the machine type.
      */
     explicit MachineType(long id);
 
     /**
-     * @brief Gets the ID of the machine type
-     * @return The ID of the machine type
+     * @brief Gets the ID of the machine type.
+     * @return The ID of the machine type.
      */
     [[nodiscard]] long getId() const;
 };

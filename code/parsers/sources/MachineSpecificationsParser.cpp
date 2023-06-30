@@ -4,24 +4,15 @@
 
 /**
  * @file MachineSpecificationsParser.cpp
- * @brief Implements the member functions of the MachineSpecificationsParser class
+ * @brief Implements the member functions of the MachineSpecificationsParser class.
  */
 
 #include "MachineSpecificationsParser.h"
 #include "SchedulingError.h"
 #include "yaml-cpp/yaml.h"
 
-/**
- * @brief Constructs a MachineSpecificationsParser object
- */
 MachineSpecificationsParser::MachineSpecificationsParser() = default;
 
-/**
- * @brief Parses the machine specifications from the specified file
- * @param path The path to the file containing machine specifications
- * @return A pointer to the MachineTypeMap object containing the parsed machine types
- * @throws SchedulingError if the 'machines' key is not found in the file or an entry in the 'machines' array is missing the 'machine_id' field.
- */
 MachineTypeMap* MachineSpecificationsParser::parse(const std::string& path) {
     auto machine_type_map = new MachineTypeMap();
 

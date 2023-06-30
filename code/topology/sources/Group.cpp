@@ -2,6 +2,11 @@
 // Created by mihael on 01/05/23.
 //
 
+/**
+ * @file Group.cpp
+ * @brief Implements the member functions of the Group class.
+ */
+
 #include "Group.h"
 
 Group::Group(long id) : TopologyElement(id) {
@@ -10,10 +15,10 @@ Group::Group(long id) : TopologyElement(id) {
 
 Group::~Group() = default;
 
-std::vector<TopologyElement *> Group::getBody() {
-    return body;
+std::vector<TopologyElement*> Group::getChildren() {
+    return children;
 }
 
-void Group::addElementToBody(TopologyElement *element) {
-    body.push_back(element);
+void Group::addChild(TopologyElement* child) {
+    children.push_back(child);
 }

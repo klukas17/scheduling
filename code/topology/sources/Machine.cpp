@@ -2,6 +2,11 @@
 // Created by mihael on 29/04/23.
 //
 
+/**
+ * @file Machine.cpp
+ * @brief Implements the member functions of the Machine class.
+ */
+
 #include "Machine.h"
 
 Machine::Machine(long id, MachineType *machine_type) : TopologyElement(id) {
