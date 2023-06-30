@@ -7,6 +7,7 @@
 
 #include "Topology.h"
 #include "Individual.h"
+#include "Job.h"
 #include "string"
 #include "yaml-cpp/yaml.h"
 
@@ -14,9 +15,9 @@ class GenotypeDeserializer {
 private:
 public:
     explicit GenotypeDeserializer();
-    static Individual* deserialize(const std::string& path, Topology* topology);
+    static Individual* deserialize(const std::string& path, Topology* topology, const std::map<long, Job*>& jobs);
     static void deserializeTopologyNode(const YAML::Node& node, GenotypeNode* genotype_node);
-    static void deserializeJobsNode(const YAML::Node& node, Individual* individual);
+    static void deserializeJobsNode(const YAML::Node& node, Individual* individual, const std::map<long, Job*>& jobs);
 };
 
 

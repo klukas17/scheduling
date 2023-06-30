@@ -36,4 +36,4 @@ public:
     [[nodiscard]] const char* what() const noexcept override;
 };
 
-#endif // SCHEDULING_SCHEDULINGERROR_H
+#endif //SCHEDULING_SCHEDULINGERROR_H
