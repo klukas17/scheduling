@@ -14,13 +14,13 @@
 
 GenotypeDeserializer::GenotypeDeserializer() = default;
 
-Individual *GenotypeDeserializer::deserialize(const std::string& path, Topology* topology) {
+Individual *GenotypeDeserializer::deserialize(const std::string& path, Topology* topology, const std::map<long, Job*>& jobs) {
 
     auto individual = new Individual(topology);
     YAML::Node doc = YAML::LoadFile(path);
 
     deserializeTopologyNode(doc["topology"], individual->getRootNode());
-    deserializeJobsNode(doc["jobs"], individual);
+    deserializeJobsNode(doc["jobs"], individual, jobs);
 
     return individual;
 }
@@ -145,7 +145,7 @@ void GenotypeDeserializer::deserializeTopologyNode(const YAML::Node &node, Genot
     }
 }
 
-void GenotypeDeserializer::deserializeJobsNode(const YAML::Node &node, Individual *individual) {
+void GenotypeDeserializer::deserializeJobsNode(const YAML::Node &node, Individual *individual, const std::map<long, Job*>& jobs) {
 
     if (node) {
         for (YAML::const_iterator it = node.begin(); it != node.end(); it++) {
