@@ -2,6 +2,11 @@
 // Created by mihael on 29/04/23.
 //
 
+/**
+ * @file TopologyElement.cpp
+ * @brief Implements the member functions of the TopologyElement class.
+ */
+
 #include "TopologyElement.h"
 
 TopologyElement::TopologyElement(long id) {

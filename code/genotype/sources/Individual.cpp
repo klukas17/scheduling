@@ -36,8 +36,8 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
             for (auto predecessor_id : topology_element->getPredecessorIds()) {
                 node->addPredecessorId(predecessor_id);
             }
-            for (auto body_element : ((SerialGroup*)topology_element)->getBody()) {
-                node->addNodeToBody(createNode(body_element));
+            for (auto child : ((SerialGroup*)topology_element)->getChildren()) {
+                node->addNodeToBody(createNode(child));
             }
             return node;
         }
@@ -47,8 +47,8 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
             for (auto predecessor_id : topology_element->getPredecessorIds()) {
                 node->addPredecessorId(predecessor_id);
             }
-            for (auto body_element : ((ParallelGroup*)topology_element)->getBody()) {
-                node->addNodeToBody(createNode(body_element));
+            for (auto child : ((ParallelGroup*)topology_element)->getChildren()) {
+                node->addNodeToBody(createNode(child));
             }
             return node;
         }
@@ -58,8 +58,8 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
             for (auto predecessor_id : topology_element->getPredecessorIds()) {
                 node->addPredecessorId(predecessor_id);
             }
-            for (auto body_element : ((RouteGroup*)topology_element)->getBody()) {
-                node->addNodeToBody(createNode(body_element));
+            for (auto child : ((RouteGroup*)topology_element)->getChildren()) {
+                node->addNodeToBody(createNode(child));
             }
             return node;
         }
@@ -69,8 +69,8 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
             for (auto predecessor_id : topology_element->getPredecessorIds()) {
                 node->addPredecessorId(predecessor_id);
             }
-            for (auto body_element : ((OpenGroup*)topology_element)->getBody()) {
-                node->addNodeToBody(createNode(body_element));
+            for (auto child : ((OpenGroup*)topology_element)->getChildren()) {
+                node->addNodeToBody(createNode(child));
             }
             return node;
         }
