@@ -27,11 +27,6 @@
 class MachineTopologyParser {
 public:
     /**
-     * @brief Constructs a MachineTopologyParser object.
-     */
-    MachineTopologyParser();
-
-    /**
      * @brief Parses a machine topology file and creates a Topology object.
      * @param path The path to the machine topology file.
      * @param machine_type_map A pointer to the MachineTypeMap object for mapping machine types.
