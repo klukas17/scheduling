@@ -44,6 +44,7 @@ public:
      * @brief Adds a machine type to the map.
      * @param machine_type_id The ID of the machine type to add.
      * @param machine_type A pointer to the MachineType object to add.
+     * @throws SchedulingError if an entry with the key machine_type_id is already present in the map.
      */
     void addMachineType(long machine_type_id, MachineType* machine_type);
 };

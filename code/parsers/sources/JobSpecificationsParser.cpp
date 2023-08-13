@@ -2,27 +2,43 @@
 // Created by mihael on 29/04/23.
 //
 
+/**
+ * @file JobSpecificationsParser.cpp
+ * @brief Implements the member functions of the JobSpecificationsParser class.
+ */
+
+
 #include "JobSpecificationsParser.h"
+#include "SchedulingError.h"
 #include "yaml-cpp/yaml.h"
 #include <iostream>
 
-std::map<long, JobType *> JobSpecificationsParser::parse(const std::string& path) {
+JobTypeMap* JobSpecificationsParser::parse(const std::string& path) {
 
-    std::map<long, JobType*> job_type_map;
+    auto job_type_map = new JobTypeMap();
 
     YAML::Node doc = YAML::LoadFile(path);
     YAML::Node jobs_node = doc["jobs"];
 
     if (jobs_node) {
         for (YAML::const_iterator it = jobs_node.begin(); it != jobs_node.end(); ++it) {
+            if (!(*it)["job_id"]) {
+                throw SchedulingError("Entry in the 'jobs' array must contain 'job_id' field in the file " + path);
+            }
             long id = (*it)["job_id"].as<long>();
             auto job_type = new JobType(id);
-            job_type_map[id] = job_type;
+            job_type_map->addJobType(id, job_type);
 
             const YAML::Node& processing_times_node = (*it)["processing_times"];
             if (processing_times_node) {
                 for (YAML::const_iterator proc_it = processing_times_node.begin(); proc_it != processing_times_node.end(); proc_it++) {
+                    if (!(*proc_it)["machine_id"]) {
+                        throw SchedulingError("Entry in the 'processing_times' array must contain 'machine_id' field in the file " + path);
+                    }
                     long machine_id = (*proc_it)["machine_id"].as<long>();
+                    if (!(*proc_it)["time"]) {
+                        throw SchedulingError("Entry in the 'processing_times' array must contain 'time' field in the file " + path);
+                    }
                     long time = (*proc_it)["time"].as<long>();
                     job_type->setProcessingTime(machine_id, time);
                 }
@@ -42,12 +58,8 @@ std::map<long, JobType *> JobSpecificationsParser::parse(const std::string& path
                 }
             }
         }
-    }
-
-    else {
-        // todo:error
-        std::cerr << "Error: 'jobs' node not found in " << path << " file." << std::endl;
-        exit(1);
+    } else {
+        throw SchedulingError("'jobs' key not found in the file " + path);
     }
 
     return job_type_map;
