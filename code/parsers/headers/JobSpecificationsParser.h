@@ -11,7 +11,6 @@
 
 class JobSpecificationsParser {
 public:
-    JobSpecificationsParser();
     static std::map<long, JobType*> parse(const std::string& path);
 };
 

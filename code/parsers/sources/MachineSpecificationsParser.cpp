@@ -11,8 +11,6 @@
 #include "SchedulingError.h"
 #include "yaml-cpp/yaml.h"
 
-MachineSpecificationsParser::MachineSpecificationsParser() = default;
-
 MachineTypeMap* MachineSpecificationsParser::parse(const std::string& path) {
     auto machine_type_map = new MachineTypeMap();
 

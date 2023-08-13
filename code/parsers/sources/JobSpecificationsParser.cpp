@@ -6,8 +6,6 @@
 #include "yaml-cpp/yaml.h"
 #include <iostream>
 
-JobSpecificationsParser::JobSpecificationsParser() = default;
-
 std::map<long, JobType *> JobSpecificationsParser::parse(const std::string& path) {
 
     std::map<long, JobType*> job_type_map;

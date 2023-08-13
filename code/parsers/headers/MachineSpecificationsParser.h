@@ -22,11 +22,6 @@
 class MachineSpecificationsParser {
 public:
     /**
-     * @brief Constructs a MachineSpecificationsParser object.
-     */
-    MachineSpecificationsParser();
-
-    /**
      * @brief Parses the machine specifications from the specified file.
      * @param path The path to the file containing machine specifications.
      * @return A pointer to the MachineTypeMap object containing the parsed machine types.

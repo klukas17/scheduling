@@ -15,8 +15,6 @@
 #include "OpenGroup.h"
 #include "SchedulingError.h"
 
-MachineTopologyParser::MachineTopologyParser() = default;
-
 Topology *MachineTopologyParser::parse(const std::string& path, MachineTypeMap* machine_type_map) {
 
     YAML::Node doc = YAML::LoadFile(path);
@@ -42,7 +40,11 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
             throw SchedulingError("'machine' node must have an 'id' key");
         }
         long id = machine_node["id"].as<long>();
-        MachineType* machine_type = machine_type_map->getMachineType(id);
+        if (!machine_node["machine_type_id"]) {
+            throw SchedulingError("'machine' node must have a 'machine_type_id' key");
+        }
+        long machine_type_id = machine_node["machine_type_id"].as<long>();
+        MachineType* machine_type = machine_type_map->getMachineType(machine_type_id);
         auto topology_element = new Machine(id, machine_type);
         for (auto predecessor_id : predecessor_ids) {
             topology_element->addPredecessorId(predecessor_id);

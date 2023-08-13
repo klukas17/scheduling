@@ -13,7 +13,6 @@
 
 class JobSequenceParser {
 public:
-    JobSequenceParser();
     static std::map<long, Job*> parse(const std::string& path, std::map<long, JobType*> job_type_map);
     static PathNode* parsePathNode(const YAML::Node& node);
 };
