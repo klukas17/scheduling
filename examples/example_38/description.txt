@@ -1,0 +1,7 @@
+Serial(machine, parallel(serial, serial, serial), machine)
+
+1 type of jobs, 1 jobs in total
+
+1 type of machines, 11 in total, 3 per innermost serial group
+
+Purpose: test path nodes calculation - parallel group
