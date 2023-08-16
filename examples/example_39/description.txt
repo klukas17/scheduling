@@ -1,0 +1,7 @@
+Serial(machine, route(machine, serial, machine), machine)
+
+1 type of jobs, 1 jobs in total
+
+1 type of machines, 7 in total, 3 per innermost serial group
+
+Purpose: test path nodes calculation - route group

@@ -6,19 +6,21 @@
 #define SCHEDULING_PATHNODE_H
 
 #include "vector"
+#include "map"
+#include "TopologyElement.h"
 #include "Prerequisite.h"
 
 class PathNode {
 private:
-    long machine_id;
+    TopologyElement* topology_element;
     std::vector<Prerequisite*> prerequisites;
-    std::vector<PathNode*> children;
+    std::map<long, PathNode*> children;
 public:
-    PathNode(long machine_id);
-    long getMachineId();
+    explicit PathNode(TopologyElement* topology_element);
+    TopologyElement* getTopologyElement();
     std::vector<Prerequisite*> getPrerequisites();
     void addPrerequisite(Prerequisite* prerequisite);
-    std::vector<PathNode*> getChildren();
+    std::map<long, PathNode*> getChildren();
     void addChild(PathNode* child);
 };
 
