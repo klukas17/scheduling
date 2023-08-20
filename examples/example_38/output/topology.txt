@@ -1,0 +1,16 @@
+Serial group: id = 1
+	Machine: id = 2, machine_type_id = 1
+	Parallel group: id = 3
+		Serial group: id = 5
+			Machine: id = 8, machine_type_id = 1
+			Machine: id = 9, machine_type_id = 1
+			Machine: id = 10, machine_type_id = 1
+		Serial group: id = 6
+			Machine: id = 11, machine_type_id = 1
+			Machine: id = 12, machine_type_id = 1
+			Machine: id = 13, machine_type_id = 1
+		Serial group: id = 7
+			Machine: id = 14, machine_type_id = 1
+			Machine: id = 15, machine_type_id = 1
+			Machine: id = 16, machine_type_id = 1
+	Machine: id = 4, machine_type_id = 1

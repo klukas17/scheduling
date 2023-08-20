@@ -2,28 +2,27 @@
 // Created by mihael on 29/06/23.
 //
 
-#include "PathNode.h"
+/**
+ * @file JobPathNode.cpp
+ * @brief Implements the member functions of the JobPathNode class.
+ */
 
-PathNode::PathNode(TopologyElement* topology_element) {
-    this->topology_element = topology_element;
+#include "JobPathNode.h"
+
+JobPathNode::JobPathNode(PathNode *path_node) {
+    this->path_node = path_node;
 }
 
-TopologyElement *PathNode::getTopologyElement() {
-    return topology_element;
+JobPathNode::~JobPathNode() = default;
+
+PathNode *JobPathNode::getPathNode() {
+    return path_node;
 }
 
-std::vector<Prerequisite *> PathNode::getPrerequisites() {
+std::vector<Prerequisite *> JobPathNode::getPrerequisites() {
     return prerequisites;
 }
 
-void PathNode::addPrerequisite(Prerequisite *prerequisite) {
+void JobPathNode::addPrerequisite(Prerequisite *prerequisite) {
     prerequisites.push_back(prerequisite);
-}
-
-std::map<long, PathNode*> PathNode::getChildren() {
-    return children;
-}
-
-void PathNode::addChild(PathNode *child) {
-    children[child->getTopologyElement()->getId()] = child;
 }

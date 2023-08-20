@@ -1,0 +1,13 @@
+Parallel group: id = 1
+	Route group: id = 2
+		Machine: id = 5, machine_type_id = 1
+		Machine: id = 6, machine_type_id = 1
+		Machine: id = 7, machine_type_id = 1
+	Route group: id = 3
+		Machine: id = 8, machine_type_id = 1
+		Machine: id = 9, machine_type_id = 1
+		Machine: id = 10, machine_type_id = 1
+	Route group: id = 4
+		Machine: id = 11, machine_type_id = 1
+		Machine: id = 12, machine_type_id = 1
+		Machine: id = 13, machine_type_id = 1

@@ -1,0 +1,108 @@
+topology:
+  route:
+    step_processing_order:
+      - 1
+      - 14
+    body:
+      - parallel:
+          step_processing_order:
+            - 2
+            - 8
+            - 15
+            - 21
+          body:
+            - machine:
+                step_processing_order:
+                  - 3
+                  - 22
+            - machine:
+                step_processing_order:
+                  - 9
+                  - 16
+      - parallel:
+          step_processing_order:
+            - 4
+            - 10
+            - 17
+            - 23
+          body:
+            - machine:
+                step_processing_order:
+                  - 5
+                  - 24
+            - machine:
+                step_processing_order:
+                  - 11
+                  - 18
+      - parallel:
+          step_processing_order:
+            - 6
+            - 12
+            - 19
+            - 25
+          body:
+            - machine:
+                step_processing_order:
+                  - 7
+                  - 26
+            - machine:
+                step_processing_order:
+                  - 13
+                  - 20
+jobs:
+  - job_id: 1
+    processing_route:
+      - machine_id: 1
+        processing_step_id: 1
+      - machine_id: 2
+        processing_step_id: 2
+      - machine_id: 5
+        processing_step_id: 3
+      - machine_id: 3
+        processing_step_id: 4
+      - machine_id: 7
+        processing_step_id: 5
+      - machine_id: 4
+        processing_step_id: 6
+      - machine_id: 9
+        processing_step_id: 7
+      - machine_id: 2
+        processing_step_id: 8
+      - machine_id: 6
+        processing_step_id: 9
+      - machine_id: 3
+        processing_step_id: 10
+      - machine_id: 8
+        processing_step_id: 11
+      - machine_id: 4
+        processing_step_id: 12
+      - machine_id: 10
+        processing_step_id: 13
+  - job_id: 2
+    processing_route:
+      - machine_id: 1
+        processing_step_id: 14
+      - machine_id: 2
+        processing_step_id: 15
+      - machine_id: 6
+        processing_step_id: 16
+      - machine_id: 3
+        processing_step_id: 17
+      - machine_id: 8
+        processing_step_id: 18
+      - machine_id: 4
+        processing_step_id: 19
+      - machine_id: 10
+        processing_step_id: 20
+      - machine_id: 2
+        processing_step_id: 21
+      - machine_id: 5
+        processing_step_id: 22
+      - machine_id: 3
+        processing_step_id: 23
+      - machine_id: 7
+        processing_step_id: 24
+      - machine_id: 4
+        processing_step_id: 25
+      - machine_id: 9
+        processing_step_id: 26

@@ -85,7 +85,7 @@ void Topology::indexTopologyElementsAndPathNodes(TopologyElement* node) {
 
 void Topology::buildPaths(TopologyElement* topology_element, PathNode* node, PathNode* next) {
 
-    auto topology_element_type = node->getTopologyElementType();
+    auto topology_element_type = node->getTopologyElement()->getTopologyElementType();
 
     if (topology_element_type == ABSTRACT_TOPOLOGY_ELEMENT) {
         throw SchedulingError("Abstract topology element encountered in Topology::buildPaths function.");
@@ -101,6 +101,7 @@ void Topology::buildPaths(TopologyElement* topology_element, PathNode* node, Pat
         std::vector<PathNode*> path_nodes_children;
         for (auto element : topology_elements_children) {
             path_nodes_children.push_back(path_nodes_map[element->getId()]);
+            ((SerialGroupPathNode*)node)->addChild(path_nodes_map[element->getId()]);
         }
         ((SerialGroupPathNode*)node)->setNext(path_nodes_children[0]);
         for (int i = 0; i < path_nodes_children.size(); i++) {
@@ -118,7 +119,7 @@ void Topology::buildPaths(TopologyElement* topology_element, PathNode* node, Pat
             path_nodes_children.push_back(path_nodes_map[element->getId()]);
         }
         for (auto child : path_nodes_children) {
-            ((ParallelGroupPathNode*)node)->addNext(child);
+            ((ParallelGroupPathNode*)node)->addNext(child->getTopologyElement()->getId(), child);
         }
         for (int i = 0; i < path_nodes_children.size(); i++) {
             buildPaths(topology_elements_children[i], path_nodes_children[i], next);

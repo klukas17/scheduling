@@ -10,8 +10,6 @@
 #include "MachinePathNode.h"
 
 MachinePathNode::MachinePathNode(TopologyElement *topology_element) : PathNode(topology_element) {
-    this->topology_element_type = MACHINE_TOPOLOGY_ELEMENT;
-    this->general_topology_element_type = MACHINE_GENERAL_TOPOLOGY_ELEMENT;
     this->next = nullptr;
 }
 

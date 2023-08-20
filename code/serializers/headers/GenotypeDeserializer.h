@@ -12,7 +12,6 @@
 #include "yaml-cpp/yaml.h"
 
 class GenotypeDeserializer {
-private:
 public:
     explicit GenotypeDeserializer();
     static Individual* deserialize(const std::string& path, Topology* topology, const std::map<long, Job*>& jobs);

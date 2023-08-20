@@ -2,6 +2,11 @@
 // Created by mihael on 25/06/23.
 //
 
+/**
+ * @file Prerequisite.cpp
+ * @brief Implements the member functions of the Prerequisite class.
+ */
+
 #include "Prerequisite.h"
 
 Prerequisite::Prerequisite(long job_id, long machine_id, long repetitions) {

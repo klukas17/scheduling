@@ -1,0 +1,31 @@
+topology:
+  serial:
+    step_processing_order:
+      - 1
+      - 4
+    body:
+      - machine:
+          step_processing_order:
+            - 2
+            - 5
+      - machine:
+          step_processing_order:
+            - 6
+            - 3
+jobs:
+  - job_id: 1
+    processing_route:
+      - machine_id: 1
+        processing_step_id: 1
+      - machine_id: 2
+        processing_step_id: 2
+      - machine_id: 3
+        processing_step_id: 3
+  - job_id: 2
+    processing_route:
+      - machine_id: 1
+        processing_step_id: 4
+      - machine_id: 2
+        processing_step_id: 5
+      - machine_id: 3
+        processing_step_id: 6

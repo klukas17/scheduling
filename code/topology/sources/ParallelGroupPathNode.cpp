@@ -9,14 +9,12 @@
 
 #include "ParallelGroupPathNode.h"
 
-ParallelGroupPathNode::ParallelGroupPathNode(TopologyElement *topology_element) : GroupPathNode(topology_element) {
-    this->topology_element_type = PARALLEL_GROUP_TOPOLOGY_ELEMENT;
-}
+ParallelGroupPathNode::ParallelGroupPathNode(TopologyElement *topology_element) : GroupPathNode(topology_element) {}
 
-std::vector<PathNode *> ParallelGroupPathNode::getNext() {
+std::map<long, PathNode *> ParallelGroupPathNode::getNext() {
     return next;
 }
 
-void ParallelGroupPathNode::addNext(PathNode *next) {
-    this->next.push_back(next);
+void ParallelGroupPathNode::addNext(long id, PathNode *next) {
+    this->next[id] = next;
 }

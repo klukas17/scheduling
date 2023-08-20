@@ -11,18 +11,18 @@
 #define SCHEDULING_PARALLELGROUPPATHNODE_H
 
 #include "GroupPathNode.h"
-#include <vector>
+#include <map>
 
 /**
  * @class ParallelGroupPathNode
  * @brief Represents a parallel group node within a topology path.
  *
  * The ParallelGroupPathNode class is a derived class of GroupPathNode, representing a node within a topology path that is specific to a parallel group.
- * It contains information about the associated topology element, its group-specific element types, and a vector of pointers to next nodes in the path.
+ * It contains information about the associated topology element, its group-specific element types, and a map of pointers to next nodes in the path.
  */
 class ParallelGroupPathNode : public GroupPathNode {
 private:
-    std::vector<PathNode*> next; /**< A vector of pointers to next nodes in the topology path. */
+    std::map<long, PathNode*> next; /**< A map of pointers to next nodes in the parallel group-specific topology path. */
 public:
     /**
      * @brief Constructs a ParallelGroupPathNode object with the given topology element.
@@ -31,16 +31,18 @@ public:
     explicit ParallelGroupPathNode(TopologyElement* topology_element);
 
     /**
-     * @brief Retrieves the vector of pointers to next nodes in the topology path.
-     * @return A vector containing pointers to next nodes in the topology path.
+     * @brief Retrieves the map of pointers to next nodes in the parallel group-specific topology path.
+     * @return A map containing pointers to next nodes in the parallel group-specific topology path, indexed by IDs.
      */
-    std::vector<PathNode*> getNext();
+    std::map<long, PathNode*> getNext();
 
     /**
-     * @brief Adds a pointer to a next node in the topology path.
+     * @brief Adds a pointer to a next node in the parallel group-specific topology path.
+     * @param id The unique ID associated with the next node.
      * @param next A pointer to the next node to add.
      */
-    void addNext(PathNode* next);
+    void addNext(long id, PathNode* next);
 };
 
 #endif // SCHEDULING_PARALLELGROUPPATHNODE_H
+

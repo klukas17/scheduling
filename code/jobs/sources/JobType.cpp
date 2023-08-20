@@ -2,6 +2,11 @@
 // Created by mihael on 29/04/23.
 //
 
+/**
+ * @file JobType.cpp
+ * @brief Implements the member functions of the JobType class.
+ */
+
 #include "JobType.h"
 
 JobType::JobType(long id) {

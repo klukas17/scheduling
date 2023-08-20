@@ -16,6 +16,9 @@
 /**
  * @class JobTypeMap
  * @brief Class for representing a map of all job types.
+ *
+ * The JobTypeMap class provides functionality for managing a map of job types, where each
+ * job type is associated with a unique ID.
  */
 class JobTypeMap {
 private:

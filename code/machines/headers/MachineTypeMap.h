@@ -16,6 +16,9 @@
 /**
  * @class MachineTypeMap
  * @brief Class for representing a map of all machine types.
+ *
+ * The MachineTypeMap class provides functionality for managing a map of machine types, where each
+ * machine type is associated with a unique ID.
  */
 class MachineTypeMap {
 private:

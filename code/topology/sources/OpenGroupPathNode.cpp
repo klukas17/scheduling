@@ -10,7 +10,6 @@
 #include "OpenGroupPathNode.h"
 
 OpenGroupPathNode::OpenGroupPathNode(TopologyElement *topology_element) : GroupPathNode(topology_element) {
-    this->topology_element_type = OPEN_GROUP_TOPOLOGY_ELEMENT;
     this->next = nullptr;
 }
 

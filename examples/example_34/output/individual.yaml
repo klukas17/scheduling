@@ -1,0 +1,46 @@
+topology:
+  open:
+    step_processing_order:
+      - 1
+      - 4
+    body:
+      - machine:
+          step_processing_order:
+            - 6
+            - 7
+      - machine:
+          step_processing_order:
+            - 2
+            - 3
+            - 5
+            - 8
+            - 9
+            - 10
+            - 11
+jobs:
+  - job_id: 1
+    processing_route:
+      - machine_id: 1
+        processing_step_id: 1
+      - machine_id: 3
+        processing_step_id: 2
+      - machine_id: 3
+        processing_step_id: 3
+  - job_id: 2
+    processing_route:
+      - machine_id: 1
+        processing_step_id: 4
+      - machine_id: 3
+        processing_step_id: 5
+      - machine_id: 2
+        processing_step_id: 6
+      - machine_id: 2
+        processing_step_id: 7
+      - machine_id: 3
+        processing_step_id: 8
+      - machine_id: 3
+        processing_step_id: 9
+      - machine_id: 3
+        processing_step_id: 10
+      - machine_id: 3
+        processing_step_id: 11
