@@ -4,7 +4,7 @@
 
 /**
  * @file MachineTopologyParser.h
- * @brief Defines the MachineTopologyParser class for parsing machine topologies from a file.
+ * @brief Defines the MachineTopologyParser class for parsing machine topology from a file.
  */
 
 #ifndef SCHEDULING_MACHINETOPOLOGYPARSER_H

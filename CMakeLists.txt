@@ -18,6 +18,7 @@ include_directories(
         code/serializers/headers
         code/simulator/headers
         code/topology/headers
+        code/utils/headers
 )
 
 file(GLOB PROJECT_HEADERS
@@ -30,6 +31,7 @@ file(GLOB PROJECT_HEADERS
         code/serializers/headers/*.h
         code/simulator/headers/*.h
         code/topology/headers/*.h
+        code/utils/headers/*.h
 )
 
 file(GLOB PROJECT_SOURCES
@@ -42,6 +44,7 @@ file(GLOB PROJECT_SOURCES
         code/serializers/sources/*.cpp
         code/simulator/sources/*.cpp
         code/topology/sources/*.cpp
+        code/utils/sources/*.cpp
 )
 
 source_group("Headers" FILES ${PROJECT_HEADERS})

@@ -4,7 +4,7 @@
 
 /**
  * @file JobSpecificationsParser.h
- * @brief Parses job specifications from a file
+ * @brief Defines the JobSpecificationsParser class for parsing job specifications from a file.
  */
 
 #ifndef SCHEDULING_JOBSPECIFICATIONSPARSER_H
@@ -18,6 +18,9 @@
 /**
  * @class JobSpecificationsParser
  * @brief Defines the JobSpecificationsParser class for job specifications from a file.
+ *
+ * The JobSpecificationsParser class is responsible for reading job specifications from a file and
+ * creating a map of job IDs to corresponding JobType pointers.
  */
 class JobSpecificationsParser {
 public:

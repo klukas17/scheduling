@@ -9,8 +9,6 @@
 
 #include "GroupPathNode.h"
 
-GroupPathNode::GroupPathNode(TopologyElement *topology_element) : PathNode(topology_element) {
-    this->general_topology_element_type = GROUP_GENERAL_TOPOLOGY_ELEMENT;
-}
+GroupPathNode::GroupPathNode(TopologyElement *topology_element) : PathNode(topology_element) {}
 
 GroupPathNode::~GroupPathNode() = default;

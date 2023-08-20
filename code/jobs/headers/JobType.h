@@ -4,7 +4,7 @@
 
 /**
  * @file JobType.h
- * @brief Class for representing a job type.
+ * @brief Defines the JobType class for representing a job type.
  */
 
 #ifndef SCHEDULING_JOBTYPE_H
@@ -16,6 +16,10 @@
 /**
  * @class JobType
  * @brief Class for representing a job type.
+ *
+ * This class stores information about a job type, including its ID,
+ * processing times for different machine types, related job families,
+ * and forbidden machine types.
  */
 class JobType {
 protected:

@@ -10,7 +10,6 @@
 #include "SerialGroupPathNode.h"
 
 SerialGroupPathNode::SerialGroupPathNode(TopologyElement *topology_element) : GroupPathNode(topology_element) {
-    this->topology_element_type = SERIAL_GROUP_TOPOLOGY_ELEMENT;
     this->next = nullptr;
 }
 
@@ -20,4 +19,12 @@ PathNode *SerialGroupPathNode::getNext() {
 
 void SerialGroupPathNode::setNext(PathNode *next) {
     this->next = next;
+}
+
+std::vector<PathNode *> SerialGroupPathNode::getChildren() {
+    return children;
+}
+
+void SerialGroupPathNode::addChild(PathNode *path_node) {
+    children.push_back(path_node);
 }

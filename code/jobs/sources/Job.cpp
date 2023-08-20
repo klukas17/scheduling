@@ -2,9 +2,14 @@
 // Created by mihael on 29/04/23.
 //
 
+/**
+ * @file Job.cpp
+ * @brief Implements the member functions of the Job class.
+ */
+
 #include "Job.h"
 
-Job::Job(long id, JobType* job_type, PathNode* paths_root_node, long release_time, long due_time, long weight) {
+Job::Job(long id, JobType* job_type, JobPathNode* paths_root_node, long release_time, long due_time, long weight) {
     this->id = id;
     this->job_type = job_type;
     this->paths_root_node = paths_root_node;
@@ -21,7 +26,7 @@ JobType *Job::getJobType() {
     return job_type;
 }
 
-PathNode *Job::getPathsRootNode() {
+JobPathNode *Job::getPathsRootNode() {
     return paths_root_node;
 }
 

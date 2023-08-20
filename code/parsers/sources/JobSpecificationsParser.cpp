@@ -7,11 +7,9 @@
  * @brief Implements the member functions of the JobSpecificationsParser class.
  */
 
-
 #include "JobSpecificationsParser.h"
 #include "SchedulingError.h"
 #include "yaml-cpp/yaml.h"
-#include <iostream>
 
 JobTypeMap* JobSpecificationsParser::parse(const std::string& path) {
 

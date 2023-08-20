@@ -10,7 +10,6 @@
 #include "RouteGroupPathNode.h"
 
 RouteGroupPathNode::RouteGroupPathNode(TopologyElement *topology_element) : GroupPathNode(topology_element) {
-    this->topology_element_type = ROUTE_GROUP_TOPOLOGY_ELEMENT;
     this->next = nullptr;
 }
 

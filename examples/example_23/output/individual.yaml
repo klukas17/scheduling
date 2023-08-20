@@ -1,0 +1,73 @@
+topology:
+  serial:
+    step_processing_order:
+      - 1
+    body:
+      - serial:
+          step_processing_order:
+            - 2
+          body:
+            - machine:
+                step_processing_order:
+                  - 5
+            - machine:
+                step_processing_order:
+                  - 6
+            - machine:
+                step_processing_order:
+                  - 7
+      - serial:
+          step_processing_order:
+            - 3
+          body:
+            - machine:
+                step_processing_order:
+                  - 8
+            - machine:
+                step_processing_order:
+                  - 9
+            - machine:
+                step_processing_order:
+                  - 10
+      - serial:
+          step_processing_order:
+            - 4
+          body:
+            - machine:
+                step_processing_order:
+                  - 11
+            - machine:
+                step_processing_order:
+                  - 12
+            - machine:
+                step_processing_order:
+                  - 13
+jobs:
+  - job_id: 1
+    processing_route:
+      - machine_id: 1
+        processing_step_id: 1
+      - machine_id: 2
+        processing_step_id: 2
+      - machine_id: 5
+        processing_step_id: 3
+      - machine_id: 6
+        processing_step_id: 4
+      - machine_id: 7
+        processing_step_id: 5
+      - machine_id: 3
+        processing_step_id: 6
+      - machine_id: 8
+        processing_step_id: 7
+      - machine_id: 9
+        processing_step_id: 8
+      - machine_id: 10
+        processing_step_id: 9
+      - machine_id: 4
+        processing_step_id: 10
+      - machine_id: 11
+        processing_step_id: 11
+      - machine_id: 12
+        processing_step_id: 12
+      - machine_id: 13
+        processing_step_id: 13

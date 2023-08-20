@@ -22,8 +22,6 @@
 class PathNode {
 protected:
     TopologyElement* topology_element; /**< The associated topology element of the path node. */
-    TopologyElementType topology_element_type; /**< The type of the associated topology element. */
-    GeneralTopologyElementType general_topology_element_type; /**< The general type of the associated topology element. */
 public:
     /**
      * @brief Constructs a PathNode object with the given topology element.
@@ -43,18 +41,6 @@ public:
      * @return A pointer to the associated topology element.
      */
     TopologyElement* getTopologyElement();
-
-    /**
-     * @brief Retrieves the type of the associated topology element.
-     * @return The type of the associated topology element.
-     */
-    TopologyElementType getTopologyElementType();
-
-    /**
-     * @brief Retrieves the general type of the associated topology element.
-     * @return The general type of the associated topology element.
-     */
-    GeneralTopologyElementType getGeneralTopologyElementType();
 };
 
 #endif // SCHEDULING_PATHNODE_H

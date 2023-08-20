@@ -1,0 +1,10 @@
+Serial group: id = 1
+	Machine: id = 2, machine_type_id = 1
+	Route group: id = 3
+		Machine: id = 5, machine_type_id = 1
+		Serial group: id = 6
+			Machine: id = 8, machine_type_id = 1
+			Machine: id = 9, machine_type_id = 1
+			Machine: id = 10, machine_type_id = 1
+		Machine: id = 7, machine_type_id = 1
+	Machine: id = 4, machine_type_id = 1
