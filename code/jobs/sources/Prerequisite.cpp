@@ -15,14 +15,14 @@ Prerequisite::Prerequisite(long job_id, long machine_id, long repetitions) {
     this->repetitions = repetitions;
 }
 
-long Prerequisite::getJobId() {
+long Prerequisite::getJobId() const {
     return job_id;
 }
 
-long Prerequisite::getMachineId() {
+long Prerequisite::getMachineId() const {
     return machine_id;
 }
 
-long Prerequisite::getRepetitions() {
+long Prerequisite::getRepetitions() const {
     return repetitions;
 }

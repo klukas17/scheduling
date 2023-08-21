@@ -25,6 +25,7 @@
 class Individual {
 private:
     GenotypeNode* root_node; /**< Pointer to the root genotype node of the individual. */
+    std::map<long, GenotypeNode*> genotype_node_map; /**< Map of genotype node IDs to their associated nodes. */
     std::map<long, JobProcessingRoute*> processing_routes; /**< Map of job IDs to their associated processing routes. */
 public:
     /**
@@ -45,6 +46,18 @@ public:
      * @return A pointer to the root genotype node.
      */
     GenotypeNode* getRootNode();
+
+    /**
+     * @brief Retrieves the map of genotype node IDs to their associated genotype nodes.
+     * @return A map containing genotype node IDs as keys and pointers to GenotypeNode objects as values.
+     */
+    std::map<long, GenotypeNode*> getGenotypeNodeMap();
+
+    /**
+     * @brief Maps a genotype node to its corresponding ID.
+     * @param node A pointer to the GenotypeNode object to be mapped.
+     */
+    void mapGenotypeNodes(GenotypeNode* node);
 
     /**
      * @brief Retrieves the processing route for a specific job.

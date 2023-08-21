@@ -11,7 +11,7 @@ check_topology = True
 check_path_nodes = True
 check_job_path_nodes = True
 check_individual = True
-check_simulator_logs = False
+check_simulator_logs = True
 
 subdirs = os.listdir(".")
 subdirs.sort()
@@ -101,6 +101,7 @@ for subdir in subdirs:
                 logs.append(f"  {GREEN}[✔]{END} Simulator Logs")
             else:
                 logs.append(f"  {RED}[✘]{END} Simulator Logs")
+                example_is_valid = False
 
             logs += simulator_logs
 

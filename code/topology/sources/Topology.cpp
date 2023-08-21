@@ -24,6 +24,7 @@ Topology::Topology(TopologyElement* topology_root_element) {
     indexTopologyElementsAndPathNodes(topology_root_element);
     this->root_path_node = path_nodes_map[topology_root_element->getId()];
     buildPaths(topology_root_element, root_path_node, nullptr);
+    buildPriorityMap();
 }
 
 TopologyElement* Topology::getRootElement() {
@@ -51,10 +52,12 @@ void Topology::indexTopologyElementsAndPathNodes(TopologyElement* node) {
 
         case MACHINE_TOPOLOGY_ELEMENT:
             path_nodes_map[node->getId()] = new MachinePathNode(node);
+            topology_elements_map[node->getId()] = node;
             break;
 
         case SERIAL_GROUP_TOPOLOGY_ELEMENT:
             path_nodes_map[node->getId()] = new SerialGroupPathNode(node);
+            topology_elements_map[node->getId()] = node;
             for (auto child : ((SerialGroup*)node)->getChildren()) {
                 indexTopologyElementsAndPathNodes(child);
             }
@@ -62,6 +65,7 @@ void Topology::indexTopologyElementsAndPathNodes(TopologyElement* node) {
 
         case PARALLEL_GROUP_TOPOLOGY_ELEMENT:
             path_nodes_map[node->getId()] = new ParallelGroupPathNode(node);
+            topology_elements_map[node->getId()] = node;
             for (auto child : ((ParallelGroup*)node)->getChildren()) {
                 indexTopologyElementsAndPathNodes(child);
             }
@@ -69,6 +73,7 @@ void Topology::indexTopologyElementsAndPathNodes(TopologyElement* node) {
 
         case ROUTE_GROUP_TOPOLOGY_ELEMENT:
             path_nodes_map[node->getId()] = new RouteGroupPathNode(node);
+            topology_elements_map[node->getId()] = node;
             for (auto child : ((RouteGroup*)node)->getChildren()) {
                 indexTopologyElementsAndPathNodes(child);
             }
@@ -76,6 +81,7 @@ void Topology::indexTopologyElementsAndPathNodes(TopologyElement* node) {
 
         case OPEN_GROUP_TOPOLOGY_ELEMENT:
             path_nodes_map[node->getId()] = new OpenGroupPathNode(node);
+            topology_elements_map[node->getId()] = node;
             for (auto child : ((OpenGroup*)node)->getChildren()) {
                 indexTopologyElementsAndPathNodes(child);
             }
@@ -153,4 +159,19 @@ void Topology::buildPaths(TopologyElement* topology_element, PathNode* node, Pat
             buildPaths(topology_elements_children[i], path_nodes_children[i], nullptr);
         }
     }
+}
+
+void Topology::buildPriorityMap() {
+    for (auto pair : topology_elements_map) {
+        auto machine_id = pair.first;
+        auto machine = pair.second;
+        for (auto predecessor_id : machine->getPredecessorIds()) {
+            priority_map[machine_id][predecessor_id] = 1;
+            priority_map[predecessor_id][machine_id] = -1;
+        }
+    }
+}
+
+long Topology::getPriorityValue(long machine_id_1, long machine_id_2) {
+    return priority_map[machine_id_1][machine_id_2];
 }

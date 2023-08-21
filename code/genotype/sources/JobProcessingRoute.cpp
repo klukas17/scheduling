@@ -11,6 +11,7 @@
 
 JobProcessingRoute::JobProcessingRoute(long job_id) {
     this->job_id = job_id;
+    this->current_index = 0;
 }
 
 long JobProcessingRoute::getJobId() const {
@@ -25,8 +26,19 @@ std::vector<JobProcessingStep *> JobProcessingRoute::getProcessingSteps() {
     return processing_steps;
 }
 
-JobProcessingStep *JobProcessingRoute::getProcessingStep(long index) {
-    if (index < 0 || index >= processing_steps.size())
+JobProcessingStep *JobProcessingRoute::getNextProcessingStep() {
+    long index = current_index;
+    current_index++;
+    if (index < 0 || index >= processing_steps.size()) {
         return nullptr;
+    }
     return processing_steps[index];
+}
+
+bool JobProcessingRoute::checkHasFinished() {
+    return current_index == processing_steps.size();
+}
+
+void JobProcessingRoute::resetCurrentIndex() {
+    current_index = 0;
 }

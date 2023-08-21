@@ -2,6 +2,11 @@
 // Created by mihael on 29/04/23.
 //
 
+/**
+ * @file Simulator.h
+ * @brief Defines the Simulator class for simulating a schedule and its execution.
+ */
+
 #ifndef SCHEDULING_SIMULATOR_H
 #define SCHEDULING_SIMULATOR_H
 
@@ -13,15 +18,32 @@
 #include "GenotypeNode.h"
 #include "Event.h"
 #include "deque"
-#include "JobRoute.h"
 
+/**
+ * @class Simulator
+ * @brief Simulates the execution of a schedule for scheduling optimization evaluation.
+ *
+ * The Simulator class is responsible for simulating the execution of a schedule (Individual) in a given topology
+ * and with a set of jobs. It performs event-driven simulation to evaluate the schedule's performance and characteristics.
+ */
 class Simulator {
 public:
-    Simulator();
-    static void simulate(Individual* individual, const std::map<long, Job*>& jobs, bool enable_logging = false, const std::string& logs_path = "");
-    static void mapAllMachines(GenotypeNode* node, std::map<long, GenotypeNode*>& machine_map);
+    /**
+     * @brief Simulates the execution of a schedule.
+     * @param individual A pointer to the individual (schedule) to be simulated.
+     * @param topology A pointer to the topology representing the environment.
+     * @param jobs A map of job IDs to Job objects representing the jobs to be scheduled.
+     * @param enable_logging Flag indicating whether to enable logging of simulation events.
+     * @param logs_path The path where simulation logs will be saved if logging is enabled.
+     */
+    static void simulate(Individual* individual, Topology* topology, const std::map<long, Job*>& jobs, bool enable_logging = false, const std::string& logs_path = "");
+
+    /**
+     * @brief Adds an event to the event queue for simulation.
+     * @param event A pointer to the Event object to be added to the event queue.
+     * @param event_queue A deque representing the event queue for the simulation.
+     */
     static void addToEventQueue(Event* event, std::deque<Event*>& event_queue);
 };
-
 
 #endif //SCHEDULING_SIMULATOR_H

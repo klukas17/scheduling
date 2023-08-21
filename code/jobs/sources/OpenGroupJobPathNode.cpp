@@ -26,5 +26,5 @@ std::vector<std::pair<long, JobPathNode*>> OpenGroupJobPathNode::getJobSubPathNo
 }
 
 void OpenGroupJobPathNode::addJobSubPathNode(long id, JobPathNode *job_path_node) {
-    this->job_sub_path_nodes.push_back({id, job_path_node});
+    this->job_sub_path_nodes.emplace_back(id, job_path_node);
 }

@@ -2,7 +2,13 @@
 // Created by mihael on 29/04/23.
 //
 
+/**
+ * @file MachineBuffer.cpp
+ * @brief Implements the member functions of the MachineBuffer class.
+ */
+
 #include "MachineBuffer.h"
+#include "SchedulingError.h"
 
 MachineBuffer::MachineBuffer(std::vector<long> preferred_processing_order) {
     this->head = nullptr;
@@ -62,6 +68,6 @@ std::pair<long, long> MachineBuffer::takeStepFromBuffer() {
     }
 
     else {
-        // todo:error
+        throw SchedulingError("Trying to take a step from an empty buffer in function MachineBuffer::takeStepFromBuffer.");
     }
 }

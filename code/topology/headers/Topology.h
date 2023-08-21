@@ -19,6 +19,7 @@
  * @brief Represents a topology.
  *
  * The Topology class represents a topology and contains a root element that serves as the starting point of the topology.
+ * It provides methods to access topology elements, path nodes, and priority values within the topology.
  */
 class Topology {
 private:
@@ -26,6 +27,7 @@ private:
     PathNode* root_path_node; /**< The root node of the structure containing all paths through the topology. */
     std::map<long, TopologyElement*> topology_elements_map; /**< Map of topology elements indexed by ID. */
     std::map<long, PathNode*> path_nodes_map; /**< Map of path nodes indexed by ID. */
+    std::map<long, std::map<long, long>> priority_map; /**< Map of priority values indexed by machine IDs. */
 public:
     /**
      * @brief Constructs a Topology object with the given root element.
@@ -40,7 +42,7 @@ public:
     TopologyElement* getRootElement();
 
     /**
-     * @brief Retrieves the  root node of the structure containing all paths through the topology.
+     * @brief Retrieves the root node of the structure containing all paths through the topology.
      * @return A pointer to the root node of the structure containing all paths through the topology.
      */
     PathNode* getRootPathNode();
@@ -70,6 +72,19 @@ public:
      * @param next The next path node to connect the current node to.
      */
     void buildPaths(TopologyElement* topology_element, PathNode* node, PathNode* next);
+
+    /**
+     * @brief Builds the priority map for machines within the topology.
+     */
+    void buildPriorityMap();
+
+    /**
+     * @brief Retrieves the priority value between two machines.
+     * @param machine_id_1 The ID of the first machine.
+     * @param machine_id_2 The ID of the second machine.
+     * @return The priority value between the specified machines.
+     */
+    long getPriorityValue(long machine_id_1, long machine_id_2);
 };
 
 #endif //SCHEDULING_TOPOLOGY_H

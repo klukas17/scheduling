@@ -19,7 +19,7 @@
  * @brief Represents a node within an individual's genotype.
  *
  * The GenotypeNode class serves as a base class for representing nodes within an individual's genotype in a scheduling system.
- * It includes attributes to store node information, such as identifiers, node types, processing order, and predecessors.
+ * It includes attributes to store node information, such as identifiers, node types and processing order.
  */
 class GenotypeNode {
 protected:
@@ -27,7 +27,6 @@ protected:
     NodeType node_type; /**< Type of the node. */
     GeneralNodeType general_node_type; /**< General category of the node type. */
     std::vector<long> step_processing_order; /**< Order of processing steps for the node. */
-    std::set<long> predecessor_node_ids; /**< Set of identifiers for predecessor nodes. */
 public:
     /**
      * @brief Constructs a GenotypeNode object with the provided identifier.
@@ -69,18 +68,6 @@ public:
      * @param step_id The identifier of the processing step to be added.
      */
     void addStep(long step_id);
-
-    /**
-     * @brief Retrieves the set of identifiers for predecessor nodes.
-     * @return A set containing identifiers of predecessor nodes.
-     */
-    std::set<long> getPredecessorIds();
-
-    /**
-     * @brief Adds a predecessor node identifier to the set.
-     * @param node_id The identifier of the predecessor node to be added.
-     */
-    void addPredecessorId(long node_id);
 };
 
 #endif //SCHEDULING_GENOTYPENODE_H
