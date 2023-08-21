@@ -110,7 +110,7 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
                     auto machine_buffer_entry_event = dynamic_cast<MachineBufferEntry*>(event);
                     long machine_id = machine_buffer_entry_event->getMachineId();
                     long step_id = machine_buffer_entry_event->getStepId();
-                    wake_machines_queue.push(new WakeMachine(time, machine_id, step_id));
+                    wake_machines_queue.push(new WakeMachine(time, machine_id));
                     break;
                 }
 
@@ -147,7 +147,7 @@ void Simulator::simulate(Individual *individual, const std::map<long, Job *> &jo
                     }
                     machine_processing_context->decreaseStepsInBuffer();
                     machine_processing_context->unsetCurrentlyWorking();
-                    wake_machines_queue.push(new WakeMachine(time, machine_id, step_id));
+                    wake_machines_queue.push(new WakeMachine(time, machine_id));
                     break;
                 }
 
