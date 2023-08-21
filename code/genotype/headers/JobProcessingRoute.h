@@ -18,12 +18,13 @@
  * @brief Represents a sequence of processing steps for a job.
  *
  * The JobProcessingRoute class encapsulates information about a sequence of processing steps that a job goes through.
- * It includes the job's identifier, a vector of associated processing steps, and the count of steps.
+ * It includes the job's identifier, a vector of associated processing steps, and the current step index.
  */
 class JobProcessingRoute {
 private:
     long job_id; /**< Identifier for the job. */
     std::vector<JobProcessingStep*> processing_steps; /**< Vector of associated processing steps. */
+    long current_index; /**< Current step index for tracking progress within the route. */
 public:
     /**
      * @brief Constructs a JobProcessingRoute object for the specified job.
@@ -50,12 +51,21 @@ public:
     std::vector<JobProcessingStep*> getProcessingSteps();
 
     /**
-     * @brief Retrieves a specific processing step from the route by index.
-     * @param index The index of the desired processing step.
-     * @return A pointer to the processing step at the specified index.
+     * @brief Retrieves the next processing step in the route.
+     * @return A pointer to the next processing step in the route.
      */
-    JobProcessingStep* getProcessingStep(long index);
+    JobProcessingStep* getNextProcessingStep();
+
+    /**
+     * @brief Checks if the route has finished all processing steps.
+     * @return true if the route has finished, false otherwise.
+     */
+    bool checkHasFinished();
+
+    /**
+     * @brief Resets the current step index to the beginning of the route.
+     */
+    void resetCurrentIndex();
 };
 
 #endif //SCHEDULING_JOBPROCESSINGROUTE_H
-

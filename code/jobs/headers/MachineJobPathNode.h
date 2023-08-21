@@ -27,7 +27,7 @@ public:
      * @brief Constructs a MachineJobPathNode object with the given path node.
      * @param path_node A pointer to the underlying PathNode object.
      */
-    MachineJobPathNode(PathNode* path_node);
+    explicit MachineJobPathNode(PathNode* path_node);
 
     /**
      * @brief Retrieves the pointer to the next JobPathNode in the job's path.

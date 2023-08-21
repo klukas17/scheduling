@@ -35,19 +35,19 @@ public:
      * @brief Retrieves the job ID of the prerequisite.
      * @return The ID of the job associated with the prerequisite.
      */
-    long getJobId();
+    [[nodiscard]] long getJobId() const;
 
     /**
      * @brief Retrieves the machine ID associated with the prerequisite.
      * @return The ID of the machine associated with the prerequisite.
      */
-    long getMachineId();
+    [[nodiscard]] long getMachineId() const;
 
     /**
      * @brief Retrieves the number of repetitions required for the prerequisite to be satisfied.
      * @return The number of repetitions required to satisfy the prerequisite.
      */
-    long getRepetitions();
+    [[nodiscard]] long getRepetitions() const;
 };
 
 #endif //SCHEDULING_PREREQUISITE_H

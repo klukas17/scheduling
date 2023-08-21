@@ -20,6 +20,7 @@
 #include "RouteGroupJobPathNode.h"
 #include "OpenGroupJobPathNode.h"
 #include "SerialGroup.h"
+#include "Machine.h"
 #include "yaml-cpp/yaml.h"
 
 std::map<long, Job *> JobSequenceParser::parse(const std::string& path, JobTypeMap* job_type_map, Topology* topology) {
@@ -64,6 +65,10 @@ std::map<long, Job *> JobSequenceParser::parse(const std::string& path, JobTypeM
 
     else {
         throw SchedulingError("'job_sequence' node not found in " + path + " file.");
+    }
+
+    for (auto & job_pair : jobs) {
+        calculateJobProcessingTimes(job_pair.second, topology);
     }
 
     return jobs;
@@ -412,5 +417,26 @@ void JobSequenceParser::connectGraphsOfJobPathNodes(JobPathNode *job_path_node, 
                 ((OpenGroupJobPathNode*)job_path_node)->setNext(next_job_path_node);
             }
             break;
+    }
+}
+
+void JobSequenceParser::calculateJobProcessingTimes(Job *job, Topology *topology) {
+
+    for (auto topology_element_pair : topology->getTopologyElementsMap()) {
+        auto topology_element = topology_element_pair.second;
+
+        switch (topology_element->getGeneralTopologyElementType()) {
+
+            case ABSTRACT_GENERAL_TOPOLOGY_ELEMENT:
+                throw SchedulingError("Abstract topology element encountered in function JobSequenceParser::calculateJobProcessingTimes.");
+
+            case MACHINE_GENERAL_TOPOLOGY_ELEMENT:
+                job->addProcessingTime(topology_element->getId(), job->getJobType()->getProcessingTime(((Machine*)topology_element)->getMachineType()->getId()));
+                break;
+
+            case GROUP_GENERAL_TOPOLOGY_ELEMENT:
+                job->addProcessingTime(topology_element->getId(), 0);
+                break;
+        }
     }
 }

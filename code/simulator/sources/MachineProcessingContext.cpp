@@ -2,6 +2,11 @@
 // Created by mihael on 29/04/23.
 //
 
+/**
+ * @file MachineProcessingContext.cpp
+ * @brief Implements the member functions of the MachineProcessingContext class.
+ */
+
 #include "MachineProcessingContext.h"
 
 MachineProcessingContext::MachineProcessingContext(GenotypeNode *node) {

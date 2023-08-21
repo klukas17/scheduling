@@ -22,6 +22,7 @@
 
 Individual::Individual(Topology *topology) {
     this->root_node = createNode(topology->getRootElement());
+    mapGenotypeNodes(this->root_node);
 }
 
 GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
@@ -34,17 +35,11 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
         case MACHINE_TOPOLOGY_ELEMENT: {
             auto machine_element = (Machine*) topology_element;
             auto node = new MachineNode(topology_element->getId(), machine_element->getMachineType());
-            for (auto predecessor_id : topology_element->getPredecessorIds()) {
-                node->addPredecessorId(predecessor_id);
-            }
             return node;
         }
 
         case SERIAL_GROUP_TOPOLOGY_ELEMENT: {
             auto node = new SerialGroupNode(topology_element->getId());
-            for (auto predecessor_id : topology_element->getPredecessorIds()) {
-                node->addPredecessorId(predecessor_id);
-            }
             for (auto child : ((SerialGroup*)topology_element)->getChildren()) {
                 node->addNodeToBody(createNode(child));
             }
@@ -53,9 +48,6 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
 
         case PARALLEL_GROUP_TOPOLOGY_ELEMENT: {
             auto node = new ParallelGroupNode(topology_element->getId());
-            for (auto predecessor_id : topology_element->getPredecessorIds()) {
-                node->addPredecessorId(predecessor_id);
-            }
             for (auto child : ((ParallelGroup*)topology_element)->getChildren()) {
                 node->addNodeToBody(createNode(child));
             }
@@ -64,9 +56,6 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
 
         case ROUTE_GROUP_TOPOLOGY_ELEMENT: {
             auto node = new RouteGroupNode(topology_element->getId());
-            for (auto predecessor_id : topology_element->getPredecessorIds()) {
-                node->addPredecessorId(predecessor_id);
-            }
             for (auto child : ((RouteGroup*)topology_element)->getChildren()) {
                 node->addNodeToBody(createNode(child));
             }
@@ -75,9 +64,6 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
 
         case OPEN_GROUP_TOPOLOGY_ELEMENT: {
             auto node = new OpenGroupNode(topology_element->getId());
-            for (auto predecessor_id : topology_element->getPredecessorIds()) {
-                node->addPredecessorId(predecessor_id);
-            }
             for (auto child : ((OpenGroup*)topology_element)->getChildren()) {
                 node->addNodeToBody(createNode(child));
             }
@@ -88,6 +74,30 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
 
 GenotypeNode *Individual::getRootNode() {
     return root_node;
+}
+
+std::map<long, GenotypeNode *> Individual::getGenotypeNodeMap() {
+    return genotype_node_map;
+}
+
+void Individual::mapGenotypeNodes(GenotypeNode *node) {
+
+    switch(node->getGeneralNodeType()) {
+
+        case ABSTRACT_GENERAL_NODE:
+            throw SchedulingError("Abstract topology element encountered in function Individual::mapGenotypeNodes.");
+
+        case MACHINE_GENERAL_NODE:
+            genotype_node_map[node->getId()] = node;
+            break;
+
+        case GROUP_GENERAL_NODE:
+            genotype_node_map[node->getId()] = node;
+            for (auto sub_node : ((GroupNode*)node)->getBody()) {
+                mapGenotypeNodes(sub_node);
+            }
+            break;
+    }
 }
 
 JobProcessingRoute *Individual::getProcessingRoute(long job_id) {

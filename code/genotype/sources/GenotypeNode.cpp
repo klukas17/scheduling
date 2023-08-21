@@ -36,11 +36,3 @@ std::vector<long> GenotypeNode::getStepProcessingOrder() {
 void GenotypeNode::addStep(long step_id) {
     step_processing_order.push_back(step_id);
 }
-
-std::set<long> GenotypeNode::getPredecessorIds() {
-    return predecessor_node_ids;
-}
-
-void GenotypeNode::addPredecessorId(long node_id) {
-    predecessor_node_ids.insert(node_id);
-}

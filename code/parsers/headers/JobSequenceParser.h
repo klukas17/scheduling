@@ -23,12 +23,13 @@
  * @class JobSequenceParser
  * @brief Parses job sequences from a file.
  *
- * The JobSequenceParser class is responsible for reading job sequences from a file and constructing a map of all jobs.
+ * The JobSequenceParser class is responsible for reading job sequences from a YAML file and constructing a map of all jobs.
+ * It provides methods to parse job sequences, construct job objects, and connect job path nodes.
  */
 class JobSequenceParser {
 public:
     /**
-     * @brief Parses job sequences from the specified file..
+     * @brief Parses job sequences from the specified file.
      *
      * This function reads a YAML file containing job sequences and constructs a map of all jobs.
      *
@@ -73,6 +74,17 @@ public:
      * @param next_job_path_node The first JobPathNode of the second graph.
      */
     static void connectGraphsOfJobPathNodes(JobPathNode* job_path_node, JobPathNode* next_job_path_node);
+
+    /**
+     * @brief Calculates and assigns job processing times based on the topology.
+     *
+     * This function calculates and assigns job processing times for each machine based on the provided topology.
+     *
+     * @param job The job for which to calculate processing times.
+     * @param topology The topology object.
+     */
+    static void calculateJobProcessingTimes(Job* job, Topology* topology);
 };
 
 #endif //SCHEDULING_JOBSEQUENCEPARSER_H
+
