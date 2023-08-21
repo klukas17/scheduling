@@ -18,6 +18,7 @@
 #include "RouteGroupNode.h"
 #include "OpenGroup.h"
 #include "OpenGroupNode.h"
+#include "SchedulingError.h"
 
 Individual::Individual(Topology *topology) {
     this->root_node = createNode(topology->getRootElement());
@@ -26,6 +27,9 @@ Individual::Individual(Topology *topology) {
 GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
 
     switch (topology_element->getTopologyElementType()) {
+
+        case ABSTRACT_TOPOLOGY_ELEMENT:
+            throw SchedulingError("Abstract topology element encountered in function Individual::createNode.");
 
         case MACHINE_TOPOLOGY_ELEMENT: {
             auto machine_element = (Machine*) topology_element;
@@ -78,11 +82,6 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
                 node->addNodeToBody(createNode(child));
             }
             return node;
-        }
-
-        default: {
-            // todo:error
-            break;
         }
     }
 }

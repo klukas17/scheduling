@@ -2,6 +2,11 @@
 // Created by mihael on 29/04/23.
 //
 
+/**
+ * @file Event.cpp
+ * @brief Implements the member functions of the Event class.
+ */
+
 #include "Event.h"
 
 Event::Event(long time) {

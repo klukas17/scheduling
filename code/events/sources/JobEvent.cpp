@@ -2,6 +2,11 @@
 // Created by mihael on 30/04/23.
 //
 
+/**
+ * @file JobEvent.cpp
+ * @brief Implements the member functions of the JobEvent class.
+ */
+
 #include "JobEvent.h"
 
 JobEvent::JobEvent(long time, long job_id) : Event(time) {
