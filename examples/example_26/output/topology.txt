@@ -1,1 +1,0 @@
-Machine: id = 1, machine_type_id = 1

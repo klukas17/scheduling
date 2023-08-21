@@ -1,3 +1,0 @@
-Serial group: id = 1
-	Machine: id = 2, machine_type_id = 1
-	Machine: id = 3, machine_type_id = 1

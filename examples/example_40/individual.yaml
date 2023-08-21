@@ -11,25 +11,34 @@ topology:
             - 3
           body:
             - machine:
-                step_processing_order: []
+                step_processing_order:
+                  []
             - parallel:
-                step_processing_order: []
+                step_processing_order:
+                  []
                 body:
                   - machine:
-                      step_processing_order: []
+                      step_processing_order:
+                        []
                   - machine:
-                      step_processing_order: []
+                      step_processing_order:
+                        []
                   - machine:
-                      step_processing_order: []
+                      step_processing_order:
+                        []
             - serial:
-                step_processing_order: []
+                step_processing_order:
+                  []
                 body:
                   - machine:
-                      step_processing_order: []
+                      step_processing_order:
+                        []
                   - machine:
-                      step_processing_order: []
+                      step_processing_order:
+                        []
                   - machine:
-                      step_processing_order: []
+                      step_processing_order:
+                        []
       - machine:
           step_processing_order:
             - 4

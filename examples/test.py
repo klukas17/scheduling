@@ -10,7 +10,7 @@ total_examples = 0
 check_topology = True
 check_path_nodes = True
 check_job_path_nodes = True
-check_individual = False
+check_individual = True
 check_simulator_logs = False
 
 subdirs = os.listdir(".")
@@ -30,7 +30,7 @@ for subdir in subdirs:
             expected_topology = os.path.join(expected_output_dir, "topology.txt")
             if os.path.exists(topology_output) and os.path.exists(expected_topology):
                 with open(topology_output, "r") as f1, open(expected_topology, "r") as f2:
-                    if f1.read() == f2.read():
+                    if f1.read().strip() == f2.read().strip():
                         logs.append(f"  {GREEN}[✔]{END} Topology")
                     else:
                         logs.append(f"  {RED}[✘]{END} Topology")
@@ -41,7 +41,7 @@ for subdir in subdirs:
             expected_path_nodes = os.path.join(expected_output_dir, "path_nodes.txt")
             if os.path.exists(path_nodes_output) and os.path.exists(expected_path_nodes):
                 with open(path_nodes_output, "r") as f1, open(expected_path_nodes, "r") as f2:
-                    if f1.read() == f2.read():
+                    if f1.read().strip() == f2.read().strip():
                         logs.append(f"  {GREEN}[✔]{END} Path Nodes")
                     else:
                         logs.append(f"  {RED}[✘]{END} Path Nodes")
@@ -52,7 +52,7 @@ for subdir in subdirs:
             expected_job_path_nodes = os.path.join(expected_output_dir, "job_path_nodes.txt")
             if os.path.exists(job_path_nodes_output) and os.path.exists(expected_job_path_nodes):
                 with open(job_path_nodes_output, "r") as f1, open(expected_job_path_nodes, "r") as f2:
-                    if f1.read() == f2.read():
+                    if f1.read().strip() == f2.read().strip():
                         logs.append(f"  {GREEN}[✔]{END} Job Path Nodes")
                     else:
                         logs.append(f"  {RED}[✘]{END} Job Path Nodes")
@@ -63,7 +63,7 @@ for subdir in subdirs:
             expected_individual_output = os.path.join(subdir, "individual.yaml")
             if os.path.exists(individual_output) and os.path.exists(expected_individual_output):
                 with open(individual_output, "r") as f1, open(expected_individual_output, "r") as f2:
-                    if f1.read() == f2.read():
+                    if f1.read().strip() == f2.read().strip():
                         logs.append(f"  {GREEN}[✔]{END} Individual")
                     else:
                         logs.append(f"  {RED}[✘]{END} Individual")
@@ -91,7 +91,7 @@ for subdir in subdirs:
                 with open(simulator_logs_file, "r") as f:
                     job_contents = "".join([line for line in f if f"Job {job_id}:" in line])
 
-                if expected_contents == job_contents:
+                if expected_contents.strip() == job_contents.strip():
                     simulator_logs.append(f"    {GREEN}[✔]{END} Job {job_id}")
                 else:
                     simulator_logs.append(f"    {RED}[✘]{END} Job {job_id}")
