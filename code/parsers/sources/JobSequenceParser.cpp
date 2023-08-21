@@ -243,7 +243,6 @@ JobPathNode *JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node
         const YAML::Node& sub_machines_node = node["sub_machines"];
 
         if (sub_machines_node) {
-            std::vector<JobPathNode*> job_sub_path_nodes;
             for (YAML::const_iterator sub_machine_it = sub_machines_node.begin(); sub_machine_it != sub_machines_node.end(); sub_machine_it++) {
                 if (!(*sub_machine_it)["machine_id"]) {
                     throw SchedulingError("Entry in the 'sub_machines' array for machine of id " + std::to_string(machine_id) +
@@ -270,27 +269,14 @@ JobPathNode *JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node
                                           " in the file " + path);
                 }
                 else {
-                    job_sub_path_nodes.push_back(parsePathNodeWithYAMLNode(*sub_machine_it, path, {{sub_machine_id, child_path_node}}));
+                    open_group_job_path_node->addJobSubPathNode(sub_machine_id, parsePathNodeWithYAMLNode(*sub_machine_it, path, {{sub_machine_id, child_path_node}}));
                 }
             }
-
-            for (int i = 0; i < job_sub_path_nodes.size() - 1; i++) {
-                connectGraphsOfJobPathNodes(job_sub_path_nodes[i], job_sub_path_nodes[i + 1]);
-            }
-            auto child_path_node = ((RouteGroupPathNode*)path_node)->getNext();
-            if (child_path_node) {
-                auto child_job_path_node = parsePathNodeWithoutYAMLNode(path, child_path_node);
-                connectGraphsOfJobPathNodes(job_sub_path_nodes.back(), child_job_path_node);
-            }
-
-            open_group_job_path_node->setNext(job_sub_path_nodes[0]);
         }
 
-        else {
-            auto child_path_node = ((OpenGroupPathNode*)path_node)->getNext();
-            if (child_path_node) {
-                open_group_job_path_node->setNext(parsePathNodeWithoutYAMLNode(path, child_path_node));
-            }
+        auto child_path_node = ((OpenGroupPathNode*)path_node)->getNext();
+        if (child_path_node) {
+            open_group_job_path_node->setNext(parsePathNodeWithoutYAMLNode(path, child_path_node));
         }
     }
 

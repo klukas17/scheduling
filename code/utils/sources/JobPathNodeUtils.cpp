@@ -14,7 +14,6 @@
 #include "ParallelGroupJobPathNode.h"
 #include "RouteGroupJobPathNode.h"
 #include "OpenGroupJobPathNode.h"
-
 #include "iostream"
 
 void JobPathNodeUtils::logJobPathNodes(std::map<long, Job*> jobs, const std::string &logs_path) {
@@ -72,6 +71,10 @@ void JobPathNodeUtils::logJobPathNode(JobPathNode *job_path_node, std::deque<lon
     }
 
     else if (path_node_topology_element_type == OPEN_GROUP_TOPOLOGY_ELEMENT) {
+        for (auto job_sub_path_node : ((OpenGroupJobPathNode*)job_path_node)->getJobSubPathNodes()) {
+            std::deque<long> sub_path_node_deque = {path_node_id};
+            logJobPathNode(job_sub_path_node.second, sub_path_node_deque, log_stream);
+        }
         job_path_deque.push_back(path_node_id);
         logJobPathNode(((OpenGroupJobPathNode *) job_path_node)->getNext(), job_path_deque, log_stream);
         job_path_deque.pop_back();
