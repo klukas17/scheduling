@@ -17,7 +17,7 @@
 
 /**
  * @class JobSpecificationsParser
- * @brief Defines the JobSpecificationsParser class for job specifications from a file.
+ * @brief Parses job specifications from a file.
  *
  * The JobSpecificationsParser class is responsible for reading job specifications from a file and
  * creating a map of job IDs to corresponding JobType pointers.

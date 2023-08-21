@@ -2,6 +2,11 @@
 // Created by mihael on 29/04/23.
 //
 
+/**
+ * @file Individual.cpp
+ * @brief Implements the member functions of the Individual class.
+ */
+
 #include "Individual.h"
 #include "Machine.h"
 #include "MachineNode.h"

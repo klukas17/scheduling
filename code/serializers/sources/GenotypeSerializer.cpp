@@ -2,15 +2,19 @@
 // Created by mihael on 29/04/23.
 //
 
+/**
+ * @file GenotypeSerializer.cpp
+ * @brief Implements the member functions of the GenotypeSerializer class.
+ */
+
 #include "GenotypeSerializer.h"
 #include "MachineNode.h"
 #include "SerialGroupNode.h"
 #include "ParallelGroupNode.h"
 #include "RouteGroupNode.h"
 #include "OpenGroupNode.h"
+#include "SchedulingError.h"
 #include "fstream"
-
-GenotypeSerializer::GenotypeSerializer() = default;
 
 void GenotypeSerializer::serialize(const std::string& path, Individual *individual) {
     YAML::Emitter out;
@@ -55,6 +59,9 @@ void GenotypeSerializer::serializeJobsNode(Individual *individual, YAML::Emitter
 void GenotypeSerializer::serializeTopologyElementNode(GenotypeNode *node, YAML::Emitter& out) {
 
     switch (node->getNodeType()) {
+
+        case ABSTRACT_NODE:
+            throw SchedulingError("Abstract node encountered in GenotypeSerializer::serializeTopologyElementNode function.");
 
         case MACHINE_NODE: {
             auto machine_node = (MachineNode*) node;
@@ -159,11 +166,5 @@ void GenotypeSerializer::serializeTopologyElementNode(GenotypeNode *node, YAML::
             out << YAML::EndMap;
             break;
         }
-
-        default: {
-            // todo:error
-            break;
-        }
-
     }
 }

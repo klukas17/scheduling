@@ -27,5 +27,5 @@ long JobRoute::getCurrentIndex() const {
 }
 
 bool JobRoute::checkHasFinished() {
-    return current_index == job_processing_route->getStepCount();
+    return current_index == job_processing_route->getProcessingSteps().size();
 }
