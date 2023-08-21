@@ -8,14 +8,18 @@ topology:
             - 2
           body:
             - serial:
-                step_processing_order: []
+                step_processing_order:
+                  []
                 body:
                   - machine:
-                      step_processing_order: []
+                      step_processing_order:
+                        []
                   - machine:
-                      step_processing_order: []
+                      step_processing_order:
+                        []
                   - machine:
-                      step_processing_order: []
+                      step_processing_order:
+                        []
             - serial:
                 step_processing_order:
                   - 3
@@ -28,19 +32,25 @@ topology:
                         - 5
                       body:
                         - serial:
-                            step_processing_order: []
+                            step_processing_order:
+                              []
                             body:
                               - machine:
-                                  step_processing_order: []
+                                  step_processing_order:
+                                    []
                               - machine:
-                                  step_processing_order: []
+                                  step_processing_order:
+                                    []
                         - serial:
-                            step_processing_order: []
+                            step_processing_order:
+                              []
                             body:
                               - machine:
-                                  step_processing_order: []
+                                  step_processing_order:
+                                    []
                               - machine:
-                                  step_processing_order: []
+                                  step_processing_order:
+                                    []
                         - serial:
                             step_processing_order:
                               - 6
@@ -55,16 +65,21 @@ topology:
                       step_processing_order:
                         - 9
             - open:
-                step_processing_order: []
+                step_processing_order:
+                  []
                 body:
                   - machine:
-                      step_processing_order: []
+                      step_processing_order:
+                        []
                   - machine:
-                      step_processing_order: []
+                      step_processing_order:
+                        []
                   - machine:
-                      step_processing_order: []
+                      step_processing_order:
+                        []
                   - machine:
-                      step_processing_order: []
+                      step_processing_order:
+                        []
       - machine:
           step_processing_order:
             - 10
@@ -79,9 +94,11 @@ topology:
                 step_processing_order:
                   - 13
             - machine:
-                step_processing_order: []
+                step_processing_order:
+                  []
             - machine:
-                step_processing_order: []
+                step_processing_order:
+                  []
 jobs:
   - job_id: 1
     processing_route:
