@@ -2,6 +2,11 @@
 // Created by mihael on 29/04/23.
 //
 
+/**
+ * @file MachineNode.cpp
+ * @brief Implements the member functions of the MachineNode class.
+ */
+
 #include "MachineNode.h"
 
 MachineNode::MachineNode(long id, MachineType *machine_type) : GenotypeNode(id) {

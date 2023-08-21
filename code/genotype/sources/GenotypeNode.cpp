@@ -2,6 +2,11 @@
 // Created by mihael on 29/04/23.
 //
 
+/**
+ * @file GenotypeNode.cpp
+ * @brief Implements the member functions of the GenotypeNode class.
+ */
+
 #include "GenotypeNode.h"
 
 GenotypeNode::GenotypeNode(long id) {
