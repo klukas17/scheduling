@@ -11,6 +11,7 @@
 #define SCHEDULING_OPENGROUPJOBPATHNODE_H
 
 #include "GroupJobPathNode.h"
+#include "tuple"
 
 /**
  * @class OpenGroupJobPathNode
@@ -23,7 +24,7 @@
 class OpenGroupJobPathNode : public GroupJobPathNode {
 private:
     JobPathNode* next; /**< A pointer to the next JobPathNode in the job's path. */
-    std::map<long, JobPathNode*> job_sub_path_nodes; /**< A map of job sub-path nodes with corresponding IDs. */
+    std::vector<std::pair<long, JobPathNode*>> job_sub_path_nodes; /**< A vector of pairs of job sub-path nodes with corresponding IDs. */
 public:
     /**
      * @brief Constructs an OpenGroupJobPathNode object with the given path node.
@@ -44,10 +45,10 @@ public:
     void setNext(JobPathNode* job_path_node);
 
     /**
-     * @brief Retrieves the map of job sub-path nodes with corresponding IDs.
-     * @return A map containing pointers to job sub-path nodes.
+     * @brief Retrieves the vector of pairs of job sub-path nodes with corresponding IDs.
+     * @return A vector containing pointers to job sub-path nodes with corresponding IDs.
      */
-    std::map<long, JobPathNode*> getJobSubPathNodes();
+    std::vector<std::pair<long, JobPathNode*>> getJobSubPathNodes();
 
     /**
      * @brief Adds a job sub-path node with the specified ID.

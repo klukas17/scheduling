@@ -21,10 +21,10 @@ void OpenGroupJobPathNode::setNext(JobPathNode *job_path_node) {
     this->next = job_path_node;
 }
 
-std::map<long, JobPathNode *> OpenGroupJobPathNode::getJobSubPathNodes() {
+std::vector<std::pair<long, JobPathNode*>> OpenGroupJobPathNode::getJobSubPathNodes() {
     return job_sub_path_nodes;
 }
 
 void OpenGroupJobPathNode::addJobSubPathNode(long id, JobPathNode *job_path_node) {
-    this->job_sub_path_nodes[id] = job_path_node;
+    this->job_sub_path_nodes.push_back({id, job_path_node});
 }
