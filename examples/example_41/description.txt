@@ -1,0 +1,7 @@
+Parallel(serial, serial, parallel, parallel, parallel(route, route, route), parallel(open, open, open))
+
+1 type of jobs, 1 jobs in total
+
+2 types of machines, 30 in total, 3 per innermost group
+
+Purpose: forbidden_machine_types field harder test

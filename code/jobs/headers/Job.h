@@ -11,7 +11,7 @@
 #define SCHEDULING_JOB_H
 
 #include "JobType.h"
-#include "JobPathNode.h"
+#include "PathNode.h"
 #include "map"
 #include "vector"
 
@@ -28,7 +28,7 @@ private:
     long id; /**< The unique identifier of the job. */
     JobType* job_type; /**< A pointer to the associated job type. */
     std::map<long, long> processing_times; /**< Map of machine IDs to processing times on those machines. */
-    JobPathNode* paths_root_node; /**< A pointer to the root node of the job's paths. */
+    PathNode* paths_root_node; /**< A pointer to the root node of the job's paths. */
     long release_time; /**< The release time of the job. */
     long due_time; /**< The due time of the job. */
     long weight; /**< The weight of the job. */
@@ -42,7 +42,7 @@ public:
      * @param due_time The due time of the job.
      * @param weight The weight of the job.
      */
-    Job(long id, JobType* job_type, JobPathNode* paths_root_node, long release_time, long due_time, long weight);
+    Job(long id, JobType* job_type, PathNode* paths_root_node, long release_time, long due_time, long weight);
 
     /**
      * @brief Retrieves the unique identifier of the job.
@@ -78,9 +78,9 @@ public:
 
     /**
      * @brief Retrieves a pointer to the root node of the job's paths.
-     * @return A pointer to the root JobPathNode object.
+     * @return A pointer to the root PathNode object.
      */
-    JobPathNode* getPathsRootNode();
+    PathNode* getPathsRootNode();
 
     /**
      * @brief Retrieves the release time of the job.

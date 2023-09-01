@@ -19,14 +19,12 @@
  * @brief Represents a topology.
  *
  * The Topology class represents a topology and contains a root element that serves as the starting point of the topology.
- * It provides methods to access topology elements, path nodes, and priority values within the topology.
+ * It provides methods to access topology elements and priority values within the topology.
  */
 class Topology {
 private:
     TopologyElement* topology_root_element; /**< The root element of the topology. */
-    PathNode* root_path_node; /**< The root node of the structure containing all paths through the topology. */
     std::map<long, TopologyElement*> topology_elements_map; /**< Map of topology elements indexed by ID. */
-    std::map<long, PathNode*> path_nodes_map; /**< Map of path nodes indexed by ID. */
     std::map<long, std::map<long, long>> priority_map; /**< Map of priority values indexed by machine IDs. */
 public:
     /**
@@ -42,36 +40,16 @@ public:
     TopologyElement* getRootElement();
 
     /**
-     * @brief Retrieves the root node of the structure containing all paths through the topology.
-     * @return A pointer to the root node of the structure containing all paths through the topology.
-     */
-    PathNode* getRootPathNode();
-
-    /**
      * @brief Retrieves the map of topology elements indexed by their IDs.
      * @return A map containing pointers to topology elements, indexed by their unique IDs.
      */
     std::map<long, TopologyElement*> getTopologyElementsMap();
 
     /**
-     * @brief Retrieves the map of path nodes indexed by their IDs.
-     * @return A map containing pointers to path nodes, indexed by their unique IDs.
-     */
-    std::map<long, PathNode*> getPathNodesMap();
-
-    /**
      * @brief Indexes topology elements and path nodes for efficient access.
      * @param node The topology element to index.
      */
-    void indexTopologyElementsAndPathNodes(TopologyElement* node);
-
-    /**
-     * @brief Builds paths within the topology.
-     * @param topology_element The topology element for which to build paths.
-     * @param node The path node for which to build paths.
-     * @param next The next path node to connect the current node to.
-     */
-    void buildPaths(TopologyElement* topology_element, PathNode* node, PathNode* next);
+    void indexTopologyElements(TopologyElement* node);
 
     /**
      * @brief Builds the priority map for machines within the topology.

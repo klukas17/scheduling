@@ -7,7 +7,6 @@
 #include "Simulator.h"
 #include "TopologyUtils.h"
 #include "PathNodeUtils.h"
-#include "JobPathNodeUtils.h"
 #include "set"
 #include "filesystem"
 #include "iostream"
@@ -19,11 +18,10 @@ void run_example(const std::string& dir) {
     MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
     Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
     TopologyUtils::logTopology(topology, dir + "output/topology.txt");
-    PathNodeUtils::logPathNodes(topology, dir + "output/path_nodes.txt");
 
     JobTypeMap* job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
-    std::map<long, Job*> jobs = JobSequenceParser::parse(dir + "job_sequence.yaml", job_type_map, topology);
-    JobPathNodeUtils::logJobPathNodes(jobs, dir + "output/job_path_nodes.txt");
+    std::map<long, Job*> jobs = JobSequenceParser::parse(dir + "job_sequence.yaml", machine_type_map, job_type_map, topology);
+    PathNodeUtils::logPathNodes(jobs, dir + "output/path_nodes.txt");
 
     Individual* individual = GenotypeDeserializer::deserialize(dir + "individual.yaml", topology);
     GenotypeSerializer::serialize(dir + "output/individual.yaml", individual);

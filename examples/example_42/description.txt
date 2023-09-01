@@ -1,0 +1,7 @@
+Parallel(serial, serial(parallel), serial(parallel), serial(parallel))
+
+1 type of jobs, 1 jobs in total
+
+2 types of machines, 34 in total
+
+Purpose: forbidden_machine_types field destroying partly built paths test
