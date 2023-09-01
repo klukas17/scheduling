@@ -4,7 +4,7 @@
 
 /**
  * @file NodeType.h
- * @brief Defines enumerations for different types of genotype nodes.
+ * @brief Defines the enumerations for different types of genotype nodes.
  */
 
 #ifndef SCHEDULING_NODETYPE_H

@@ -25,33 +25,33 @@ topology:
                         - 7
             - serial:
                 step_processing_order:
-                  - 8
+                  []
                 body:
                   - machine:
                       step_processing_order:
-                        - 9
+                        []
                   - machine:
                       step_processing_order:
-                        - 10
+                        []
                   - machine:
                       step_processing_order:
-                        - 11
+                        []
             - serial:
                 step_processing_order:
-                  - 12
+                  []
                 body:
                   - machine:
                       step_processing_order:
-                        - 13
+                        []
                   - machine:
                       step_processing_order:
-                        - 14
+                        []
                   - machine:
                       step_processing_order:
-                        - 15
+                        []
       - machine:
           step_processing_order:
-            - 16
+            - 8
 jobs:
   - job_id: 1
     processing_route:
@@ -69,21 +69,5 @@ jobs:
         processing_step_id: 6
       - machine_id: 10
         processing_step_id: 7
-      - machine_id: 6
-        processing_step_id: 8
-      - machine_id: 11
-        processing_step_id: 9
-      - machine_id: 12
-        processing_step_id: 10
-      - machine_id: 13
-        processing_step_id: 11
-      - machine_id: 7
-        processing_step_id: 12
-      - machine_id: 14
-        processing_step_id: 13
-      - machine_id: 15
-        processing_step_id: 14
-      - machine_id: 16
-        processing_step_id: 15
       - machine_id: 4
-        processing_step_id: 16
+        processing_step_id: 8

@@ -9,7 +9,6 @@ total_examples = 0
 
 check_topology = True
 check_path_nodes = True
-check_job_path_nodes = True
 check_individual = True
 check_simulator_logs = True
 
@@ -35,6 +34,9 @@ for subdir in subdirs:
                     else:
                         logs.append(f"  {RED}[✘]{END} Topology")
                         example_is_valid = False
+            else:
+                logs.append(f"  {RED}[✘]{END} Topology")
+                example_is_valid = False
 
         if check_path_nodes:
             path_nodes_output = os.path.join(output_dir, "path_nodes.txt")
@@ -46,17 +48,9 @@ for subdir in subdirs:
                     else:
                         logs.append(f"  {RED}[✘]{END} Path Nodes")
                         example_is_valid = False
-
-        if check_job_path_nodes:
-            job_path_nodes_output = os.path.join(output_dir, "job_path_nodes.txt")
-            expected_job_path_nodes = os.path.join(expected_output_dir, "job_path_nodes.txt")
-            if os.path.exists(job_path_nodes_output) and os.path.exists(expected_job_path_nodes):
-                with open(job_path_nodes_output, "r") as f1, open(expected_job_path_nodes, "r") as f2:
-                    if f1.read().strip() == f2.read().strip():
-                        logs.append(f"  {GREEN}[✔]{END} Job Path Nodes")
-                    else:
-                        logs.append(f"  {RED}[✘]{END} Job Path Nodes")
-                        example_is_valid = False
+            else:
+                logs.append(f"  {RED}[✘]{END} Path Nodes")
+                example_is_valid = False
 
         if check_individual:
             individual_output = os.path.join(output_dir, "individual.yaml")
@@ -68,42 +62,51 @@ for subdir in subdirs:
                     else:
                         logs.append(f"  {RED}[✘]{END} Individual")
                         example_is_valid = False
+            else:
+                logs.append(f"  {RED}[✘]{END} Individual")
+                example_is_valid = False
 
         if check_simulator_logs:
 
             expected_logs_dir = os.path.join(expected_output_dir, "expected_logs_per_job")
             simulator_logs_file = os.path.join(subdir, "simulator_logs.txt")
 
-            expected_logs = os.listdir(expected_logs_dir)
-            expected_logs.sort()
+            if os.path.exists(expected_logs_dir) and os.path.exists(simulator_logs_file):
 
-            simulator_logs_valid = True
-            simulator_logs = []
+                expected_logs = os.listdir(expected_logs_dir)
+                expected_logs.sort()
 
-            for expected_log_file in expected_logs:
+                simulator_logs_valid = True
+                simulator_logs = []
 
-                job_id = int(expected_log_file.split(".")[0].split("_")[1])
-                expected_log_path = os.path.join(expected_logs_dir, expected_log_file)
+                for expected_log_file in expected_logs:
 
-                with open(expected_log_path, "r") as f:
-                    expected_contents = f.read()
+                    job_id = int(expected_log_file.split(".")[0].split("_")[1])
+                    expected_log_path = os.path.join(expected_logs_dir, expected_log_file)
 
-                with open(simulator_logs_file, "r") as f:
-                    job_contents = "".join([line for line in f if f"Job {job_id}:" in line])
+                    with open(expected_log_path, "r") as f:
+                        expected_contents = f.read()
 
-                if expected_contents.strip() == job_contents.strip():
-                    simulator_logs.append(f"    {GREEN}[✔]{END} Job {job_id}")
+                    with open(simulator_logs_file, "r") as f:
+                        job_contents = "".join([line for line in f if f"Job {job_id}:" in line])
+
+                    if expected_contents.strip() == job_contents.strip():
+                        simulator_logs.append(f"    {GREEN}[✔]{END} Job {job_id}")
+                    else:
+                        simulator_logs.append(f"    {RED}[✘]{END} Job {job_id}")
+                        simulator_logs_valid = False
+
+                if simulator_logs_valid:
+                    logs.append(f"  {GREEN}[✔]{END} Simulator Logs")
                 else:
-                    simulator_logs.append(f"    {RED}[✘]{END} Job {job_id}")
-                    simulator_logs_valid = False
+                    logs.append(f"  {RED}[✘]{END} Simulator Logs")
+                    example_is_valid = False
 
-            if simulator_logs_valid:
-                logs.append(f"  {GREEN}[✔]{END} Simulator Logs")
+                logs += simulator_logs
+
             else:
                 logs.append(f"  {RED}[✘]{END} Simulator Logs")
                 example_is_valid = False
-
-            logs += simulator_logs
 
         if example_is_valid:
             print(f"{GREEN}[✔]{END} Example {subdir}")

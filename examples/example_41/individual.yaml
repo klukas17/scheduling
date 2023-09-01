@@ -1,0 +1,156 @@
+topology:
+  parallel:
+    step_processing_order:
+      - 1
+    body:
+      - serial:
+          step_processing_order:
+            - 2
+          body:
+            - machine:
+                step_processing_order:
+                  - 3
+            - machine:
+                step_processing_order:
+                  - 4
+            - machine:
+                step_processing_order:
+                  - 5
+      - serial:
+          step_processing_order:
+            []
+          body:
+            - machine:
+                step_processing_order:
+                  []
+            - machine:
+                step_processing_order:
+                  []
+            - machine:
+                step_processing_order:
+                  []
+      - parallel:
+          step_processing_order:
+            []
+          body:
+            - machine:
+                step_processing_order:
+                  []
+            - machine:
+                step_processing_order:
+                  []
+            - machine:
+                step_processing_order:
+                  []
+      - parallel:
+          step_processing_order:
+            []
+          body:
+            - machine:
+                step_processing_order:
+                  []
+            - machine:
+                step_processing_order:
+                  []
+            - machine:
+                step_processing_order:
+                  []
+      - parallel:
+          step_processing_order:
+            []
+          body:
+            - route:
+                step_processing_order:
+                  []
+                body:
+                  - machine:
+                      step_processing_order:
+                        []
+                  - machine:
+                      step_processing_order:
+                        []
+                  - machine:
+                      step_processing_order:
+                        []
+            - route:
+                step_processing_order:
+                  []
+                body:
+                  - machine:
+                      step_processing_order:
+                        []
+                  - machine:
+                      step_processing_order:
+                        []
+                  - machine:
+                      step_processing_order:
+                        []
+            - route:
+                step_processing_order:
+                  []
+                body:
+                  - machine:
+                      step_processing_order:
+                        []
+                  - machine:
+                      step_processing_order:
+                        []
+                  - machine:
+                      step_processing_order:
+                        []
+      - parallel:
+          step_processing_order:
+            []
+          body:
+            - open:
+                step_processing_order:
+                  []
+                body:
+                  - machine:
+                      step_processing_order:
+                        []
+                  - machine:
+                      step_processing_order:
+                        []
+                  - machine:
+                      step_processing_order:
+                        []
+            - open:
+                step_processing_order:
+                  []
+                body:
+                  - machine:
+                      step_processing_order:
+                        []
+                  - machine:
+                      step_processing_order:
+                        []
+                  - machine:
+                      step_processing_order:
+                        []
+            - open:
+                step_processing_order:
+                  []
+                body:
+                  - machine:
+                      step_processing_order:
+                        []
+                  - machine:
+                      step_processing_order:
+                        []
+                  - machine:
+                      step_processing_order:
+                        []
+jobs:
+  - job_id: 1
+    processing_route:
+      - machine_id: 1
+        processing_step_id: 1
+      - machine_id: 2
+        processing_step_id: 2
+      - machine_id: 8
+        processing_step_id: 3
+      - machine_id: 9
+        processing_step_id: 4
+      - machine_id: 10
+        processing_step_id: 5

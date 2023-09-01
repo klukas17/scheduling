@@ -14,18 +14,23 @@
 #include "ParallelGroupPathNode.h"
 #include "RouteGroupPathNode.h"
 #include "OpenGroupPathNode.h"
+#include "iostream"
 
-void PathNodeUtils::logPathNodes(Topology *topology, const std::string &logs_path) {
+void PathNodeUtils::logPathNodes(std::map<long, Job*> jobs, const std::string &logs_path) {
     std::ofstream log_stream(logs_path);
-    std::deque<long> path_nodes_deque;
-    logPathNode(topology->getRootPathNode(), path_nodes_deque, log_stream);
+    for (auto & job_pair : jobs) {
+        log_stream << "JOB " << job_pair.first << ":" << std::endl;
+        std::deque<long> path_node_deque;
+        PathNodeUtils::logPathNode(job_pair.second->getPathsRootNode(), path_node_deque, log_stream);
+        log_stream << std::endl;
+    }
     log_stream.close();
 }
 
-void PathNodeUtils::logPathNode(PathNode *path_node, std::deque<long>& path_deque, std::ofstream & log_stream) {
+void PathNodeUtils::logPathNode(PathNode *path_node, std::deque<long>& path_node_deque, std::ofstream & log_stream) {
 
     if (!path_node) {
-        for (auto & node : path_deque) {
+        for (auto & node : path_node_deque) {
             log_stream << node << " ";
         }
         log_stream << std::endl;
@@ -40,42 +45,38 @@ void PathNodeUtils::logPathNode(PathNode *path_node, std::deque<long>& path_dequ
     }
 
     else if (path_node_topology_element_type == MACHINE_TOPOLOGY_ELEMENT) {
-        path_deque.push_back(path_node_id);
-        logPathNode(((MachinePathNode *) path_node)->getNext(), path_deque, log_stream);
-        path_deque.pop_back();
+        path_node_deque.push_back(path_node_id);
+        logPathNode(((MachinePathNode *) path_node)->getNext(), path_node_deque, log_stream);
+        path_node_deque.pop_back();
     }
 
     else if (path_node_topology_element_type == SERIAL_GROUP_TOPOLOGY_ELEMENT) {
-        path_deque.push_back(path_node_id);
-        logPathNode(((SerialGroupPathNode *) path_node)->getNext(), path_deque, log_stream);
-        path_deque.pop_back();
+        path_node_deque.push_back(path_node_id);
+        logPathNode(((SerialGroupPathNode *) path_node)->getNext(), path_node_deque, log_stream);
+        path_node_deque.pop_back();
     }
 
     else if (path_node_topology_element_type == PARALLEL_GROUP_TOPOLOGY_ELEMENT) {
-        for (auto & child : ((ParallelGroupPathNode*)path_node)->getNext()) {
-            path_deque.push_back(path_node_id);
-            logPathNode(child.second, path_deque, log_stream);
-            path_deque.pop_back();
+        path_node_deque.push_back(path_node_id);
+        for (auto & child : ((ParallelGroupPathNode*) path_node)->getNext()) {
+            logPathNode(child.second, path_node_deque, log_stream);
         }
+        path_node_deque.pop_back();
     }
 
     else if (path_node_topology_element_type == ROUTE_GROUP_TOPOLOGY_ELEMENT) {
-        for (auto sub_path_node : ((RouteGroupPathNode*)path_node)->getSubPathNodes()) {
-            std::deque<long> sub_path_node_deque = {path_node_id};
-            logPathNode(sub_path_node, sub_path_node_deque, log_stream);
-        }
-        path_deque.push_back(path_node_id);
-        logPathNode(((RouteGroupPathNode *) path_node)->getNext(), path_deque, log_stream);
-        path_deque.pop_back();
+        path_node_deque.push_back(path_node_id);
+        logPathNode(((RouteGroupPathNode *) path_node)->getNext(), path_node_deque, log_stream);
+        path_node_deque.pop_back();
     }
 
     else if (path_node_topology_element_type == OPEN_GROUP_TOPOLOGY_ELEMENT) {
-        for (auto sub_path_node : ((OpenGroupPathNode*)path_node)->getSubPathNodes()) {
+        for (auto sub_path_node : ((OpenGroupPathNode *) path_node)->getSubPathNodes()) {
             std::deque<long> sub_path_node_deque = {path_node_id};
-            logPathNode(sub_path_node, sub_path_node_deque, log_stream);
+            logPathNode(sub_path_node.second, sub_path_node_deque, log_stream);
         }
-        path_deque.push_back(path_node_id);
-        logPathNode(((OpenGroupPathNode *) path_node)->getNext(), path_deque, log_stream);
-        path_deque.pop_back();
+        path_node_deque.push_back(path_node_id);
+        logPathNode(((OpenGroupPathNode *) path_node)->getNext(), path_node_deque, log_stream);
+        path_node_deque.pop_back();
     }
 }

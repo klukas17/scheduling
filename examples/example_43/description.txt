@@ -1,0 +1,7 @@
+Parallel(machine, machine)
+
+1 type of jobs, 1 job in total
+
+1 type of machines, 2 machines in parallel
+
+Purpose: Check Parallel machines induction when only some sub_nodes are specified
