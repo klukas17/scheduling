@@ -1,0 +1,198 @@
+job_sequence:
+  - job_id: 1
+    job_type_id: 1
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+            sub_machines:
+              - machine_id: 5
+                sub_machines:
+                  - machine_id: 14
+                  - machine_id: 14
+                  - machine_id: 14
+              - machine_id: 5
+                sub_machines:
+                  - machine_id: 14
+                  - machine_id: 15
+                  - machine_id: 16
+              - machine_id: 5
+                sub_machines:
+                  - machine_id: 14
+                  - machine_id: 15
+                  - machine_id: 16
+              - machine_id: 6
+                sub_machines:
+                  - machine_id: 17
+                  - machine_id: 17
+                  - machine_id: 17
+              - machine_id: 6
+                sub_machines:
+                  - machine_id: 17
+                  - machine_id: 18
+                  - machine_id: 19
+              - machine_id: 6
+                sub_machines:
+                  - machine_id: 17
+                  - machine_id: 18
+                  - machine_id: 19
+              - machine_id: 7
+                sub_machines:
+                  - machine_id: 20
+                  - machine_id: 20
+                  - machine_id: 20
+              - machine_id: 7
+                sub_machines:
+                  - machine_id: 20
+                  - machine_id: 21
+                  - machine_id: 22
+              - machine_id: 7
+                sub_machines:
+                  - machine_id: 20
+                  - machine_id: 21
+                  - machine_id: 22
+          - machine_id: 3
+            sub_machines:
+              - machine_id: 8
+                sub_machines:
+                  - machine_id: 23
+                  - machine_id: 23
+                  - machine_id: 23
+              - machine_id: 8
+                sub_machines:
+                  - machine_id: 23
+                  - machine_id: 24
+                  - machine_id: 25
+              - machine_id: 8
+                sub_machines:
+                  - machine_id: 23
+                  - machine_id: 24
+                  - machine_id: 25
+              - machine_id: 9
+                sub_machines:
+                  - machine_id: 26
+                  - machine_id: 26
+                  - machine_id: 26
+              - machine_id: 9
+                sub_machines:
+                  - machine_id: 26
+                  - machine_id: 27
+                  - machine_id: 28
+              - machine_id: 9
+                sub_machines:
+                  - machine_id: 26
+                  - machine_id: 27
+                  - machine_id: 28
+              - machine_id: 10
+                sub_machines:
+                  - machine_id: 29
+                  - machine_id: 29
+                  - machine_id: 29
+              - machine_id: 10
+                sub_machines:
+                  - machine_id: 29
+                  - machine_id: 30
+                  - machine_id: 31
+              - machine_id: 10
+                sub_machines:
+                  - machine_id: 29
+                  - machine_id: 30
+                  - machine_id: 31
+          - machine_id: 4
+            sub_machines:
+              - machine_id: 11
+                sub_machines:
+                  - machine_id: 32
+                  - machine_id: 32
+                  - machine_id: 32
+              - machine_id: 11
+                sub_machines:
+                  - machine_id: 32
+                  - machine_id: 33
+                  - machine_id: 34
+              - machine_id: 11
+                sub_machines:
+                  - machine_id: 32
+                  - machine_id: 33
+                  - machine_id: 34
+              - machine_id: 12
+                sub_machines:
+                  - machine_id: 35
+                  - machine_id: 35
+                  - machine_id: 35
+              - machine_id: 12
+                sub_machines:
+                  - machine_id: 35
+                  - machine_id: 36
+                  - machine_id: 37
+              - machine_id: 12
+                sub_machines:
+                  - machine_id: 35
+                  - machine_id: 36
+                  - machine_id: 37
+              - machine_id: 13
+                sub_machines:
+                  - machine_id: 38
+                  - machine_id: 38
+                  - machine_id: 38
+              - machine_id: 13
+                sub_machines:
+                  - machine_id: 38
+                  - machine_id: 39
+                  - machine_id: 40
+              - machine_id: 13
+                sub_machines:
+                  - machine_id: 38
+                  - machine_id: 39
+                  - machine_id: 40
+          - machine_id: 2
+            sub_machines:
+              - machine_id: 5
+                sub_machines:
+                  - machine_id: 15
+                  - machine_id: 15
+                  - machine_id: 16
+              - machine_id: 6
+                sub_machines:
+                  - machine_id: 18
+                  - machine_id: 18
+                  - machine_id: 19
+              - machine_id: 7
+                sub_machines:
+                  - machine_id: 21
+                  - machine_id: 21
+                  - machine_id: 22
+          - machine_id: 3
+            sub_machines:
+              - machine_id: 8
+                sub_machines:
+                  - machine_id: 24
+                  - machine_id: 24
+                  - machine_id: 25
+              - machine_id: 9
+                sub_machines:
+                  - machine_id: 27
+                  - machine_id: 27
+                  - machine_id: 28
+              - machine_id: 10
+                sub_machines:
+                  - machine_id: 30
+                  - machine_id: 30
+                  - machine_id: 31
+          - machine_id: 4
+            sub_machines:
+              - machine_id: 11
+                sub_machines:
+                  - machine_id: 33
+                  - machine_id: 33
+                  - machine_id: 34
+              - machine_id: 12
+                sub_machines:
+                  - machine_id: 36
+                  - machine_id: 36
+                  - machine_id: 37
+              - machine_id: 13
+                sub_machines:
+                  - machine_id: 39
+                  - machine_id: 39
+                  - machine_id: 40

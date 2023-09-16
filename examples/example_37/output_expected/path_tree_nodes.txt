@@ -1,0 +1,42 @@
+JOB 1:
+Serial group: id = 1, path_node_id = 1
+	Serial group: id = 2, path_node_id = 2
+		Serial group: id = 5, path_node_id = 3
+			Machine: id = 14, path_node_id = 4
+			Machine: id = 15, path_node_id = 5
+			Machine: id = 16, path_node_id = 6
+		Serial group: id = 6, path_node_id = 7
+			Machine: id = 17, path_node_id = 8
+			Machine: id = 18, path_node_id = 9
+			Machine: id = 19, path_node_id = 10
+		Serial group: id = 7, path_node_id = 11
+			Machine: id = 20, path_node_id = 12
+			Machine: id = 21, path_node_id = 13
+			Machine: id = 22, path_node_id = 14
+	Serial group: id = 3, path_node_id = 15
+		Serial group: id = 8, path_node_id = 16
+			Machine: id = 23, path_node_id = 17
+			Machine: id = 24, path_node_id = 18
+			Machine: id = 25, path_node_id = 19
+		Serial group: id = 9, path_node_id = 20
+			Machine: id = 26, path_node_id = 21
+			Machine: id = 27, path_node_id = 22
+			Machine: id = 28, path_node_id = 23
+		Serial group: id = 10, path_node_id = 24
+			Machine: id = 29, path_node_id = 25
+			Machine: id = 30, path_node_id = 26
+			Machine: id = 31, path_node_id = 27
+	Serial group: id = 4, path_node_id = 28
+		Serial group: id = 11, path_node_id = 29
+			Machine: id = 32, path_node_id = 30
+			Machine: id = 33, path_node_id = 31
+			Machine: id = 34, path_node_id = 32
+		Serial group: id = 12, path_node_id = 33
+			Machine: id = 35, path_node_id = 34
+			Machine: id = 36, path_node_id = 35
+			Machine: id = 37, path_node_id = 36
+		Serial group: id = 13, path_node_id = 37
+			Machine: id = 38, path_node_id = 38
+			Machine: id = 39, path_node_id = 39
+			Machine: id = 40, path_node_id = 40
+

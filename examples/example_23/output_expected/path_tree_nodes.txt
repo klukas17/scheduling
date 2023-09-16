@@ -1,0 +1,15 @@
+JOB 1:
+Serial group: id = 1, path_node_id = 1
+	Serial group: id = 2, path_node_id = 2
+		Machine: id = 5, path_node_id = 3
+		Machine: id = 6, path_node_id = 4
+		Machine: id = 7, path_node_id = 5
+	Serial group: id = 3, path_node_id = 6
+		Machine: id = 8, path_node_id = 7
+		Machine: id = 9, path_node_id = 8
+		Machine: id = 10, path_node_id = 9
+	Serial group: id = 4, path_node_id = 10
+		Machine: id = 11, path_node_id = 11
+		Machine: id = 12, path_node_id = 12
+		Machine: id = 13, path_node_id = 13
+

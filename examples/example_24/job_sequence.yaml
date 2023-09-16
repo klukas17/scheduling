@@ -3,21 +3,3 @@ job_sequence:
     job_type_id: 1
     processing_route:
       - machine_id: 1
-        sub_machines:
-          - machine_id: 2
-            sub_machines:
-              - machine_id: 7
-                sub_machines:
-                  - machine_id: 12
-                  - machine_id: 13
-                    sub_machines:
-                      - machine_id: 17
-                        sub_machines:
-                          - machine_id: 22
-                          - machine_id: 23
-                  - machine_id: 14
-          - machine_id: 3
-          - machine_id: 4
-          - machine_id: 5
-            sub_machines:
-              - machine_id: 28

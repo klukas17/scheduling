@@ -18,7 +18,7 @@
 #include "SchedulingError.h"
 #include "yaml-cpp/yaml.h"
 
-Individual *GenotypeDeserializer::deserialize(const std::string& path, Topology* topology) {
+Individual *GenotypeDeserializer::deserialize(const std::string& path, Topology* topology, const std::map<long, Job*>& jobs) {
 
     auto individual = new Individual(topology);
     YAML::Node doc = YAML::LoadFile(path);
@@ -32,7 +32,7 @@ Individual *GenotypeDeserializer::deserialize(const std::string& path, Topology*
     }
 
     deserializeTopologyNode(path, doc["topology"], individual->getRootNode());
-    deserializeJobsNode(path, doc["jobs"], individual);
+    deserializeJobsNode(path, doc["jobs"], individual, jobs);
 
     return individual;
 }
@@ -154,7 +154,7 @@ void GenotypeDeserializer::deserializeTopologyNode(const std::string& path, cons
     }
 }
 
-void GenotypeDeserializer::deserializeJobsNode(const std::string& path, const YAML::Node &node, Individual *individual) {
+void GenotypeDeserializer::deserializeJobsNode(const std::string& path, const YAML::Node &node, Individual *individual, const std::map<long, Job*>& jobs) {
 
     for (YAML::const_iterator it = node.begin(); it != node.end(); it++) {
         if (!(*it)["job_id"]) {
@@ -175,7 +175,11 @@ void GenotypeDeserializer::deserializeJobsNode(const std::string& path, const YA
                 throw SchedulingError("'job' node without 'processing_step_id' child node found in " + path);
             }
             long processing_step_id = (*it_route)["processing_step_id"].as<long>();
-            auto job_processing_step = new JobProcessingStep(processing_step_id, machine_id, job_id);
+            if (!(*it_route)["path_node_id"]) {
+                throw SchedulingError("'job' node without 'path_node_id' child node found in " + path);
+            }
+            long path_node_id = (*it_route)["path_node_id"].as<long>();
+            auto job_processing_step = new JobProcessingStep(processing_step_id, machine_id, job_id, path_node_id);
             job_processing_route->addProcessingStep(job_processing_step);
         }
         individual->setProcessingRoute(job_id, job_processing_route);

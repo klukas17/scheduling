@@ -7,6 +7,7 @@
 #include "Simulator.h"
 #include "TopologyUtils.h"
 #include "PathNodeUtils.h"
+#include "PathTreeNodeUtils.h"
 #include "set"
 #include "filesystem"
 #include "iostream"
@@ -22,11 +23,12 @@ void run_example(const std::string& dir) {
     JobTypeMap* job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
     std::map<long, Job*> jobs = JobSequenceParser::parse(dir + "job_sequence.yaml", machine_type_map, job_type_map, topology);
     PathNodeUtils::logPathNodes(jobs, dir + "output/path_nodes.txt");
+    PathTreeNodeUtils::logPathTreeNodes(jobs, dir + "output/path_tree_nodes.txt");
 
-    Individual* individual = GenotypeDeserializer::deserialize(dir + "individual.yaml", topology);
+    Individual* individual = GenotypeDeserializer::deserialize(dir + "individual.yaml", topology, jobs);
     GenotypeSerializer::serialize(dir + "output/individual.yaml", individual);
 
-    Simulator::simulate(individual, topology, jobs, true, dir + "simulator_logs.txt");
+    Simulator::simulate(individual, topology, jobs, true, dir + "output/simulator_logs.txt");
 }
 
 int main() {
@@ -37,6 +39,11 @@ int main() {
         }
     }
     for (const auto& entry : examples_sorted_by_name) {
-        run_example(entry);
+        try {
+            run_example(entry);
+        }
+        catch (...) {
+            std::cout << "FAILED" << std::endl;
+        }
     }
 }

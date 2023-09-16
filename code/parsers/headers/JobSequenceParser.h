@@ -49,27 +49,29 @@ public:
      *
      * This function parses a PathNode using information from a YAML Node and returns a pointer to the constructed PathNode.
      *
-     * @param node The YAML Node containing information about the PathNode.
-     * @param path The path to the YAML file.
-     * @param legal_topology_elements A map of legal topology element IDs to TopologyElement pointers.
-     * @param machine_type_map A pointer to the MachineTypeMap used for PathNode parsing.
-     * @param forbidden_machine_types A set of machine type IDs that are forbidden for PathNode parsing.
-     * @return A pointer to the constructed PathNode.
+     * @param node The YAML Node containing information for constructing the PathNode.
+     * @param path The path to the YAML file containing job sequences.
+     * @param legal_topology_elements A map of legal topology elements for job path construction.
+     * @param machine_type_map A pointer to the MachineTypeMap used for job parsing.
+     * @param forbidden_machine_types A set of machine type IDs that are forbidden for job path construction.
+     * @param path_tree_node_id The identifier for the associated path tree node.
+     * @return A tuple containing the constructed PathNode, PathTreeNode, and the assigned path tree node ID.
      */
-    static PathNode* parsePathNodeWithYAMLNode(const YAML::Node& node, const std::string& path, std::map<long, TopologyElement*> legal_topology_elements, MachineTypeMap* machine_type_map, const std::set<long>& forbidden_machine_types);
+    static std::tuple<PathNode*, PathTreeNode*, long> parsePathNodeWithYAMLNode(const YAML::Node& node, const std::string& path, std::map<long, TopologyElement*> legal_topology_elements, MachineTypeMap* machine_type_map, const std::set<long>& forbidden_machine_types, long path_tree_node_id);
 
     /**
      * @brief Parses a PathNode without using YAML information.
      *
      * This function constructs a PathNode using information from provided parameters, without relying on YAML data.
      *
-     * @param path The path to the YAML file.
-     * @param topology_element A pointer to the TopologyElement to which the PathNode will be connected.
-     * @param machine_type_map A pointer to the MachineTypeMap used for PathNode parsing.
-     * @param forbidden_machine_types A set of machine type IDs that are forbidden for PathNode parsing.
-     * @return A pointer to the constructed PathNode.
+     * @param path The path to the YAML file containing job sequences.
+     * @param topology_element A pointer to the associated topology element.
+     * @param machine_type_map A pointer to the MachineTypeMap used for job parsing.
+     * @param forbidden_machine_types A set of machine type IDs that are forbidden for job path construction.
+     * @param path_tree_node_id The identifier for the associated path tree node.
+     * @return A tuple containing the constructed PathNode, PathTreeNode, and the assigned path tree node ID.
      */
-    static PathNode* parsePathNodeWithoutYAMLNode(const std::string& path, TopologyElement* topology_element, MachineTypeMap* machine_type_map, const std::set<long>& forbidden_machine_types);
+    static std::tuple<PathNode*, PathTreeNode*, long> parsePathNodeWithoutYAMLNode(const std::string& path, TopologyElement* topology_element, MachineTypeMap* machine_type_map, const std::set<long>& forbidden_machine_types, long path_tree_node_id);
 
     /**
      * @brief Connects two graphs of PathNodes to form a directed graph.

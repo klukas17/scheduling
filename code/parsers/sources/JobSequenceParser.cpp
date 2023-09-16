@@ -14,6 +14,11 @@
 #include "ParallelGroupPathNode.h"
 #include "RouteGroupPathNode.h"
 #include "OpenGroupPathNode.h"
+#include "MachinePathTreeNode.h"
+#include "SerialGroupPathTreeNode.h"
+#include "ParallelGroupPathTreeNode.h"
+#include "RouteGroupPathTreeNode.h"
+#include "OpenGroupPathTreeNode.h"
 #include "Machine.h"
 #include "SerialGroup.h"
 #include "ParallelGroup.h"
@@ -44,15 +49,15 @@ std::map<long, Job *> JobSequenceParser::parse(const std::string &path, MachineT
             long weight = ((*it)["weight"]) ? (*it)["weight"].as<long>() : 1;
 
             PathNode* paths_root_node = nullptr;
+            PathTreeNode* paths_root_tree_node = nullptr;
             const YAML::Node& processing_route_node = (*it)["processing_route"];
             if (processing_route_node) {
                 if (processing_route_node.size() != 1) {
                     throw SchedulingError("'processing_route' node for job with id " + std::to_string(job_id) + " can have only one child in " + path + " file.");
                 }
                 auto forbidden_machine_types = job_type_map->getJobType(job_type_id)->getForbiddenMachineTypes();
-                // todo
-                paths_root_node = parsePathNodeWithYAMLNode(*processing_route_node.begin(), path,
-                    {{topology->getRootElement()->getId(), topology->getRootElement()}}, machine_type_map, forbidden_machine_types);
+                std::tie(paths_root_node, paths_root_tree_node, std::ignore) = parsePathNodeWithYAMLNode(*processing_route_node.begin(), path,
+                    {{topology->getRootElement()->getId(), topology->getRootElement()}}, machine_type_map, forbidden_machine_types, 1);
                 if (!paths_root_node) {
                     throw SchedulingError("Cannot construct any job paths for job of id " + std::to_string(job_id) + " in function JobSequenceParser::parse.");
                 }
@@ -61,7 +66,7 @@ std::map<long, Job *> JobSequenceParser::parse(const std::string &path, MachineT
                 throw SchedulingError("'processing_route' node for job with id " + std::to_string(job_id) + " not found in " + path + " file.");
             }
 
-            Job* job = new Job(job_id, job_type, paths_root_node, release_time, due_time, weight);
+            Job* job = new Job(job_id, job_type, paths_root_node, paths_root_tree_node, release_time, due_time, weight);
             jobs[job_id] = job;
         }
     }
@@ -77,7 +82,7 @@ std::map<long, Job *> JobSequenceParser::parse(const std::string &path, MachineT
     return jobs;
 }
 
-PathNode *JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node, const std::string &path, std::map<long, TopologyElement *> legal_topology_elements, MachineTypeMap *machine_type_map, const std::set<long> &forbidden_machine_types) {
+std::tuple<PathNode*, PathTreeNode*, long> JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node, const std::string &path, std::map<long, TopologyElement *> legal_topology_elements, MachineTypeMap *machine_type_map, const std::set<long> &forbidden_machine_types, long path_tree_node_id) {
     if (!node["machine_id"]) {
         throw SchedulingError("Entry in the 'topology' or 'sub_machines' arrays must contain 'machine_id' field in the file " + path);
     }
@@ -97,11 +102,12 @@ PathNode *JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node, c
             throw SchedulingError("Machine of id " + std::to_string(machine_id) + " has no machine_type in JobSequenceParser::parsePathNodeWithoutYAMLNode function.");
         }
         if (forbidden_machine_types.find(machine_type_id) != forbidden_machine_types.end()) {
-            return nullptr;
+            return std::tuple(nullptr, nullptr, -1);
         }
     }
 
     PathNode* path_node = nullptr;
+    PathTreeNode* path_tree_node = nullptr;
 
     if (path_node_topology_element_type == ABSTRACT_TOPOLOGY_ELEMENT) {
         throw SchedulingError("Abstract topology element of id " + std::to_string(machine_id) +  " found in the file " + path);
@@ -109,8 +115,11 @@ PathNode *JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node, c
 
     else if (path_node_topology_element_type == MACHINE_TOPOLOGY_ELEMENT) {
         auto machine_element = (Machine*) topology_element;
-        auto machine_path_node = new MachinePathNode(machine_element);
+        auto machine_path_node = new MachinePathNode(path_tree_node_id, machine_element);
+        auto machine_path_tree_node = new MachinePathTreeNode(machine_path_node);
+        path_tree_node_id++;
         path_node = machine_path_node;
+        path_tree_node = machine_path_tree_node;
         const YAML::Node& sub_machines_node = node["sub_machines"];
         if (sub_machines_node) {
             throw SchedulingError("Machine topology element of id " + std::to_string(machine_id) +  " cannot have sub_machines in the file " + path);
@@ -119,10 +128,14 @@ PathNode *JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node, c
 
     else if (path_node_topology_element_type == SERIAL_GROUP_TOPOLOGY_ELEMENT) {
         auto serial_group_element = (SerialGroup*) topology_element;
-        auto serial_group_path_node = new SerialGroupPathNode(serial_group_element);
+        auto serial_group_path_node = new SerialGroupPathNode(path_tree_node_id, serial_group_element);
+        auto serial_group_path_tree_node = new SerialGroupPathTreeNode(serial_group_path_node);
+        path_tree_node_id++;
         path_node = serial_group_path_node;
+        path_tree_node = serial_group_path_tree_node;
         auto serial_group_children = serial_group_element->getChildren();
         std::vector<PathNode*> child_path_nodes;
+        std::vector<PathTreeNode*> child_path_tree_nodes;
 
         const YAML::Node& sub_machines_node = node["sub_machines"];
 
@@ -141,15 +154,21 @@ PathNode *JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node, c
                         " in the file " + path);
                 }
                 else {
-                    auto serial_group_child_path_node = parsePathNodeWithYAMLNode(*sub_machine_it, path, {{sub_machine_id, serial_group_children[serial_group_children_index]}}, machine_type_map, forbidden_machine_types);
+                    auto [serial_group_child_path_node, serial_group_child_path_tree_node, child_path_tree_node_id] = parsePathNodeWithYAMLNode(*sub_machine_it, path, {{sub_machine_id, serial_group_children[serial_group_children_index]}}, machine_type_map, forbidden_machine_types, path_tree_node_id);
                     if (!serial_group_child_path_node) {
+                        for (auto & child_path_tree_node : child_path_tree_nodes) {
+                            child_path_tree_node->deletePathTreeNode();
+                        }
                         for (auto & child_path_node : child_path_nodes) {
                             child_path_node->deletePathNode();
                         }
+                        serial_group_path_tree_node->deletePathTreeNode();
                         serial_group_path_node->deletePathNode();
-                        return nullptr;
+                        return std::tuple(nullptr, nullptr, -1);
                     }
                     child_path_nodes.push_back(serial_group_child_path_node);
+                    child_path_tree_nodes.push_back(serial_group_child_path_tree_node);
+                    path_tree_node_id = child_path_tree_node_id;
                     serial_group_children_index++;
                 }
             }
@@ -162,37 +181,54 @@ PathNode *JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node, c
                 connectGraphsOfPathNodes(child_path_nodes[i], child_path_nodes[i + 1]);
             }
             serial_group_path_node->setNext(child_path_nodes[0]);
+            for (auto child : child_path_tree_nodes) {
+                serial_group_path_tree_node->addChild(child);
+            }
         }
 
         else {
             for (auto child_element : serial_group_children) {
-                auto child_path_node = parsePathNodeWithoutYAMLNode(path, child_element, machine_type_map, forbidden_machine_types);
+                auto [child_path_node, child_path_tree_node, child_path_tree_node_id] = parsePathNodeWithoutYAMLNode(path, child_element, machine_type_map, forbidden_machine_types, path_tree_node_id);
                 if (!child_path_node) {
+                    for (auto child : child_path_tree_nodes) {
+                        child->deletePathTreeNode();
+                    }
                     for (auto child : child_path_nodes) {
                         child->deletePathNode();
                     }
+                    serial_group_path_tree_node->deletePathTreeNode();
                     serial_group_path_node->deletePathNode();
-                    return nullptr;
+                    return std::tuple(nullptr, nullptr, -1);
                 }
                 child_path_nodes.push_back(child_path_node);
+                child_path_tree_nodes.push_back(child_path_tree_node);
+                path_tree_node_id = child_path_tree_node_id;
             }
             if (child_path_nodes.empty()) {
+                serial_group_path_tree_node->deletePathTreeNode();
                 serial_group_path_node->deletePathNode();
-                return nullptr;
+                return std::tuple(nullptr, nullptr, -1);
             }
             for (int i = 0; i < child_path_nodes.size() - 1; i++) {
                 connectGraphsOfPathNodes(child_path_nodes[i], child_path_nodes[i + 1]);
             }
             connectGraphsOfPathNodes(serial_group_path_node, child_path_nodes[0]);
-            return serial_group_path_node;
+            for (auto child : child_path_tree_nodes) {
+                serial_group_path_tree_node->addChild(child);
+            }
+            return std::tuple(serial_group_path_node, serial_group_path_tree_node, path_tree_node_id);
         }
     }
 
     else if (path_node_topology_element_type == PARALLEL_GROUP_TOPOLOGY_ELEMENT) {
         auto parallel_group_element = (ParallelGroup*) topology_element;
-        auto parallel_group_path_node = new ParallelGroupPathNode(parallel_group_element);
+        auto parallel_group_path_node = new ParallelGroupPathNode(path_tree_node_id, parallel_group_element);
+        auto parallel_group_path_tree_node = new ParallelGroupPathTreeNode(parallel_group_path_node);
+        path_tree_node_id++;
         path_node = parallel_group_path_node;
+        path_tree_node = parallel_group_path_tree_node;
         auto parallel_group_children = parallel_group_element->getChildren();
+        std::set<long> failed_children_path_ids;
 
         const YAML::Node& sub_machines_node = node["sub_machines"];
 
@@ -221,51 +257,66 @@ PathNode *JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node, c
                         ", but received " + std::to_string(sub_machine_id) +
                         " in the file " + path);
                 }
-                auto parallel_group_job_path_node_child = parsePathNodeWithYAMLNode(*sub_machine_it, path, {{sub_machine_id, child_element}}, machine_type_map, forbidden_machine_types);
-                if (parallel_group_job_path_node_child) {
-                    parallel_group_path_node->setNext(sub_machine_id, parallel_group_job_path_node_child);
+                auto [parallel_group_path_node_child, parallel_group_path_tree_node_child, child_path_tree_node_id] = parsePathNodeWithYAMLNode(*sub_machine_it, path, {{sub_machine_id, child_element}}, machine_type_map, forbidden_machine_types, path_tree_node_id);
+                if (parallel_group_path_node_child) {
+                    parallel_group_path_node->setNext(sub_machine_id, parallel_group_path_node_child);
+                    parallel_group_path_tree_node->addChild(parallel_group_path_tree_node_child);
+                    path_tree_node_id = child_path_tree_node_id;
+                }
+                else {
+                    failed_children_path_ids.insert(child_element->getId());
                 }
             }
 
             for (auto child_element : parallel_group_children) {
-                if (parallel_group_path_node->getNext().find(child_element->getId()) == parallel_group_path_node->getNext().end()) {
-                    auto child_path_node = parsePathNodeWithoutYAMLNode(path, child_element, machine_type_map, forbidden_machine_types);
+                if (!parallel_group_path_node->getNext().contains(child_element->getId()) && !failed_children_path_ids.contains(child_element->getId())) {
+                    auto [child_path_node, child_path_tree_node, child_path_tree_node_id] = parsePathNodeWithoutYAMLNode(path, child_element, machine_type_map, forbidden_machine_types, path_tree_node_id);
                     if (child_path_node) {
                         parallel_group_path_node->setNext(child_element->getId(), child_path_node);
+                        parallel_group_path_tree_node->addChild(child_path_tree_node);
+                        path_tree_node_id = child_path_tree_node_id;
                     }
                 }
             }
 
             if (parallel_group_path_node->getNext().empty()) {
+                parallel_group_path_tree_node->deletePathTreeNode();
                 parallel_group_path_node->deletePathNode();
-                return nullptr;
+                return std::tuple(nullptr, nullptr, -1);
             }
         }
 
         else {
             for (auto child_element : parallel_group_children) {
-                auto child_path_node = parsePathNodeWithoutYAMLNode(path, child_element, machine_type_map, forbidden_machine_types);
+                auto [child_path_node, child_path_tree_node, child_path_tree_node_id] = parsePathNodeWithoutYAMLNode(path, child_element, machine_type_map, forbidden_machine_types, path_tree_node_id);
                 if (child_path_node) {
                     parallel_group_path_node->setNext(child_element->getId(), child_path_node);
+                    parallel_group_path_tree_node->addChild(child_path_tree_node);
+                    path_tree_node_id = child_path_tree_node_id;
                 }
             }
             if (parallel_group_path_node->getNext().empty()) {
+                parallel_group_path_tree_node->deletePathTreeNode();
                 parallel_group_path_node->deletePathNode();
-                return nullptr;
+                return std::tuple(nullptr, nullptr, -1);
             }
         }
     }
 
     else if (path_node_topology_element_type == ROUTE_GROUP_TOPOLOGY_ELEMENT) {
         auto route_group_element = (RouteGroup*) topology_element;
-        auto route_group_path_node = new RouteGroupPathNode(route_group_element);
+        auto route_group_path_node = new RouteGroupPathNode(path_tree_node_id, route_group_element);
+        auto route_group_path_tree_node = new RouteGroupPathTreeNode(route_group_path_node);
+        path_tree_node_id++;
         path_node = route_group_path_node;
+        path_tree_node = route_group_path_tree_node;
         auto route_group_children = route_group_element->getChildren();
 
         const YAML::Node& sub_machines_node = node["sub_machines"];
 
         if (sub_machines_node) {
             std::vector<PathNode*> route_group_child_path_nodes;
+            std::vector<PathTreeNode*> route_group_child_path_tree_nodes;
             for (YAML::const_iterator sub_machine_it = sub_machines_node.begin(); sub_machine_it != sub_machines_node.end(); sub_machine_it++) {
                 if (!(*sub_machine_it)["machine_id"]) {
                     throw SchedulingError("Entry in the 'sub_machines' array for machine of id " + std::to_string(machine_id) +
@@ -292,20 +343,29 @@ PathNode *JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node, c
                                           " in the file " + path);
                 }
                 else {
-                    auto route_group_child_path_node = parsePathNodeWithYAMLNode(*sub_machine_it, path, {{sub_machine_id, child_element}}, machine_type_map, forbidden_machine_types);
+                    auto [route_group_child_path_node, route_group_child_path_tree_node, child_path_tree_node_id] = parsePathNodeWithYAMLNode(*sub_machine_it, path, {{sub_machine_id, child_element}}, machine_type_map, forbidden_machine_types, path_tree_node_id);
                     if (!route_group_child_path_node) {
+                        for (auto & child_path_tree_node : route_group_child_path_tree_nodes) {
+                            child_path_tree_node->deletePathTreeNode();
+                        }
                         for (auto & child_path_node : route_group_child_path_nodes) {
                             child_path_node->deletePathNode();
                         }
+                        route_group_path_tree_node->deletePathTreeNode();
                         route_group_path_node->deletePathNode();
-                        return nullptr;
+                        return std::tuple(nullptr, nullptr, -1);
                     }
                     route_group_child_path_nodes.push_back(route_group_child_path_node);
+                    route_group_child_path_tree_nodes.push_back(route_group_child_path_tree_node);
+                    path_tree_node_id = child_path_tree_node_id;
                 }
             }
 
             for (int i = 0; i < route_group_child_path_nodes.size() - 1; i++) {
                 connectGraphsOfPathNodes(route_group_child_path_nodes[i], route_group_child_path_nodes[i + 1]);
+            }
+            for (auto child : route_group_child_path_tree_nodes) {
+                route_group_path_tree_node->addChild(child);
             }
             route_group_path_node->setNext(route_group_child_path_nodes[0]);
         }
@@ -313,8 +373,11 @@ PathNode *JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node, c
 
     else if (path_node_topology_element_type == OPEN_GROUP_TOPOLOGY_ELEMENT) {
         auto open_group_element = (OpenGroup*) topology_element;
-        auto open_group_path_node = new OpenGroupPathNode(open_group_element);
+        auto open_group_path_node = new OpenGroupPathNode(path_tree_node_id, open_group_element);
+        auto open_group_path_tree_node = new OpenGroupPathTreeNode(open_group_path_node);
+        path_tree_node_id++;
         path_node = open_group_path_node;
+        path_tree_node = open_group_path_tree_node;
         auto open_group_children = open_group_element->getChildren();
 
         const YAML::Node& sub_machines_node = node["sub_machines"];
@@ -334,7 +397,6 @@ PathNode *JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node, c
                     }
                 }
 
-
                 if (!child_element) {
                     std::string legal_child_ids = "[";
                     for (auto & child : open_group_children) {
@@ -347,12 +409,15 @@ PathNode *JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node, c
                                           " in the file " + path);
                 }
                 else {
-                    auto open_group_child_path_node = parsePathNodeWithYAMLNode(*sub_machine_it, path, {{sub_machine_id, child_element}}, machine_type_map, forbidden_machine_types);
+                    auto [open_group_child_path_node, open_group_child_path_tree_node, child_path_tree_node_id] = parsePathNodeWithYAMLNode(*sub_machine_it, path, {{sub_machine_id, child_element}}, machine_type_map, forbidden_machine_types, path_tree_node_id);
                     if (!open_group_child_path_node) {
+                        open_group_path_tree_node->deletePathTreeNode();
                         open_group_path_node->deletePathNode();
-                        return nullptr;
+                        return std::tuple(nullptr, nullptr, -1);
                     }
                     open_group_path_node->addSubPathNode(sub_machine_id, open_group_child_path_node);
+                    open_group_path_tree_node->addChild(open_group_child_path_tree_node);
+                    path_tree_node_id = child_path_tree_node_id;
                 }
             }
         }
@@ -374,10 +439,10 @@ PathNode *JobSequenceParser::parsePathNodeWithYAMLNode(const YAML::Node &node, c
         }
     }
 
-    return path_node;
+    return std::tuple(path_node, path_tree_node, path_tree_node_id);
 }
 
-PathNode *JobSequenceParser::parsePathNodeWithoutYAMLNode(const std::string &path, TopologyElement *topology_element, MachineTypeMap *machine_type_map, const std::set<long> &forbidden_machine_types) {
+std::tuple<PathNode*, PathTreeNode*, long> JobSequenceParser::parsePathNodeWithoutYAMLNode(const std::string &path, TopologyElement *topology_element, MachineTypeMap *machine_type_map, const std::set<long> &forbidden_machine_types, long path_tree_node_id) {
     auto topology_element_type = topology_element->getTopologyElementType();
     auto machine_id = topology_element->getId();
 
@@ -388,7 +453,7 @@ PathNode *JobSequenceParser::parsePathNodeWithoutYAMLNode(const std::string &pat
             throw SchedulingError("Machine of id " + std::to_string(machine_id) + " has no machine_type in JobSequenceParser::parsePathNodeWithoutYAMLNode function.");
         }
         if (forbidden_machine_types.find(machine_type_id) != forbidden_machine_types.end()) {
-            return nullptr;
+            return std::tuple(nullptr, nullptr, -1);
         }
     }
 
@@ -398,66 +463,94 @@ PathNode *JobSequenceParser::parsePathNodeWithoutYAMLNode(const std::string &pat
 
     else if (topology_element_type == MACHINE_TOPOLOGY_ELEMENT) {
         auto machine_element = (Machine*) topology_element;
-        auto machine_path_node = new MachinePathNode(machine_element);
-        return machine_path_node;
+        auto machine_path_node = new MachinePathNode(path_tree_node_id, machine_element);
+        auto machine_path_tree_node = new MachinePathTreeNode(machine_path_node);
+        path_tree_node_id++;
+        return std::tuple(machine_path_node, machine_path_tree_node, path_tree_node_id);
     }
 
     else if (topology_element_type == SERIAL_GROUP_TOPOLOGY_ELEMENT) {
         auto serial_group_element = (SerialGroup*) topology_element;
-        auto serial_group_path_node = new SerialGroupPathNode(serial_group_element);
+        auto serial_group_path_node = new SerialGroupPathNode(path_tree_node_id, serial_group_element);
+        auto serial_group_path_tree_node = new SerialGroupPathTreeNode(serial_group_path_node);
+        path_tree_node_id++;
         std::vector<PathNode*> child_path_nodes;
+        std::vector<PathTreeNode*> child_path_tree_nodes;
         for (auto child_element : serial_group_element->getChildren()) {
-            auto child_path_node = parsePathNodeWithoutYAMLNode(path, child_element, machine_type_map, forbidden_machine_types);
+            auto [child_path_node, child_path_tree_node, child_path_tree_node_id] = parsePathNodeWithoutYAMLNode(path, child_element, machine_type_map, forbidden_machine_types, path_tree_node_id);
             if (!child_path_node) {
+                for (auto child : child_path_tree_nodes) {
+                    child->deletePathTreeNode();
+                }
                 for (auto child : child_path_nodes) {
                     child->deletePathNode();
                 }
                 serial_group_path_node->deletePathNode();
-                return nullptr;
+                serial_group_path_tree_node->deletePathTreeNode();
+                return std::tuple(nullptr, nullptr, -1);
             }
             child_path_nodes.push_back(child_path_node);
+            child_path_tree_nodes.push_back(child_path_tree_node);
+            path_tree_node_id = child_path_tree_node_id;
         }
         if (child_path_nodes.empty()) {
+            serial_group_path_tree_node->deletePathTreeNode();
             serial_group_path_node->deletePathNode();
-            return nullptr;
+            return std::tuple(nullptr, nullptr, -1);
         }
         for (int i = 0; i < child_path_nodes.size() - 1; i++) {
             connectGraphsOfPathNodes(child_path_nodes[i], child_path_nodes[i + 1]);
         }
         connectGraphsOfPathNodes(serial_group_path_node, child_path_nodes[0]);
-        return serial_group_path_node;
+        for (auto child : child_path_tree_nodes) {
+            serial_group_path_tree_node->addChild(child);
+        }
+        return std::tuple(serial_group_path_node, serial_group_path_tree_node, path_tree_node_id);
     }
 
     else if (topology_element_type == PARALLEL_GROUP_TOPOLOGY_ELEMENT) {
         auto parallel_group_element = (ParallelGroup*) topology_element;
-        auto parallel_group_path_node = new ParallelGroupPathNode(parallel_group_element);
+        auto parallel_group_path_node = new ParallelGroupPathNode(path_tree_node_id, parallel_group_element);
+        auto parallel_group_path_tree_node = new ParallelGroupPathTreeNode(parallel_group_path_node);
+        path_tree_node_id++;
         for (auto child_element : parallel_group_element->getChildren()) {
-            auto child_path_node = parsePathNodeWithoutYAMLNode(path, child_element, machine_type_map, forbidden_machine_types);
+            auto [child_path_node, child_path_tree_node, child_path_tree_node_id] = parsePathNodeWithoutYAMLNode(path, child_element, machine_type_map, forbidden_machine_types, path_tree_node_id);
             if (child_path_node) {
                 parallel_group_path_node->setNext(child_element->getId(), child_path_node);
+                parallel_group_path_tree_node->addChild(child_path_tree_node);
+                path_tree_node_id = child_path_tree_node_id;
             }
         }
         if (parallel_group_path_node->getNext().empty()) {
+            parallel_group_path_tree_node->deletePathTreeNode();
             parallel_group_path_node->deletePathNode();
-            return nullptr;
+            return std::tuple(nullptr, nullptr, -1);
         }
-        return parallel_group_path_node;
+        return std::tuple(parallel_group_path_node, parallel_group_path_tree_node, path_tree_node_id);
     }
 
     else if (topology_element_type == ROUTE_GROUP_TOPOLOGY_ELEMENT) {
         auto route_group_element = (RouteGroup*) topology_element;
-        auto route_group_path_node = new RouteGroupPathNode(route_group_element);
-        return route_group_path_node;
+        auto route_group_path_node = new RouteGroupPathNode(path_tree_node_id, route_group_element);
+        auto route_group_path_tree_node = new RouteGroupPathTreeNode(route_group_path_node);
+        path_tree_node_id++;
+        return std::tuple(route_group_path_node, route_group_path_tree_node, path_tree_node_id);
     }
 
     else if (topology_element_type == OPEN_GROUP_TOPOLOGY_ELEMENT) {
         auto open_group_element = (OpenGroup*) topology_element;
-        auto open_group_path_node = new OpenGroupPathNode(open_group_element);
-        return open_group_path_node;
+        auto open_group_path_node = new OpenGroupPathNode(path_tree_node_id, open_group_element);
+        auto open_group_path_tree_node = new OpenGroupPathTreeNode(open_group_path_node);
+        path_tree_node_id++;
+        return std::tuple(open_group_path_node, open_group_path_tree_node, path_tree_node_id);
     }
 }
 
 void JobSequenceParser::connectGraphsOfPathNodes(PathNode *path_node, PathNode *next_path_node) {
+
+    if (path_node == next_path_node) {
+        return;
+    }
 
     switch (path_node->getTopologyElement()->getTopologyElementType()) {
 

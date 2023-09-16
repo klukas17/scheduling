@@ -1,0 +1,65 @@
+JOB 1:
+Open group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 2, path_node_id = 3
+	Machine: id = 2, path_node_id = 4
+	Machine: id = 2, path_node_id = 5
+	Machine: id = 2, path_node_id = 6
+	Machine: id = 2, path_node_id = 7
+	Machine: id = 2, path_node_id = 8
+	Machine: id = 2, path_node_id = 9
+	Machine: id = 2, path_node_id = 10
+	Machine: id = 2, path_node_id = 11
+
+JOB 2:
+Open group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 2, path_node_id = 3
+	Machine: id = 2, path_node_id = 4
+	Machine: id = 2, path_node_id = 5
+	Machine: id = 2, path_node_id = 6
+	Machine: id = 2, path_node_id = 7
+	Machine: id = 2, path_node_id = 8
+	Machine: id = 2, path_node_id = 9
+	Machine: id = 2, path_node_id = 10
+	Machine: id = 2, path_node_id = 11
+
+JOB 3:
+Open group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 2, path_node_id = 3
+	Machine: id = 2, path_node_id = 4
+	Machine: id = 2, path_node_id = 5
+	Machine: id = 2, path_node_id = 6
+	Machine: id = 2, path_node_id = 7
+	Machine: id = 2, path_node_id = 8
+	Machine: id = 2, path_node_id = 9
+	Machine: id = 2, path_node_id = 10
+	Machine: id = 2, path_node_id = 11
+
+JOB 4:
+Open group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 2, path_node_id = 3
+	Machine: id = 2, path_node_id = 4
+	Machine: id = 2, path_node_id = 5
+	Machine: id = 2, path_node_id = 6
+	Machine: id = 2, path_node_id = 7
+	Machine: id = 2, path_node_id = 8
+	Machine: id = 2, path_node_id = 9
+	Machine: id = 2, path_node_id = 10
+	Machine: id = 2, path_node_id = 11
+
+JOB 5:
+Open group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 2, path_node_id = 3
+	Machine: id = 2, path_node_id = 4
+	Machine: id = 2, path_node_id = 5
+	Machine: id = 2, path_node_id = 6
+	Machine: id = 2, path_node_id = 7
+	Machine: id = 2, path_node_id = 8
+	Machine: id = 2, path_node_id = 9
+	Machine: id = 2, path_node_id = 10
+	Machine: id = 2, path_node_id = 11
+

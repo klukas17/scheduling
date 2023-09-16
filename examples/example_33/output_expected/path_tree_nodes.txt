@@ -1,0 +1,11 @@
+JOB 1:
+Open group: id = 1, path_node_id = 1
+	Machine: id = 3, path_node_id = 2
+
+JOB 2:
+Open group: id = 1, path_node_id = 1
+	Machine: id = 3, path_node_id = 2
+	Machine: id = 2, path_node_id = 3
+	Machine: id = 2, path_node_id = 4
+	Machine: id = 3, path_node_id = 5
+

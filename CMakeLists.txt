@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.24)
 project(scheduling)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 # https://github.com/jbeder/yaml-cpp
 set(YAML_CPP_DIR ~/libs/yaml-cpp)
@@ -15,6 +15,7 @@ include_directories(
         code/jobs/headers
         code/machines/headers
         code/parsers/headers
+        code/paths/headers
         code/serializers/headers
         code/simulator/headers
         code/topology/headers
@@ -28,6 +29,7 @@ file(GLOB PROJECT_HEADERS
         code/jobs/headers/*.h
         code/machines/headers/*.h
         code/parsers/headers/*.h
+        code/paths/headers/*.h
         code/serializers/headers/*.h
         code/simulator/headers/*.h
         code/topology/headers/*.h
@@ -41,6 +43,7 @@ file(GLOB PROJECT_SOURCES
         code/jobs/sources/*.cpp
         code/machines/sources/*.cpp
         code/parsers/sources/*.cpp
+        code/paths/sources/*.cpp
         code/serializers/sources/*.cpp
         code/simulator/sources/*.cpp
         code/topology/sources/*.cpp

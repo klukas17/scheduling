@@ -24,7 +24,7 @@ job_sequence:
                   - job_id: 1
                     machine_id: 3
                     repetitions: 1
-              - machine_id: 4
+              - machine_id: 5
                 prerequisites:
                   - job_id: 1
                     machine_id: 3
@@ -36,7 +36,7 @@ job_sequence:
                   - job_id: 1
                     machine_id: 3
                     repetitions: 3
-              - machine_id: 4
+              - machine_id: 5
                 prerequisites:
                   - job_id: 1
                     machine_id: 3
@@ -48,7 +48,7 @@ job_sequence:
                   - job_id: 1
                     machine_id: 3
                     repetitions: 5
-              - machine_id: 4
+              - machine_id: 5
                 prerequisites:
                   - job_id: 1
                     machine_id: 3
@@ -60,7 +60,7 @@ job_sequence:
                   - job_id: 1
                     machine_id: 3
                     repetitions: 7
-              - machine_id: 4
+              - machine_id: 5
                 prerequisites:
                   - job_id: 1
                     machine_id: 3

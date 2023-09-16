@@ -1,0 +1,701 @@
+topology:
+  open:
+    step_processing_order:
+      - 1
+    body:
+      - open:
+          step_processing_order:
+            - 2
+            - 113
+          body:
+            - open:
+                step_processing_order:
+                  - 3
+                  - 7
+                  - 11
+                  - 114
+                body:
+                  - machine:
+                      step_processing_order:
+                        - 4
+                        - 5
+                        - 6
+                        - 8
+                        - 12
+                  - machine:
+                      step_processing_order:
+                        - 9
+                        - 13
+                        - 115
+                        - 116
+                  - machine:
+                      step_processing_order:
+                        - 10
+                        - 14
+                        - 117
+            - open:
+                step_processing_order:
+                  - 15
+                  - 19
+                  - 23
+                  - 118
+                body:
+                  - machine:
+                      step_processing_order:
+                        - 16
+                        - 17
+                        - 18
+                        - 20
+                        - 24
+                  - machine:
+                      step_processing_order:
+                        - 21
+                        - 25
+                        - 119
+                        - 120
+                  - machine:
+                      step_processing_order:
+                        - 22
+                        - 26
+                        - 121
+            - open:
+                step_processing_order:
+                  - 27
+                  - 31
+                  - 35
+                  - 122
+                body:
+                  - machine:
+                      step_processing_order:
+                        - 28
+                        - 29
+                        - 30
+                        - 32
+                        - 36
+                  - machine:
+                      step_processing_order:
+                        - 33
+                        - 37
+                        - 123
+                        - 124
+                  - machine:
+                      step_processing_order:
+                        - 34
+                        - 38
+                        - 125
+      - open:
+          step_processing_order:
+            - 39
+            - 126
+          body:
+            - open:
+                step_processing_order:
+                  - 30
+                  - 44
+                  - 48
+                  - 127
+                body:
+                  - machine:
+                      step_processing_order:
+                        - 41
+                        - 42
+                        - 43
+                        - 45
+                        - 49
+                  - machine:
+                      step_processing_order:
+                        - 46
+                        - 50
+                        - 128
+                        - 129
+                  - machine:
+                      step_processing_order:
+                        - 47
+                        - 51
+                        - 130
+            - open:
+                step_processing_order:
+                  - 52
+                  - 56
+                  - 60
+                  - 131
+                body:
+                  - machine:
+                      step_processing_order:
+                        - 53
+                        - 54
+                        - 55
+                        - 57
+                        - 61
+                  - machine:
+                      step_processing_order:
+                        - 58
+                        - 62
+                        - 132
+                        - 133
+                  - machine:
+                      step_processing_order:
+                        - 59
+                        - 63
+                        - 134
+            - open:
+                step_processing_order:
+                  - 64
+                  - 68
+                  - 72
+                  - 135
+                body:
+                  - machine:
+                      step_processing_order:
+                        - 65
+                        - 66
+                        - 67
+                        - 69
+                        - 73
+                  - machine:
+                      step_processing_order:
+                        - 70
+                        - 74
+                        - 136
+                        - 137
+                  - machine:
+                      step_processing_order:
+                        - 71
+                        - 75
+                        - 138
+      - open:
+          step_processing_order:
+            - 76
+            - 139
+          body:
+            - open:
+                step_processing_order:
+                  - 77
+                  - 81
+                  - 85
+                  - 140
+                body:
+                  - machine:
+                      step_processing_order:
+                        - 78
+                        - 79
+                        - 80
+                        - 82
+                        - 86
+                  - machine:
+                      step_processing_order:
+                        - 83
+                        - 87
+                        - 141
+                        - 142
+                  - machine:
+                      step_processing_order:
+                        - 84
+                        - 88
+                        - 143
+            - open:
+                step_processing_order:
+                  - 89
+                  - 93
+                  - 97
+                  - 144
+                body:
+                  - machine:
+                      step_processing_order:
+                        - 90
+                        - 91
+                        - 92
+                        - 94
+                        - 98
+                  - machine:
+                      step_processing_order:
+                        - 95
+                        - 99
+                        - 145
+                        - 146
+                  - machine:
+                      step_processing_order:
+                        - 96
+                        - 100
+                        - 147
+            - open:
+                step_processing_order:
+                  - 101
+                  - 105
+                  - 109
+                  - 148
+                body:
+                  - machine:
+                      step_processing_order:
+                        - 102
+                        - 103
+                        - 104
+                        - 106
+                        - 110
+                  - machine:
+                      step_processing_order:
+                        - 107
+                        - 111
+                        - 149
+                        - 150
+                  - machine:
+                      step_processing_order:
+                        - 108
+                        - 112
+                        - 152
+jobs:
+  - job_id: 1
+    processing_route:
+      - machine_id: 1
+        path_node_id: 1
+        processing_step_id: 1
+      - machine_id: 2
+        path_node_id: 2
+        processing_step_id: 2
+      - machine_id: 5
+        path_node_id: 3
+        processing_step_id: 3
+      - machine_id: 14
+        path_node_id: 4
+        processing_step_id: 4
+      - machine_id: 14
+        path_node_id: 5
+        processing_step_id: 5
+      - machine_id: 14
+        path_node_id: 6
+        processing_step_id: 6
+      - machine_id: 5
+        path_node_id: 7
+        processing_step_id: 7
+      - machine_id: 14
+        path_node_id: 8
+        processing_step_id: 8
+      - machine_id: 15
+        path_node_id: 9
+        processing_step_id: 9
+      - machine_id: 16
+        path_node_id: 10
+        processing_step_id: 10
+      - machine_id: 5
+        path_node_id: 11
+        processing_step_id: 11
+      - machine_id: 14
+        path_node_id: 12
+        processing_step_id: 12
+      - machine_id: 15
+        path_node_id: 13
+        processing_step_id: 13
+      - machine_id: 16
+        path_node_id: 14
+        processing_step_id: 14
+      - machine_id: 6
+        path_node_id: 15
+        processing_step_id: 15
+      - machine_id: 17
+        path_node_id: 16
+        processing_step_id: 16
+      - machine_id: 17
+        path_node_id: 17
+        processing_step_id: 17
+      - machine_id: 17
+        path_node_id: 18
+        processing_step_id: 18
+      - machine_id: 6
+        path_node_id: 19
+        processing_step_id: 19
+      - machine_id: 17
+        path_node_id: 20
+        processing_step_id: 20
+      - machine_id: 18
+        path_node_id: 21
+        processing_step_id: 21
+      - machine_id: 19
+        path_node_id: 22
+        processing_step_id: 22
+      - machine_id: 6
+        path_node_id: 23
+        processing_step_id: 23
+      - machine_id: 17
+        path_node_id: 24
+        processing_step_id: 24
+      - machine_id: 18
+        path_node_id: 25
+        processing_step_id: 25
+      - machine_id: 19
+        path_node_id: 26
+        processing_step_id: 26
+      - machine_id: 7
+        path_node_id: 27
+        processing_step_id: 27
+      - machine_id: 20
+        path_node_id: 28
+        processing_step_id: 28
+      - machine_id: 20
+        path_node_id: 29
+        processing_step_id: 29
+      - machine_id: 20
+        path_node_id: 30
+        processing_step_id: 30
+      - machine_id: 7
+        path_node_id: 31
+        processing_step_id: 31
+      - machine_id: 20
+        path_node_id: 32
+        processing_step_id: 32
+      - machine_id: 21
+        path_node_id: 33
+        processing_step_id: 33
+      - machine_id: 22
+        path_node_id: 34
+        processing_step_id: 34
+      - machine_id: 7
+        path_node_id: 35
+        processing_step_id: 35
+      - machine_id: 20
+        path_node_id: 36
+        processing_step_id: 36
+      - machine_id: 21
+        path_node_id: 37
+        processing_step_id: 37
+      - machine_id: 22
+        path_node_id: 38
+        processing_step_id: 38
+      - machine_id: 3
+        path_node_id: 39
+        processing_step_id: 39
+      - machine_id: 8
+        path_node_id: 40
+        processing_step_id: 40
+      - machine_id: 23
+        path_node_id: 41
+        processing_step_id: 41
+      - machine_id: 23
+        path_node_id: 42
+        processing_step_id: 42
+      - machine_id: 23
+        path_node_id: 43
+        processing_step_id: 43
+      - machine_id: 8
+        path_node_id: 44
+        processing_step_id: 44
+      - machine_id: 23
+        path_node_id: 45
+        processing_step_id: 45
+      - machine_id: 24
+        path_node_id: 46
+        processing_step_id: 46
+      - machine_id: 25
+        path_node_id: 47
+        processing_step_id: 47
+      - machine_id: 8
+        path_node_id: 48
+        processing_step_id: 48
+      - machine_id: 23
+        path_node_id: 49
+        processing_step_id: 49
+      - machine_id: 24
+        path_node_id: 50
+        processing_step_id: 50
+      - machine_id: 25
+        path_node_id: 51
+        processing_step_id: 51
+      - machine_id: 9
+        path_node_id: 52
+        processing_step_id: 52
+      - machine_id: 26
+        path_node_id: 53
+        processing_step_id: 53
+      - machine_id: 26
+        path_node_id: 54
+        processing_step_id: 54
+      - machine_id: 26
+        path_node_id: 55
+        processing_step_id: 55
+      - machine_id: 9
+        path_node_id: 56
+        processing_step_id: 56
+      - machine_id: 26
+        path_node_id: 57
+        processing_step_id: 57
+      - machine_id: 27
+        path_node_id: 58
+        processing_step_id: 58
+      - machine_id: 28
+        path_node_id: 59
+        processing_step_id: 59
+      - machine_id: 9
+        path_node_id: 60
+        processing_step_id: 60
+      - machine_id: 26
+        path_node_id: 61
+        processing_step_id: 61
+      - machine_id: 27
+        path_node_id: 62
+        processing_step_id: 62
+      - machine_id: 28
+        path_node_id: 63
+        processing_step_id: 63
+      - machine_id: 10
+        path_node_id: 64
+        processing_step_id: 64
+      - machine_id: 29
+        path_node_id: 65
+        processing_step_id: 65
+      - machine_id: 29
+        path_node_id: 66
+        processing_step_id: 66
+      - machine_id: 29
+        path_node_id: 67
+        processing_step_id: 67
+      - machine_id: 10
+        path_node_id: 68
+        processing_step_id: 68
+      - machine_id: 29
+        path_node_id: 69
+        processing_step_id: 69
+      - machine_id: 30
+        path_node_id: 70
+        processing_step_id: 70
+      - machine_id: 31
+        path_node_id: 71
+        processing_step_id: 71
+      - machine_id: 10
+        path_node_id: 72
+        processing_step_id: 72
+      - machine_id: 29
+        path_node_id: 73
+        processing_step_id: 73
+      - machine_id: 30
+        path_node_id: 74
+        processing_step_id: 74
+      - machine_id: 31
+        path_node_id: 75
+        processing_step_id: 75
+      - machine_id: 4
+        path_node_id: 76
+        processing_step_id: 76
+      - machine_id: 11
+        path_node_id: 77
+        processing_step_id: 77
+      - machine_id: 32
+        path_node_id: 78
+        processing_step_id: 78
+      - machine_id: 32
+        path_node_id: 79
+        processing_step_id: 79
+      - machine_id: 32
+        path_node_id: 80
+        processing_step_id: 80
+      - machine_id: 11
+        path_node_id: 81
+        processing_step_id: 81
+      - machine_id: 32
+        path_node_id: 82
+        processing_step_id: 82
+      - machine_id: 33
+        path_node_id: 83
+        processing_step_id: 83
+      - machine_id: 34
+        path_node_id: 84
+        processing_step_id: 84
+      - machine_id: 11
+        path_node_id: 85
+        processing_step_id: 85
+      - machine_id: 32
+        path_node_id: 86
+        processing_step_id: 86
+      - machine_id: 33
+        path_node_id: 87
+        processing_step_id: 87
+      - machine_id: 34
+        path_node_id: 88
+        processing_step_id: 88
+      - machine_id: 12
+        path_node_id: 89
+        processing_step_id: 89
+      - machine_id: 35
+        path_node_id: 90
+        processing_step_id: 90
+      - machine_id: 35
+        path_node_id: 91
+        processing_step_id: 91
+      - machine_id: 35
+        path_node_id: 92
+        processing_step_id: 92
+      - machine_id: 12
+        path_node_id: 93
+        processing_step_id: 93
+      - machine_id: 35
+        path_node_id: 94
+        processing_step_id: 94
+      - machine_id: 36
+        path_node_id: 95
+        processing_step_id: 95
+      - machine_id: 37
+        path_node_id: 96
+        processing_step_id: 96
+      - machine_id: 12
+        path_node_id: 97
+        processing_step_id: 97
+      - machine_id: 35
+        path_node_id: 98
+        processing_step_id: 98
+      - machine_id: 36
+        path_node_id: 99
+        processing_step_id: 99
+      - machine_id: 37
+        path_node_id: 100
+        processing_step_id: 100
+      - machine_id: 13
+        path_node_id: 101
+        processing_step_id: 101
+      - machine_id: 38
+        path_node_id: 102
+        processing_step_id: 102
+      - machine_id: 38
+        path_node_id: 103
+        processing_step_id: 103
+      - machine_id: 38
+        path_node_id: 104
+        processing_step_id: 104
+      - machine_id: 13
+        path_node_id: 105
+        processing_step_id: 105
+      - machine_id: 38
+        path_node_id: 106
+        processing_step_id: 106
+      - machine_id: 39
+        path_node_id: 107
+        processing_step_id: 107
+      - machine_id: 40
+        path_node_id: 108
+        processing_step_id: 108
+      - machine_id: 13
+        path_node_id: 109
+        processing_step_id: 109
+      - machine_id: 38
+        path_node_id: 110
+        processing_step_id: 110
+      - machine_id: 39
+        path_node_id: 111
+        processing_step_id: 111
+      - machine_id: 40
+        path_node_id: 112
+        processing_step_id: 112
+      - machine_id: 2
+        path_node_id: 113
+        processing_step_id: 113
+      - machine_id: 5
+        path_node_id: 114
+        processing_step_id: 114
+      - machine_id: 15
+        path_node_id: 115
+        processing_step_id: 115
+      - machine_id: 15
+        path_node_id: 116
+        processing_step_id: 116
+      - machine_id: 16
+        path_node_id: 117
+        processing_step_id: 117
+      - machine_id: 6
+        path_node_id: 118
+        processing_step_id: 118
+      - machine_id: 18
+        path_node_id: 119
+        processing_step_id: 119
+      - machine_id: 18
+        path_node_id: 120
+        processing_step_id: 120
+      - machine_id: 19
+        path_node_id: 121
+        processing_step_id: 121
+      - machine_id: 7
+        path_node_id: 122
+        processing_step_id: 122
+      - machine_id: 21
+        path_node_id: 123
+        processing_step_id: 123
+      - machine_id: 21
+        path_node_id: 124
+        processing_step_id: 124
+      - machine_id: 22
+        path_node_id: 125
+        processing_step_id: 125
+      - machine_id: 3
+        path_node_id: 126
+        processing_step_id: 126
+      - machine_id: 8
+        path_node_id: 127
+        processing_step_id: 127
+      - machine_id: 24
+        path_node_id: 128
+        processing_step_id: 128
+      - machine_id: 24
+        path_node_id: 129
+        processing_step_id: 129
+      - machine_id: 25
+        path_node_id: 130
+        processing_step_id: 130
+      - machine_id: 9
+        path_node_id: 131
+        processing_step_id: 131
+      - machine_id: 27
+        path_node_id: 132
+        processing_step_id: 132
+      - machine_id: 27
+        path_node_id: 133
+        processing_step_id: 133
+      - machine_id: 28
+        path_node_id: 134
+        processing_step_id: 134
+      - machine_id: 10
+        path_node_id: 135
+        processing_step_id: 135
+      - machine_id: 30
+        path_node_id: 136
+        processing_step_id: 136
+      - machine_id: 30
+        path_node_id: 137
+        processing_step_id: 137
+      - machine_id: 31
+        path_node_id: 138
+        processing_step_id: 138
+      - machine_id: 4
+        path_node_id: 139
+        processing_step_id: 139
+      - machine_id: 11
+        path_node_id: 140
+        processing_step_id: 140
+      - machine_id: 33
+        path_node_id: 141
+        processing_step_id: 141
+      - machine_id: 33
+        path_node_id: 142
+        processing_step_id: 142
+      - machine_id: 34
+        path_node_id: 143
+        processing_step_id: 143
+      - machine_id: 12
+        path_node_id: 144
+        processing_step_id: 144
+      - machine_id: 36
+        path_node_id: 145
+        processing_step_id: 145
+      - machine_id: 36
+        path_node_id: 146
+        processing_step_id: 146
+      - machine_id: 37
+        path_node_id: 147
+        processing_step_id: 147
+      - machine_id: 13
+        path_node_id: 148
+        processing_step_id: 148
+      - machine_id: 39
+        path_node_id: 149
+        processing_step_id: 149
+      - machine_id: 39
+        path_node_id: 150
+        processing_step_id: 150
+      - machine_id: 40
+        path_node_id: 151
+        processing_step_id: 151
