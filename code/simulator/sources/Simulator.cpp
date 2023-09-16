@@ -12,6 +12,7 @@
 #include "queue"
 #include "fstream"
 #include "MachineProcessingContext.h"
+#include "JobProcessingContext.h"
 #include "Event.h"
 #include "SystemEntry.h"
 #include "SystemExit.h"
@@ -33,6 +34,11 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
     std::map<long, MachineProcessingContext*> machine_processing_context_map;
     for (auto entry : machine_map) {
         machine_processing_context_map[entry.first] = new MachineProcessingContext(entry.second);
+    }
+
+    std::map<long, JobProcessingContext*> job_processing_context_map;
+    for (auto entry : jobs) {
+        job_processing_context_map[entry.first] = new JobProcessingContext(entry.second);
     }
 
     auto job_route_map = individual->getProcessingRoutes();
@@ -65,6 +71,7 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                     auto system_entry_event = dynamic_cast<SystemEntry*>(event);
                     long job_id = system_entry_event->getJobId();
                     auto processing_step = job_route_map[job_id]->getNextProcessingStep();
+                    job_processing_context_map[job_id]->setJobProcessingStep(processing_step);
                     long machine_id = processing_step->getMachineId();
                     long step_id = processing_step->getProcessingStepId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
@@ -75,13 +82,21 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
 
                 case SYSTEM_EXIT: {
                     auto system_exit_event = dynamic_cast<SystemExit*>(event);
+                    long job_id = system_exit_event->getJobId();
+                    auto job_processing_context = job_processing_context_map[job_id];
+                    if (!job_processing_context->checkIfPathFinished()) {
+                        throw SchedulingError("Path invalid for job " + std::to_string(job_id));
+                    }
                     break;
                 }
 
                 case MACHINE_BUFFER_ENTRY: {
                     auto machine_buffer_entry_event = dynamic_cast<MachineBufferEntry*>(event);
+                    auto job_id = machine_buffer_entry_event->getJobId();
                     long machine_id = machine_buffer_entry_event->getMachineId();
                     long step_id = machine_buffer_entry_event->getStepId();
+                    auto job_processing_context = job_processing_context_map[job_id];
+                    job_processing_context->moveToNextPathNode(machine_id);
                     wake_machines_queue.push(new WakeMachine(time, machine_id));
                     break;
                 }
@@ -92,9 +107,6 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                     long machine_id = machine_entry_event->getMachineId();
                     long step_id = machine_entry_event->getStepId();
                     long processing_duration = jobs.at(job_id)->getProcessingTime(machine_id);
-                    if (enable_logging) {
-                        log_file << "[" << time << "] " << "Job " << job_id << ": Started processing on Machine " << machine_id << " (step_id = " << step_id << ")" << std::endl;
-                    }
                     addToEventQueue(new MachineExit(time + processing_duration, job_id, machine_id, step_id), event_queue);
                     break;
                 }
@@ -107,10 +119,12 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                     auto machine_processing_context = machine_processing_context_map[machine_id];
                     auto job_route = job_route_map[job_id];
                     if (job_route->checkHasFinished()) {
+                        job_processing_context_map[job_id]->setJobProcessingStep(nullptr);
                         addToEventQueue(new SystemExit(time, job_id), event_queue);
                     }
                     else {
                         auto processing_step = job_route->getNextProcessingStep();
+                        job_processing_context_map[job_id]->setJobProcessingStep(processing_step);
                         long next_machine_id = processing_step->getMachineId();
                         long next_step_id = processing_step->getProcessingStepId();
                         auto next_machine_processing_context = machine_processing_context_map[next_machine_id];
@@ -127,7 +141,7 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                     throw SchedulingError("Abstract event encountered in Simulator::simulate function.");
 
                 case WAKE_MACHINE:
-                    throw SchedulingError("Wake machine event encountered in Simulator::simulate function.");
+                    throw SchedulingError("Wake machine event encountered the event_queue in Simulator::simulate function.");
             }
 
             if (enable_logging && !event->getMessage().empty()) {
@@ -139,26 +153,41 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
 
         else {
 
-            // WAKE_MACHINE
-            auto wake_machine_event = wake_machines_queue.top();
+            auto event = wake_machines_queue.top();
             wake_machines_queue.pop();
-            long machine_id = wake_machine_event->getMachineId();
-            MachineProcessingContext* machine_processing_context = machine_processing_context_map[machine_id];
-            if (machine_processing_context->getStepsInBuffer() > 0 && !machine_processing_context->getCurrentlyWorking()) {
-                auto processing_pair = machine_processing_context->takeStepFromBuffer();
-                long step_id = processing_pair.first;
-                long job_id = processing_pair.second;
-                addToEventQueue(new MachineEntry(time, job_id, machine_id, step_id), event_queue);
-                machine_processing_context->setCurrentlyWorking();
+
+            switch (event->getEventType()) {
+
+                case ABSTRACT:
+                case SYSTEM_ENTRY:
+                case SYSTEM_EXIT:
+                case MACHINE_BUFFER_ENTRY:
+                case MACHINE_ENTRY:
+                case MACHINE_EXIT:
+                    throw SchedulingError("Non wake machine event encountered in wake machine event queue in Simulator::simulate function.");;
+
+                case WAKE_MACHINE:
+                    auto wake_machine_event = dynamic_cast<WakeMachine*>(event);
+                    long machine_id = wake_machine_event->getMachineId();
+                    MachineProcessingContext* machine_processing_context = machine_processing_context_map[machine_id];
+                    if (machine_processing_context->getStepsInBuffer() > 0 && !machine_processing_context->getCurrentlyWorking()) {
+                        auto processing_pair = machine_processing_context->takeStepFromBuffer();
+                        long step_id = processing_pair.first;
+                        long job_id = processing_pair.second;
+                        addToEventQueue(new MachineEntry(time, job_id, machine_id, step_id), event_queue);
+                        machine_processing_context->setCurrentlyWorking();
+                    }
+                    break;
             }
 
+            delete event;
         }
     }
 
     log_file.close();
 }
 
-void Simulator::addToEventQueue(Event *event, std::deque<Event*> &event_queue) {
+inline void Simulator::addToEventQueue(Event *event, std::deque<Event*> &event_queue) {
     auto it = std::upper_bound(event_queue.begin(), event_queue.end(), event, [](const Event* a, const Event* b) {
         return a->getTime() < b->getTime();
     });

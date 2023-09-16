@@ -23,20 +23,28 @@ jobs:
   - job_id: 1
     processing_route:
       - machine_id: 1
+        path_node_id: 1
         processing_step_id: 1
       - machine_id: 2
+        path_node_id: 2
         processing_step_id: 2
       - machine_id: 4
+        path_node_id: 3
         processing_step_id: 3
       - machine_id: 3
+        path_node_id: 5
         processing_step_id: 4
   - job_id: 2
     processing_route:
       - machine_id: 1
+        path_node_id: 1
         processing_step_id: 5
       - machine_id: 2
+        path_node_id: 2
         processing_step_id: 6
       - machine_id: 5
+        path_node_id: 4
         processing_step_id: 7
       - machine_id: 3
+        path_node_id: 5
         processing_step_id: 8

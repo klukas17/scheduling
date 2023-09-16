@@ -9,6 +9,7 @@ total_examples = 0
 
 check_topology = True
 check_path_nodes = True
+check_path_tree_nodes = True
 check_individual = True
 check_simulator_logs = True
 
@@ -52,6 +53,20 @@ for subdir in subdirs:
                 logs.append(f"  {RED}[✘]{END} Path Nodes")
                 example_is_valid = False
 
+        if check_path_tree_nodes:
+            path_tree_nodes_output = os.path.join(output_dir, "path_tree_nodes.txt")
+            expected_path_tree_nodes = os.path.join(expected_output_dir, "path_tree_nodes.txt")
+            if os.path.exists(path_tree_nodes_output) and os.path.exists(expected_path_tree_nodes):
+                with open(path_tree_nodes_output, "r") as f1, open(expected_path_tree_nodes, "r") as f2:
+                    if f1.read().strip() == f2.read().strip():
+                        logs.append(f"  {GREEN}[✔]{END} Path Tree Nodes")
+                    else:
+                        logs.append(f"  {RED}[✘]{END} Path Tree Nodes")
+                        example_is_valid = False
+            else:
+                logs.append(f"  {RED}[✘]{END} Path Tree Nodes")
+                example_is_valid = False
+
         if check_individual:
             individual_output = os.path.join(output_dir, "individual.yaml")
             expected_individual_output = os.path.join(subdir, "individual.yaml")
@@ -69,7 +84,7 @@ for subdir in subdirs:
         if check_simulator_logs:
 
             expected_logs_dir = os.path.join(expected_output_dir, "expected_logs_per_job")
-            simulator_logs_file = os.path.join(subdir, "simulator_logs.txt")
+            simulator_logs_file = os.path.join(subdir, "output/simulator_logs.txt")
 
             if os.path.exists(expected_logs_dir) and os.path.exists(simulator_logs_file):
 

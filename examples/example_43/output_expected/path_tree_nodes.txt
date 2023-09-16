@@ -1,0 +1,5 @@
+JOB 1:
+Parallel group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 3, path_node_id = 3
+

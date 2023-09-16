@@ -1,0 +1,13 @@
+JOB 1:
+Route group: id = 1, path_node_id = 1
+	Open group: id = 2, path_node_id = 2
+		Machine: id = 5, path_node_id = 3
+	Open group: id = 4, path_node_id = 4
+		Machine: id = 11, path_node_id = 5
+	Open group: id = 3, path_node_id = 6
+		Machine: id = 8, path_node_id = 7
+	Open group: id = 4, path_node_id = 8
+		Machine: id = 13, path_node_id = 9
+	Open group: id = 3, path_node_id = 10
+		Machine: id = 10, path_node_id = 11
+

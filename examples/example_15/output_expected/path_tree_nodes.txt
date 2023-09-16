@@ -1,0 +1,81 @@
+JOB 1:
+Parallel group: id = 1, path_node_id = 1
+	Route group: id = 2, path_node_id = 2
+		Machine: id = 5, path_node_id = 3
+		Machine: id = 6, path_node_id = 4
+		Machine: id = 7, path_node_id = 5
+	Route group: id = 3, path_node_id = 6
+	Route group: id = 4, path_node_id = 7
+
+JOB 2:
+Parallel group: id = 1, path_node_id = 1
+	Route group: id = 3, path_node_id = 2
+		Machine: id = 8, path_node_id = 3
+		Machine: id = 9, path_node_id = 4
+		Machine: id = 10, path_node_id = 5
+	Route group: id = 2, path_node_id = 6
+	Route group: id = 4, path_node_id = 7
+
+JOB 3:
+Parallel group: id = 1, path_node_id = 1
+	Route group: id = 4, path_node_id = 2
+		Machine: id = 11, path_node_id = 3
+		Machine: id = 12, path_node_id = 4
+		Machine: id = 13, path_node_id = 5
+	Route group: id = 2, path_node_id = 6
+	Route group: id = 3, path_node_id = 7
+
+JOB 4:
+Parallel group: id = 1, path_node_id = 1
+	Route group: id = 2, path_node_id = 2
+		Machine: id = 6, path_node_id = 3
+		Machine: id = 7, path_node_id = 4
+		Machine: id = 5, path_node_id = 5
+	Route group: id = 3, path_node_id = 6
+	Route group: id = 4, path_node_id = 7
+
+JOB 5:
+Parallel group: id = 1, path_node_id = 1
+	Route group: id = 3, path_node_id = 2
+		Machine: id = 9, path_node_id = 3
+		Machine: id = 10, path_node_id = 4
+		Machine: id = 8, path_node_id = 5
+	Route group: id = 2, path_node_id = 6
+	Route group: id = 4, path_node_id = 7
+
+JOB 6:
+Parallel group: id = 1, path_node_id = 1
+	Route group: id = 4, path_node_id = 2
+		Machine: id = 12, path_node_id = 3
+		Machine: id = 13, path_node_id = 4
+		Machine: id = 11, path_node_id = 5
+	Route group: id = 2, path_node_id = 6
+	Route group: id = 3, path_node_id = 7
+
+JOB 7:
+Parallel group: id = 1, path_node_id = 1
+	Route group: id = 2, path_node_id = 2
+		Machine: id = 7, path_node_id = 3
+		Machine: id = 5, path_node_id = 4
+		Machine: id = 6, path_node_id = 5
+	Route group: id = 3, path_node_id = 6
+	Route group: id = 4, path_node_id = 7
+
+JOB 8:
+Parallel group: id = 1, path_node_id = 1
+	Route group: id = 3, path_node_id = 2
+		Machine: id = 10, path_node_id = 3
+		Machine: id = 8, path_node_id = 4
+		Machine: id = 9, path_node_id = 5
+	Route group: id = 2, path_node_id = 6
+	Route group: id = 4, path_node_id = 7
+
+JOB 9:
+Parallel group: id = 1, path_node_id = 1
+	Route group: id = 4, path_node_id = 2
+		Machine: id = 13, path_node_id = 3
+		Machine: id = 11, path_node_id = 4
+		Machine: id = 12, path_node_id = 5
+	Route group: id = 2, path_node_id = 6
+	Route group: id = 3, path_node_id = 7
+

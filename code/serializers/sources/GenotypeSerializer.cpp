@@ -46,6 +46,8 @@ void GenotypeSerializer::serializeJobsNode(Individual *individual, YAML::Emitter
             out << YAML::BeginMap;
             out << YAML::Key << "machine_id";
             out << YAML::Value << entry->getMachineId();
+            out << YAML::Key << "path_node_id";
+            out << YAML::Value << entry->getPathNodeId();
             out << YAML::Key << "processing_step_id";
             out << YAML::Value << entry->getProcessingStepId();
             out << YAML::EndMap;

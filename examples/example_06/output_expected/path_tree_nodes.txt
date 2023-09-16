@@ -1,0 +1,30 @@
+JOB 1:
+Route group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 3, path_node_id = 3
+
+JOB 2:
+Route group: id = 1, path_node_id = 1
+	Machine: id = 3, path_node_id = 2
+	Machine: id = 4, path_node_id = 3
+
+JOB 3:
+Route group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 4, path_node_id = 3
+
+JOB 4:
+Route group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 3, path_node_id = 3
+
+JOB 5:
+Route group: id = 1, path_node_id = 1
+	Machine: id = 3, path_node_id = 2
+	Machine: id = 4, path_node_id = 3
+
+JOB 6:
+Route group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 4, path_node_id = 3
+

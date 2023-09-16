@@ -3,3 +3,5 @@ job_sequence:
     job_type_id: 1
     processing_route:
       - machine_id: 1
+        sub_machines:
+          - machine_id: 2

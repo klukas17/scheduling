@@ -1,0 +1,23 @@
+JOB 1:
+Parallel group: id = 1, path_node_id = 1
+	Serial group: id = 2, path_node_id = 2
+		Machine: id = 8, path_node_id = 3
+		Machine: id = 9, path_node_id = 4
+		Machine: id = 10, path_node_id = 5
+	Parallel group: id = 4, path_node_id = 6
+		Machine: id = 15, path_node_id = 7
+	Parallel group: id = 6, path_node_id = 8
+		Route group: id = 20, path_node_id = 9
+			Machine: id = 26, path_node_id = 10
+			Machine: id = 27, path_node_id = 11
+			Machine: id = 28, path_node_id = 12
+		Route group: id = 21, path_node_id = 13
+			Machine: id = 29, path_node_id = 14
+	Parallel group: id = 7, path_node_id = 15
+		Open group: id = 23, path_node_id = 16
+			Machine: id = 35, path_node_id = 17
+			Machine: id = 36, path_node_id = 18
+			Machine: id = 37, path_node_id = 19
+		Open group: id = 24, path_node_id = 20
+			Machine: id = 38, path_node_id = 21
+

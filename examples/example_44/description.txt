@@ -1,0 +1,7 @@
+Open(open(open, open, open), open(open, open, open), open(open, open, open))
+
+1 type of jobs, 1 job in total
+
+1 type of machines, 27 in total
+
+Purpose: Test usage of path nodes in the simulator

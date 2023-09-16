@@ -1,0 +1,6 @@
+JOB 1:
+Serial group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Route group: id = 3, path_node_id = 3
+	Machine: id = 4, path_node_id = 4
+

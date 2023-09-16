@@ -1,0 +1,42 @@
+JOB 1:
+Open group: id = 1, path_node_id = 1
+	Parallel group: id = 2, path_node_id = 2
+		Machine: id = 5, path_node_id = 3
+		Machine: id = 6, path_node_id = 4
+	Parallel group: id = 3, path_node_id = 5
+		Machine: id = 7, path_node_id = 6
+		Machine: id = 8, path_node_id = 7
+	Parallel group: id = 4, path_node_id = 8
+		Machine: id = 9, path_node_id = 9
+		Machine: id = 10, path_node_id = 10
+	Parallel group: id = 2, path_node_id = 11
+		Machine: id = 5, path_node_id = 12
+		Machine: id = 6, path_node_id = 13
+	Parallel group: id = 3, path_node_id = 14
+		Machine: id = 7, path_node_id = 15
+		Machine: id = 8, path_node_id = 16
+	Parallel group: id = 4, path_node_id = 17
+		Machine: id = 9, path_node_id = 18
+		Machine: id = 10, path_node_id = 19
+
+JOB 2:
+Open group: id = 1, path_node_id = 1
+	Parallel group: id = 2, path_node_id = 2
+		Machine: id = 5, path_node_id = 3
+		Machine: id = 6, path_node_id = 4
+	Parallel group: id = 3, path_node_id = 5
+		Machine: id = 7, path_node_id = 6
+		Machine: id = 8, path_node_id = 7
+	Parallel group: id = 4, path_node_id = 8
+		Machine: id = 9, path_node_id = 9
+		Machine: id = 10, path_node_id = 10
+	Parallel group: id = 2, path_node_id = 11
+		Machine: id = 5, path_node_id = 12
+		Machine: id = 6, path_node_id = 13
+	Parallel group: id = 3, path_node_id = 14
+		Machine: id = 7, path_node_id = 15
+		Machine: id = 8, path_node_id = 16
+	Parallel group: id = 4, path_node_id = 17
+		Machine: id = 9, path_node_id = 18
+		Machine: id = 10, path_node_id = 19
+

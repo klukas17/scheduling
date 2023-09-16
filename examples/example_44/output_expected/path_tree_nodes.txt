@@ -1,0 +1,153 @@
+JOB 1:
+Open group: id = 1, path_node_id = 1
+	Open group: id = 2, path_node_id = 2
+		Open group: id = 5, path_node_id = 3
+			Machine: id = 14, path_node_id = 4
+			Machine: id = 14, path_node_id = 5
+			Machine: id = 14, path_node_id = 6
+		Open group: id = 5, path_node_id = 7
+			Machine: id = 14, path_node_id = 8
+			Machine: id = 15, path_node_id = 9
+			Machine: id = 16, path_node_id = 10
+		Open group: id = 5, path_node_id = 11
+			Machine: id = 14, path_node_id = 12
+			Machine: id = 15, path_node_id = 13
+			Machine: id = 16, path_node_id = 14
+		Open group: id = 6, path_node_id = 15
+			Machine: id = 17, path_node_id = 16
+			Machine: id = 17, path_node_id = 17
+			Machine: id = 17, path_node_id = 18
+		Open group: id = 6, path_node_id = 19
+			Machine: id = 17, path_node_id = 20
+			Machine: id = 18, path_node_id = 21
+			Machine: id = 19, path_node_id = 22
+		Open group: id = 6, path_node_id = 23
+			Machine: id = 17, path_node_id = 24
+			Machine: id = 18, path_node_id = 25
+			Machine: id = 19, path_node_id = 26
+		Open group: id = 7, path_node_id = 27
+			Machine: id = 20, path_node_id = 28
+			Machine: id = 20, path_node_id = 29
+			Machine: id = 20, path_node_id = 30
+		Open group: id = 7, path_node_id = 31
+			Machine: id = 20, path_node_id = 32
+			Machine: id = 21, path_node_id = 33
+			Machine: id = 22, path_node_id = 34
+		Open group: id = 7, path_node_id = 35
+			Machine: id = 20, path_node_id = 36
+			Machine: id = 21, path_node_id = 37
+			Machine: id = 22, path_node_id = 38
+	Open group: id = 3, path_node_id = 39
+		Open group: id = 8, path_node_id = 40
+			Machine: id = 23, path_node_id = 41
+			Machine: id = 23, path_node_id = 42
+			Machine: id = 23, path_node_id = 43
+		Open group: id = 8, path_node_id = 44
+			Machine: id = 23, path_node_id = 45
+			Machine: id = 24, path_node_id = 46
+			Machine: id = 25, path_node_id = 47
+		Open group: id = 8, path_node_id = 48
+			Machine: id = 23, path_node_id = 49
+			Machine: id = 24, path_node_id = 50
+			Machine: id = 25, path_node_id = 51
+		Open group: id = 9, path_node_id = 52
+			Machine: id = 26, path_node_id = 53
+			Machine: id = 26, path_node_id = 54
+			Machine: id = 26, path_node_id = 55
+		Open group: id = 9, path_node_id = 56
+			Machine: id = 26, path_node_id = 57
+			Machine: id = 27, path_node_id = 58
+			Machine: id = 28, path_node_id = 59
+		Open group: id = 9, path_node_id = 60
+			Machine: id = 26, path_node_id = 61
+			Machine: id = 27, path_node_id = 62
+			Machine: id = 28, path_node_id = 63
+		Open group: id = 10, path_node_id = 64
+			Machine: id = 29, path_node_id = 65
+			Machine: id = 29, path_node_id = 66
+			Machine: id = 29, path_node_id = 67
+		Open group: id = 10, path_node_id = 68
+			Machine: id = 29, path_node_id = 69
+			Machine: id = 30, path_node_id = 70
+			Machine: id = 31, path_node_id = 71
+		Open group: id = 10, path_node_id = 72
+			Machine: id = 29, path_node_id = 73
+			Machine: id = 30, path_node_id = 74
+			Machine: id = 31, path_node_id = 75
+	Open group: id = 4, path_node_id = 76
+		Open group: id = 11, path_node_id = 77
+			Machine: id = 32, path_node_id = 78
+			Machine: id = 32, path_node_id = 79
+			Machine: id = 32, path_node_id = 80
+		Open group: id = 11, path_node_id = 81
+			Machine: id = 32, path_node_id = 82
+			Machine: id = 33, path_node_id = 83
+			Machine: id = 34, path_node_id = 84
+		Open group: id = 11, path_node_id = 85
+			Machine: id = 32, path_node_id = 86
+			Machine: id = 33, path_node_id = 87
+			Machine: id = 34, path_node_id = 88
+		Open group: id = 12, path_node_id = 89
+			Machine: id = 35, path_node_id = 90
+			Machine: id = 35, path_node_id = 91
+			Machine: id = 35, path_node_id = 92
+		Open group: id = 12, path_node_id = 93
+			Machine: id = 35, path_node_id = 94
+			Machine: id = 36, path_node_id = 95
+			Machine: id = 37, path_node_id = 96
+		Open group: id = 12, path_node_id = 97
+			Machine: id = 35, path_node_id = 98
+			Machine: id = 36, path_node_id = 99
+			Machine: id = 37, path_node_id = 100
+		Open group: id = 13, path_node_id = 101
+			Machine: id = 38, path_node_id = 102
+			Machine: id = 38, path_node_id = 103
+			Machine: id = 38, path_node_id = 104
+		Open group: id = 13, path_node_id = 105
+			Machine: id = 38, path_node_id = 106
+			Machine: id = 39, path_node_id = 107
+			Machine: id = 40, path_node_id = 108
+		Open group: id = 13, path_node_id = 109
+			Machine: id = 38, path_node_id = 110
+			Machine: id = 39, path_node_id = 111
+			Machine: id = 40, path_node_id = 112
+	Open group: id = 2, path_node_id = 113
+		Open group: id = 5, path_node_id = 114
+			Machine: id = 15, path_node_id = 115
+			Machine: id = 15, path_node_id = 116
+			Machine: id = 16, path_node_id = 117
+		Open group: id = 6, path_node_id = 118
+			Machine: id = 18, path_node_id = 119
+			Machine: id = 18, path_node_id = 120
+			Machine: id = 19, path_node_id = 121
+		Open group: id = 7, path_node_id = 122
+			Machine: id = 21, path_node_id = 123
+			Machine: id = 21, path_node_id = 124
+			Machine: id = 22, path_node_id = 125
+	Open group: id = 3, path_node_id = 126
+		Open group: id = 8, path_node_id = 127
+			Machine: id = 24, path_node_id = 128
+			Machine: id = 24, path_node_id = 129
+			Machine: id = 25, path_node_id = 130
+		Open group: id = 9, path_node_id = 131
+			Machine: id = 27, path_node_id = 132
+			Machine: id = 27, path_node_id = 133
+			Machine: id = 28, path_node_id = 134
+		Open group: id = 10, path_node_id = 135
+			Machine: id = 30, path_node_id = 136
+			Machine: id = 30, path_node_id = 137
+			Machine: id = 31, path_node_id = 138
+	Open group: id = 4, path_node_id = 139
+		Open group: id = 11, path_node_id = 140
+			Machine: id = 33, path_node_id = 141
+			Machine: id = 33, path_node_id = 142
+			Machine: id = 34, path_node_id = 143
+		Open group: id = 12, path_node_id = 144
+			Machine: id = 36, path_node_id = 145
+			Machine: id = 36, path_node_id = 146
+			Machine: id = 37, path_node_id = 147
+		Open group: id = 13, path_node_id = 148
+			Machine: id = 39, path_node_id = 149
+			Machine: id = 39, path_node_id = 150
+			Machine: id = 40, path_node_id = 151
+
