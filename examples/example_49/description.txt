@@ -1,0 +1,5 @@
+Serial(machine, machine)
+
+1 type of jobs, 3 jobs in total
+
+Purpose: preempt test - preempting multiple machines

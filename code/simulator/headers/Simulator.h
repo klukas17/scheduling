@@ -37,13 +37,6 @@ public:
      * @param logs_path The path where simulation logs will be saved if logging is enabled.
      */
     static void simulate(Individual* individual, Topology* topology, const std::map<long, Job*>& jobs, bool enable_logging = false, const std::string& logs_path = "");
-
-    /**
-     * @brief Adds an event to the event queue for simulation.
-     * @param event A pointer to the Event object to be added to the event queue.
-     * @param event_queue A deque representing the event queue for the simulation.
-     */
-    static void addToEventQueue(Event* event, std::deque<Event*>& event_queue);
 };
 
 #endif //SCHEDULING_SIMULATOR_H

@@ -47,7 +47,7 @@ public:
      * @brief Retrieves the type of the event.
      * @return The type of the event.
      */
-    EventType getEventType();
+    [[nodiscard]] EventType getEventType() const;
 
     /**
      * @brief Retrieves the message associated with the event.

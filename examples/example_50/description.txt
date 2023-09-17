@@ -1,0 +1,5 @@
+Machine
+
+1 type of jobs, 3 jobs in total
+
+Purpose: preempt test - multiple preempts on same machine

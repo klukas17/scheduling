@@ -23,7 +23,8 @@ MachineTypeMap* MachineSpecificationsParser::parse(const std::string& path) {
                 throw SchedulingError("Entry in the 'machines' array must contain 'machine_id' field in the file " + path);
             }
             long id = (*it)["machine_id"].as<long>();
-            auto machine_type = new MachineType(id);
+            long preempt = ((*it)["preempt"]) && (*it)["preempt"].as<bool>();
+            auto machine_type = new MachineType(id, preempt);
             machine_type_map->addMachineType(id, machine_type);
         }
     } else {

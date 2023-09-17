@@ -9,10 +9,15 @@
 
 #include "MachineType.h"
 
-MachineType::MachineType(long id) {
+MachineType::MachineType(long id, bool preempt) {
     this->id = id;
+    this->preempt = preempt;
 }
 
 long MachineType::getId() const {
     return id;
+}
+
+bool MachineType::getPreempt() const {
+    return preempt;
 }
