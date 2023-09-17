@@ -1,0 +1,9 @@
+[0] Job 1: System entry
+[0] Job 1: Machine 1 buffer entry (step_id = 1)
+[0] Job 1: Started processing on Machine 1 (step_id = 1)
+[0] Job 1: Finished processing on Machine 1 (step_id = 1)
+[0] Job 1: Machine 2 buffer entry (step_id = 2)
+[0] Job 1: Started processing on Machine 2 (step_id = 2)
+[5] Job 1: Finished processing on Machine 2 (step_id = 2)
+[5] Job 1: Machine 3 buffer entry (step_id = 3)
+[5] Job 1: Started waiting for prerequisites on Machine 3 (step_id = 3)

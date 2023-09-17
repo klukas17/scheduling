@@ -13,6 +13,7 @@
 #include "fstream"
 #include "MachineProcessingContext.h"
 #include "JobProcessingContext.h"
+#include "JobProcessingPrerequisites.h"
 #include "Event.h"
 #include "SystemEntry.h"
 #include "SystemExit.h"
@@ -20,6 +21,8 @@
 #include "WakeMachine.h"
 #include "MachineEntry.h"
 #include "MachineExit.h"
+#include "PrerequisitesWaitStart.h"
+#include "PrerequisitesWaitEnd.h"
 #include "SchedulingError.h"
 
 void Simulator::simulate(Individual *individual, Topology* topology, const std::map<long, Job *> &jobs, bool enable_logging, const std::string &logs_path) {
@@ -42,6 +45,15 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
     }
 
     auto job_route_map = individual->getProcessingRoutes();
+
+    std::map<long, std::map<long, long>> machine_to_job_times_processed_map;
+    for (auto machine_pair : topology->getTopologyElementsMap()) {
+        for (auto job_pair : jobs) {
+            machine_to_job_times_processed_map[machine_pair.first][job_pair.first] = 0;
+        }
+    }
+
+    std::vector<JobProcessingPrerequisites*> unfulfilled_job_processing_prerequisites;
 
     auto comparator = [topology] (WakeMachine* a, WakeMachine* b) {
         long id1 = a->getMachineId();
@@ -74,9 +86,7 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                     job_processing_context_map[job_id]->setJobProcessingStep(processing_step);
                     long machine_id = processing_step->getMachineId();
                     long step_id = processing_step->getProcessingStepId();
-                    auto machine_processing_context = machine_processing_context_map[machine_id];
                     addToEventQueue(new MachineBufferEntry(time, job_id, machine_id, step_id), event_queue);
-                    machine_processing_context->addStepToBuffer(step_id, job_id);
                     break;
                 }
 
@@ -95,9 +105,19 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                     auto job_id = machine_buffer_entry_event->getJobId();
                     long machine_id = machine_buffer_entry_event->getMachineId();
                     long step_id = machine_buffer_entry_event->getStepId();
+                    auto machine_processing_context = machine_processing_context_map[machine_id];
                     auto job_processing_context = job_processing_context_map[job_id];
                     job_processing_context->moveToNextPathNode(machine_id);
-                    wake_machines_queue.push(new WakeMachine(time, machine_id));
+                    auto job = jobs.at(job_id);
+                    auto path_tree_node = job->getPathTreeNode(individual->getProcessingRoute(job_id)->getProcessingStep(step_id)->getPathNodeId());
+                    if (path_tree_node->getPathNode()->getPrerequisites().empty()) {
+                        machine_processing_context->addStepToBuffer(step_id, job_id);
+                        wake_machines_queue.push(new WakeMachine(time, machine_id));
+                    }
+                    else {
+                        machine_processing_context->addStepWaitingForPrerequisite(step_id, job_id);
+                        addToEventQueue(new PrerequisitesWaitStart(time, job_id, machine_id, step_id), event_queue);
+                    }
                     break;
                 }
 
@@ -127,21 +147,70 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                         job_processing_context_map[job_id]->setJobProcessingStep(processing_step);
                         long next_machine_id = processing_step->getMachineId();
                         long next_step_id = processing_step->getProcessingStepId();
-                        auto next_machine_processing_context = machine_processing_context_map[next_machine_id];
                         addToEventQueue(new MachineBufferEntry(time, job_id, next_machine_id, next_step_id), event_queue);
-                        next_machine_processing_context->addStepToBuffer(next_step_id, job_id);
                     }
                     machine_processing_context->decreaseStepsInBuffer();
                     machine_processing_context->unsetCurrentlyWorking();
+                    wake_machines_queue.push(new WakeMachine(time, machine_id));
+                    machine_to_job_times_processed_map[machine_id][job_id]++;
+                    auto it = unfulfilled_job_processing_prerequisites.begin();
+                    while (it != unfulfilled_job_processing_prerequisites.end()) {
+                        auto job_processing_prerequisite = *it;
+                        job_processing_prerequisite->updatePrerequisites(machine_id, job_id, machine_to_job_times_processed_map[machine_id][job_id]);
+                        if (job_processing_prerequisite->checkAllPrerequisitesSatisfied()) {
+                            it = unfulfilled_job_processing_prerequisites.erase(it);
+                            auto prerequisite_job_id = job_processing_prerequisite->getJobId();
+                            auto prerequisite_machine_id = job_processing_prerequisite->getMachineId();
+                            auto prerequisite_step_id = job_processing_prerequisite->getStepId();
+                            delete job_processing_prerequisite;
+                            addToEventQueue(new PrerequisitesWaitEnd(time, prerequisite_job_id, prerequisite_machine_id, prerequisite_step_id), event_queue);
+                        }
+                        else {
+                            it++;
+                        }
+                    }
+                    break;
+                }
+
+                case PREREQUISITES_WAIT_START: {
+                    auto prerequisite_wait_start_event = dynamic_cast<PrerequisitesWaitStart*>(event);
+                    long job_id = prerequisite_wait_start_event->getJobId();
+                    long machine_id = prerequisite_wait_start_event->getMachineId();
+                    long step_id = prerequisite_wait_start_event->getStepId();
+                    auto job = jobs.at(job_id);
+                    auto path_tree_node = job->getPathTreeNode(individual->getProcessingRoute(job_id)->getProcessingStep(step_id)->getPathNodeId());
+                    auto job_processing_prerequisites = new JobProcessingPrerequisites(job_id, machine_id, step_id, path_tree_node->getPathNode()->getPrerequisites());
+                    for (auto machine_pair : topology->getTopologyElementsMap()) {
+                        for (auto job_pair : jobs) {
+                            job_processing_prerequisites->updatePrerequisites(machine_pair.first, job_pair.first, machine_to_job_times_processed_map[machine_pair.first][job_pair.first]);
+                        }
+                    }
+                    if (job_processing_prerequisites->checkAllPrerequisitesSatisfied()) {
+                        delete job_processing_prerequisites;
+                        addToEventQueue(new PrerequisitesWaitEnd(time, job_id, machine_id, step_id), event_queue);
+                    }
+                    else {
+                        unfulfilled_job_processing_prerequisites.push_back(job_processing_prerequisites);
+                    }
+                    break;
+                }
+
+                case PREREQUISITES_WAIT_END: {
+                    auto prerequisite_wait_end_event = dynamic_cast<PrerequisitesWaitEnd*>(event);
+                    long job_id = prerequisite_wait_end_event->getJobId();
+                    long machine_id = prerequisite_wait_end_event->getMachineId();
+                    long step_id = prerequisite_wait_end_event->getStepId();
+                    auto machine_processing_context = machine_processing_context_map[machine_id];
+                    machine_processing_context->moveStepFromWaitingToBuffer(job_id);
                     wake_machines_queue.push(new WakeMachine(time, machine_id));
                     break;
                 }
 
                 case ABSTRACT:
-                    throw SchedulingError("Abstract event encountered in Simulator::simulate function.");
+                    throw SchedulingError("Abstract event encountered in the event_queue in Simulator::simulate function.");
 
                 case WAKE_MACHINE:
-                    throw SchedulingError("Wake machine event encountered the event_queue in Simulator::simulate function.");
+                    throw SchedulingError("Wake machine event encountered in the event_queue in Simulator::simulate function.");
             }
 
             if (enable_logging && !event->getMessage().empty()) {
@@ -164,13 +233,15 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                 case MACHINE_BUFFER_ENTRY:
                 case MACHINE_ENTRY:
                 case MACHINE_EXIT:
-                    throw SchedulingError("Non wake machine event encountered in wake machine event queue in Simulator::simulate function.");;
+                case PREREQUISITES_WAIT_START:
+                case PREREQUISITES_WAIT_END:
+                    throw SchedulingError("Non wake machine event encountered in the wake_machines_queue in Simulator::simulate function.");;
 
-                case WAKE_MACHINE:
+                case WAKE_MACHINE: {
                     auto wake_machine_event = dynamic_cast<WakeMachine*>(event);
                     long machine_id = wake_machine_event->getMachineId();
                     MachineProcessingContext* machine_processing_context = machine_processing_context_map[machine_id];
-                    if (machine_processing_context->getStepsInBuffer() > 0 && !machine_processing_context->getCurrentlyWorking()) {
+                    if (machine_processing_context->hasReadyJobs() && !machine_processing_context->getCurrentlyWorking()) {
                         auto processing_pair = machine_processing_context->takeStepFromBuffer();
                         long step_id = processing_pair.first;
                         long job_id = processing_pair.second;
@@ -178,6 +249,7 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                         machine_processing_context->setCurrentlyWorking();
                     }
                     break;
+                }
             }
 
             delete event;
