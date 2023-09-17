@@ -20,6 +20,7 @@ long JobProcessingRoute::getJobId() const {
 
 void JobProcessingRoute::addProcessingStep(JobProcessingStep *processing_step) {
     processing_steps.push_back(processing_step);
+    processing_steps_map[processing_step->getProcessingStepId()] = processing_step;
 }
 
 std::vector<JobProcessingStep *> JobProcessingRoute::getProcessingSteps() {
@@ -33,6 +34,10 @@ JobProcessingStep *JobProcessingRoute::getNextProcessingStep() {
         return nullptr;
     }
     return processing_steps[index];
+}
+
+JobProcessingStep *JobProcessingRoute::getProcessingStep(long step_id) {
+    return processing_steps_map[step_id];
 }
 
 bool JobProcessingRoute::checkHasFinished() {

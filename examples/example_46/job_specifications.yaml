@@ -1,0 +1,13 @@
+jobs:
+  - job_id: 1
+    processing_times:
+      - machine_id: 1
+        time: 5
+    forbidden_machine_types:
+      - 2
+  - job_id: 2
+    processing_times:
+      - machine_id: 2
+        time: 5
+    forbidden_machine_types:
+      - 1

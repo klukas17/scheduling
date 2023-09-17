@@ -71,3 +71,16 @@ std::pair<long, long> MachineBuffer::takeStepFromBuffer() {
         throw SchedulingError("Trying to take a step from an empty buffer in function MachineBuffer::takeStepFromBuffer.");
     }
 }
+
+void MachineBuffer::addStepWaitingForPrerequisite(long step_id, long job_id) {
+    steps_waiting_for_prerequisites[job_id] = step_id;
+}
+
+void MachineBuffer::moveStepFromWaitingToBuffer(long job_id) {
+    addStepToBuffer(steps_waiting_for_prerequisites[job_id], job_id);
+    steps_waiting_for_prerequisites[job_id] = -1;
+}
+
+bool MachineBuffer::hasReadyJobs() {
+    return head != nullptr;
+}

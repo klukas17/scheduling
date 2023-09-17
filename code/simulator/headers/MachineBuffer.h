@@ -28,6 +28,7 @@ private:
     std::map<long, long> step_index_to_processing_index; /**< Map of step indices to processing indices. */
     std::map<long, long> processing_index_to_step_index; /**< Map of processing indices to step indices. */
     std::map<long, MachineBufferElement*> step_index_to_node; /**< Map of step indices to buffer nodes. */
+    std::map<long, long> steps_waiting_for_prerequisites; /**< Map of steps waiting for prerequisites. */
 public:
     /**
      * @brief Constructs a MachineBuffer with the preferred processing order.
@@ -47,6 +48,25 @@ public:
      * @return A pair containing the step ID and the associated job ID of the taken step.
      */
     std::pair<long, long> takeStepFromBuffer();
+
+    /**
+     * @brief Adds a processing step to the waiting list for prerequisites.
+     * @param step_id The identifier of the processing step.
+     * @param job_id The identifier of the job associated with the step.
+     */
+    void addStepWaitingForPrerequisite(long step_id, long job_id);
+
+    /**
+     * @brief Moves a processing step from the waiting list to the buffer.
+     * @param job_id The identifier of the job associated with the step.
+     */
+    void moveStepFromWaitingToBuffer(long job_id);
+
+    /**
+     * @brief Checks if there are ready jobs in the buffer.
+     * @return true if there are ready jobs, false otherwise.
+     */
+    bool hasReadyJobs();
 };
 
 #endif //SCHEDULING_MACHINEBUFFER_H

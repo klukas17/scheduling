@@ -25,6 +25,15 @@ void MachineProcessingContext::addStepToBuffer(long step_id, long job_id) {
     steps_in_buffer++;
 }
 
+void MachineProcessingContext::addStepWaitingForPrerequisite(long step_id, long job_id) {
+    machine_buffer->addStepWaitingForPrerequisite(step_id, job_id);
+    steps_in_buffer++;
+}
+
+void MachineProcessingContext::moveStepFromWaitingToBuffer(long job_id) {
+    machine_buffer->moveStepFromWaitingToBuffer(job_id);
+}
+
 std::pair<long, long> MachineProcessingContext::takeStepFromBuffer() {
     return machine_buffer->takeStepFromBuffer();
 }
@@ -47,4 +56,8 @@ void MachineProcessingContext::setCurrentlyWorking() {
 
 void MachineProcessingContext::unsetCurrentlyWorking() {
     currently_working = false;
+}
+
+bool MachineProcessingContext::hasReadyJobs() {
+    return machine_buffer->hasReadyJobs();
 }
