@@ -27,13 +27,14 @@ protected:
     std::map<long, long> processing_times; /**< Processing times associated with different machine types */
     std::set<long> job_families; /**< Set of job family IDs */
     std::set<long> forbidden_machine_types; /**< Set of forbidden machine type IDs */
+    bool preempt; /**< Indicates whether preemption is allowed for this job type */
 
 public:
     /**
      * @brief Constructs a JobType object with the given ID.
      * @param id The ID of the job type.
      */
-    explicit JobType(long id);
+    JobType(long id, bool preempt);
 
     /**
      * @brief Gets the ID of the job type.
@@ -78,6 +79,12 @@ public:
      * @param machine_type_id The ID of the machine type to add.
      */
     void addForbiddenMachineType(long machine_type_id);
+
+    /**
+     * @brief Checks if preemption is allowed for this job type.
+     * @return true if preemption is allowed, false otherwise.
+     */
+    [[nodiscard]] bool getPreempt() const;
 };
 
 

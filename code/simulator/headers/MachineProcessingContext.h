@@ -43,15 +43,21 @@ public:
      * @brief Adds a processing step to the machine's buffer.
      * @param step_id The identifier of the processing step to be added.
      * @param job_id The identifier of the job associated with the processing step.
+     * @param time_start_processing The time at which processing of the step started.
+     * @param time_remaining_processing The remaining time required to complete processing.
+     * @param preempt Flag indicating whether preemption is allowed for this step.
      */
-    void addStepToBuffer(long step_id, long job_id);
+    void addStepToBuffer(long step_id, long job_id, long time_start_processing, long time_remaining_processing, bool preempt);
 
     /**
      * @brief Adds a processing step to the waiting list for prerequisites.
      * @param step_id The identifier of the processing step.
      * @param job_id The identifier of the job associated with the step.
+     * @param time_start_processing The time at which processing of the step started.
+     * @param time_remaining_processing The remaining time required to complete processing.
+     * @param preempt Flag indicating whether preemption is allowed for this step.
      */
-    void addStepWaitingForPrerequisite(long step_id, long job_id);
+    void addStepWaitingForPrerequisite(long step_id, long job_id, long time_start_processing, long time_remaining_processing, bool preempt);
 
     /**
      * @brief Moves a processing step from the waiting list to the machine's buffer.
@@ -60,10 +66,45 @@ public:
     void moveStepFromWaitingToBuffer(long job_id);
 
     /**
-     * @brief Takes the next processing step from the machine's buffer.
-     * @return A pair containing the step ID and the associated job ID of the taken step.
+     * @brief Starts processing the current step in the buffer.
+     * @return A pair containing the step ID and the associated job ID of the step being processed.
      */
-    std::pair<long, long> takeStepFromBuffer();
+    std::pair<long, long> startProcessingAStep();
+
+    /**
+     * @brief Finishes processing the current step in the buffer.
+     */
+    void finishProcessingAStep();
+
+    /**
+     * @brief Checks if the current step should be preempted based on priority.
+     * @return true if preemption is required, false otherwise.
+     */
+    bool checkShouldPreempt();
+
+    /**
+     * @brief Retrieves data about the current step being processed.
+     * @return A tuple containing the step ID and the associated job ID.
+     */
+    std::tuple<long, long> getCurrentStepData();
+
+    /**
+     * @brief Moves the current step from processing to the buffer.
+     * @param time The time at which the step is moved back to the buffer.
+     */
+    void moveCurrentToBuffer(long time);
+
+    /**
+     * @brief Retrieves the remaining processing time for the current step.
+     * @return The remaining processing time in time units.
+     */
+    long getRemainingTimeForCurrent();
+
+    /**
+     * @brief Sets the time at which processing of the current step started.
+     * @param time The time at which processing started.
+     */
+    void setTimeStartedProcessingForCurrent(long time);
 
     /**
      * @brief Retrieves the number of processing steps currently in the machine's buffer.
@@ -100,3 +141,4 @@ public:
 };
 
 #endif //SCHEDULING_MACHINEPROCESSINGCONTEXT_H
+

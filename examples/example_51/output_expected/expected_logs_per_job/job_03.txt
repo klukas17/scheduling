@@ -1,0 +1,5 @@
+[8] Job 3: System entry
+[8] Job 3: Machine 1 buffer entry (step_id = 3)
+[8] Job 3: Started processing on Machine 1 (step_id = 3)
+[13] Job 3: Finished processing on Machine 1 (step_id = 3)
+[13] Job 3: System exit

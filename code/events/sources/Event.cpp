@@ -21,7 +21,7 @@ long Event::getTime() const {
     return time;
 }
 
-EventType Event::getEventType() {
+EventType Event::getEventType() const {
     return event_type;
 }
 

@@ -24,7 +24,8 @@ JobTypeMap* JobSpecificationsParser::parse(const std::string& path) {
                 throw SchedulingError("Entry in the 'jobs' array must contain 'job_id' field in the file " + path);
             }
             long id = (*it)["job_id"].as<long>();
-            auto job_type = new JobType(id);
+            long preempt = ((*it)["preempt"]) && (*it)["preempt"].as<bool>();
+            auto job_type = new JobType(id, preempt);
             job_type_map->addJobType(id, job_type);
 
             const YAML::Node& processing_times_node = (*it)["processing_times"];

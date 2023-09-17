@@ -9,8 +9,9 @@
 
 #include "JobType.h"
 
-JobType::JobType(long id) {
+JobType::JobType(long id, bool preempt) {
     this->id = id;
+    this->preempt = preempt;
 }
 
 long JobType::getId() const {
@@ -39,4 +40,8 @@ std::set<long> JobType::getForbiddenMachineTypes() {
 
 void JobType::addForbiddenMachineType(long machine_type_id) {
     forbidden_machine_types.insert(machine_type_id);
+}
+
+bool JobType::getPreempt() const {
+    return preempt;
 }
