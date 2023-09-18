@@ -1,0 +1,5 @@
+Machine
+
+1 type of jobs, 1 job in total
+
+Purpose: simple breakdown test with preempts

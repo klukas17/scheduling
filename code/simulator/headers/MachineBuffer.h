@@ -115,6 +115,12 @@ public:
      * @return true if there are ready jobs, false otherwise.
      */
     bool hasReadyJobs();
+
+    /**
+     * @brief Checks if the current step can be preempted by a higher priority job.
+     * @return true if preemption is allowed, false otherwise.
+     */
+    bool checkCanPreemptCurrent();
 };
 
 #endif //SCHEDULING_MACHINEBUFFER_H

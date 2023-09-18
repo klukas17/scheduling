@@ -25,6 +25,10 @@
 #include "PrerequisitesWaitStart.h"
 #include "PrerequisitesWaitEnd.h"
 #include "Preempt.h"
+#include "BreakdownStart.h"
+#include "BreakdownEnd.h"
+#include "MachineExitForced.h"
+#include "SystemExitForced.h"
 #include "SchedulingError.h"
 #include "Machine.h"
 
@@ -71,7 +75,12 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
         auto it = std::upper_bound(event_queue.begin(), event_queue.end(), event, [](const Event* a, const Event* b) {
             if (a->getTime() < b->getTime()) return true;
             else if (a->getTime() > b->getTime()) return false;
-            return a->getEventType() < b->getEventType();
+            auto event_type_a = a->getEventType();
+            auto event_type_b = b->getEventType();
+            if ((event_type_a == BREAKDOWN_START || event_type_a == BREAKDOWN_END) && (event_type_b == BREAKDOWN_START || event_type_b == BREAKDOWN_END)) {
+                return false;
+            }
+            return event_type_a < event_type_b;
         });
         event_queue.insert(it, event);
     };
@@ -98,6 +107,13 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
 
     for (const auto& pair : jobs) {
         addToEventQueue(new SystemEntry(pair.second->getReleaseTime(), pair.first), event_queue);
+    }
+
+    for (const auto& pair : topology->getTopologyElementsMap()) {
+        for (auto breakdown : pair.second->getBreakdowns()) {
+            addToEventQueue(new BreakdownStart(breakdown->getStartTime(), pair.first), event_queue);
+            addToEventQueue(new BreakdownEnd(breakdown->getEndTime(), pair.first), event_queue);
+        }
     }
 
     while (!event_queue.empty() || !wake_machines_queue.empty()) {
@@ -256,6 +272,49 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                     break;
                 }
 
+                case BREAKDOWN_START: {
+                    auto breakdown_start_event = dynamic_cast<BreakdownStart*>(event);
+                    long machine_id = breakdown_start_event->getMachineId();
+                    auto machine_processing_context = machine_processing_context_map[machine_id];
+                    machine_processing_context->setCurrentlyInBreakdown();
+                    if (machine_processing_context->getCurrentlyWorking()) {
+                        auto [job_id, step_id] = machine_processing_context->getCurrentStepData();
+                        if (machine_processing_context->checkCanPreemptCurrent()) {
+                            addToEventQueue(new Preempt(time, job_id, machine_id, step_id), event_queue);
+                        }
+                        else {
+                            addToEventQueue(new MachineExitForced(time, job_id, machine_id, step_id), event_queue);
+                        }
+                    }
+                    break;
+                }
+
+                case BREAKDOWN_END: {
+                    auto breakdown_end_event = dynamic_cast<BreakdownEnd*>(event);
+                    long machine_id = breakdown_end_event->getMachineId();
+                    auto machine_processing_context = machine_processing_context_map[machine_id];
+                    machine_processing_context->unsetCurrentlyInBreakdown();
+                    wake_machines_queue.push(new WakeMachine(time, machine_id));
+                    break;
+                }
+
+                case MACHINE_EXIT_FORCED: {
+                    auto machine_exit_forced_event = dynamic_cast<MachineExitForced*>(event);
+                    long job_id = machine_exit_forced_event->getJobId();
+                    long machine_id = machine_exit_forced_event->getMachineId();
+                    long step_id = machine_exit_forced_event->getStepId();
+                    auto machine_processing_context = machine_processing_context_map[machine_id];
+                    machine_processing_context->finishProcessingAStep();
+                    removeFromEventQueue(MACHINE_EXIT, job_id, machine_id, event_queue);
+                    addToEventQueue(new SystemExitForced(time, job_id), event_queue);
+                    break;
+                }
+                case SYSTEM_EXIT_FORCED: {
+                    auto system_exit_forced_event = dynamic_cast<SystemExitForced*>(event);
+                    long job_id = system_exit_forced_event->getJobId();
+                    break;
+                }
+
                 case ABSTRACT:
                     throw SchedulingError("Abstract event encountered in the event_queue in Simulator::simulate function.");
 
@@ -286,13 +345,17 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                 case PREREQUISITES_WAIT_START:
                 case PREREQUISITES_WAIT_END:
                 case PREEMPT:
+                case BREAKDOWN_START:
+                case BREAKDOWN_END:
+                case MACHINE_EXIT_FORCED:
+                case SYSTEM_EXIT_FORCED:
                     throw SchedulingError("Non wake machine event encountered in the wake_machines_queue in Simulator::simulate function.");;
 
                 case WAKE_MACHINE: {
                     auto wake_machine_event = dynamic_cast<WakeMachine*>(event);
                     long machine_id = wake_machine_event->getMachineId();
                     MachineProcessingContext* machine_processing_context = machine_processing_context_map[machine_id];
-                    if (!machine_processing_context->hasReadyJobs()) {
+                    if (!machine_processing_context->hasReadyJobs() || machine_processing_context->isInBreakdown()) {
                         break;
                     }
                     if (!machine_processing_context->getCurrentlyWorking()) {

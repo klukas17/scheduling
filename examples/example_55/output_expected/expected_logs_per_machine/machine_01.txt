@@ -1,0 +1,2 @@
+[5] Machine 1: Started breakdown
+[6] Machine 1: Finished breakdown
