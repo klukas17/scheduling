@@ -171,3 +171,12 @@ void MachineBuffer::moveStepFromWaitingToBuffer(long job_id) {
 bool MachineBuffer::hasReadyJobs() {
     return head != nullptr;
 }
+
+bool MachineBuffer::checkCanPreemptCurrent() {
+
+    if (!current) {
+        throw SchedulingError("Trying to preempt an empty step in MachineBuffer::checkCanPreemptCurrent.");
+    }
+
+    return current->preempt;
+}

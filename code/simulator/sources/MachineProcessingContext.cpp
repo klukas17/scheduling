@@ -14,6 +14,7 @@ MachineProcessingContext::MachineProcessingContext(GenotypeNode *node) {
     this->machine_buffer = new MachineBuffer(node->getStepProcessingOrder());
     this->steps_in_buffer = 0;
     this->currently_working = false;
+    this->currently_in_breakdown = false;
 }
 
 GenotypeNode *MachineProcessingContext::getNode() {
@@ -87,4 +88,20 @@ void MachineProcessingContext::unsetCurrentlyWorking() {
 
 bool MachineProcessingContext::hasReadyJobs() {
     return machine_buffer->hasReadyJobs();
+}
+
+bool MachineProcessingContext::isInBreakdown() {
+    return currently_in_breakdown;
+}
+
+void MachineProcessingContext::setCurrentlyInBreakdown() {
+    currently_in_breakdown = true;
+}
+
+void MachineProcessingContext::unsetCurrentlyInBreakdown() {
+    currently_in_breakdown = false;
+}
+
+bool MachineProcessingContext::checkCanPreemptCurrent() {
+    return machine_buffer->checkCanPreemptCurrent();
 }

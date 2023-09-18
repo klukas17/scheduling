@@ -3,8 +3,8 @@
 //
 
 /**
- * @file JobAndMachineEvent.h
- * @brief Defines the JobAndMachineEvent class for representing a preempt event in the scheduling simulation.
+ * @file Preempt.h
+ * @brief Defines the Preempt class for representing a preempt event in the scheduling simulation.
  */
 
 #ifndef SCHEDULING_PREEMPT_H

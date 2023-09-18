@@ -34,6 +34,8 @@ Topology *MachineTopologyParser::parse(const std::string& path, MachineTypeMap* 
 
 TopologyElement *MachineTopologyParser::parseElement(const std::string& path, const YAML::Node& node, MachineTypeMap* machine_type_map, std::set<long>& predecessor_ids, std::set<long>& successor_ids) {
 
+    TopologyElement* topology_element = nullptr;
+
     if (node["machine"]) {
         YAML::Node machine_node = node["machine"];
         if (!machine_node["id"]) {
@@ -45,12 +47,42 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
         }
         long machine_type_id = machine_node["machine_type_id"].as<long>();
         MachineType* machine_type = machine_type_map->getMachineType(machine_type_id);
-        auto topology_element = new Machine(id, machine_type);
+        auto machine_topology_element = new Machine(id, machine_type);
+        topology_element = machine_topology_element;
         for (auto predecessor_id : predecessor_ids) {
-            topology_element->addPredecessorId(predecessor_id);
+            machine_topology_element->addPredecessorId(predecessor_id);
+        }
+        const YAML::Node& breakdowns_node = machine_node["breakdowns"];
+        if (breakdowns_node) {
+            for (YAML::const_iterator breakdown_it = breakdowns_node.begin(); breakdown_it != breakdowns_node.end(); breakdown_it++) {
+                if (!(*breakdown_it)["start_time"]) {
+                    throw SchedulingError("Entry in the 'breakdowns' array must contain 'start_time' field in the file " + path);
+                }
+                long start_time = (*breakdown_it)["start_time"].as<long>();
+                if (!(*breakdown_it)["end_time"]) {
+                    throw SchedulingError("Entry in the 'breakdowns' array array must contain 'end_time' field in the file " + path);
+                }
+                long end_time = (*breakdown_it)["end_time"].as<long>();
+                if (start_time < 0) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'start_time' lower than 0 in the file " + path);
+                }
+                if (end_time < 0) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'end_time' lower than 0 in the file " + path);
+                }
+                if (end_time < start_time) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'start_time' larger than 'end_time' in the file " + path);
+                }
+                for (auto breakdown : topology_element->getBreakdowns()) {
+                    long breakdown_start_time = breakdown->getStartTime();
+                    long breakdown_end_time = breakdown->getEndTime();
+                    if (start_time != end_time && breakdown_start_time != breakdown_end_time && (start_time >= breakdown_start_time && start_time < breakdown_end_time || end_time > breakdown_start_time && end_time <= breakdown_end_time)) {
+                        throw SchedulingError("Entries in the 'breakdowns' array overlap in the file " + path);
+                    }
+                }
+                topology_element->addBreakdown(new Breakdown(start_time, end_time));
+            }
         }
         successor_ids.insert(id);
-        return topology_element;
     }
 
     else if (node["serial"]) {
@@ -59,9 +91,10 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
             throw SchedulingError("'serial' node must have an 'id' key");
         }
         long id = serial_node["id"].as<long>();
-        auto topology_element = new SerialGroup(id);
+        auto serial_group_topology_element = new SerialGroup(id);
+        topology_element = serial_group_topology_element;
         for (auto predecessor_id : predecessor_ids) {
-            topology_element->addPredecessorId(predecessor_id);
+            serial_group_topology_element->addPredecessorId(predecessor_id);
         }
         successor_ids.insert(id);
 
@@ -73,7 +106,7 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
             for (auto it = body_node.begin(); it != body_node.end(); it++) {
                 std::set<long> child_successor_ids;
                 TopologyElement* child_element = parseElement(path, *it, machine_type_map, children_predecessor_ids, child_successor_ids);
-                topology_element->addChild(child_element);
+                serial_group_topology_element->addChild(child_element);
                 for (auto successor_id : child_successor_ids) {
                     successor_ids.insert(successor_id);
                     children_predecessor_ids.insert(successor_id);
@@ -83,7 +116,37 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
         else {
             throw SchedulingError("'serial' node must have a 'body' key");
         }
-        return topology_element;
+
+        const YAML::Node& breakdowns_node = serial_node["breakdowns"];
+        if (breakdowns_node) {
+            for (YAML::const_iterator breakdown_it = breakdowns_node.begin(); breakdown_it != breakdowns_node.end(); breakdown_it++) {
+                if (!(*breakdown_it)["start_time"]) {
+                    throw SchedulingError("Entry in the 'breakdowns' array must contain 'start_time' field in the file " + path);
+                }
+                long start_time = (*breakdown_it)["start_time"].as<long>();
+                if (!(*breakdown_it)["end_time"]) {
+                    throw SchedulingError("Entry in the 'breakdowns' array array must contain 'end_time' field in the file " + path);
+                }
+                long end_time = (*breakdown_it)["end_time"].as<long>();
+                if (start_time < 0) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'start_time' lower than 0 in the file " + path);
+                }
+                if (end_time < 0) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'end_time' lower than 0 in the file " + path);
+                }
+                if (end_time < start_time) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'start_time' larger than 'end_time' in the file " + path);
+                }
+                for (auto breakdown : topology_element->getBreakdowns()) {
+                    long breakdown_start_time = breakdown->getStartTime();
+                    long breakdown_end_time = breakdown->getEndTime();
+                    if (start_time != end_time && breakdown_start_time != breakdown_end_time && (start_time >= breakdown_start_time && start_time < breakdown_end_time || end_time > breakdown_start_time && end_time <= breakdown_end_time)) {
+                        throw SchedulingError("Entries in the 'breakdowns' array overlap in the file " + path);
+                    }
+                }
+                topology_element->addBreakdown(new Breakdown(start_time, end_time));
+            }
+        }
     }
 
     else if (node["parallel"]) {
@@ -92,9 +155,10 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
             throw SchedulingError("'parallel' node must have an 'id' key");
         }
         long id = parallel_node["id"].as<long>();
-        auto topology_element = new ParallelGroup(id);
+        auto parallel_group_topology_element = new ParallelGroup(id);
+        topology_element = parallel_group_topology_element;
         for (auto predecessor_id : predecessor_ids) {
-            topology_element->addPredecessorId(predecessor_id);
+            parallel_group_topology_element->addPredecessorId(predecessor_id);
         }
         successor_ids.insert(id);
 
@@ -106,7 +170,7 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
             for (auto it = body_node.begin(); it != body_node.end(); it++) {
                 std::set<long> child_successor_ids;
                 TopologyElement* child_element = parseElement(path, *it, machine_type_map, children_predecessor_ids, child_successor_ids);
-                topology_element->addChild(child_element);
+                parallel_group_topology_element->addChild(child_element);
                 for (auto successor_id : child_successor_ids) {
                     successor_ids.insert(successor_id);
                 }
@@ -115,7 +179,37 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
         else {
             throw SchedulingError("'parallel' node must have a 'body' key");
         }
-        return topology_element;
+
+        const YAML::Node& breakdowns_node = parallel_node["breakdowns"];
+        if (breakdowns_node) {
+            for (YAML::const_iterator breakdown_it = breakdowns_node.begin(); breakdown_it != breakdowns_node.end(); breakdown_it++) {
+                if (!(*breakdown_it)["start_time"]) {
+                    throw SchedulingError("Entry in the 'breakdowns' array must contain 'start_time' field in the file " + path);
+                }
+                long start_time = (*breakdown_it)["start_time"].as<long>();
+                if (!(*breakdown_it)["end_time"]) {
+                    throw SchedulingError("Entry in the 'breakdowns' array array must contain 'end_time' field in the file " + path);
+                }
+                long end_time = (*breakdown_it)["end_time"].as<long>();
+                if (start_time < 0) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'start_time' lower than 0 in the file " + path);
+                }
+                if (end_time < 0) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'end_time' lower than 0 in the file " + path);
+                }
+                if (end_time < start_time) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'start_time' larger than 'end_time' in the file " + path);
+                }
+                for (auto breakdown : topology_element->getBreakdowns()) {
+                    long breakdown_start_time = breakdown->getStartTime();
+                    long breakdown_end_time = breakdown->getEndTime();
+                    if (start_time != end_time && breakdown_start_time != breakdown_end_time && (start_time >= breakdown_start_time && start_time < breakdown_end_time || end_time > breakdown_start_time && end_time <= breakdown_end_time)) {
+                        throw SchedulingError("Entries in the 'breakdowns' array overlap in the file " + path);
+                    }
+                }
+                topology_element->addBreakdown(new Breakdown(start_time, end_time));
+            }
+        }
     }
 
     else if (node["route"]) {
@@ -124,9 +218,10 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
             throw SchedulingError("'route' node must have an 'id' key");
         }
         long id = route_node["id"].as<long>();
-        auto topology_element = new RouteGroup(id);
+        auto route_group_topology_element = new RouteGroup(id);
+        topology_element = route_group_topology_element;
         for (auto predecessor_id : predecessor_ids) {
-            topology_element->addPredecessorId(predecessor_id);
+            route_group_topology_element->addPredecessorId(predecessor_id);
         }
         successor_ids.insert(id);
 
@@ -138,7 +233,7 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
             for (auto it = body_node.begin(); it != body_node.end(); it++) {
                 std::set<long> child_successor_ids;
                 TopologyElement* child_element = parseElement(path, *it, machine_type_map, children_predecessor_ids, child_successor_ids);
-                topology_element->addChild(child_element);
+                route_group_topology_element->addChild(child_element);
                 for (auto successor_id : child_successor_ids) {
                     successor_ids.insert(successor_id);
                 }
@@ -147,7 +242,37 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
         else {
             throw SchedulingError("'route' node must have a 'body' key");
         }
-        return topology_element;
+
+        const YAML::Node& breakdowns_node = route_node["breakdowns"];
+        if (breakdowns_node) {
+            for (YAML::const_iterator breakdown_it = breakdowns_node.begin(); breakdown_it != breakdowns_node.end(); breakdown_it++) {
+                if (!(*breakdown_it)["start_time"]) {
+                    throw SchedulingError("Entry in the 'breakdowns' array must contain 'start_time' field in the file " + path);
+                }
+                long start_time = (*breakdown_it)["start_time"].as<long>();
+                if (!(*breakdown_it)["end_time"]) {
+                    throw SchedulingError("Entry in the 'breakdowns' array array must contain 'end_time' field in the file " + path);
+                }
+                long end_time = (*breakdown_it)["end_time"].as<long>();
+                if (start_time < 0) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'start_time' lower than 0 in the file " + path);
+                }
+                if (end_time < 0) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'end_time' lower than 0 in the file " + path);
+                }
+                if (end_time < start_time) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'start_time' larger than 'end_time' in the file " + path);
+                }
+                for (auto breakdown : topology_element->getBreakdowns()) {
+                    long breakdown_start_time = breakdown->getStartTime();
+                    long breakdown_end_time = breakdown->getEndTime();
+                    if (start_time != end_time && breakdown_start_time != breakdown_end_time && (start_time >= breakdown_start_time && start_time < breakdown_end_time || end_time > breakdown_start_time && end_time <= breakdown_end_time)) {
+                        throw SchedulingError("Entries in the 'breakdowns' array overlap in the file " + path);
+                    }
+                }
+                topology_element->addBreakdown(new Breakdown(start_time, end_time));
+            }
+        }
     }
 
     else if (node["open"]) {
@@ -156,9 +281,10 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
             throw SchedulingError("'open' node must have an 'id' key");
         }
         long id = open_node["id"].as<long>();
-        auto topology_element = new OpenGroup(id);
+        auto open_group_topology_element = new OpenGroup(id);
+        topology_element = open_group_topology_element;
         for (auto predecessor_id : predecessor_ids) {
-            topology_element->addPredecessorId(predecessor_id);
+            open_group_topology_element->addPredecessorId(predecessor_id);
         }
         successor_ids.insert(id);
 
@@ -170,7 +296,7 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
             for (auto it = body_node.begin(); it != body_node.end(); it++) {
                 std::set<long> child_successor_ids;
                 TopologyElement* child_element = parseElement(path, *it, machine_type_map, children_predecessor_ids, child_successor_ids);
-                topology_element->addChild(child_element);
+                open_group_topology_element->addChild(child_element);
                 for (auto successor_id : child_successor_ids) {
                     successor_ids.insert(successor_id);
                 }
@@ -179,10 +305,42 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
         else {
             throw SchedulingError("'open' node must have a 'body' key");
         }
-        return topology_element;
+
+        const YAML::Node& breakdowns_node = open_node["breakdowns"];
+        if (breakdowns_node) {
+            for (YAML::const_iterator breakdown_it = breakdowns_node.begin(); breakdown_it != breakdowns_node.end(); breakdown_it++) {
+                if (!(*breakdown_it)["start_time"]) {
+                    throw SchedulingError("Entry in the 'breakdowns' array must contain 'start_time' field in the file " + path);
+                }
+                long start_time = (*breakdown_it)["start_time"].as<long>();
+                if (!(*breakdown_it)["end_time"]) {
+                    throw SchedulingError("Entry in the 'breakdowns' array array must contain 'end_time' field in the file " + path);
+                }
+                long end_time = (*breakdown_it)["end_time"].as<long>();
+                if (start_time < 0) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'start_time' lower than 0 in the file " + path);
+                }
+                if (end_time < 0) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'end_time' lower than 0 in the file " + path);
+                }
+                if (end_time < start_time) {
+                    throw SchedulingError("Entry in the 'breakdowns' array has 'start_time' larger than 'end_time' in the file " + path);
+                }
+                for (auto breakdown : topology_element->getBreakdowns()) {
+                    long breakdown_start_time = breakdown->getStartTime();
+                    long breakdown_end_time = breakdown->getEndTime();
+                    if (start_time != end_time && breakdown_start_time != breakdown_end_time && (start_time >= breakdown_start_time && start_time < breakdown_end_time || end_time > breakdown_start_time && end_time <= breakdown_end_time)) {
+                        throw SchedulingError("Entries in the 'breakdowns' array overlap in the file " + path);
+                    }
+                }
+                topology_element->addBreakdown(new Breakdown(start_time, end_time));
+            }
+        }
     }
 
     else {
         throw SchedulingError("Key can only be machine, serial, parallel, route or open in file " + path);
     }
+
+    return topology_element;
 }

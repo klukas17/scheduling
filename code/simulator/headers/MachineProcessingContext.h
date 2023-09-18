@@ -26,6 +26,8 @@ private:
     MachineBuffer* machine_buffer; /**< Pointer to the machine's buffer for processing steps. */
     long steps_in_buffer; /**< The number of processing steps currently in the machine's buffer. */
     bool currently_working; /**< Flag indicating whether the machine is currently processing a step. */
+    bool currently_in_breakdown; /**< Flag indicating whether the machine is currently in a breakdown state. */
+
 public:
     /**
      * @brief Constructs a MachineProcessingContext object associated with the provided genotype node.
@@ -138,7 +140,28 @@ public:
      * @return true if there are ready jobs, false otherwise.
      */
     bool hasReadyJobs();
+
+    /**
+     * @brief Checks if the machine is currently in a breakdown state.
+     * @return true if the machine is in a breakdown state, false otherwise.
+     */
+    bool isInBreakdown();
+
+    /**
+     * @brief Sets the currently in breakdown flag to indicate the machine is in a breakdown state.
+     */
+    void setCurrentlyInBreakdown();
+
+    /**
+     * @brief Unsets the currently in breakdown flag to indicate the machine is no longer in a breakdown state.
+     */
+    void unsetCurrentlyInBreakdown();
+
+    /**
+     * @brief Checks if the current step can be preempted by a higher priority job.
+     * @return true if preemption is allowed, false otherwise.
+     */
+    bool checkCanPreemptCurrent();
 };
 
 #endif //SCHEDULING_MACHINEPROCESSINGCONTEXT_H
-

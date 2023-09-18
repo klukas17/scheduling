@@ -36,3 +36,11 @@ std::set<long> TopologyElement::getPredecessorIds() {
 void TopologyElement::addPredecessorId(long element_id) {
     predecessor_element_ids.insert(element_id);
 }
+
+std::vector<Breakdown *> TopologyElement::getBreakdowns() {
+    return breakdowns;
+}
+
+void TopologyElement::addBreakdown(Breakdown *breakdown) {
+    breakdowns.push_back(breakdown);
+}

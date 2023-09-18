@@ -1,0 +1,5 @@
+Machine
+
+1 type of jobs, 1 job in total
+
+Purpose: breakdown test - machine recovers successfully after forced machine exit

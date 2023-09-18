@@ -83,21 +83,22 @@ for subdir in subdirs:
 
         if check_simulator_logs:
 
-            expected_logs_dir = os.path.join(expected_output_dir, "expected_logs_per_job")
+            expected_job_logs_dir = os.path.join(expected_output_dir, "expected_logs_per_job")
+            expected_machine_logs_dir = os.path.join(expected_output_dir, "expected_logs_per_machine")
             simulator_logs_file = os.path.join(subdir, "output/simulator_logs.txt")
 
-            if os.path.exists(expected_logs_dir) and os.path.exists(simulator_logs_file):
+            simulator_logs_valid = True
+            simulator_logs = []
 
-                expected_logs = os.listdir(expected_logs_dir)
-                expected_logs.sort()
+            if os.path.exists(expected_job_logs_dir) and os.path.exists(simulator_logs_file):
 
-                simulator_logs_valid = True
-                simulator_logs = []
+                expected_job_logs = os.listdir(expected_job_logs_dir)
+                expected_job_logs.sort()
 
-                for expected_log_file in expected_logs:
+                for expected_job_log_file in expected_job_logs:
 
-                    job_id = int(expected_log_file.split(".")[0].split("_")[1])
-                    expected_log_path = os.path.join(expected_logs_dir, expected_log_file)
+                    job_id = int(expected_job_log_file.split(".")[0].split("_")[1])
+                    expected_log_path = os.path.join(expected_job_logs_dir, expected_job_log_file)
 
                     with open(expected_log_path, "r") as f:
                         expected_contents = f.read()
@@ -110,6 +111,27 @@ for subdir in subdirs:
                     else:
                         simulator_logs.append(f"    {RED}[✘]{END} Job {job_id}")
                         simulator_logs_valid = False
+
+                if os.path.exists(expected_machine_logs_dir):
+                    expected_machine_logs = os.listdir(expected_machine_logs_dir)
+                    expected_machine_logs.sort()
+
+                    for expected_machine_log_file in expected_machine_logs:
+
+                        machine_id = int(expected_machine_log_file.split(".")[0].split("_")[1])
+                        expected_log_path = os.path.join(expected_machine_logs_dir, expected_machine_log_file)
+
+                        with open(expected_log_path, "r") as f:
+                            expected_contents = f.read()
+
+                        with open(simulator_logs_file, "r") as f:
+                            machine_contents = "".join([line for line in f if f"Machine {machine_id}:" in line])
+
+                        if expected_contents.strip() == machine_contents.strip():
+                            simulator_logs.append(f"    {GREEN}[✔]{END} Machine {machine_id}")
+                        else:
+                            simulator_logs.append(f"    {RED}[✘]{END} Machine {machine_id}")
+                            simulator_logs_valid = False
 
                 if simulator_logs_valid:
                     logs.append(f"  {GREEN}[✔]{END} Simulator Logs")
