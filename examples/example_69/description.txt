@@ -1,0 +1,5 @@
+Machine
+
+1 type of jobs, 1 jobs in total
+
+Purpose: setup test - breakdown in the middle of a setup

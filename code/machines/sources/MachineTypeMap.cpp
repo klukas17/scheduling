@@ -29,3 +29,9 @@ void MachineTypeMap::addMachineType(long machine_type_id, MachineType* machine_t
     }
     machine_type_map[machine_type_id] = machine_type;
 }
+
+void MachineTypeMap::constructSetupRules(JobTypeMap *job_type_map) {
+    for (auto entry : machine_type_map) {
+        entry.second->constructSetupRules(job_type_map);
+    }
+}

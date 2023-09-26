@@ -1,0 +1,2 @@
+[0] Machine 1: Started setup (step_id = 1)
+[0] Machine 1: Finished setup (step_id = 1)

@@ -73,6 +73,19 @@ std::pair<long, long> MachineBuffer::startProcessingAStep() {
     return {step_id, job_id};
 }
 
+std::pair<long, long> MachineBuffer::peekAtFirstProcessingStep() {
+
+    if (current != nullptr) {
+        throw SchedulingError("Trying to peek at the first step but another is executing in function MachineBuffer::startProcessingAStep.");
+    }
+
+    if (head == nullptr) {
+        throw SchedulingError("Trying to peek at a step from an empty buffer in function MachineBuffer::startProcessingAStep.");
+    }
+
+    return {head->step_id, head->job_id};
+}
+
 void MachineBuffer::finishProcessingAStep() {
 
     if (current != nullptr) {
@@ -179,4 +192,8 @@ bool MachineBuffer::checkCanPreemptCurrent() {
     }
 
     return current->preempt;
+}
+
+bool MachineBuffer::comparePrioritiesOfTwoSteps(long step_id1, long step_id2) {
+    return step_index_to_processing_index[step_id1] < step_index_to_processing_index[step_id2];
 }

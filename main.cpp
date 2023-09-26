@@ -21,6 +21,9 @@ void run_example(const std::string& dir) {
     TopologyUtils::logTopology(topology, dir + "output/topology.txt");
 
     JobTypeMap* job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
+
+    machine_type_map->constructSetupRules(job_type_map);
+
     std::map<long, Job*> jobs = JobSequenceParser::parse(dir + "job_sequence.yaml", machine_type_map, job_type_map, topology);
     PathNodeUtils::logPathNodes(jobs, dir + "output/path_nodes.txt");
     PathTreeNodeUtils::logPathTreeNodes(jobs, dir + "output/path_tree_nodes.txt");

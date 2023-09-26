@@ -1,0 +1,4 @@
+machines:
+  - machine_id: 1
+    setup:
+      - time: 3

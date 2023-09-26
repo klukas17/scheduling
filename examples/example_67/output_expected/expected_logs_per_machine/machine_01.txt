@@ -1,0 +1,4 @@
+[0] Machine 1: Started setup (step_id = 1)
+[6] Machine 1: Finished setup (step_id = 1)
+[11] Machine 1: Started setup from a job of type 1 (step_id = 2)
+[15] Machine 1: Finished setup from a job of type 1 (step_id = 2)

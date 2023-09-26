@@ -1,0 +1,16 @@
+topology:
+  machine:
+    step_processing_order:
+      - 1
+      - 2
+jobs:
+  - job_id: 1
+    processing_route:
+      - machine_id: 1
+        path_node_id: 1
+        processing_step_id: 1
+  - job_id: 2
+    processing_route:
+      - machine_id: 1
+        path_node_id: 1
+        processing_step_id: 2
