@@ -12,6 +12,7 @@
 MachineProcessingContext::MachineProcessingContext(GenotypeNode *node) {
     this->node = node;
     this->machine_buffer = new MachineBuffer(node->getStepProcessingOrder());
+    this->machine_setup_context = new MachineSetupContext();
     this->steps_in_buffer = 0;
     this->currently_working = false;
     this->currently_in_breakdown = false;
@@ -37,6 +38,10 @@ void MachineProcessingContext::moveStepFromWaitingToBuffer(long job_id) {
 
 std::pair<long, long> MachineProcessingContext::startProcessingAStep() {
     return machine_buffer->startProcessingAStep();
+}
+
+std::pair<long, long> MachineProcessingContext::peekAtFirstProcessingStep() {
+    return machine_buffer->peekAtFirstProcessingStep();
 }
 
 void MachineProcessingContext::finishProcessingAStep() {
@@ -104,4 +109,24 @@ void MachineProcessingContext::unsetCurrentlyInBreakdown() {
 
 bool MachineProcessingContext::checkCanPreemptCurrent() {
     return machine_buffer->checkCanPreemptCurrent();
+}
+
+Setup *MachineProcessingContext::getSetup() {
+    return machine_setup_context->getSetup();
+}
+
+void MachineProcessingContext::setSetup(Setup *setup) {
+    machine_setup_context->setSetup(setup);
+}
+
+JobType *MachineProcessingContext::getLastJobType() {
+    return machine_setup_context->getLastJobType();
+}
+
+void MachineProcessingContext::setLastJobType(JobType *last_job_type) {
+    machine_setup_context->setLastJobType(last_job_type);
+}
+
+bool MachineProcessingContext::comparePrioritiesOfTwoSteps(long step_id1, long step_id2) {
+    return machine_buffer->comparePrioritiesOfTwoSteps(step_id1, step_id2);
 }

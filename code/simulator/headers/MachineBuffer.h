@@ -7,11 +7,6 @@
  * @brief Defines the MachineBuffer class for representing a machine's buffer for job processing steps.
  */
 
-/**
- * @file MachineBuffer.h
- * @brief Defines the MachineBuffer class for representing a machine's buffer for job processing steps.
- */
-
 #ifndef SCHEDULING_MACHINEBUFFER_H
 #define SCHEDULING_MACHINEBUFFER_H
 
@@ -58,6 +53,12 @@ public:
      * @return A pair containing the step ID and the associated job ID of the step being processed.
      */
     std::pair<long, long> startProcessingAStep();
+
+    /**
+     * @brief Peeks at the first processing step in the buffer without starting its processing.
+     * @return A pair containing the step ID and the associated job ID of the first step in the buffer.
+     */
+    std::pair<long, long> peekAtFirstProcessingStep();
 
     /**
      * @brief Finishes processing the current step in the buffer.
@@ -121,8 +122,14 @@ public:
      * @return true if preemption is allowed, false otherwise.
      */
     bool checkCanPreemptCurrent();
+
+    /**
+     * @brief Compares the priorities of two processing steps.
+     * @param step_id1 The identifier of the first processing step.
+     * @param step_id2 The identifier of the second processing step.
+     * @return true if the first step has a higher priority, false otherwise.
+     */
+    bool comparePrioritiesOfTwoSteps(long step_id1, long step_id2);
 };
 
 #endif //SCHEDULING_MACHINEBUFFER_H
-
-

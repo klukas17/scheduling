@@ -29,6 +29,9 @@
 #include "BreakdownEnd.h"
 #include "MachineExitForced.h"
 #include "SystemExitForced.h"
+#include "SetupStart.h"
+#include "SetupEnd.h"
+#include "SetupCancel.h"
 #include "SchedulingError.h"
 #include "Machine.h"
 
@@ -103,6 +106,44 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                 it++;
             }
         }
+    };
+
+    auto removeFromEventQueueAnyJob = [](EventType event_type, long machine_id, std::deque<Event*>& event_queue) {
+        auto it = event_queue.begin();
+        while (it != event_queue.end()) {
+            if ((*it)->getEventType() != event_type) {
+                it++;
+                continue;
+            }
+            auto e = dynamic_cast<JobAndMachineEvent*>(*it);
+            if (e->getMachineId() == machine_id) {
+                auto found_event = *it;
+                event_queue.erase(it);
+                delete found_event;
+                break;
+            }
+            else {
+                it++;
+            }
+        }
+    };
+
+    auto findInEventQueueAnyJob = [](EventType event_type, long machine_id, std::deque<Event*>& event_queue) -> Event* {
+        auto it = event_queue.begin();
+        while (it != event_queue.end()) {
+            if ((*it)->getEventType() != event_type) {
+                it++;
+                continue;
+            }
+            auto e = dynamic_cast<JobAndMachineEvent*>(*it);
+            if (e->getMachineId() == machine_id) {
+                return e;
+            }
+            else {
+                it++;
+            }
+        }
+        return nullptr;
     };
 
     for (const auto& pair : jobs) {
@@ -180,6 +221,9 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                     long machine_id = machine_entry_event->getMachineId();
                     long step_id = machine_entry_event->getStepId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
+                    machine_processing_context->setCurrentlyWorking();
+                    machine_processing_context->startProcessingAStep();
+                    machine_processing_context->setLastJobType(jobs.at(job_id)->getJobType());
                     machine_processing_context->setTimeStartedProcessingForCurrent(time);
                     long processing_duration = machine_processing_context->getRemainingTimeForCurrent();
                     addToEventQueue(new MachineExit(time + processing_duration, job_id, machine_id, step_id), event_queue);
@@ -286,6 +330,13 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                             addToEventQueue(new MachineExitForced(time, job_id, machine_id, step_id), event_queue);
                         }
                     }
+                    if (machine_processing_context->getSetup()) {
+                        auto processing_pair = machine_processing_context->peekAtFirstProcessingStep();
+                        long step_id = processing_pair.first;
+                        long job_id = processing_pair.second;
+                        addToEventQueue(new SetupCancel(time, job_id, machine_id, step_id, machine_processing_context->getSetup()), event_queue);
+                    }
+                    removeFromEventQueueAnyJob(MACHINE_ENTRY, machine_id, event_queue);
                     break;
                 }
 
@@ -294,6 +345,39 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                     long machine_id = breakdown_end_event->getMachineId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
                     machine_processing_context->unsetCurrentlyInBreakdown();
+                    wake_machines_queue.push(new WakeMachine(time, machine_id));
+                    break;
+                }
+
+                case SETUP_START: {
+                    auto setup_start_event = dynamic_cast<SetupStart*>(event);
+                    long job_id = setup_start_event->getJobId();
+                    long machine_id = setup_start_event->getMachineId();
+                    long step_id = setup_start_event->getStepId();
+                    auto setup = setup_start_event->getSetup();
+                    addToEventQueue(new SetupEnd(time + setup->getDuration(), job_id, machine_id, step_id, setup), event_queue);
+                    break;
+                }
+
+                case SETUP_END: {
+                    auto setup_end_event = dynamic_cast<SetupEnd*>(event);
+                    long job_id = setup_end_event->getJobId();
+                    long machine_id = setup_end_event->getMachineId();
+                    long step_id = setup_end_event->getStepId();
+                    auto machine_processing_context = machine_processing_context_map[machine_id];
+                    addToEventQueue(new MachineEntry(time, job_id, machine_id, step_id), event_queue);
+                    machine_processing_context->setSetup(nullptr);
+                    break;
+                }
+
+                case SETUP_CANCEL: {
+                    auto setup_cancel_event = dynamic_cast<SetupCancel*>(event);
+                    long job_id = setup_cancel_event->getJobId();
+                    long machine_id = setup_cancel_event->getMachineId();
+                    long step_id = setup_cancel_event->getStepId();
+                    auto machine_processing_context = machine_processing_context_map[machine_id];
+                    removeFromEventQueue(SETUP_END, job_id, machine_id, event_queue);
+                    machine_processing_context->setSetup(nullptr);
                     wake_machines_queue.push(new WakeMachine(time, machine_id));
                     break;
                 }
@@ -347,6 +431,9 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                 case PREEMPT:
                 case BREAKDOWN_START:
                 case BREAKDOWN_END:
+                case SETUP_START:
+                case SETUP_END:
+                case SETUP_CANCEL:
                 case MACHINE_EXIT_FORCED:
                 case SYSTEM_EXIT_FORCED:
                     throw SchedulingError("Non wake machine event encountered in the wake_machines_queue in Simulator::simulate function.");;
@@ -359,11 +446,39 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                         break;
                     }
                     if (!machine_processing_context->getCurrentlyWorking()) {
-                        auto processing_pair = machine_processing_context->startProcessingAStep();
+                        auto processing_pair = machine_processing_context->peekAtFirstProcessingStep();
                         long step_id = processing_pair.first;
                         long job_id = processing_pair.second;
+                        auto setup = machine_processing_context->getSetup();
+                        if (setup != nullptr) {
+                            auto setup_end_event = dynamic_cast<SetupEnd*>(findInEventQueueAnyJob(SETUP_END, machine_id, event_queue));
+                            if (setup_end_event != nullptr) {
+                                long setup_step_id = setup_end_event->getStepId();
+                                long setup_job_id = setup_end_event->getJobId();
+                                bool should_cancel_setup = machine_processing_context->comparePrioritiesOfTwoSteps(step_id, setup_step_id);
+                                if (should_cancel_setup) {
+                                    addToEventQueue(new SetupCancel(time, setup_job_id, machine_id, setup_step_id, machine_processing_context->getSetup()), event_queue);
+                                }
+                            }
+                            else {
+                                throw SchedulingError("Setup start event without setup end event pair found in Simulator::simulate function.");
+                            }
+                            break;
+                        }
+                        auto topology_element = topology->getTopologyElementsMap().at(machine_id);
+                        if (topology_element->getTopologyElementType() == MACHINE_TOPOLOGY_ELEMENT) {
+                            auto machine = (Machine*) topology_element;
+                            auto setup_rules = machine->getMachineType()->getSetupRules();
+                            auto last_job_type = machine_processing_context->getLastJobType();
+                            auto job_type = jobs.at(job_id)->getJobType();
+                            auto new_setup = setup_rules->findSetup(last_job_type ? last_job_type->getId() : -1, job_type->getId());
+                            if (new_setup) {
+                                machine_processing_context->setSetup(new_setup);
+                                addToEventQueue(new SetupStart(time, job_id, machine_id, step_id, new_setup), event_queue);
+                                break;
+                            }
+                        }
                         addToEventQueue(new MachineEntry(time, job_id, machine_id, step_id), event_queue);
-                        machine_processing_context->setCurrentlyWorking();
                     }
                     else if (machine_processing_context->checkShouldPreempt()) {
                         auto [job_id, step_id] = machine_processing_context->getCurrentStepData();

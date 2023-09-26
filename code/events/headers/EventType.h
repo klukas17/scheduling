@@ -28,9 +28,12 @@ enum EventType {
     PREREQUISITES_WAIT_START, /**< Start waiting for prerequisites event type. */
     PREREQUISITES_WAIT_END, /**< End waiting for prerequisites event type. */
     PREEMPT, /**< Preemption during processing event type. */
+    SETUP_START, /**< Start of a machine setup event type. */
+    SETUP_END, /**< End of a machine setup event type. */
+    SETUP_CANCEL, /**< Cancellation of a machine setup event type. */
+    MACHINE_ENTRY, /**< Machine entry event type. */
     BREAKDOWN_START, /**< Start of a machine breakdown event type. */
     BREAKDOWN_END, /**< End of a machine breakdown event type. */
-    MACHINE_ENTRY, /**< Machine entry event type. */
     WAKE_MACHINE, /**< Wake machine event type. */
 };
 

@@ -1,0 +1,5 @@
+Machine
+
+1 type of jobs, 2 jobs in total
+
+Purpose: test setup when job of higher priority comes in the middle of a setup

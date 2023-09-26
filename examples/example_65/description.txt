@@ -1,0 +1,5 @@
+Machine
+
+1 type of jobs, 2 jobs in total
+
+Purpose: test setup when multiple setup candidates are present

@@ -12,10 +12,11 @@
 
 #include <map>
 #include "MachineType.h"
+#include "JobTypeMap.h"
 
 /**
  * @class MachineTypeMap
- * @brief Class for representing a map of all machine types.
+ * @brief Represents a map of all machine types.
  *
  * The MachineTypeMap class provides functionality for managing a map of machine types, where each
  * machine type is associated with a unique ID.
@@ -50,6 +51,12 @@ public:
      * @throws SchedulingError if an entry with the key machine_type_id is already present in the map.
      */
     void addMachineType(long machine_type_id, MachineType* machine_type);
+
+    /**
+     * @brief Constructs the setup rules for machine types using job type mapping.
+     * @param job_type_map A pointer to the JobTypeMap object for mapping job types.
+     */
+    void constructSetupRules(JobTypeMap* job_type_map);
 };
 
 #endif // SCHEDULING_MACHINETYPEMAP_H

@@ -1,0 +1,3 @@
+JOB 1:
+Machine: id = 1, path_node_id = 1
+

@@ -12,18 +12,20 @@
 
 #include "GenotypeNode.h"
 #include "MachineBuffer.h"
+#include "MachineSetupContext.h"
 
 /**
  * @class MachineProcessingContext
  * @brief Manages a machine's processing context during job execution.
  *
  * The MachineProcessingContext class is responsible for managing the processing context of a machine during job execution.
- * It includes attributes and methods to interact with the machine's processing state, buffer, and related information.
+ * It includes attributes and methods to interact with the machine's processing state, buffer, setup, and related information.
  */
 class MachineProcessingContext {
 private:
     GenotypeNode* node; /**< Pointer to the genotype node associated with the machine's processing context. */
     MachineBuffer* machine_buffer; /**< Pointer to the machine's buffer for processing steps. */
+    MachineSetupContext* machine_setup_context; /**< Pointer to the machine's setup context. */
     long steps_in_buffer; /**< The number of processing steps currently in the machine's buffer. */
     bool currently_working; /**< Flag indicating whether the machine is currently processing a step. */
     bool currently_in_breakdown; /**< Flag indicating whether the machine is currently in a breakdown state. */
@@ -72,6 +74,12 @@ public:
      * @return A pair containing the step ID and the associated job ID of the step being processed.
      */
     std::pair<long, long> startProcessingAStep();
+
+    /**
+     * @brief Peeks at the first processing step in the buffer without starting its processing.
+     * @return A pair containing the step ID and the associated job ID of the first step in the buffer.
+     */
+    std::pair<long, long> peekAtFirstProcessingStep();
 
     /**
      * @brief Finishes processing the current step in the buffer.
@@ -162,6 +170,38 @@ public:
      * @return true if preemption is allowed, false otherwise.
      */
     bool checkCanPreemptCurrent();
+
+    /**
+     * @brief Retrieves the current setup associated with the machine.
+     * @return A pointer to the Setup object representing the current setup.
+     */
+    Setup* getSetup();
+
+    /**
+     * @brief Sets the current setup for the machine.
+     * @param setup A pointer to the Setup object to set as the current setup.
+     */
+    void setSetup(Setup* setup);
+
+    /**
+     * @brief Retrieves the last processed job type.
+     * @return A pointer to the JobType object representing the last processed job type.
+     */
+    JobType* getLastJobType();
+
+    /**
+     * @brief Sets the last processed job type.
+     * @param last_job_type A pointer to the JobType object representing the last processed job type.
+     */
+    void setLastJobType(JobType* last_job_type);
+
+    /**
+     * @brief Compares the priorities of two processing steps.
+     * @param step_id1 The identifier of the first processing step.
+     * @param step_id2 The identifier of the second processing step.
+     * @return true if the first step has a higher priority, false otherwise.
+     */
+    bool comparePrioritiesOfTwoSteps(long step_id1, long step_id2);
 };
 
-#endif //SCHEDULING_MACHINEPROCESSINGCONTEXT_H
+#endif // SCHEDULING_MACHINEPROCESSINGCONTEXT_H
