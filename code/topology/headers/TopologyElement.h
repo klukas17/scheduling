@@ -29,6 +29,7 @@ protected:
     GeneralTopologyElementType general_topology_element_type; /**< The general type of the topology element. */
     std::set<long> predecessor_element_ids; /**< Set of IDs of the predecessor elements. */
     std::vector<Breakdown*> breakdowns; /**< List of breakdown periods associated with the element. */
+    long buffer_size; /**< The buffer size associated with the element. */
 
 public:
     /**
@@ -85,6 +86,18 @@ public:
      * @param breakdown A pointer to a Breakdown object representing a breakdown period.
      */
     void addBreakdown(Breakdown* breakdown);
+
+    /**
+     * @brief Gets the buffer size associated with the element.
+     * @return The buffer size.
+     */
+    [[nodiscard]] long getBufferSize() const;
+
+    /**
+     * @brief Sets the buffer size associated with the element.
+     * @param buffer_size The buffer size.
+     */
+    void setBufferSize(long buffer_size);
 };
 
 #endif //SCHEDULING_TOPOLOGYELEMENT_H

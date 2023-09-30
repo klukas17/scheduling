@@ -4,4 +4,4 @@ Machine
 
 3 types of jobs, 3 jobs in total
 
-Purpose: test job_families parameter
+Purpose: test job_families parameter (removed)

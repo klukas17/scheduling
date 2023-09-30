@@ -43,13 +43,6 @@ JobTypeMap* JobSpecificationsParser::parse(const std::string& path) {
                 }
             }
 
-            const YAML::Node& job_families_node = (*it)["job_families"];
-            if (job_families_node) {
-                for (YAML::const_iterator job_family_id = job_families_node.begin(); job_family_id != job_families_node.end(); job_family_id++) {
-                    job_type->addJobFamily((*job_family_id).as<long>());
-                }
-            }
-
             const YAML::Node& forbidden_machine_types_node = (*it)["forbidden_machine_types"];
             if (forbidden_machine_types_node) {
                 for (YAML::const_iterator machine_type_id = forbidden_machine_types_node.begin(); machine_type_id != forbidden_machine_types_node.end(); machine_type_id++) {

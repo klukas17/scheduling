@@ -21,6 +21,7 @@ JobProcessingContext::JobProcessingContext(Job* job) {
     this->job_processing_step = nullptr;
     this->last_processed_path_node_id = -1;
     this->processing_started = false;
+    this->previous_machine_processing_context = nullptr;
 }
 
 Job *JobProcessingContext::getJob() {
@@ -149,4 +150,12 @@ void JobProcessingContext::moveToNextPathNode(long next_machine_id) {
 
 bool JobProcessingContext::checkIfPathFinished() {
     return !path_node && !job_processing_step && frames.empty();
+}
+
+MachineProcessingContext *JobProcessingContext::getPreviousMachineProcessingContext() {
+    return previous_machine_processing_context;
+}
+
+void JobProcessingContext::setPreviousMachineProcessingContext(MachineProcessingContext *previous_machine_processing_context) {
+    this->previous_machine_processing_context = previous_machine_processing_context;
 }

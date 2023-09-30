@@ -99,6 +99,22 @@ void MachineBuffer::finishProcessingAStep() {
     }
 }
 
+std::tuple<long, long> MachineBuffer::removeFirstAndRetrieveIt() {
+    if (head != nullptr) {
+        step_index_to_node[head->step_id] = nullptr;
+        long step_id = head->step_id;
+        long job_id = head->job_id;
+        auto tmp = head;
+        head = head->next;
+        delete tmp;
+        return {step_id, job_id};
+    }
+
+    else {
+        throw SchedulingError("Trying to remove an empty step in MachineBuffer::removeFirstAndRetrieveIt.");
+    }
+}
+
 bool MachineBuffer::checkShouldPreempt() {
 
     if (!current) {

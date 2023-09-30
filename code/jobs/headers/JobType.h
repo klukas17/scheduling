@@ -25,7 +25,6 @@ class JobType {
 protected:
     long id; /**< The ID of the job type */
     std::map<long, long> processing_times; /**< Processing times associated with different machine types */
-    std::set<long> job_families; /**< Set of job family IDs */
     std::set<long> forbidden_machine_types; /**< Set of forbidden machine type IDs */
     bool preempt; /**< Indicates whether preemption is allowed for this job type */
 
@@ -55,18 +54,6 @@ public:
      * @param processing_time The processing time to set.
      */
     void setProcessingTime(long machine_type_id, long processing_time);
-
-    /**
-     * @brief Gets the set of job family IDs associated with the job type.
-     * @return The set of job family IDs.
-     */
-    std::set<long> getJobFamilies();
-
-    /**
-     * @brief Adds a job family to the set of associated job families.
-     * @param job_family_id The ID of the job family to add.
-     */
-    void addJobFamily(long job_family_id);
 
     /**
      * @brief Gets the set of forbidden machine type IDs.

@@ -1,0 +1,40 @@
+topology:
+  serial:
+    id: 1
+    body:
+      - parallel:
+          id: 2
+          body:
+            - machine:
+                id: 3
+                machine_type_id: 1
+            - machine:
+                id: 4
+                machine_type_id: 1
+            - machine:
+                id: 5
+                machine_type_id: 1
+      - serial:
+          id: 6
+          buffer_size: 1
+          body:
+            - machine:
+                id: 7
+                buffer_size: 1
+                machine_type_id: 2
+            - machine:
+                id: 8
+                buffer_size: 1
+                machine_type_id: 2
+            - machine:
+                id: 9
+                buffer_size: 1
+                machine_type_id: 2
+            - machine:
+                id: 10
+                buffer_size: 1
+                machine_type_id: 2
+            - machine:
+                id: 11
+                buffer_size: 1
+                machine_type_id: 2
