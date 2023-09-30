@@ -3,20 +3,11 @@ jobs:
     processing_times:
       - machine_id: 1
         time: 5
-    job_families:
-      - 1
-      - 2
   - job_id: 2
     processing_times:
       - machine_id: 1
         time: 5
-    job_families:
-      - 2
-      - 3
   - job_id: 3
     processing_times:
       - machine_id: 1
         time: 5
-    job_families:
-      - 1
-      - 3

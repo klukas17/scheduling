@@ -16,6 +16,7 @@
 #include "stack"
 #include "JobProcessingContextFrame.h"
 #include "JobProcessingStep.h"
+#include "MachineProcessingContext.h"
 
 /**
  * @class JobProcessingContext
@@ -32,6 +33,7 @@ private:
     std::stack<JobProcessingContextFrame*> frames; /**< A stack of context frames for managing processing state. */
     long last_processed_path_node_id; /**< The identifier of the last processed path node. */
     bool processing_started; /**< A flag indicating if the processing has started. */
+    MachineProcessingContext* previous_machine_processing_context; /**< A pointer to the previous machine's processing context. */
 
 public:
     /**
@@ -69,7 +71,18 @@ public:
      * @return `true` if the path is finished, `false` otherwise.
      */
     bool checkIfPathFinished();
+
+    /**
+     * @brief Retrieves the previous machine's processing context.
+     * @return A pointer to the previous machine's processing context.
+     */
+    MachineProcessingContext* getPreviousMachineProcessingContext();
+
+    /**
+     * @brief Sets the previous machine's processing context.
+     * @param previous_machine_processing_context A pointer to the previous machine's processing context.
+     */
+    void setPreviousMachineProcessingContext(MachineProcessingContext* previous_machine_processing_context);
 };
 
 #endif //SCHEDULING_JOBPROCESSINGCONTEXT_H
-

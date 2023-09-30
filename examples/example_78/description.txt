@@ -1,0 +1,7 @@
+Serial(Parallel(machine, machine, machine), Serial(machine, machine, machine, machine, machine)
+
+1 type of machines, 8 machines in total
+
+1 type of jobs, 9 jobs in total
+
+Purpose: buffers test - jobs being processed one by one in the last group

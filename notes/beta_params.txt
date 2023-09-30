@@ -12,8 +12,7 @@ s_jk - sequence dependent setup times
     the latter overrides the former
 
 fmls - job families
-    field job_families in job_specifications.yaml
-    a job can belong to multiple families, so this field is a list
+    field job_type
 
 batch(b) - batch processing
     field batch_processing in machine_specifications.yaml

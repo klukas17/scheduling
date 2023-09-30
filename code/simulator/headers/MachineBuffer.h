@@ -66,6 +66,12 @@ public:
     void finishProcessingAStep();
 
     /**
+     * @brief Removes the first step from the buffer and retrieves its data.
+     * @return A tuple containing step ID and job ID for the first step in the buffer.
+     */
+    std::tuple<long, long, long, bool> removeFirstAndRetrieveIt();
+
+    /**
      * @brief Checks if the current step should be preempted based on priority.
      * @return true if preemption is required, false otherwise.
      */

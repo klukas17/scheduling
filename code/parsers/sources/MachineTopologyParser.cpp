@@ -46,8 +46,13 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
             throw SchedulingError("'machine' node must have a 'machine_type_id' key");
         }
         long machine_type_id = machine_node["machine_type_id"].as<long>();
+        long buffer_size = machine_node["buffer_size"] ? machine_node["buffer_size"].as<long>() : LONG_MAX;
+        if (buffer_size < 1) {
+            throw SchedulingError("Buffer with size smaller than 1 found in MachineTopologyParser::parseElement function.");
+        }
         MachineType* machine_type = machine_type_map->getMachineType(machine_type_id);
         auto machine_topology_element = new Machine(id, machine_type);
+        machine_topology_element->setBufferSize(buffer_size);
         topology_element = machine_topology_element;
         for (auto predecessor_id : predecessor_ids) {
             machine_topology_element->addPredecessorId(predecessor_id);
@@ -91,7 +96,12 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
             throw SchedulingError("'serial' node must have an 'id' key");
         }
         long id = serial_node["id"].as<long>();
+        long buffer_size = serial_node["buffer_size"] ? serial_node["buffer_size"].as<long>() : LONG_MAX;
+        if (buffer_size < 1) {
+            throw SchedulingError("Buffer with size smaller than 1 found in MachineTopologyParser::parseElement function.");
+        }
         auto serial_group_topology_element = new SerialGroup(id);
+        serial_group_topology_element->setBufferSize(buffer_size);
         topology_element = serial_group_topology_element;
         for (auto predecessor_id : predecessor_ids) {
             serial_group_topology_element->addPredecessorId(predecessor_id);
@@ -155,7 +165,12 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
             throw SchedulingError("'parallel' node must have an 'id' key");
         }
         long id = parallel_node["id"].as<long>();
+        long buffer_size = parallel_node["buffer_size"] ? parallel_node["buffer_size"].as<long>() : LONG_MAX;
+        if (buffer_size < 1) {
+            throw SchedulingError("Buffer with size smaller than 1 found in MachineTopologyParser::parseElement function.");
+        }
         auto parallel_group_topology_element = new ParallelGroup(id);
+        parallel_group_topology_element->setBufferSize(buffer_size);
         topology_element = parallel_group_topology_element;
         for (auto predecessor_id : predecessor_ids) {
             parallel_group_topology_element->addPredecessorId(predecessor_id);
@@ -218,7 +233,12 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
             throw SchedulingError("'route' node must have an 'id' key");
         }
         long id = route_node["id"].as<long>();
+        long buffer_size = route_node["buffer_size"] ? route_node["buffer_size"].as<long>() : LONG_MAX;
+        if (buffer_size < 1) {
+            throw SchedulingError("Buffer with size smaller than 1 found in MachineTopologyParser::parseElement function.");
+        }
         auto route_group_topology_element = new RouteGroup(id);
+        route_group_topology_element->setBufferSize(buffer_size);
         topology_element = route_group_topology_element;
         for (auto predecessor_id : predecessor_ids) {
             route_group_topology_element->addPredecessorId(predecessor_id);
@@ -281,7 +301,12 @@ TopologyElement *MachineTopologyParser::parseElement(const std::string& path, co
             throw SchedulingError("'open' node must have an 'id' key");
         }
         long id = open_node["id"].as<long>();
+        long buffer_size = open_node["buffer_size"] ? open_node["buffer_size"].as<long>() : LONG_MAX;
+        if (buffer_size < 1) {
+            throw SchedulingError("Buffer with size smaller than 1 found in MachineTopologyParser::parseElement function.");
+        }
         auto open_group_topology_element = new OpenGroup(id);
+        open_group_topology_element->setBufferSize(buffer_size);
         topology_element = open_group_topology_element;
         for (auto predecessor_id : predecessor_ids) {
             open_group_topology_element->addPredecessorId(predecessor_id);

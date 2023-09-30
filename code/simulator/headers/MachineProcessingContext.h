@@ -23,25 +23,43 @@
  */
 class MachineProcessingContext {
 private:
+    long machine_id; /**< The identifier of the machine associated with this processing context. */
     GenotypeNode* node; /**< Pointer to the genotype node associated with the machine's processing context. */
     MachineBuffer* machine_buffer; /**< Pointer to the machine's buffer for processing steps. */
+    MachineBuffer* machine_buffer_requests; /**< Pointer to the machine's buffer for processing step requests. */
+    long buffer_size; /**< The maximum size of the machine's processing buffer. */
     MachineSetupContext* machine_setup_context; /**< Pointer to the machine's setup context. */
     long steps_in_buffer; /**< The number of processing steps currently in the machine's buffer. */
+    long steps_in_buffer_requests; /**< The number of processing step requests currently in the buffer. */
     bool currently_working; /**< Flag indicating whether the machine is currently processing a step. */
     bool currently_in_breakdown; /**< Flag indicating whether the machine is currently in a breakdown state. */
 
 public:
     /**
-     * @brief Constructs a MachineProcessingContext object associated with the provided genotype node.
+     * @brief Constructs a MachineProcessingContext object associated with the provided machine ID, genotype node, and buffer size.
+     * @param machine_id The identifier of the machine associated with this processing context.
      * @param node A pointer to the genotype node associated with the machine's processing context.
+     * @param buffer_size The maximum size of the machine's processing buffer.
      */
-    explicit MachineProcessingContext(GenotypeNode* node);
+    MachineProcessingContext(long machine_id, GenotypeNode* node, long buffer_size);
+
+    /**
+     * @brief Retrieves the identifier of the machine associated with this processing context.
+     * @return The machine identifier.
+     */
+    [[nodiscard]] long getMachineId() const;
 
     /**
      * @brief Retrieves the genotype node associated with the machine's processing context.
      * @return A pointer to the associated GenotypeNode object.
      */
     GenotypeNode* getNode();
+
+    /**
+     * @brief Retrieves the maximum size of the machine's processing buffer.
+     * @return The maximum buffer size.
+     */
+    [[nodiscard]] long getBufferSize() const;
 
     /**
      * @brief Adds a processing step to the machine's buffer.
@@ -52,6 +70,34 @@ public:
      * @param preempt Flag indicating whether preemption is allowed for this step.
      */
     void addStepToBuffer(long step_id, long job_id, long time_start_processing, long time_remaining_processing, bool preempt);
+
+    /**
+     * @brief Adds a processing step request to the machine's buffer for processing step requests.
+     * @param step_id The identifier of the processing step to be added.
+     * @param job_id The identifier of the job associated with the processing step.
+     * @param time_start_processing The time at which processing of the step started.
+     * @param time_remaining_processing The remaining time required to complete processing.
+     * @param preempt Flag indicating whether preemption is allowed for this step.
+     */
+    void addStepToBufferRequests(long step_id, long job_id, long time_start_processing, long time_remaining_processing, bool preempt);
+
+    /**
+     * @brief Retrieves the number of processing step requests currently in the machine's buffer for processing step requests.
+     * @return The number of processing step requests in the buffer.
+     */
+    [[nodiscard]] long getStepsInBufferRequests() const;
+
+    /**
+     * @brief Removes and retrieves a processing step request from the machine's buffer for processing step requests.
+     * @return A tuple containing the step ID and the associated job ID of the removed step.
+     */
+    std::tuple<long, long> removeStepFromBufferRequests();
+
+    /**
+     * @brief Checks if there is space in the machine's processing buffer for additional steps.
+     * @return true if the buffer has space, false otherwise.
+     */
+    [[nodiscard]] bool bufferHasSpace() const;
 
     /**
      * @brief Adds a processing step to the waiting list for prerequisites.
@@ -109,12 +155,6 @@ public:
      * @return The remaining processing time in time units.
      */
     long getRemainingTimeForCurrent();
-
-    /**
-     * @brief Sets the time at which processing of the current step started.
-     * @param time The time at which processing started.
-     */
-    void setTimeStartedProcessingForCurrent(long time);
 
     /**
      * @brief Retrieves the number of processing steps currently in the machine's buffer.
@@ -202,6 +242,12 @@ public:
      * @return true if the first step has a higher priority, false otherwise.
      */
     bool comparePrioritiesOfTwoSteps(long step_id1, long step_id2);
+
+    /**
+     * @brief Checks if the machine's buffer has space to accept another job.
+     * @return true if the buffer can accept another job, false otherwise.
+     */
+    [[nodiscard]] bool canAcceptAnotherJobInBuffer() const;
 };
 
 #endif // SCHEDULING_MACHINEPROCESSINGCONTEXT_H

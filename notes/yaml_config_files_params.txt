@@ -3,7 +3,6 @@ job_specifications.yaml:
         id
     optional:
         processing_times
-        job_families
         forbidden_machine_types
         preempt
 

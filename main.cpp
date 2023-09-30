@@ -17,12 +17,12 @@ void run_example(const std::string& dir) {
     std::cout << "Running " << dir << std::endl;
 
     MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
-    Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
-    TopologyUtils::logTopology(topology, dir + "output/topology.txt");
 
     JobTypeMap* job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
-
     machine_type_map->constructSetupRules(job_type_map);
+
+    Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
+    TopologyUtils::logTopology(topology, dir + "output/topology.txt");
 
     std::map<long, Job*> jobs = JobSequenceParser::parse(dir + "job_sequence.yaml", machine_type_map, job_type_map, topology);
     PathNodeUtils::logPathNodes(jobs, dir + "output/path_nodes.txt");

@@ -1,0 +1,6 @@
+Serial group: id = 1
+	Parallel group: id = 2
+		Machine: id = 3, machine_type_id = 1
+		Machine: id = 4, machine_type_id = 1
+		Machine: id = 5, machine_type_id = 1
+	Machine: id = 6, machine_type_id = 2

@@ -1,0 +1,7 @@
+Serial(Parallel(machine, machine, machine), machine)
+
+1 type of machines, 4 machines in total
+
+1 type of jobs, 9 jobs in total
+
+Purpose: buffers test - jobs entering buffers in correct order

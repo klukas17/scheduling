@@ -1,0 +1,7 @@
+Serial(machine, machine)
+
+1 type of machines, 2 machines in total
+
+1 type of jobs, 6 jobs in total
+
+Purpose: buffers test - job goes from waiting to buffer and then has prerequisites

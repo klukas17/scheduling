@@ -1,0 +1,7 @@
+Serial(machine, machine)
+
+1 type of machines, 2 machines in total
+
+1 type of jobs, 8 jobs in total
+
+Purpose: buffers test - losing jobs and recovering from it

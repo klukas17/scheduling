@@ -13,6 +13,7 @@ TopologyElement::TopologyElement(long id) {
     this->id = id;
     this->topology_element_type = ABSTRACT_TOPOLOGY_ELEMENT;
     this->general_topology_element_type = ABSTRACT_GENERAL_TOPOLOGY_ELEMENT;
+    this->buffer_size = 0;
 }
 
 TopologyElement::~TopologyElement() = default;
@@ -43,4 +44,12 @@ std::vector<Breakdown *> TopologyElement::getBreakdowns() {
 
 void TopologyElement::addBreakdown(Breakdown *breakdown) {
     breakdowns.push_back(breakdown);
+}
+
+long TopologyElement::getBufferSize() const {
+    return buffer_size;
+}
+
+void TopologyElement::setBufferSize(long buffer_size) {
+    this->buffer_size = buffer_size;
 }
