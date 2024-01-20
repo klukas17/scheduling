@@ -479,7 +479,6 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                         utility_event_queue.push(new MachineBufferEntryRequestAsynchronous(time, job_id, next_machine_id, next_step_id));
                     }
                     machine_processing_context->finishProcessingAStepInBatch(job_id);
-                    utility_event_queue.push(new WakeMachine(time, machine_id));
                     machine_to_job_times_processed_map[machine_id][job_id]++;
                     auto it = unfulfilled_job_processing_prerequisites.begin();
                     while (it != unfulfilled_job_processing_prerequisites.end()) {
