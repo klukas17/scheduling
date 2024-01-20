@@ -56,7 +56,7 @@ public:
      * @brief Constructs the setup rules for machine types using job type mapping.
      * @param job_type_map A pointer to the JobTypeMap object for mapping job types.
      */
-    void constructSetupRules(JobTypeMap* job_type_map);
+    void constructSetupAndBatchRules(JobTypeMap* job_type_map);
 };
 
 #endif // SCHEDULING_MACHINETYPEMAP_H

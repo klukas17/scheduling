@@ -1,0 +1,5 @@
+Machine
+
+1 type of jobs, 6 jobs in total
+
+Purpose: job of higher priority comes in the middle of a batch session with preempts

@@ -1,0 +1,5 @@
+[10] Job 9: System entry
+[10] Job 9: Machine 1 buffer entry (step_id = 9)
+[10] Job 9: Started processing in a batch on Machine 1 (step_id = 9)
+[15] Job 9: Finished processing in a batch on Machine 1 (step_id = 9)
+[15] Job 9: System exit

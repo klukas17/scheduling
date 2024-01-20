@@ -20,6 +20,8 @@ MachineProcessingContext::MachineProcessingContext(long machine_id, GenotypeNode
     this->steps_in_buffer_requests = 0;
     this->currently_working = false;
     this->currently_in_breakdown = false;
+    this->batch_processing_scenario = nullptr;
+    this->batch_processing_started = true;
 }
 
 long MachineProcessingContext::getMachineId() const {
@@ -34,13 +36,13 @@ long MachineProcessingContext::getBufferSize() const {
     return buffer_size;
 }
 
-void MachineProcessingContext::addStepToBuffer(long step_id, long job_id, long time_start_processing, long time_remaining_processing, bool preempt) {
-    machine_buffer->addStepToBuffer(step_id, job_id, time_start_processing, time_remaining_processing, preempt);
+void MachineProcessingContext::addStepToBuffer(long step_id, long job_id, long job_type_id, long time_start_processing, long time_remaining_processing, bool preempt) {
+    machine_buffer->addStepToBuffer(step_id, job_id, job_type_id, time_start_processing, time_remaining_processing, preempt);
     steps_in_buffer++;
 }
 
-void MachineProcessingContext::addStepToBufferRequests(long step_id, long job_id, long time_start_processing, long time_remaining_processing, bool preempt) {
-    machine_buffer_requests->addStepToBuffer(step_id, job_id, time_start_processing, time_remaining_processing, preempt);
+void MachineProcessingContext::addStepToBufferRequests(long step_id, long job_id, long job_type_id, long time_start_processing, long time_remaining_processing, bool preempt) {
+    machine_buffer_requests->addStepToBuffer(step_id, job_id, job_type_id, time_start_processing, time_remaining_processing, preempt);
     steps_in_buffer_requests++;
 }
 
@@ -58,8 +60,8 @@ bool MachineProcessingContext::bufferHasSpace() const {
     return buffer_size > steps_in_buffer;
 }
 
-void MachineProcessingContext::addStepWaitingForPrerequisite(long step_id, long job_id, long time_start_processing, long time_remaining_processing, bool preempt) {
-    machine_buffer->addStepWaitingForPrerequisite(step_id, job_id, time_start_processing, time_remaining_processing, preempt);
+void MachineProcessingContext::addStepWaitingForPrerequisite(long step_id, long job_id, long job_type_id, long time_start_processing, long time_remaining_processing, bool preempt) {
+    machine_buffer->addStepWaitingForPrerequisite(step_id, job_id, job_type_id, time_start_processing, time_remaining_processing, preempt);
     steps_in_buffer++;
 }
 
@@ -80,6 +82,10 @@ void MachineProcessingContext::finishProcessingAStep() {
     currently_working = false;
 }
 
+void MachineProcessingContext::finishProcessingAStepInBatch(long job_id) {
+    machine_buffer->finishProcessingAStepInBatch(job_id);
+}
+
 bool MachineProcessingContext::checkShouldPreempt() {
     return machine_buffer->checkShouldPreempt();
 }
@@ -88,17 +94,33 @@ std::tuple<long, long> MachineProcessingContext::getCurrentStepData() {
     return machine_buffer->getCurrentStepData();
 }
 
+std::vector<std::tuple<long, long> > MachineProcessingContext::getCurrentStepBatchData() {
+    return machine_buffer->getCurrentStepBatchData();
+}
+
 void MachineProcessingContext::moveCurrentToBuffer(long time) {
     machine_buffer->moveCurrentToBuffer(time);
     currently_working = false;
+}
+
+void MachineProcessingContext::moveCurrentInBatchToBuffer(long time, long job_id) {
+    machine_buffer->moveCurrentInBatchToBuffer(time, job_id);
 }
 
 long MachineProcessingContext::getRemainingTimeForCurrent() {
     return machine_buffer->getRemainingTimeForCurrent();
 }
 
+long MachineProcessingContext::getRemainingTimeForCurrentInBatch(long job_id) {
+    return machine_buffer->getRemainingTimeForCurrentInBatch(job_id);
+}
+
 void MachineProcessingContext::setTimeStartedProcessingForCurrent(long time) {
     machine_buffer->setTimeStartedProcessingForCurrent(time);
+}
+
+void MachineProcessingContext::setTimeStartedProcessingForCurrentInBatch(long time, long job_id) {
+    machine_buffer->setTimeStartedProcessingForCurrentInBatch(time, job_id);
 }
 
 long MachineProcessingContext::getStepsInBuffer() const {
@@ -163,4 +185,30 @@ bool MachineProcessingContext::comparePrioritiesOfTwoSteps(long step_id1, long s
 
 bool MachineProcessingContext::canAcceptAnotherJobInBuffer() const {
     return steps_in_buffer < buffer_size;
+}
+
+BatchProcessingScenario *MachineProcessingContext::getBatchProcessingScenario() {
+    return batch_processing_scenario;
+}
+
+void MachineProcessingContext::setBatchProcessingScenario(BatchProcessingScenario *scenario) {
+    batch_processing_scenario = scenario;
+    batch_processing_started = false;
+}
+
+void MachineProcessingContext::removeBatchProcessingScenario() {
+    batch_processing_scenario = nullptr;
+    batch_processing_started = true;
+}
+
+bool MachineProcessingContext::getBatchProcessingStarted() {
+    return batch_processing_started;
+}
+
+void MachineProcessingContext::setBatchProcessingStarted() {
+    batch_processing_started = true;
+}
+
+std::vector<std::tuple<long, long> > MachineProcessingContext::startBatchProcessing() {
+    return machine_buffer->startBatchProcessing(batch_processing_scenario);
 }

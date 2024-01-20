@@ -17,18 +17,16 @@ MachineTypeMap* MachineSpecificationsParser::parse(const std::string& path) {
     YAML::Node doc = YAML::LoadFile(path);
     YAML::Node machines_node = doc["machines"];
 
-    std::map<long, std::vector<std::tuple<long, long, long>>> all_setup_data;
-
     if (machines_node) {
         for (YAML::const_iterator it = machines_node.begin(); it != machines_node.end(); ++it) {
             std::vector<std::tuple<long, long, long>> machine_type_setup_data;
+            std::vector<std::tuple<long, long>> machine_type_batch_data;
             if (!(*it)["machine_id"]) {
                 throw SchedulingError("Entry in the 'machines' array must contain 'machine_id' field in the file " + path);
             }
             long id = (*it)["machine_id"].as<long>();
             long preempt = ((*it)["preempt"]) && (*it)["preempt"].as<bool>();
             YAML::Node setup_node = (*it)["setup"];
-            std::vector<Setup*> setups;
             for (auto setup_it = setup_node.begin(); setup_it != setup_node.end(); setup_it++) {
                 if (!(*setup_it)["time"]) {
                     throw SchedulingError("Entry in the 'setup' array must contain 'time' field in the file " + path);
@@ -38,9 +36,17 @@ MachineTypeMap* MachineSpecificationsParser::parse(const std::string& path) {
                 long to = ((*setup_it)["to"]) ? (*setup_it)["to"].as<long>() : -1;
                 machine_type_setup_data.emplace_back(time, from, to);
             }
-            auto machine_type = new MachineType(id, preempt, machine_type_setup_data);
+            YAML::Node batch_processing_node = (*it)["batch_processing"];
+            for (auto batch_it = batch_processing_node.begin(); batch_it != batch_processing_node.end(); batch_it++) {
+                if (!(*batch_it)["job_type_id"]) {
+                    throw SchedulingError("Entry in the 'batch_processing' array must contain 'job_type_id' field in the file " + path);
+                }
+                long job_type_id = (*batch_it)["job_type_id"].as<long>();
+                long jobs_per_batch = (*batch_it)["jobs_per_batch"] ? (*batch_it)["jobs_per_batch"].as<long>() : LONG_MAX;
+                machine_type_batch_data.emplace_back(job_type_id, jobs_per_batch);
+            }
+            auto machine_type = new MachineType(id, preempt, machine_type_setup_data, machine_type_batch_data);
             machine_type_map->addMachineType(id, machine_type);
-            all_setup_data[id] = machine_type_setup_data;
         }
     } else {
         throw SchedulingError("'machines' key not found in the file " + path);

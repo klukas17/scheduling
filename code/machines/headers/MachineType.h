@@ -14,6 +14,7 @@
 #include "JobTypeMap.h"
 #include <vector>
 #include <tuple>
+#include "BatchProcessingScenarioRules.h"
 
 /**
  * @class MachineType
@@ -28,6 +29,8 @@ protected:
     bool preempt; /**< Indicates whether preemption is allowed for this machine type */
     SetupRules* setup_rules; /**< Pointer to the setup rules for this machine type. */
     std::vector<std::tuple<long, long, long>> setup_rules_raw_data; /**< Raw data for setup rules. */
+    BatchProcessingScenarioRules* batch_processing_scenario_rules; /**< Pointer to the batch processing scenario rules for this machine type. */
+    std::vector<std::tuple<long, long>> batch_processing_scenario_rules_raw_data; /**< Raw data for batch processing scenario rules. */
 
 public:
     /**
@@ -35,8 +38,9 @@ public:
      * @param id The ID of the machine type.
      * @param preempt Indicates whether preemption is allowed for this machine type.
      * @param setup_rules_raw_data A vector containing raw setup rule data.
+     * @param batch_processing_scenario_rules_raw_data A vector containing raw batch processing scenario rule data.
      */
-    MachineType(long id, bool preempt, std::vector<std::tuple<long, long, long>> setup_rules_raw_data);
+    MachineType(long id, bool preempt, std::vector<std::tuple<long, long, long>> setup_rules_raw_data, std::vector<std::tuple<long, long>> batch_processing_scenario_rules_raw_data);
 
     /**
      * @brief Gets the ID of the machine type.
@@ -57,10 +61,16 @@ public:
     SetupRules* getSetupRules();
 
     /**
+     * @brief Retrieves the batch processing scenario rules for this machine type.
+     * @return A pointer to the BatchProcessingScenarioRules object representing the batch processing scenario rules.
+     */
+    BatchProcessingScenarioRules* getBatchProcessingScenarioRules();
+
+    /**
      * @brief Constructs the setup rules for this machine type using job type mapping.
      * @param job_type_map A pointer to the JobTypeMap object for mapping job types.
      */
-    void constructSetupRules(JobTypeMap* job_type_map);
+    void constructSetupAndBatchRules(JobTypeMap* job_type_map);
 };
 
 #endif //SCHEDULING_MACHINETYPE_H

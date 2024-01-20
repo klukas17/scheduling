@@ -1,0 +1,11 @@
+topology:
+  serial:
+    id: 1
+    body:
+      - machine:
+          id: 2
+          machine_type_id: 1
+      - machine:
+          id: 3
+          machine_type_id: 1
+          buffer_size: 1

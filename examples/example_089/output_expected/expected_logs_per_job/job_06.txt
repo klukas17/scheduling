@@ -1,0 +1,5 @@
+[3] Job 6: System entry
+[3] Job 6: Machine 1 buffer entry (step_id = 6)
+[3] Job 6: Started processing on Machine 1 (step_id = 6)
+[8] Job 6: Finished processing on Machine 1 (step_id = 6)
+[8] Job 6: System exit

@@ -1,0 +1,7 @@
+Machine
+
+1 type of machines, 1 machine
+
+2 types of jobs, 7 jobs in total
+
+Purpose: batch processing - correct jobs are chosen for batch

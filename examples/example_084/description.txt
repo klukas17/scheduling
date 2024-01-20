@@ -1,0 +1,7 @@
+Serial(machine, machine)
+
+1 type of machines, 2 machines
+
+1 type of jobs, 5 jobs in total
+
+Purpose: batch processing - batch being processed on multiple machines

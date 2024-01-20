@@ -1,0 +1,6 @@
+machines:
+  - machine_id: 1
+    setup:
+      - time: 3
+    batch_processing:
+      - job_type_id: 1

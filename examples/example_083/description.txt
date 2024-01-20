@@ -1,0 +1,5 @@
+Machine
+
+1 type of jobs, 11 jobs in total
+
+Purpose: batch processing - multiple batches
