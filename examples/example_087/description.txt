@@ -1,0 +1,5 @@
+Machine
+
+1 type of jobs, 5 jobs in total
+
+Purpose: test breakdown in the middle of batch processing with preempts

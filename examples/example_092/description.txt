@@ -1,0 +1,7 @@
+Serial(machine, machine)
+
+1 type of machines, 2 machines in total
+
+1 type of jobs, 10 jobs in total
+
+Purpose: batch + buffers of size 1 interaction

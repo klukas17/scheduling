@@ -1,0 +1,11 @@
+jobs:
+  - job_id: 1
+    preempt: false
+    processing_times:
+      - machine_id: 1
+        time: 5
+  - job_id: 2
+    preempt: false
+    processing_times:
+      - machine_id: 1
+        time: 5

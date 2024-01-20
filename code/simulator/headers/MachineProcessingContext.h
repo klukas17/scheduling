@@ -10,6 +10,7 @@
 #ifndef SCHEDULING_MACHINEPROCESSINGCONTEXT_H
 #define SCHEDULING_MACHINEPROCESSINGCONTEXT_H
 
+#include "BatchProcessingScenario.h"
 #include "GenotypeNode.h"
 #include "MachineBuffer.h"
 #include "MachineSetupContext.h"
@@ -33,6 +34,8 @@ private:
     long steps_in_buffer_requests; /**< The number of processing step requests currently in the buffer. */
     bool currently_working; /**< Flag indicating whether the machine is currently processing a step. */
     bool currently_in_breakdown; /**< Flag indicating whether the machine is currently in a breakdown state. */
+    BatchProcessingScenario* batch_processing_scenario; /**< Pointer to the batch processing scenario associated with the machine. */
+    bool batch_processing_started; /**< Flag indicating whether batch processing has started for the machine. */
 
 public:
     /**
@@ -65,21 +68,23 @@ public:
      * @brief Adds a processing step to the machine's buffer.
      * @param step_id The identifier of the processing step to be added.
      * @param job_id The identifier of the job associated with the processing step.
+     * @param job_type_id The identifier of the job type associated with the processing step.
      * @param time_start_processing The time at which processing of the step started.
      * @param time_remaining_processing The remaining time required to complete processing.
      * @param preempt Flag indicating whether preemption is allowed for this step.
      */
-    void addStepToBuffer(long step_id, long job_id, long time_start_processing, long time_remaining_processing, bool preempt);
+    void addStepToBuffer(long step_id, long job_id, long job_type_id, long time_start_processing, long time_remaining_processing, bool preempt);
 
     /**
      * @brief Adds a processing step request to the machine's buffer for processing step requests.
      * @param step_id The identifier of the processing step to be added.
      * @param job_id The identifier of the job associated with the processing step.
+     * @param job_type_id The identifier of the job type associated with the processing step.
      * @param time_start_processing The time at which processing of the step started.
      * @param time_remaining_processing The remaining time required to complete processing.
      * @param preempt Flag indicating whether preemption is allowed for this step.
      */
-    void addStepToBufferRequests(long step_id, long job_id, long time_start_processing, long time_remaining_processing, bool preempt);
+    void addStepToBufferRequests(long step_id, long job_id, long job_type_id, long time_start_processing, long time_remaining_processing, bool preempt);
 
     /**
      * @brief Retrieves the number of processing step requests currently in the machine's buffer for processing step requests.
@@ -103,11 +108,12 @@ public:
      * @brief Adds a processing step to the waiting list for prerequisites.
      * @param step_id The identifier of the processing step.
      * @param job_id The identifier of the job associated with the step.
+     * @param job_type_id The identifier of the job type associated with the step.
      * @param time_start_processing The time at which processing of the step started.
      * @param time_remaining_processing The remaining time required to complete processing.
      * @param preempt Flag indicating whether preemption is allowed for this step.
      */
-    void addStepWaitingForPrerequisite(long step_id, long job_id, long time_start_processing, long time_remaining_processing, bool preempt);
+    void addStepWaitingForPrerequisite(long step_id, long job_id, long job_type_id, long time_start_processing, long time_remaining_processing, bool preempt);
 
     /**
      * @brief Moves a processing step from the waiting list to the machine's buffer.
@@ -133,6 +139,12 @@ public:
     void finishProcessingAStep();
 
     /**
+     * @brief Finishes processing the current step in the batch processing scenario.
+     * @param job_id The identifier of the job associated with the step to finish.
+     */
+    void finishProcessingAStepInBatch(long job_id);
+
+    /**
      * @brief Checks if the current step should be preempted based on priority.
      * @return true if preemption is required, false otherwise.
      */
@@ -145,16 +157,49 @@ public:
     std::tuple<long, long> getCurrentStepData();
 
     /**
+     * @brief Retrieves data about the current step being processed in batch mode.
+     * @return A vector of tuples containing step ID and job ID for the steps in the batch.
+     */
+    std::vector<std::tuple<long, long>> getCurrentStepBatchData();
+
+    /**
      * @brief Moves the current step from processing to the buffer.
      * @param time The time at which the step is moved back to the buffer.
      */
     void moveCurrentToBuffer(long time);
 
     /**
+     * @brief Moves the current step from processing to the buffer in batch mode.
+     * @param time The time at which the step is moved back to the buffer.
+     * @param job_id The identifier of the job associated with the step.
+     */
+    void moveCurrentInBatchToBuffer(long time, long job_id);
+
+    /**
      * @brief Retrieves the remaining processing time for the current step.
      * @return The remaining processing time in time units.
      */
     long getRemainingTimeForCurrent();
+
+    /**
+     * @brief Retrieves the remaining processing time for the current step in batch mode.
+     * @param job_id The identifier of the job associated with the step.
+     * @return The remaining processing time in time units.
+     */
+    long getRemainingTimeForCurrentInBatch(long job_id);
+
+    /**
+     * @brief Sets the time at which processing of the current step started.
+     * @param time The time at which processing started.
+     */
+    void setTimeStartedProcessingForCurrent(long time);
+
+    /**
+     * @brief Sets the time at which processing of the current step started in batch mode.
+     * @param time The time at which processing started.
+     * @param job_id The identifier of the job associated with the step.
+     */
+    void setTimeStartedProcessingForCurrentInBatch(long time, long job_id);
 
     /**
      * @brief Retrieves the number of processing steps currently in the machine's buffer.
@@ -248,6 +293,40 @@ public:
      * @return true if the buffer can accept another job, false otherwise.
      */
     [[nodiscard]] bool canAcceptAnotherJobInBuffer() const;
+
+    /**
+     * @brief Retrieves the batch processing scenario associated with the machine.
+     * @return A pointer to the BatchProcessingScenario object defining the batch processing scenario.
+     */
+    BatchProcessingScenario* getBatchProcessingScenario();
+
+    /**
+     * @brief Removes the batch processing scenario associated with the machine.
+     */
+    void removeBatchProcessingScenario();
+
+    /**
+     * @brief Sets the batch processing scenario for the machine.
+     * @param scenario A pointer to the BatchProcessingScenario object defining the batch processing scenario.
+     */
+    void setBatchProcessingScenario(BatchProcessingScenario* scenario);
+
+    /**
+     * @brief Retrieves the status of batch processing for the machine.
+     * @return true if batch processing has started, false otherwise.
+     */
+    bool getBatchProcessingStarted();
+
+    /**
+     * @brief Sets the flag indicating that batch processing has started for the machine.
+     */
+    void setBatchProcessingStarted();
+
+    /**
+     * @brief Starts batch processing according to the defined scenario.
+     * @return A vector of tuples containing step ID and job ID for each step in the batch.
+     */
+    std::vector<std::tuple<long, long>> startBatchProcessing();
 };
 
 #endif // SCHEDULING_MACHINEPROCESSINGCONTEXT_H

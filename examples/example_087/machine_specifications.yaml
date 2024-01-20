@@ -1,0 +1,5 @@
+machines:
+  - machine_id: 1
+    preempt: true
+    batch_processing:
+      - job_type_id: 1

@@ -1,0 +1,50 @@
+JOB 1:
+Serial group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 3, path_node_id = 3
+
+JOB 2:
+Serial group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 3, path_node_id = 3
+
+JOB 3:
+Serial group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 3, path_node_id = 3
+
+JOB 4:
+Serial group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 3, path_node_id = 3
+
+JOB 5:
+Serial group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 3, path_node_id = 3
+
+JOB 6:
+Serial group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 3, path_node_id = 3
+
+JOB 7:
+Serial group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 3, path_node_id = 3
+
+JOB 8:
+Serial group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 3, path_node_id = 3
+
+JOB 9:
+Serial group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 3, path_node_id = 3
+
+JOB 10:
+Serial group: id = 1, path_node_id = 1
+	Machine: id = 2, path_node_id = 2
+	Machine: id = 3, path_node_id = 3
+

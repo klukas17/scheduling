@@ -34,6 +34,10 @@
 #include "SetupCancel.h"
 #include "MachineBufferEntryRequestSynchronous.h"
 #include "MachineBufferEntryRequestAsynchronous.h"
+#include "MachineEntryBatch.h"
+#include "MachineExitBatch.h"
+#include "MachineExitForcedBatch.h"
+#include "PreemptBatch.h"
 #include "SchedulingError.h"
 #include "Machine.h"
 
@@ -230,11 +234,11 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                     }
                     auto path_tree_node = job->getPathTreeNode(individual->getProcessingRoute(job_id)->getProcessingStep(step_id)->getPathNodeId());
                     if (path_tree_node->getPathNode()->getPrerequisites().empty()) {
-                        machine_processing_context->addStepToBuffer(step_id, job_id, time, processing_duration, preempt);
+                        machine_processing_context->addStepToBuffer(step_id, job_id, job->getJobType()->getId(), time, processing_duration, preempt);
                         utility_event_queue.push(new WakeMachine(time, machine_id));
                     }
                     else {
-                        machine_processing_context->addStepWaitingForPrerequisite(step_id, job_id, time, processing_duration, preempt);
+                        machine_processing_context->addStepWaitingForPrerequisite(step_id, job_id, jobs.at(job_id)->getJobType()->getId(), time, processing_duration, preempt);
                         addToEventQueue(new PrerequisitesWaitStart(time, job_id, machine_id, step_id), event_queue);
                         utility_event_queue.push(new WakeMachine(time, machine_id));
                     }
@@ -253,6 +257,15 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                     machine_processing_context->setTimeStartedProcessingForCurrent(time);
                     long processing_duration = machine_processing_context->getRemainingTimeForCurrent();
                     addToEventQueue(new MachineExit(time + processing_duration, job_id, machine_id, step_id), event_queue);
+                    auto topology_element = topology->getTopologyElementsMap().at(machine_id);
+                    if (topology_element->getTopologyElementType() == MACHINE_TOPOLOGY_ELEMENT) {
+                        auto machine = (Machine*) topology_element;
+                        auto batch_processing_scenario = machine->getMachineType()->getBatchProcessingScenarioRules()->findBatchProcessingScenario(jobs.at(job_id)->getJobType()->getId());
+                        if (batch_processing_scenario) {
+                            machine_processing_context->setBatchProcessingScenario(batch_processing_scenario);
+                            utility_event_queue.push(new WakeMachine(time, machine_id));
+                        }
+                    }
                     break;
                 }
 
@@ -275,6 +288,7 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                         utility_event_queue.push(new MachineBufferEntryRequestAsynchronous(time, job_id, next_machine_id, next_step_id));
                     }
                     machine_processing_context->finishProcessingAStep();
+                    machine_processing_context->removeBatchProcessingScenario();
                     utility_event_queue.push(new WakeMachine(time, machine_id));
                     machine_to_job_times_processed_map[machine_id][job_id]++;
                     auto it = unfulfilled_job_processing_prerequisites.begin();
@@ -349,11 +363,18 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                     machine_processing_context->setCurrentlyInBreakdown();
                     if (machine_processing_context->getCurrentlyWorking()) {
                         auto [job_id, step_id] = machine_processing_context->getCurrentStepData();
+                        auto steps_in_batch = machine_processing_context->getCurrentStepBatchData();
                         if (machine_processing_context->checkCanPreemptCurrent()) {
                             addToEventQueue(new Preempt(time, job_id, machine_id, step_id), event_queue);
+                            for (auto step_in_batch : steps_in_batch) {
+                                addToEventQueue(new PreemptBatch(time, std::get<0>(step_in_batch), machine_id, std::get<1>(step_in_batch)), event_queue);
+                            }
                         }
                         else {
                             addToEventQueue(new MachineExitForced(time, job_id, machine_id, step_id), event_queue);
+                            for (auto step_in_batch : steps_in_batch) {
+                                addToEventQueue(new MachineExitForcedBatch(time, std::get<0>(step_in_batch), machine_id, std::get<1>(step_in_batch)), event_queue);
+                            }
                         }
                     }
                     if (machine_processing_context->getSetup()) {
@@ -415,13 +436,89 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                     long step_id = machine_exit_forced_event->getStepId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
                     machine_processing_context->finishProcessingAStep();
+                    utility_event_queue.push(new WakeMachine(time, machine_id));
                     removeFromEventQueue(MACHINE_EXIT, job_id, machine_id, event_queue);
                     addToEventQueue(new SystemExitForced(time, job_id), event_queue);
                     break;
                 }
+
                 case SYSTEM_EXIT_FORCED: {
                     auto system_exit_forced_event = dynamic_cast<SystemExitForced*>(event);
                     long job_id = system_exit_forced_event->getJobId();
+                    break;
+                }
+
+                case MACHINE_ENTRY_BATCH: {
+                    auto machine_entry_batch_event = dynamic_cast<MachineEntryBatch*>(event);
+                    long job_id = machine_entry_batch_event->getJobId();
+                    long machine_id = machine_entry_batch_event->getMachineId();
+                    long step_id = machine_entry_batch_event->getStepId();
+                    auto machine_processing_context = machine_processing_context_map[machine_id];
+                    machine_processing_context->setTimeStartedProcessingForCurrentInBatch(time, job_id);
+                    long processing_duration = machine_processing_context->getRemainingTimeForCurrentInBatch(job_id);
+                    addToEventQueue(new MachineExitBatch(time + processing_duration, job_id, machine_id, step_id), event_queue);
+                    break;
+                }
+
+                case MACHINE_EXIT_BATCH: {
+                    auto machine_exit_batch_event = dynamic_cast<MachineExitBatch*>(event);
+                    long job_id = machine_exit_batch_event->getJobId();
+                    long machine_id = machine_exit_batch_event->getMachineId();
+                    long step_id = machine_exit_batch_event->getStepId();
+                    auto machine_processing_context = machine_processing_context_map[machine_id];
+                    auto job_route = job_route_map[job_id];
+                    if (job_route->checkHasFinished()) {
+                        job_processing_context_map[job_id]->setJobProcessingStep(nullptr);
+                        addToEventQueue(new SystemExit(time, job_id), event_queue);
+                    }
+                    else {
+                        auto processing_step = job_route->getNextProcessingStep();
+                        job_processing_context_map[job_id]->setJobProcessingStep(processing_step);
+                        long next_machine_id = processing_step->getMachineId();
+                        long next_step_id = processing_step->getProcessingStepId();
+                        utility_event_queue.push(new MachineBufferEntryRequestAsynchronous(time, job_id, next_machine_id, next_step_id));
+                    }
+                    machine_processing_context->finishProcessingAStepInBatch(job_id);
+                    utility_event_queue.push(new WakeMachine(time, machine_id));
+                    machine_to_job_times_processed_map[machine_id][job_id]++;
+                    auto it = unfulfilled_job_processing_prerequisites.begin();
+                    while (it != unfulfilled_job_processing_prerequisites.end()) {
+                        auto job_processing_prerequisite = *it;
+                        job_processing_prerequisite->updatePrerequisites(machine_id, job_id, machine_to_job_times_processed_map[machine_id][job_id]);
+                        if (job_processing_prerequisite->checkAllPrerequisitesSatisfied()) {
+                            it = unfulfilled_job_processing_prerequisites.erase(it);
+                            auto prerequisite_job_id = job_processing_prerequisite->getJobId();
+                            auto prerequisite_machine_id = job_processing_prerequisite->getMachineId();
+                            auto prerequisite_step_id = job_processing_prerequisite->getStepId();
+                            delete job_processing_prerequisite;
+                            addToEventQueue(new PrerequisitesWaitEnd(time, prerequisite_job_id, prerequisite_machine_id, prerequisite_step_id), event_queue);
+                        }
+                        else {
+                            it++;
+                        }
+                    }
+                    break;
+                }
+
+                case MACHINE_EXIT_FORCED_BATCH: {
+                    auto machine_exit_forced_batch_event = dynamic_cast<MachineExitForcedBatch*>(event);
+                    long job_id = machine_exit_forced_batch_event->getJobId();
+                    long machine_id = machine_exit_forced_batch_event->getMachineId();
+                    long step_id = machine_exit_forced_batch_event->getStepId();
+                    auto machine_processing_context = machine_processing_context_map[machine_id];
+                    removeFromEventQueue(MACHINE_EXIT_BATCH, job_id, machine_id, event_queue);
+                    addToEventQueue(new SystemExitForced(time, job_id), event_queue);
+                    break;
+                }
+
+                case PREEMPT_BATCH: {
+                    auto preempt_batch_event = dynamic_cast<PreemptBatch*>(event);
+                    long job_id = preempt_batch_event->getJobId();
+                    long machine_id = preempt_batch_event->getMachineId();
+                    long step_id = preempt_batch_event->getStepId();
+                    auto machine_processing_context = machine_processing_context_map[machine_id];
+                    machine_processing_context->moveCurrentInBatchToBuffer(time, job_id);
+                    removeFromEventQueue(MACHINE_EXIT_BATCH, job_id, machine_id, event_queue);
                     break;
                 }
 
@@ -469,6 +566,10 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                 case SETUP_CANCEL:
                 case MACHINE_EXIT_FORCED:
                 case SYSTEM_EXIT_FORCED:
+                case MACHINE_ENTRY_BATCH:
+                case MACHINE_EXIT_BATCH:
+                case MACHINE_EXIT_FORCED_BATCH:
+                case PREEMPT_BATCH:
                     throw SchedulingError("Non utility event encountered in the utility_event_queue in Simulator::simulate function.");;
 
                 case WAKE_MACHINE: {
@@ -520,7 +621,18 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                     }
                     else if (machine_processing_context->checkShouldPreempt()) {
                         auto [job_id, step_id] = machine_processing_context->getCurrentStepData();
+                        auto steps_in_batch = machine_processing_context->getCurrentStepBatchData();
                         addToEventQueue(new Preempt(time, job_id, machine_id, step_id), event_queue);
+                        for (auto step_in_batch : steps_in_batch) {
+                            addToEventQueue(new PreemptBatch(time, std::get<0>(step_in_batch), machine_id, std::get<1>(step_in_batch)), event_queue);
+                        }
+                    }
+                    if (!machine_processing_context->getBatchProcessingStarted()) {
+                        auto batch_jobs_started = machine_processing_context->startBatchProcessing();
+                        for (auto job : batch_jobs_started) {
+                            addToEventQueue(new MachineEntryBatch(time, std::get<1>(job), machine_id, std::get<0>(job)), event_queue);
+                        }
+                        machine_processing_context->setBatchProcessingStarted();
                     }
                     break;
                 }
@@ -562,7 +674,7 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                         addToEventQueue(new MachineBufferEntry(time, job_id, machine_id, step_id), event_queue);
                     }
                     else {
-                        machine_processing_context->addStepToBufferRequests(step_id, job_id, time, processing_duration, preempt);
+                        machine_processing_context->addStepToBufferRequests(step_id, job_id, job->getJobType()->getId(), time, processing_duration, preempt);
                     }
                     break;
                 }

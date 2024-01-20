@@ -9,9 +9,10 @@
 
 #include "MachineBufferElement.h"
 
-MachineBufferElement::MachineBufferElement(long step_id, long job_id, long time_start_processing, long time_remaining_processing, bool preempt) {
+MachineBufferElement::MachineBufferElement(long step_id, long job_id, long job_type_id, long time_start_processing, long time_remaining_processing, bool preempt) {
     this->step_id = step_id;
     this->job_id = job_id;
+    this->job_type_id = job_type_id;
     this->time_start_processing = time_start_processing;
     this->time_remaining_processing = time_remaining_processing;
     this->preempt = preempt;

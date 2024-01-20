@@ -1,0 +1,7 @@
+[0] Job 2: System entry
+[0] Job 2: Machine 1 buffer entry (step_id = 2)
+[0] Job 2: Started processing in a batch on Machine 1 (step_id = 2)
+[3] Job 2: Preempted in a batch on Machine 1 (step_id = 2)
+[8] Job 2: Started processing in a batch on Machine 1 (step_id = 2)
+[10] Job 2: Finished processing in a batch on Machine 1 (step_id = 2)
+[10] Job 2: System exit

@@ -19,7 +19,7 @@ void run_example(const std::string& dir) {
     MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
 
     JobTypeMap* job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
-    machine_type_map->constructSetupRules(job_type_map);
+    machine_type_map->constructSetupAndBatchRules(job_type_map);
 
     Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
     TopologyUtils::logTopology(topology, dir + "output/topology.txt");
