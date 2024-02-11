@@ -41,7 +41,9 @@
 #include "SchedulingError.h"
 #include "Machine.h"
 
-void Simulator::simulate(Individual *individual, Topology* topology, const std::map<long, Job *> &jobs, bool enable_logging, const std::string &logs_path) {
+SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topology, const std::map<long, Job *> &jobs, bool enable_logging, const std::string &logs_path) {
+
+    auto statistics = SimulatorStatistics();
 
     long time = 0;
     std::ofstream log_file(logs_path);
@@ -165,6 +167,7 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
 
     for (const auto& pair : jobs) {
         addToEventQueue(new SystemEntry(pair.second->getReleaseTime(), pair.first), event_queue);
+        statistics.addJobStatistics(new JobStatistics(pair.second->getId(), pair.second->getReleaseTime(), pair.second->getDueTime(), pair.second->getWeight()));
     }
 
     for (const auto& pair : topology->getTopologyElementsMap()) {
@@ -209,6 +212,9 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                         previous_machine_processing_context->decreaseStepsInBuffer();
                         utility_event_queue.push(new WakeMachine(time, previous_machine_processing_context->getMachineId()));
                     }
+                    auto job_statistics = statistics.getJobStatistics(job_id);
+                    job_statistics->setExitTime(time);
+                    job_statistics->setJobStatus(SUCCESSFULLY_TERMINATED);
                     break;
                 }
 
@@ -445,6 +451,15 @@ void Simulator::simulate(Individual *individual, Topology* topology, const std::
                 case SYSTEM_EXIT_FORCED: {
                     auto system_exit_forced_event = dynamic_cast<SystemExitForced*>(event);
                     long job_id = system_exit_forced_event->getJobId();
+                    auto job_processing_context = job_processing_context_map[job_id];
+                    auto previous_machine_processing_context = job_processing_context->getPreviousMachineProcessingContext();
+                    if (previous_machine_processing_context) {
+                        previous_machine_processing_context->decreaseStepsInBuffer();
+                        utility_event_queue.push(new WakeMachine(time, previous_machine_processing_context->getMachineId()));
+                    }
+                    auto job_statistics = statistics.getJobStatistics(job_id);
+                    job_statistics->setExitTime(time);
+                    job_statistics->setJobStatus(FORCEFULLY_TERMINATED);
                     break;
                 }
 

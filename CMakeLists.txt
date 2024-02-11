@@ -10,6 +10,7 @@ link_directories(${YAML_CPP_DIR}/build)
 
 include_directories(
         code/errors/headers
+        code/evaluation/headers
         code/events/headers
         code/genotype/headers
         code/jobs/headers
@@ -24,6 +25,7 @@ include_directories(
 
 file(GLOB PROJECT_HEADERS
         code/errors/headers/*.h
+        code/evaluation/headers/*.h
         code/events/headers/*.h
         code/genotype/headers/*.h
         code/jobs/headers/*.h
@@ -38,6 +40,7 @@ file(GLOB PROJECT_HEADERS
 
 file(GLOB PROJECT_SOURCES
         code/errors/sources/*.cpp
+        code/evaluation/sources/*.cpp
         code/events/sources/*.cpp
         code/genotype/sources/*.cpp
         code/jobs/sources/*.cpp

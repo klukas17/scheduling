@@ -11,6 +11,7 @@
 #include "set"
 #include "filesystem"
 #include "iostream"
+#include "MakespanObjectiveFunction.h"
 
 void run_example(const std::string& dir) {
 
@@ -31,22 +32,25 @@ void run_example(const std::string& dir) {
     Individual* individual = GenotypeDeserializer::deserialize(dir + "individual.yaml", topology, jobs);
     GenotypeSerializer::serialize(dir + "output/individual.yaml", individual);
 
-    Simulator::simulate(individual, topology, jobs, true, dir + "output/simulator_logs.txt");
+    auto statistics = Simulator::simulate(individual, topology, jobs, true, dir + "output/simulator_logs.txt");
+    auto objective_function = MakespanObjectiveFunction();
+    objective_function.evaluate(statistics);
 }
 
 int main() {
-    std::set<std::string> examples_sorted_by_name;
-    for (const auto& entry : std::filesystem::directory_iterator("../examples/")) {
-        if (entry.is_directory()) {
-            examples_sorted_by_name.insert(entry.path().string() + "/");
-        }
-    }
-    for (const auto& entry : examples_sorted_by_name) {
-        try {
-            run_example(entry);
-        }
-        catch (...) {
-            std::cout << "FAILED" << std::endl;
-        }
-    }
+    run_example("../examples/example_090/");
+    // std::set<std::string> examples_sorted_by_name;
+    // for (const auto& entry : std::filesystem::directory_iterator("../examples/")) {
+        // if (entry.is_directory()) {
+            // examples_sorted_by_name.insert(entry.path().string() + "/");
+        // }
+    // }
+    // for (const auto& entry : examples_sorted_by_name) {
+        // try {
+            // run_example(entry);
+        // }
+        // catch (...) {
+            // std::cout << "FAILED" << std::endl;
+        // }
+    // }
 }
