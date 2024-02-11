@@ -1,5 +1,5 @@
 Machine
 
-1 type of jobs, 11 jobs in total
+1 type of jobs, 10 jobs in total
 
 Purpose: batch processing - multiple independent batches on a single machine

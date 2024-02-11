@@ -11,13 +11,9 @@
 #define SCHEDULING_SIMULATOR_H
 
 #include "string"
-#include "vector"
 #include "Individual.h"
 #include "Job.h"
-#include "MachineNode.h"
-#include "GenotypeNode.h"
-#include "Event.h"
-#include "deque"
+#include "SimulatorStatistics.h"
 
 /**
  * @class Simulator
@@ -35,8 +31,9 @@ public:
      * @param jobs A map of job IDs to Job objects representing the jobs to be scheduled.
      * @param enable_logging Flag indicating whether to enable logging of simulation events.
      * @param logs_path The path where simulation logs will be saved if logging is enabled.
+     * @return A pointer to the SimulatorStatistics object containing simulation results and statistics.
      */
-    static void simulate(Individual* individual, Topology* topology, const std::map<long, Job*>& jobs, bool enable_logging = false, const std::string& logs_path = "");
+    static SimulatorStatistics* simulate(Individual* individual, Topology* topology, const std::map<long, Job*>& jobs, bool enable_logging = false, const std::string& logs_path = "");
 };
 
 #endif //SCHEDULING_SIMULATOR_H
