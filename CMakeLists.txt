@@ -15,6 +15,7 @@ include_directories(
         code/genotype/headers
         code/jobs/headers
         code/machines/headers
+        code/optimization/headers
         code/parsers/headers
         code/paths/headers
         code/serializers/headers
@@ -30,6 +31,7 @@ file(GLOB PROJECT_HEADERS
         code/genotype/headers/*.h
         code/jobs/headers/*.h
         code/machines/headers/*.h
+        code/optimization/headers/*.h
         code/parsers/headers/*.h
         code/paths/headers/*.h
         code/serializers/headers/*.h
@@ -45,6 +47,7 @@ file(GLOB PROJECT_SOURCES
         code/genotype/sources/*.cpp
         code/jobs/sources/*.cpp
         code/machines/sources/*.cpp
+        code/optimization/sources/*.cpp
         code/parsers/sources/*.cpp
         code/paths/sources/*.cpp
         code/serializers/sources/*.cpp
