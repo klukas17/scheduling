@@ -4,26 +4,20 @@
 
 #ifndef OPTIMIZATIONALGORITHM_H
 #define OPTIMIZATIONALGORITHM_H
-#include "CombinationOperator.h"
-#include "CreationOperator.h"
+
 #include "EvaluationFunction.h"
 #include "Genotype.h"
-#include "NeighborhoodOperator.h"
-#include "PerturbationOperator.h"
 
 
 class OptimizationAlgorithm {
+private:
+    EvaluationFunction* evaluation_function;
 public:
-    virtual Genotype* optimize(
-        CreationOperator* creation_operator,
-        NeighborhoodOperator* neighborhood_operator,
-        CombinationOperator* combination_operator,
-        PerturbationOperator* perturbation_operator,
-        EvaluationFunction* evaluation_function
-        ) = 0;
+    OptimizationAlgorithm(EvaluationFunction* evaluation_function);
+    EvaluationFunction* getEvaluationFunction();
+    virtual Genotype* optimize() = 0;
     virtual ~OptimizationAlgorithm() = 0;
 };
-
 
 
 #endif //OPTIMIZATIONALGORITHM_H
