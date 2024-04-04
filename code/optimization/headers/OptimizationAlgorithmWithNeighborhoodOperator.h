@@ -9,7 +9,7 @@
 
 
 class OptimizationAlgorithmWithNeighborhoodOperator : public virtual OptimizationAlgorithm {
-private:
+protected:
     NeighborhoodOperator* neighborhood_operator;
 public:
     OptimizationAlgorithmWithNeighborhoodOperator(EvaluationFunction* evaluation_function, NeighborhoodOperator* neighborhood_operator);

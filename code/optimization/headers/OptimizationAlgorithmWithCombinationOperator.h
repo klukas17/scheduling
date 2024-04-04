@@ -9,7 +9,7 @@
 
 
 class OptimizationAlgorithmWithCombinationOperator : public virtual OptimizationAlgorithm {
-private:
+protected:
     CombinationOperator* combination_operator;
 public:
     OptimizationAlgorithmWithCombinationOperator(EvaluationFunction* evaluation_function, CombinationOperator* combination_operator);

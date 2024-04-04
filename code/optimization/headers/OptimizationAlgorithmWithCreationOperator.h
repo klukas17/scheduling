@@ -9,7 +9,7 @@
 
 
 class OptimizationAlgorithmWithCreationOperator : public virtual OptimizationAlgorithm {
-private:
+protected:
     CreationOperator* creation_operator;
 public:
     OptimizationAlgorithmWithCreationOperator(EvaluationFunction* evaluation_function, CreationOperator* creation_operator);

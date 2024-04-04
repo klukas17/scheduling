@@ -9,7 +9,7 @@
 
 
 class OptimizationAlgorithmWithPerturbationOperator : public virtual OptimizationAlgorithm {
-private:
+protected:
     PerturbationOperator* perturbation_operator;;
 public:
     OptimizationAlgorithmWithPerturbationOperator(EvaluationFunction* evaluation_function, PerturbationOperator* perturbation_operator);
