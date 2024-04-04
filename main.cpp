@@ -1,3 +1,8 @@
+#include "BitSumCombinationOperator.h"
+#include "BitSumCreationOperator.h"
+#include "BitSumEvaluationFunction.h"
+#include "BitSumGenotypeBlueprint.h"
+#include "BitSumPerturbationOperator.h"
 #include "MachineSpecificationsParser.h"
 #include "MachineTopologyParser.h"
 #include "JobSpecificationsParser.h"
@@ -12,6 +17,7 @@
 #include "filesystem"
 #include "iostream"
 #include "MakespanObjectiveFunction.h"
+#include "SteadyStateGeneticAlgorithm.h"
 
 void run_example(const std::string& dir) {
 
@@ -37,8 +43,29 @@ void run_example(const std::string& dir) {
     objective_function.evaluate(statistics);
 }
 
+void bit_sum_genotype() {
+    int population_size = 200;
+    int iterations_count = 10000;
+    int number_of_bits = 100;
+    double bit_flip_chance = 0.02;
+
+    auto evaluation_function = new BitSumEvaluationFunction(false);
+    auto blueprint = new BitSumGenotypeBlueprint(number_of_bits);
+    auto creation_operator = new BitSumCreationOperator(blueprint);
+    auto perturbation_operator = new BitSumPerturbationOperator(bit_flip_chance);
+    auto combination_operator = new BitSumCombinationOperator();
+    auto ssga = new SteadyStateGeneticAlgorithm(
+        evaluation_function,
+        creation_operator,
+        perturbation_operator,
+        combination_operator,
+        population_size,
+        iterations_count
+    );
+    auto solution = ssga->optimize();
+}
+
 int main() {
-    run_example("../examples/example_090/");
     // std::set<std::string> examples_sorted_by_name;
     // for (const auto& entry : std::filesystem::directory_iterator("../examples/")) {
         // if (entry.is_directory()) {
@@ -53,4 +80,5 @@ int main() {
             // std::cout << "FAILED" << std::endl;
         // }
     // }
+    bit_sum_genotype();
 }

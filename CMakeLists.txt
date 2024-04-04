@@ -16,6 +16,7 @@ include_directories(
         code/jobs/headers
         code/machines/headers
         code/optimization/headers
+        code/optimization_algorithms/headers
         code/parsers/headers
         code/paths/headers
         code/problems/headers
@@ -34,6 +35,7 @@ file(GLOB PROJECT_HEADERS
         code/jobs/headers/*.h
         code/machines/headers/*.h
         code/optimization/headers/*.h
+        code/optimization_algorithms/headers/*.h
         code/parsers/headers/*.h
         code/paths/headers/*.h
         code/problems/headers/*.h
@@ -52,6 +54,7 @@ file(GLOB PROJECT_SOURCES
         code/jobs/sources/*.cpp
         code/machines/sources/*.cpp
         code/optimization/sources/*.cpp
+        code/optimization_algorithms/sources/*.cpp
         code/parsers/sources/*.cpp
         code/paths/sources/*.cpp
         code/problems/sources/*.cpp

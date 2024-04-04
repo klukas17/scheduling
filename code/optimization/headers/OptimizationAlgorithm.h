@@ -10,7 +10,7 @@
 
 
 class OptimizationAlgorithm {
-private:
+protected:
     EvaluationFunction* evaluation_function;
 public:
     OptimizationAlgorithm(EvaluationFunction* evaluation_function);
