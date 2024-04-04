@@ -18,6 +18,8 @@ include_directories(
         code/optimization/headers
         code/parsers/headers
         code/paths/headers
+        code/problems/headers
+        code/random/headers
         code/serializers/headers
         code/simulator/headers
         code/topology/headers
@@ -34,6 +36,8 @@ file(GLOB PROJECT_HEADERS
         code/optimization/headers/*.h
         code/parsers/headers/*.h
         code/paths/headers/*.h
+        code/problems/headers/*.h
+        code/random/headers/*.h
         code/serializers/headers/*.h
         code/simulator/headers/*.h
         code/topology/headers/*.h
@@ -50,6 +54,8 @@ file(GLOB PROJECT_SOURCES
         code/optimization/sources/*.cpp
         code/parsers/sources/*.cpp
         code/paths/sources/*.cpp
+        code/problems/sources/*.cpp
+        code/random/sources/*.cpp
         code/serializers/sources/*.cpp
         code/simulator/sources/*.cpp
         code/topology/sources/*.cpp

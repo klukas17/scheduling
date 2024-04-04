@@ -11,10 +11,10 @@
 class EvaluationFunction {
 private:
     int evaluation_factor;
-    virtual double _evaluate(Genotype* genotype) = 0;
 public:
     explicit EvaluationFunction(bool minimization);
     double evaluate(Genotype* genotype);
+    virtual double _evaluate(Genotype* genotype) = 0;
     virtual ~EvaluationFunction() = 0;
 };
 
