@@ -2,11 +2,6 @@
 // Created by mihael on 9/3/23.
 //
 
-/**
- * @file PathTreeNode.cpp
- * @brief Implements the member functions of the PathTreeNode class.
- */
-
 #include "PathTreeNode.h"
 #include "SchedulingError.h"
 #include "GroupPathTreeNode.h"
@@ -17,24 +12,24 @@ PathTreeNode::PathTreeNode(PathNode *path_node) {
 
 PathTreeNode::~PathTreeNode() = default;
 
-PathNode *PathTreeNode::getPathNode() {
+PathNode *PathTreeNode::getPathNode() const {
     return path_node;
 }
 
 void PathTreeNode::deletePathTreeNode() {
 
-    auto general_topology_element_type = path_node->getTopologyElement()->getGeneralTopologyElementType();
+    auto const general_topology_element_type = path_node->getTopologyElement()->getGeneralTopologyElementType();
 
     if (general_topology_element_type == ABSTRACT_GENERAL_TOPOLOGY_ELEMENT) {
         throw SchedulingError("Trying to delete an abstract topology element.");
     }
 
-    else if (general_topology_element_type == MACHINE_GENERAL_TOPOLOGY_ELEMENT) {
+    if (general_topology_element_type == MACHINE_GENERAL_TOPOLOGY_ELEMENT) {
         delete this;
     }
 
     else if (general_topology_element_type == GROUP_GENERAL_TOPOLOGY_ELEMENT) {
-        for (auto child : ((GroupPathTreeNode*)this)->getChildren()) {
+        for (auto const child : dynamic_cast<GroupPathTreeNode*>(this)->getChildren()) {
             child->deletePathTreeNode();
         }
         delete this;

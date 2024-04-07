@@ -3,6 +3,8 @@ project(scheduling)
 
 set(CMAKE_CXX_STANDARD 20)
 
+#add_compile_options(-O3)
+
 # https://github.com/jbeder/yaml-cpp
 set(YAML_CPP_DIR ~/libs/yaml-cpp)
 include_directories(${YAML_CPP_DIR}/include)

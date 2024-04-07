@@ -10,6 +10,6 @@ OptimizationAlgorithmWithCombinationOperator::OptimizationAlgorithmWithCombinati
 
 OptimizationAlgorithmWithCombinationOperator::~OptimizationAlgorithmWithCombinationOperator() = default;
 
-CombinationOperator *OptimizationAlgorithmWithCombinationOperator::getCombinationOperator() {
+CombinationOperator *OptimizationAlgorithmWithCombinationOperator::getCombinationOperator() const {
     return combination_operator;
 }

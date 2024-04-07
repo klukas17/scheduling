@@ -8,8 +8,7 @@
 
 
 class UniformIntDistributionGenerator {
-private:
-    std::uniform_int_distribution<int> generator;
+    std::uniform_int_distribution<> generator;
 public:
     UniformIntDistributionGenerator(int lower_limit, int upper_limit);
     int generate();

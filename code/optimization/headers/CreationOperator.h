@@ -4,6 +4,7 @@
 
 #ifndef INITIALIZEROPERATOR_H
 #define INITIALIZEROPERATOR_H
+
 #include "Genotype.h"
 #include "GenotypeBlueprint.h"
 

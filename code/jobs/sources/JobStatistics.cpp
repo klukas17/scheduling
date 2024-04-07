@@ -4,7 +4,7 @@
 
 #include "JobStatistics.h"
 
-JobStatistics::JobStatistics(long id, long release_time, long due_time, long weight) {
+JobStatistics::JobStatistics(long const id, double const release_time, double const due_time, double const weight) {
     this->id = id;
     this->release_time = release_time;
     this->due_time = due_time;
@@ -13,34 +13,34 @@ JobStatistics::JobStatistics(long id, long release_time, long due_time, long wei
     this->job_status = UNTERMINATED;
 }
 
-long JobStatistics::getId() {
+long JobStatistics::getId() const {
     return id;
 }
 
-long JobStatistics::getReleaseTime() {
+double JobStatistics::getReleaseTime() const {
     return release_time;
 }
 
-long JobStatistics::getDueTime() {
+double JobStatistics::getDueTime() const {
     return due_time;
 }
 
-long JobStatistics::getWeight() {
+double JobStatistics::getWeight() const {
     return weight;
 }
 
-long JobStatistics::getExitTime() {
+double JobStatistics::getExitTime() const {
     return exit_time;
 }
 
-JobStatus JobStatistics::getJobStatus() {
+JobStatus JobStatistics::getJobStatus() const {
     return job_status;
 }
 
-void JobStatistics::setExitTime(long exit_time) {
+void JobStatistics::setExitTime(double const exit_time) {
     this->exit_time = exit_time;
 }
 
-void JobStatistics::setJobStatus(JobStatus job_status) {
+void JobStatistics::setJobStatus(JobStatus const job_status) {
     this->job_status = job_status;
 }

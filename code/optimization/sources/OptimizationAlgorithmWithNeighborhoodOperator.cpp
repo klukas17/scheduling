@@ -10,6 +10,6 @@ OptimizationAlgorithmWithNeighborhoodOperator::OptimizationAlgorithmWithNeighbor
 
 OptimizationAlgorithmWithNeighborhoodOperator::~OptimizationAlgorithmWithNeighborhoodOperator() = default;
 
-NeighborhoodOperator *OptimizationAlgorithmWithNeighborhoodOperator::getNeighborhoodOperator() {
+NeighborhoodOperator *OptimizationAlgorithmWithNeighborhoodOperator::getNeighborhoodOperator() const {
     return neighborhood_operator;
 }

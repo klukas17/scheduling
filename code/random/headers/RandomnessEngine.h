@@ -8,7 +8,6 @@
 
 
 class RandomnessEngine {
-private:
     static DefaultRandomEngine* engine;
 public:
     static std::default_random_engine& getEngine();

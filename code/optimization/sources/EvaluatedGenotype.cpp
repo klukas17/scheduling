@@ -4,7 +4,7 @@
 
 #include "EvaluatedGenotype.h"
 
-EvaluatedGenotype::EvaluatedGenotype(Genotype* genotype, double fitness_score) {
+EvaluatedGenotype::EvaluatedGenotype(Genotype* genotype, double const fitness_score) {
     this->genotype = genotype;
     this->fitness_score = fitness_score;
 }

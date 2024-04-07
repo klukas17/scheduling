@@ -2,12 +2,6 @@
 // Created by mihael on 9/25/23.
 //
 
-/**
- * @file MachineSetupContext.cpp
- * @brief Implements the member functions of the MachineSetupContext class.
- */
-
-
 #include "MachineSetupContext.h"
 
 MachineSetupContext::MachineSetupContext() {
@@ -15,7 +9,7 @@ MachineSetupContext::MachineSetupContext() {
     this->last_job_type = nullptr;
 }
 
-Setup *MachineSetupContext::getSetup() {
+Setup *MachineSetupContext::getSetup() const {
     return setup;
 }
 
@@ -23,7 +17,7 @@ void MachineSetupContext::setSetup(Setup *setup) {
     this->setup = setup;
 }
 
-JobType *MachineSetupContext::getLastJobType() {
+JobType *MachineSetupContext::getLastJobType() const {
     return last_job_type;
 }
 

@@ -4,16 +4,17 @@
 
 #ifndef OPTIMIZATIONALGORITHMWITHPERTURBATIONOPERATOR_H
 #define OPTIMIZATIONALGORITHMWITHPERTURBATIONOPERATOR_H
+
 #include "OptimizationAlgorithm.h"
 #include "PerturbationOperator.h"
 
 
 class OptimizationAlgorithmWithPerturbationOperator : public virtual OptimizationAlgorithm {
 protected:
-    PerturbationOperator* perturbation_operator;;
+    PerturbationOperator* perturbation_operator;
 public:
     OptimizationAlgorithmWithPerturbationOperator(EvaluationFunction* evaluation_function, PerturbationOperator* perturbation_operator);
-    PerturbationOperator* getPerturbationOperator();
+    [[nodiscard]] PerturbationOperator* getPerturbationOperator() const;
     ~OptimizationAlgorithmWithPerturbationOperator() override = 0;
 };
 

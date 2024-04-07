@@ -2,11 +2,6 @@
 // Created by mihael on 9/2/23.
 //
 
-/**
- * @file JobProcessingContext.cpp
- * @brief Implements the member functions of the JobProcessingContext class.
- */
-
 #include "JobProcessingContext.h"
 #include "SchedulingError.h"
 #include "MachinePathNode.h"
@@ -24,11 +19,11 @@ JobProcessingContext::JobProcessingContext(Job* job) {
     this->previous_machine_processing_context = nullptr;
 }
 
-Job *JobProcessingContext::getJob() {
+Job *JobProcessingContext::getJob() const {
     return job;
 }
 
-PathNode *JobProcessingContext::getPathNode() {
+PathNode *JobProcessingContext::getPathNode() const {
     return path_node;
 }
 
@@ -36,18 +31,18 @@ void JobProcessingContext::setJobProcessingStep(JobProcessingStep *job_processin
     this->job_processing_step = job_processing_step;
 }
 
-void JobProcessingContext::moveToNextPathNode(long next_machine_id) {
+void JobProcessingContext::moveToNextPathNode(long const next_machine_id) {
 
     if (!path_node || job_processing_step->getMachineId() != next_machine_id) {
         throw SchedulingError("Path invalid for job " + std::to_string(job->getId()));
     }
 
     if (processing_started && path_node->getTopologyElement()->getTopologyElementType() == PARALLEL_GROUP_TOPOLOGY_ELEMENT && last_processed_path_node_id == path_node->getPathNodeId()) {
-        auto parallel_group_path_node = (ParallelGroupPathNode*) path_node;
+        auto const parallel_group_path_node = dynamic_cast<ParallelGroupPathNode*>(path_node);
         PathNode* next_path_node = nullptr;
-        for (auto candidate_next : parallel_group_path_node->getNext()) {
-            if (candidate_next.first == next_machine_id) {
-                next_path_node = candidate_next.second;
+        for (auto const [candidate_next_id, candidate_next] : parallel_group_path_node->getNext()) {
+            if (candidate_next_id == next_machine_id) {
+                next_path_node = candidate_next;
                 break;
             }
         }
@@ -58,9 +53,8 @@ void JobProcessingContext::moveToNextPathNode(long next_machine_id) {
     }
 
     if (processing_started && path_node->getTopologyElement()->getTopologyElementType() == OPEN_GROUP_TOPOLOGY_ELEMENT && last_processed_path_node_id == path_node->getPathNodeId() && !frames.empty() && frames.top()->getOpenGroupPathTreeNode()->getPathNode()->getPathNodeId() == path_node->getPathNodeId()) {
-        auto open_group_path_node = (OpenGroupPathNode*) path_node;
         PathNode* next_path_node = nullptr;
-        for (auto candidate_sub_path_node : ((OpenGroupPathTreeNode*) job->getPathTreeNode(path_node->getPathNodeId()))->getChildren()) {
+        for (auto const candidate_sub_path_node : dynamic_cast<OpenGroupPathTreeNode*>(job->getPathTreeNode(path_node->getPathNodeId()))->getChildren()) {
             if (candidate_sub_path_node->getPathNode()->getPathNodeId() == job_processing_step->getPathNodeId()) {
                 next_path_node = candidate_sub_path_node->getPathNode();
                 break;
@@ -86,7 +80,7 @@ void JobProcessingContext::moveToNextPathNode(long next_machine_id) {
         }
 
         case MACHINE_TOPOLOGY_ELEMENT: {
-            auto machine_path_node = (MachinePathNode*) path_node;
+            auto const machine_path_node = dynamic_cast<MachinePathNode*>(path_node);
             if (path_node->getTopologyElement()->getId() != next_machine_id) {
                 throw SchedulingError("Path invalid for job " + std::to_string(job->getId()));
             }
@@ -95,7 +89,7 @@ void JobProcessingContext::moveToNextPathNode(long next_machine_id) {
         }
 
         case SERIAL_GROUP_TOPOLOGY_ELEMENT: {
-            auto serial_group_path_node = (SerialGroupPathNode*) path_node;
+            auto const serial_group_path_node = dynamic_cast<SerialGroupPathNode*>(path_node);
             if (path_node->getTopologyElement()->getId() != next_machine_id) {
                 throw SchedulingError("Path invalid for job " + std::to_string(job->getId()));
             }
@@ -104,7 +98,6 @@ void JobProcessingContext::moveToNextPathNode(long next_machine_id) {
         }
 
         case PARALLEL_GROUP_TOPOLOGY_ELEMENT: {
-            auto parallel_group_path_node = (ParallelGroupPathNode*) path_node;
             if (path_node->getTopologyElement()->getId() != next_machine_id) {
                 throw SchedulingError("Path invalid for job " + std::to_string(job->getId()));
             }
@@ -112,7 +105,7 @@ void JobProcessingContext::moveToNextPathNode(long next_machine_id) {
         }
 
         case ROUTE_GROUP_TOPOLOGY_ELEMENT: {
-            auto route_group_path_node = (RouteGroupPathNode*) path_node;
+            auto const route_group_path_node = dynamic_cast<RouteGroupPathNode*>(path_node);
             if (path_node->getTopologyElement()->getId() != next_machine_id) {
                 throw SchedulingError("Path invalid for job " + std::to_string(job->getId()));
             }
@@ -121,7 +114,7 @@ void JobProcessingContext::moveToNextPathNode(long next_machine_id) {
         }
 
         case OPEN_GROUP_TOPOLOGY_ELEMENT: {
-            auto open_group_path_node = (OpenGroupPathNode*) path_node;
+            auto const open_group_path_node = dynamic_cast<OpenGroupPathNode*>(path_node);
             if (path_node->getTopologyElement()->getId() != next_machine_id) {
                 throw SchedulingError("Path invalid for job " + std::to_string(job->getId()));
             }
@@ -129,7 +122,7 @@ void JobProcessingContext::moveToNextPathNode(long next_machine_id) {
                 path_node = open_group_path_node->getNext();
             }
             else {
-                auto frame = new JobProcessingContextFrame((OpenGroupPathTreeNode*)job->getPathTreeNode(open_group_path_node->getPathNodeId()));
+                auto const frame = new JobProcessingContextFrame(dynamic_cast<OpenGroupPathTreeNode*>(job->getPathTreeNode(open_group_path_node->getPathNodeId())));
                 frames.push(frame);
             }
             break;
@@ -140,19 +133,19 @@ void JobProcessingContext::moveToNextPathNode(long next_machine_id) {
         path_node = frames.top()->getOpenGroupPathTreeNode()->getPathNode();
         last_processed_path_node_id = path_node->getPathNodeId();
         if (frames.top()->checkAllChildrenVisited()) {
-            auto frame = frames.top();
+            auto const frame = frames.top();
             frames.pop();
             delete frame;
-            path_node = ((OpenGroupPathNode*) path_node)->getNext();
+            path_node = dynamic_cast<OpenGroupPathNode*>(path_node)->getNext();
         }
     }
 }
 
-bool JobProcessingContext::checkIfPathFinished() {
+bool JobProcessingContext::checkIfPathFinished() const {
     return !path_node && !job_processing_step && frames.empty();
 }
 
-MachineProcessingContext *JobProcessingContext::getPreviousMachineProcessingContext() {
+MachineProcessingContext *JobProcessingContext::getPreviousMachineProcessingContext() const {
     return previous_machine_processing_context;
 }
 

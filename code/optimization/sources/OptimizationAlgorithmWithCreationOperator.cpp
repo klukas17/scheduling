@@ -10,6 +10,6 @@ OptimizationAlgorithmWithCreationOperator::OptimizationAlgorithmWithCreationOper
 
 OptimizationAlgorithmWithCreationOperator::~OptimizationAlgorithmWithCreationOperator() = default;
 
-CreationOperator *OptimizationAlgorithmWithCreationOperator::getCreationOperator() {
+CreationOperator *OptimizationAlgorithmWithCreationOperator::getCreationOperator() const {
     return creation_operator;
 }

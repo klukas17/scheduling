@@ -2,18 +2,9 @@
 // Created by mihael on 29/04/23.
 //
 
-/**
- * @file Topology.cpp
- * @brief Implements the member functions of the Topology class.
- */
-
 #include "Topology.h"
 #include "SchedulingError.h"
 #include "MachinePathNode.h"
-#include "SerialGroupPathNode.h"
-#include "ParallelGroupPathNode.h"
-#include "RouteGroupPathNode.h"
-#include "OpenGroupPathNode.h"
 #include "SerialGroup.h"
 #include "ParallelGroup.h"
 #include "RouteGroup.h"
@@ -25,7 +16,7 @@ Topology::Topology(TopologyElement* topology_root_element) {
     buildPriorityMap();
 }
 
-TopologyElement* Topology::getRootElement() {
+TopologyElement* Topology::getRootElement() const {
     return topology_root_element;
 }
 
@@ -46,28 +37,28 @@ void Topology::indexTopologyElements(TopologyElement* node) {
 
         case SERIAL_GROUP_TOPOLOGY_ELEMENT:
             topology_elements_map[node->getId()] = node;
-            for (auto child : ((SerialGroup*)node)->getChildren()) {
+            for (auto const child : dynamic_cast<SerialGroup*>(node)->getChildren()) {
                 indexTopologyElements(child);
             }
             break;
 
         case PARALLEL_GROUP_TOPOLOGY_ELEMENT:
             topology_elements_map[node->getId()] = node;
-            for (auto child : ((ParallelGroup*)node)->getChildren()) {
+            for (auto const child : dynamic_cast<ParallelGroup*>(node)->getChildren()) {
                 indexTopologyElements(child);
             }
             break;
 
         case ROUTE_GROUP_TOPOLOGY_ELEMENT:
             topology_elements_map[node->getId()] = node;
-            for (auto child : ((RouteGroup*)node)->getChildren()) {
+            for (auto const child : dynamic_cast<RouteGroup*>(node)->getChildren()) {
                 indexTopologyElements(child);
             }
             break;
 
         case OPEN_GROUP_TOPOLOGY_ELEMENT:
             topology_elements_map[node->getId()] = node;
-            for (auto child : ((OpenGroup*)node)->getChildren()) {
+            for (auto const child : dynamic_cast<OpenGroup*>(node)->getChildren()) {
                 indexTopologyElements(child);
             }
             break;
@@ -75,9 +66,7 @@ void Topology::indexTopologyElements(TopologyElement* node) {
 }
 
 void Topology::buildPriorityMap() {
-    for (auto pair : topology_elements_map) {
-        auto machine_id = pair.first;
-        auto machine = pair.second;
+    for (auto [machine_id, machine] : topology_elements_map) {
         for (auto predecessor_id : machine->getPredecessorIds()) {
             priority_map[machine_id][predecessor_id] = 1;
             priority_map[predecessor_id][machine_id] = -1;
@@ -85,6 +74,6 @@ void Topology::buildPriorityMap() {
     }
 }
 
-long Topology::getPriorityValue(long machine_id_1, long machine_id_2) {
+long Topology::getPriorityValue(long const machine_id_1, long const machine_id_2) {
     return priority_map[machine_id_1][machine_id_2];
 }

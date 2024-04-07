@@ -5,13 +5,10 @@
 #ifndef GENOTYPEBLUEPRINT_H
 #define GENOTYPEBLUEPRINT_H
 
-
-
 class GenotypeBlueprint {
 public:
     virtual ~GenotypeBlueprint() = 0;
 };
-
 
 
 #endif //GENOTYPEBLUEPRINT_H

@@ -4,8 +4,8 @@
 
 #ifndef COMBINATIONOPERATOR_H
 #define COMBINATIONOPERATOR_H
-#include "Genotype.h"
 
+#include "Genotype.h"
 
 class CombinationOperator {
 public:

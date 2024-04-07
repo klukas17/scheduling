@@ -2,23 +2,18 @@
 // Created by mihael on 8/20/23.
 //
 
-/**
- * @file OpenGroupPathNode.cpp
- * @brief Implements the member functions of the OpenGroupPathNode class.
- */
-
 #include "OpenGroupPathNode.h"
 
-OpenGroupPathNode::OpenGroupPathNode(long path_node_id, TopologyElement* topology_element) : GroupPathNode(path_node_id, topology_element) {
+OpenGroupPathNode::OpenGroupPathNode(long const path_node_id, TopologyElement* topology_element) : GroupPathNode(path_node_id, topology_element) {
     this->next = nullptr;
 }
 
-PathNode *OpenGroupPathNode::getNext() {
+PathNode *OpenGroupPathNode::getNext() const {
     return next;
 }
 
-void OpenGroupPathNode::setNext(PathNode *job_path_node) {
-    this->next = job_path_node;
+void OpenGroupPathNode::setNext(PathNode *path_node) {
+    this->next = path_node;
 }
 
 std::vector<std::pair<long, PathNode*>> OpenGroupPathNode::getSubPathNodes() {

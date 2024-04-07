@@ -2,14 +2,9 @@
 // Created by mihael on 07/05/23.
 //
 
-/**
- * @file JobProcessingRoute.cpp
- * @brief Implements the member functions of the JobProcessingRoute class.
- */
-
 #include "JobProcessingRoute.h"
 
-JobProcessingRoute::JobProcessingRoute(long job_id) {
+JobProcessingRoute::JobProcessingRoute(long const job_id) {
     this->job_id = job_id;
     this->current_index = 0;
 }
@@ -28,7 +23,7 @@ std::vector<JobProcessingStep *> JobProcessingRoute::getProcessingSteps() {
 }
 
 JobProcessingStep *JobProcessingRoute::getNextProcessingStep() {
-    long index = current_index;
+    long const index = current_index;
     current_index++;
     if (index < 0 || index >= processing_steps.size()) {
         return nullptr;
@@ -36,11 +31,11 @@ JobProcessingStep *JobProcessingRoute::getNextProcessingStep() {
     return processing_steps[index];
 }
 
-JobProcessingStep *JobProcessingRoute::getProcessingStep(long step_id) {
+JobProcessingStep *JobProcessingRoute::getProcessingStep(long const step_id) {
     return processing_steps_map[step_id];
 }
 
-bool JobProcessingRoute::checkHasFinished() {
+bool JobProcessingRoute::checkHasFinished() const {
     return current_index == processing_steps.size();
 }
 

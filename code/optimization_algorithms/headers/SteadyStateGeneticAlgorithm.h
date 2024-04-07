@@ -11,11 +11,7 @@
 #include "UniformIntDistributionGenerator.h"
 
 
-class SteadyStateGeneticAlgorithm :
-    public OptimizationAlgorithmWithCreationOperator,
-    public OptimizationAlgorithmWithPerturbationOperator,
-    public OptimizationAlgorithmWithCombinationOperator {
-private:
+class SteadyStateGeneticAlgorithm final : public OptimizationAlgorithmWithCreationOperator, public OptimizationAlgorithmWithPerturbationOperator, public OptimizationAlgorithmWithCombinationOperator {
     int population_size;
     int iterations_count;
     UniformIntDistributionGenerator* selection_random_unit_generator;

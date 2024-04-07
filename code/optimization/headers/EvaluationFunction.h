@@ -9,7 +9,6 @@
 
 
 class EvaluationFunction {
-private:
     int evaluation_factor;
 public:
     explicit EvaluationFunction(bool minimization);

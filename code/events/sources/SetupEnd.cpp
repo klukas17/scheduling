@@ -2,17 +2,12 @@
 // Created by mihael on 9/19/23.
 //
 
-/**
- * @file SetupEnd.cpp
- * @brief Implements the member functions of the SetupEnd class.
- */
-
 #include "SetupEnd.h"
 
-SetupEnd::SetupEnd(long time, long job_id, long machine_id, long step_id, Setup* setup) : Event(time), JobAndMachineEvent(time, job_id, machine_id, step_id) {
+SetupEnd::SetupEnd(double const time, long const job_id, long const machine_id, long const step_id, Setup* setup) : Event(time), JobAndMachineEvent(time, job_id, machine_id, step_id) {
     this->event_type = SETUP_END;
-    auto from = setup->getJobTypeFrom();
-    auto to = setup->getJobTypeTo();
+    auto const from = setup->getJobTypeFrom();
+    auto const to = setup->getJobTypeTo();
     this->message = "Machine " + std::to_string(machine_id) + ": Finished setup" +
                     (from ? " from a job of type " + std::to_string(from->getId()) : "") +
                     (to ? " to a job of type " + std::to_string(to->getId()) : "") +
@@ -20,6 +15,6 @@ SetupEnd::SetupEnd(long time, long job_id, long machine_id, long step_id, Setup*
     this->setup = setup;
 }
 
-Setup *SetupEnd::getSetup() {
+Setup *SetupEnd::getSetup() const {
     return setup;
 }

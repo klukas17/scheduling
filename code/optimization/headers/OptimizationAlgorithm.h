@@ -8,13 +8,12 @@
 #include "EvaluationFunction.h"
 #include "Genotype.h"
 
-
 class OptimizationAlgorithm {
 protected:
     EvaluationFunction* evaluation_function;
 public:
-    OptimizationAlgorithm(EvaluationFunction* evaluation_function);
-    EvaluationFunction* getEvaluationFunction();
+    explicit OptimizationAlgorithm(EvaluationFunction* evaluation_function);
+    [[nodiscard]] EvaluationFunction* getEvaluationFunction() const;
     virtual Genotype* optimize() = 0;
     virtual ~OptimizationAlgorithm() = 0;
 };

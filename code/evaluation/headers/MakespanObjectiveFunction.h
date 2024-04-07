@@ -6,13 +6,11 @@
 #define MAKESPANOBJECTIVEFUNCTION_H
 #include "ObjectiveFunction.h"
 
-
-class MakespanObjectiveFunction : public ObjectiveFunction {
+class MakespanObjectiveFunction final : public ObjectiveFunction {
 public:
     MakespanObjectiveFunction();
     double evaluate(SimulatorStatistics* statistics) override;
 };
-
 
 
 #endif //MAKESPANOBJECTIVEFUNCTION_H

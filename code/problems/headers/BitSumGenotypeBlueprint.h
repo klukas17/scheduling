@@ -4,10 +4,10 @@
 
 #ifndef BITSUMGENOTYPEBLUEPRINT_H
 #define BITSUMGENOTYPEBLUEPRINT_H
+
 #include "GenotypeBlueprint.h"
 
-
-class BitSumGenotypeBlueprint : public GenotypeBlueprint {
+class BitSumGenotypeBlueprint final : public GenotypeBlueprint {
 public:
     int number_of_bits;
     explicit BitSumGenotypeBlueprint(int number_of_bits);

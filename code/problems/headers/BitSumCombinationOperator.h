@@ -4,12 +4,11 @@
 
 #ifndef BITSUMCOMBINATIONOPERATOR_H
 #define BITSUMCOMBINATIONOPERATOR_H
+
 #include "CombinationOperator.h"
 #include "UniformRealDistributionGenerator.h"
 
-
-class BitSumCombinationOperator : public CombinationOperator {
-private:
+class BitSumCombinationOperator final : public CombinationOperator {
     UniformRealDistributionGenerator* uniform_real_distribution_generator;
 public:
     BitSumCombinationOperator();

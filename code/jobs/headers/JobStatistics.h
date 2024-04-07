@@ -8,22 +8,21 @@
 
 
 class JobStatistics {
-private:
     long id;
-    long release_time;
-    long due_time;
-    long weight;
-    long exit_time;
+    double release_time;
+    double due_time;
+    double weight;
+    double exit_time;
     JobStatus job_status;
 public:
-    JobStatistics(long id, long release_time, long due_time, long weight);
-    long getId();
-    long getReleaseTime();
-    long getDueTime();
-    long getWeight();
-    long getExitTime();
-    JobStatus getJobStatus();
-    void setExitTime(long exit_time);
+    JobStatistics(long id, double release_time, double due_time, double weight);
+    [[nodiscard]] long getId() const;
+    [[nodiscard]] double getReleaseTime() const;
+    [[nodiscard]] double getDueTime() const;
+    [[nodiscard]] double getWeight() const;
+    [[nodiscard]] double getExitTime() const;
+    [[nodiscard]] JobStatus getJobStatus() const;
+    void setExitTime(double exit_time);
     void setJobStatus(JobStatus job_status);
 };
 

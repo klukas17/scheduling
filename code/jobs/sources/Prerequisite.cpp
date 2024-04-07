@@ -2,14 +2,9 @@
 // Created by mihael on 25/06/23.
 //
 
-/**
- * @file Prerequisite.cpp
- * @brief Implements the member functions of the Prerequisite class.
- */
-
 #include "Prerequisite.h"
 
-Prerequisite::Prerequisite(long job_id, long machine_id, long repetitions) {
+Prerequisite::Prerequisite(long const job_id, long const machine_id, long const repetitions) {
     this->job_id = job_id;
     this->machine_id = machine_id;
     this->repetitions = repetitions;

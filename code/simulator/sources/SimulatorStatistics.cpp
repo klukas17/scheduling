@@ -10,7 +10,7 @@ std::map<long, JobStatistics *> SimulatorStatistics::getStatistics() {
     return statistics;
 }
 
-JobStatistics *SimulatorStatistics::getJobStatistics(long job_id) {
+JobStatistics *SimulatorStatistics::getJobStatistics(long const job_id) {
     return statistics[job_id];
 }
 

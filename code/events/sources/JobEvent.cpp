@@ -2,14 +2,9 @@
 // Created by mihael on 30/04/23.
 //
 
-/**
- * @file JobEvent.cpp
- * @brief Implements the member functions of the JobEvent class.
- */
-
 #include "JobEvent.h"
 
-JobEvent::JobEvent(long time, long job_id) : Event(time) {
+JobEvent::JobEvent(double const time, long const job_id) : Event(time) {
     this->job_id = job_id;
 }
 

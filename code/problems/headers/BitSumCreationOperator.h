@@ -4,12 +4,12 @@
 
 #ifndef BITSUMCREATIONOPERATOR_H
 #define BITSUMCREATIONOPERATOR_H
+
 #include "CreationOperator.h"
 #include "UniformIntDistributionGenerator.h"
 
 
-class BitSumCreationOperator : public CreationOperator {
-private:
+class BitSumCreationOperator final : public CreationOperator {
     UniformIntDistributionGenerator* uniform_int_distribution_generator;
 public:
     explicit BitSumCreationOperator(GenotypeBlueprint* genotype_blueprint);

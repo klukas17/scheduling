@@ -4,8 +4,8 @@
 
 #ifndef NEIGHBORHOODOPERATOR_H
 #define NEIGHBORHOODOPERATOR_H
-#include <vector>
 
+#include <vector>
 #include "Genotype.h"
 
 

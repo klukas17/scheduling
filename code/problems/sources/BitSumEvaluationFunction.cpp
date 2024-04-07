@@ -6,10 +6,10 @@
 #include "BitSumGenotype.h"
 #include "SchedulingError.h"
 
-BitSumEvaluationFunction::BitSumEvaluationFunction(bool minimization) : EvaluationFunction(minimization) {}
+BitSumEvaluationFunction::BitSumEvaluationFunction(bool const minimization) : EvaluationFunction(minimization) {}
 
 double BitSumEvaluationFunction::_evaluate(Genotype* genotype) {
-    auto bit_sum_genotype = dynamic_cast<BitSumGenotype*>(genotype);
+    auto const bit_sum_genotype = dynamic_cast<BitSumGenotype*>(genotype);
     if (bit_sum_genotype == nullptr) {
         throw SchedulingError("BitSumEvaluationFunction can only work with BitSumGenotype.");
     }

@@ -2,16 +2,11 @@
 // Created by mihael on 29/04/23.
 //
 
-/**
- * @file Job.cpp
- * @brief Implements the member functions of the Job class.
- */
-
 #include "Job.h"
 #include "SchedulingError.h"
 #include "GroupPathTreeNode.h"
 
-Job::Job(long id, JobType* job_type, PathNode* paths_root_node, PathTreeNode* paths_root_tree_node, long release_time, long due_time, long weight) {
+Job::Job(long const id, JobType* job_type, PathNode* paths_root_node, PathTreeNode* paths_root_tree_node, double const release_time, double const due_time, double const weight) {
     this->id = id;
     this->job_type = job_type;
     this->paths_root_node = paths_root_node;
@@ -26,31 +21,31 @@ long Job::getId() const {
     return id;
 }
 
-JobType *Job::getJobType() {
+JobType *Job::getJobType() const {
     return job_type;
 }
 
-std::map<long, long> Job::getProcessingTimes() {
+std::map<long, double> Job::getProcessingTimes() {
     return processing_times;
 }
 
-long Job::getProcessingTime(long machine_id) {
+double Job::getProcessingTime(long const machine_id) {
     return processing_times[machine_id];
 }
 
-void Job::addProcessingTime(long machine_id, long time) {
+void Job::addProcessingTime(long const machine_id, double const time) {
     processing_times[machine_id] = time;
 }
 
-PathNode *Job::getPathsRootNode() {
+PathNode *Job::getPathsRootNode() const {
     return paths_root_node;
 }
 
-PathTreeNode *Job::getPathsRootTreeNode() {
+PathTreeNode *Job::getPathsRootTreeNode() const {
     return paths_root_tree_node;
 }
 
-PathTreeNode *Job::getPathTreeNode(long id) {
+PathTreeNode *Job::getPathTreeNode(long const id) {
     return path_tree_node_map[id];
 }
 
@@ -67,21 +62,21 @@ void Job::indexPathTreeNodes(PathTreeNode* node) {
 
         case GROUP_GENERAL_TOPOLOGY_ELEMENT:
             path_tree_node_map[node->getPathNode()->getPathNodeId()] = node;
-            for (auto child_node : ((GroupPathTreeNode*)node)->getChildren()) {
+            for (auto const child_node : dynamic_cast<GroupPathTreeNode*>(node)->getChildren()) {
                 indexPathTreeNodes(child_node);
             }
             break;
     }
 }
 
-long Job::getReleaseTime() const {
+double Job::getReleaseTime() const {
     return release_time;
 }
 
-long Job::getDueTime() const {
+double Job::getDueTime() const {
     return due_time;
 }
 
-long Job::getWeight() const {
+double Job::getWeight() const {
     return weight;
 }

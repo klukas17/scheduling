@@ -4,6 +4,7 @@
 
 #ifndef OPTIMIZATIONALGORITHMWITHCOMBINATIONOPERATOR_H
 #define OPTIMIZATIONALGORITHMWITHCOMBINATIONOPERATOR_H
+
 #include "CombinationOperator.h"
 #include "OptimizationAlgorithm.h"
 
@@ -13,7 +14,7 @@ protected:
     CombinationOperator* combination_operator;
 public:
     OptimizationAlgorithmWithCombinationOperator(EvaluationFunction* evaluation_function, CombinationOperator* combination_operator);
-    CombinationOperator* getCombinationOperator();
+    [[nodiscard]] CombinationOperator* getCombinationOperator() const;
     ~OptimizationAlgorithmWithCombinationOperator() override = 0;
 };
 
