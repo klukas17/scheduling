@@ -2,14 +2,9 @@
 // Created by mihael on 07/05/23.
 //
 
-/**
- * @file JobProcessingStep.cpp
- * @brief Implements the member functions of the JobProcessingStep class.
- */
-
 #include "JobProcessingStep.h"
 
-JobProcessingStep::JobProcessingStep(long processing_step_id, long machine_id, long job_id, long path_node_id) {
+JobProcessingStep::JobProcessingStep(long const processing_step_id, long const machine_id, long const job_id, long const path_node_id) {
     this->processing_step_id = processing_step_id;
     this->machine_id = machine_id;
     this->job_id = job_id;

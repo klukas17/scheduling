@@ -4,8 +4,8 @@
 
 #include "UniformIntDistributionGenerator.h"
 
-UniformIntDistributionGenerator::UniformIntDistributionGenerator(int lower_limit, int upper_limit) {
-    this->generator = std::uniform_int_distribution<int>(lower_limit, upper_limit);
+UniformIntDistributionGenerator::UniformIntDistributionGenerator(int const lower_limit, int const upper_limit) {
+    this->generator = std::uniform_int_distribution(lower_limit, upper_limit);
 }
 
 int UniformIntDistributionGenerator::generate() {

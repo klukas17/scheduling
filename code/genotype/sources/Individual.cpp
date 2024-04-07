@@ -2,10 +2,6 @@
 // Created by mihael on 29/04/23.
 //
 
-/**
- * @file Individual.cpp
- * @brief Implements the member functions of the Individual class.
- */
 
 #include "Individual.h"
 #include "Machine.h"
@@ -20,7 +16,7 @@
 #include "OpenGroupNode.h"
 #include "SchedulingError.h"
 
-Individual::Individual(Topology *topology) {
+Individual::Individual(const Topology *topology) {
     this->root_node = createNode(topology->getRootElement());
     mapGenotypeNodes(this->root_node);
 }
@@ -33,38 +29,38 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
             throw SchedulingError("Abstract topology element encountered in function Individual::createNode.");
 
         case MACHINE_TOPOLOGY_ELEMENT: {
-            auto machine_element = (Machine*) topology_element;
-            auto node = new MachineNode(topology_element->getId(), machine_element->getMachineType());
+            auto const machine_element = dynamic_cast<Machine*>(topology_element);
+            auto const node = new MachineNode(topology_element->getId(), machine_element->getMachineType());
             return node;
         }
 
         case SERIAL_GROUP_TOPOLOGY_ELEMENT: {
-            auto node = new SerialGroupNode(topology_element->getId());
-            for (auto child : ((SerialGroup*)topology_element)->getChildren()) {
+            auto const node = new SerialGroupNode(topology_element->getId());
+            for (auto const child : dynamic_cast<SerialGroup*>(topology_element)->getChildren()) {
                 node->addNodeToBody(createNode(child));
             }
             return node;
         }
 
         case PARALLEL_GROUP_TOPOLOGY_ELEMENT: {
-            auto node = new ParallelGroupNode(topology_element->getId());
-            for (auto child : ((ParallelGroup*)topology_element)->getChildren()) {
+            auto const node = new ParallelGroupNode(topology_element->getId());
+            for (auto const child : dynamic_cast<ParallelGroup*>(topology_element)->getChildren()) {
                 node->addNodeToBody(createNode(child));
             }
             return node;
         }
 
         case ROUTE_GROUP_TOPOLOGY_ELEMENT: {
-            auto node = new RouteGroupNode(topology_element->getId());
-            for (auto child : ((RouteGroup*)topology_element)->getChildren()) {
+            auto const node = new RouteGroupNode(topology_element->getId());
+            for (auto const child : dynamic_cast<RouteGroup*>(topology_element)->getChildren()) {
                 node->addNodeToBody(createNode(child));
             }
             return node;
         }
 
         case OPEN_GROUP_TOPOLOGY_ELEMENT: {
-            auto node = new OpenGroupNode(topology_element->getId());
-            for (auto child : ((OpenGroup*)topology_element)->getChildren()) {
+            auto const node = new OpenGroupNode(topology_element->getId());
+            for (auto const child : dynamic_cast<OpenGroup*>(topology_element)->getChildren()) {
                 node->addNodeToBody(createNode(child));
             }
             return node;
@@ -72,7 +68,7 @@ GenotypeNode *Individual::createNode(TopologyElement *topology_element) {
     }
 }
 
-GenotypeNode *Individual::getRootNode() {
+GenotypeNode *Individual::getRootNode() const {
     return root_node;
 }
 
@@ -93,14 +89,14 @@ void Individual::mapGenotypeNodes(GenotypeNode *node) {
 
         case GROUP_GENERAL_NODE:
             genotype_node_map[node->getId()] = node;
-            for (auto sub_node : ((GroupNode*)node)->getBody()) {
+            for (auto const sub_node : dynamic_cast<GroupNode*>(node)->getBody()) {
                 mapGenotypeNodes(sub_node);
             }
             break;
     }
 }
 
-JobProcessingRoute *Individual::getProcessingRoute(long job_id) {
+JobProcessingRoute *Individual::getProcessingRoute(long const job_id) {
     return processing_routes[job_id];
 }
 
@@ -108,6 +104,6 @@ std::map<long, JobProcessingRoute *> Individual::getProcessingRoutes() {
     return processing_routes;
 }
 
-void Individual::setProcessingRoute(long job_id, JobProcessingRoute *job_processing_route) {
+void Individual::setProcessingRoute(long const job_id, JobProcessingRoute *job_processing_route) {
     processing_routes[job_id] = job_processing_route;
 }

@@ -4,7 +4,7 @@
 
 #include "BitSumGenotypeBlueprint.h"
 
-BitSumGenotypeBlueprint::BitSumGenotypeBlueprint(int number_of_bits) {
+BitSumGenotypeBlueprint::BitSumGenotypeBlueprint(int const number_of_bits) {
     this->number_of_bits = number_of_bits;
 }
 

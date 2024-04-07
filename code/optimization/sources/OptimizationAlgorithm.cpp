@@ -9,3 +9,7 @@ OptimizationAlgorithm::OptimizationAlgorithm(EvaluationFunction *evaluation_func
 }
 
 OptimizationAlgorithm::~OptimizationAlgorithm() = default;
+
+EvaluationFunction* OptimizationAlgorithm::getEvaluationFunction() const {
+    return evaluation_function;
+}

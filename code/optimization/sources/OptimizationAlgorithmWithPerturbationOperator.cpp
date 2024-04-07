@@ -4,12 +4,12 @@
 
 #include "OptimizationAlgorithmWithPerturbationOperator.h"
 
-OptimizationAlgorithmWithPerturbationOperator::OptimizationAlgorithmWithPerturbationOperator(EvaluationFunction *evaluation_function, PerturbationOperator *perturbation_operator) : OptimizationAlgorithm((evaluation_function)) {
+OptimizationAlgorithmWithPerturbationOperator::OptimizationAlgorithmWithPerturbationOperator(EvaluationFunction *evaluation_function, PerturbationOperator *perturbation_operator) : OptimizationAlgorithm(evaluation_function) {
     this->perturbation_operator = perturbation_operator;
 }
 
 OptimizationAlgorithmWithPerturbationOperator::~OptimizationAlgorithmWithPerturbationOperator() = default;
 
-PerturbationOperator *OptimizationAlgorithmWithPerturbationOperator::getPerturbationOperator() {
+PerturbationOperator *OptimizationAlgorithmWithPerturbationOperator::getPerturbationOperator() const {
     return perturbation_operator;
 }

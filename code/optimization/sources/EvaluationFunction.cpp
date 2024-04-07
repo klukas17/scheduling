@@ -4,7 +4,7 @@
 
 #include "EvaluationFunction.h"
 
-EvaluationFunction::EvaluationFunction(bool minimization) {
+EvaluationFunction::EvaluationFunction(bool const minimization) {
     this->evaluation_factor = minimization ? 1 : -1;
 }
 

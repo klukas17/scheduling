@@ -2,11 +2,6 @@
 // Created by mihael on 29/04/23.
 //
 
-/**
- * @file GenotypeDeserializer.cpp
- * @brief Implements the member functions of the GenotypeDeserializer class.
- */
-
 #include "GenotypeDeserializer.h"
 #include "MachineNode.h"
 #include "SerialGroupNode.h"
@@ -18,9 +13,9 @@
 #include "SchedulingError.h"
 #include "yaml-cpp/yaml.h"
 
-Individual *GenotypeDeserializer::deserialize(const std::string& path, Topology* topology, const std::map<long, Job*>& jobs) {
+Individual *GenotypeDeserializer::deserialize(const std::string& path, const Topology* topology) {
 
-    auto individual = new Individual(topology);
+    auto const individual = new Individual(topology);
     YAML::Node doc = YAML::LoadFile(path);
 
     if (!doc["topology"]) {
@@ -32,7 +27,7 @@ Individual *GenotypeDeserializer::deserialize(const std::string& path, Topology*
     }
 
     deserializeTopologyNode(path, doc["topology"], individual->getRootNode());
-    deserializeJobsNode(path, doc["jobs"], individual, jobs);
+    deserializeJobsNode(path, doc["jobs"], individual);
 
     return individual;
 }
@@ -40,21 +35,19 @@ Individual *GenotypeDeserializer::deserialize(const std::string& path, Topology*
 void GenotypeDeserializer::deserializeTopologyNode(const std::string& path, const YAML::Node &node, GenotypeNode *genotype_node) {
 
     if (node["machine"]) {
-        auto machine_node = (MachineNode*) genotype_node;
+        auto machine_node = dynamic_cast<MachineNode*>(genotype_node);
         if (!node["machine"]["step_processing_order"]) {
             throw SchedulingError("'machine' node without 'step_processing_order' child node found in " + path);
         }
-        YAML::Node job_processing_order_node = node["machine"]["step_processing_order"];
 
-        auto job_order = job_processing_order_node.as<std::vector<long>>();
-        for (long id : job_order) {
+        for (long id : node["machine"]["step_processing_order"].as<std::vector<long>>()) {
             machine_node->addStep(id);
         }
     }
 
     else if (node["serial"]) {
 
-        auto serial_group_node = (SerialGroupNode*) genotype_node;
+        auto serial_group_node = dynamic_cast<SerialGroupNode*>(genotype_node);
 
         if (!node["serial"]["step_processing_order"]) {
             throw SchedulingError("'serial' node without 'step_processing_order' child node found in " + path);
@@ -63,9 +56,7 @@ void GenotypeDeserializer::deserializeTopologyNode(const std::string& path, cons
             throw SchedulingError("'serial' node without 'body' child node found in " + path);
         }
 
-        YAML::Node job_processing_order_node = node["serial"]["step_processing_order"];
-        auto job_order = job_processing_order_node.as<std::vector<long>>();
-        for (long id : job_order) {
+        for (long id : node["serial"]["step_processing_order"].as<std::vector<long>>()) {
             serial_group_node->addStep(id);
         }
 
@@ -79,7 +70,7 @@ void GenotypeDeserializer::deserializeTopologyNode(const std::string& path, cons
 
     else if (node["parallel"]) {
 
-        auto parallel_group_node = (ParallelGroupNode*) genotype_node;
+        auto parallel_group_node = dynamic_cast<ParallelGroupNode*>(genotype_node);
 
         if (!node["parallel"]["step_processing_order"]) {
             throw SchedulingError("'parallel' node without 'step_processing_order' child node found in " + path);
@@ -88,9 +79,7 @@ void GenotypeDeserializer::deserializeTopologyNode(const std::string& path, cons
             throw SchedulingError("'parallel' node without 'body' child node found in " + path);
         }
 
-        YAML::Node job_processing_order_node = node["parallel"]["step_processing_order"];
-        auto job_order = job_processing_order_node.as<std::vector<long>>();
-        for (long id : job_order) {
+        for (long id : node["parallel"]["step_processing_order"].as<std::vector<long>>()) {
             parallel_group_node->addStep(id);
         }
 
@@ -103,7 +92,7 @@ void GenotypeDeserializer::deserializeTopologyNode(const std::string& path, cons
 
     else if (node["route"]) {
 
-        auto route_group_node = (RouteGroupNode*) genotype_node;
+        auto route_group_node = dynamic_cast<RouteGroupNode*>(genotype_node);
 
         if (!node["route"]["step_processing_order"]) {
             throw SchedulingError("'route' node without 'step_processing_order' child node found in " + path);
@@ -112,9 +101,7 @@ void GenotypeDeserializer::deserializeTopologyNode(const std::string& path, cons
             throw SchedulingError("'route' node without 'body' child node found in " + path);
         }
 
-        YAML::Node job_processing_order_node = node["route"]["step_processing_order"];
-        auto job_order = job_processing_order_node.as<std::vector<long>>();
-        for (long id : job_order) {
+        for (long id : node["route"]["step_processing_order"].as<std::vector<long>>()) {
             route_group_node->addStep(id);
         }
 
@@ -127,7 +114,7 @@ void GenotypeDeserializer::deserializeTopologyNode(const std::string& path, cons
 
     else if (node["open"]) {
 
-        auto open_group_node = (OpenGroupNode*) genotype_node;
+        auto open_group_node = dynamic_cast<OpenGroupNode*>(genotype_node);
 
         if (!node["open"]["step_processing_order"]) {
             throw SchedulingError("'open' node without 'step_processing_order' child node found in " + path);
@@ -136,9 +123,7 @@ void GenotypeDeserializer::deserializeTopologyNode(const std::string& path, cons
             throw SchedulingError("'open' node without 'body' child node found in " + path);
         }
 
-        YAML::Node job_processing_order_node = node["open"]["step_processing_order"];
-        auto job_order = job_processing_order_node.as<std::vector<long>>();
-        for (long id : job_order) {
+        for (long id : node["open"]["step_processing_order"].as<std::vector<long>>()) {
             open_group_node->addStep(id);
         }
 
@@ -154,32 +139,32 @@ void GenotypeDeserializer::deserializeTopologyNode(const std::string& path, cons
     }
 }
 
-void GenotypeDeserializer::deserializeJobsNode(const std::string& path, const YAML::Node &node, Individual *individual, const std::map<long, Job*>& jobs) {
+void GenotypeDeserializer::deserializeJobsNode(const std::string& path, const YAML::Node &node, Individual *individual) {
 
-    for (YAML::const_iterator it = node.begin(); it != node.end(); it++) {
+    for (auto it = node.begin(); it != node.end(); ++it) {
         if (!(*it)["job_id"]) {
             throw SchedulingError("'job' node without 'job_id' child node found in " + path);
         }
-        long job_id = (*it)["job_id"].as<long>();
+        long const job_id = (*it)["job_id"].as<long>();
         if (!(*it)["processing_route"]) {
             throw SchedulingError("'job' node without 'processing_route' child node found in " + path);
         }
         const YAML::Node processing_route_node = (*it)["processing_route"];
-        auto job_processing_route = new JobProcessingRoute(job_id);
-        for (YAML::const_iterator it_route = processing_route_node.begin(); it_route != processing_route_node.end(); it_route++) {
+        auto const  job_processing_route = new JobProcessingRoute(job_id);
+        for (auto it_route = processing_route_node.begin(); it_route != processing_route_node.end(); ++it_route) {
             if (!(*it_route)["machine_id"]) {
                 throw SchedulingError("'job' node without 'machine_id' child node found in " + path);
             }
-            long machine_id = (*it_route)["machine_id"].as<long>();
+            long const  machine_id = (*it_route)["machine_id"].as<long>();
             if (!(*it_route)["processing_step_id"]) {
                 throw SchedulingError("'job' node without 'processing_step_id' child node found in " + path);
             }
-            long processing_step_id = (*it_route)["processing_step_id"].as<long>();
+            long const  processing_step_id = (*it_route)["processing_step_id"].as<long>();
             if (!(*it_route)["path_node_id"]) {
                 throw SchedulingError("'job' node without 'path_node_id' child node found in " + path);
             }
-            long path_node_id = (*it_route)["path_node_id"].as<long>();
-            auto job_processing_step = new JobProcessingStep(processing_step_id, machine_id, job_id, path_node_id);
+            long const  path_node_id = (*it_route)["path_node_id"].as<long>();
+            auto const  job_processing_step = new JobProcessingStep(processing_step_id, machine_id, job_id, path_node_id);
             job_processing_route->addProcessingStep(job_processing_step);
         }
         individual->setProcessingRoute(job_id, job_processing_route);

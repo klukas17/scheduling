@@ -4,8 +4,8 @@
 
 #ifndef EVALUATEDGENOTYPE_H
 #define EVALUATEDGENOTYPE_H
-#include "Genotype.h"
 
+#include "Genotype.h"
 
 class EvaluatedGenotype {
 public:

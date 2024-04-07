@@ -14,5 +14,4 @@ public:
 };
 
 
-
 #endif //OBJECTIVEFUNCTION_H

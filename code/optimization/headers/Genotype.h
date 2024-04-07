@@ -5,8 +5,6 @@
 #ifndef GENOTYPE_H
 #define GENOTYPE_H
 
-
-
 class Genotype {
 public:
     virtual ~Genotype() = 0;

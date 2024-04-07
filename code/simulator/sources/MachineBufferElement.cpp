@@ -2,14 +2,9 @@
 // Created by mihael on 29/04/23.
 //
 
-/**
- * @file MachineBufferElement.cpp
- * @brief Implements the member functions of the MachineBufferElement class.
- */
-
 #include "MachineBufferElement.h"
 
-MachineBufferElement::MachineBufferElement(long step_id, long job_id, long job_type_id, long time_start_processing, long time_remaining_processing, bool preempt) {
+MachineBufferElement::MachineBufferElement(long const step_id, long const job_id, long const job_type_id, double const time_start_processing, double const time_remaining_processing, bool const preempt) {
     this->step_id = step_id;
     this->job_id = job_id;
     this->job_type_id = job_type_id;

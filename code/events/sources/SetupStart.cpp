@@ -2,17 +2,12 @@
 // Created by mihael on 9/19/23.
 //
 
-/**
- * @file SetupStart.cpp
- * @brief Implements the member functions of the SetupStart class.
- */
-
 #include "SetupStart.h"
 
-SetupStart::SetupStart(long time, long job_id, long machine_id, long step_id, Setup* setup) : Event(time), JobAndMachineEvent(time, job_id, machine_id, step_id) {
+SetupStart::SetupStart(double const time, long const job_id, long const machine_id, long const step_id, Setup* setup) : Event(time), JobAndMachineEvent(time, job_id, machine_id, step_id) {
     this->event_type = SETUP_START;
-    auto from = setup->getJobTypeFrom();
-    auto to = setup->getJobTypeTo();
+    auto const from = setup->getJobTypeFrom();
+    auto const to = setup->getJobTypeTo();
     this->message = "Machine " + std::to_string(machine_id) + ": Started setup" +
                     (from ? " from a job of type " + std::to_string(from->getId()) : "") +
                     (to ? " to a job of type " + std::to_string(to->getId()) : "") +
@@ -20,6 +15,6 @@ SetupStart::SetupStart(long time, long job_id, long machine_id, long step_id, Se
     this->setup = setup;
 }
 
-Setup *SetupStart::getSetup() {
+Setup *SetupStart::getSetup() const {
     return setup;
 }

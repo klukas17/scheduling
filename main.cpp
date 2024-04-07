@@ -1,6 +1,7 @@
 #include "BitSumCombinationOperator.h"
 #include "BitSumCreationOperator.h"
 #include "BitSumEvaluationFunction.h"
+#include "BitSumGenotype.h"
 #include "BitSumGenotypeBlueprint.h"
 #include "BitSumPerturbationOperator.h"
 #include "MachineSpecificationsParser.h"
@@ -35,26 +36,26 @@ void run_example(const std::string& dir) {
     PathNodeUtils::logPathNodes(jobs, dir + "output/path_nodes.txt");
     PathTreeNodeUtils::logPathTreeNodes(jobs, dir + "output/path_tree_nodes.txt");
 
-    Individual* individual = GenotypeDeserializer::deserialize(dir + "individual.yaml", topology, jobs);
+    Individual* individual = GenotypeDeserializer::deserialize(dir + "individual.yaml", topology);
     GenotypeSerializer::serialize(dir + "output/individual.yaml", individual);
 
-    auto statistics = Simulator::simulate(individual, topology, jobs, true, dir + "output/simulator_logs.txt");
+    auto const statistics = Simulator::simulate(individual, topology, jobs, true, dir + "output/simulator_logs.txt");
     auto objective_function = MakespanObjectiveFunction();
     objective_function.evaluate(statistics);
 }
 
 void bit_sum_genotype() {
-    int population_size = 200;
-    int iterations_count = 10000;
-    int number_of_bits = 100;
-    double bit_flip_chance = 0.02;
+    constexpr int population_size = 200;
+    constexpr int iterations_count = 10000;
+    constexpr int number_of_bits = 100;
+    constexpr double bit_flip_chance = 0.02;
 
-    auto evaluation_function = new BitSumEvaluationFunction(false);
-    auto blueprint = new BitSumGenotypeBlueprint(number_of_bits);
-    auto creation_operator = new BitSumCreationOperator(blueprint);
-    auto perturbation_operator = new BitSumPerturbationOperator(bit_flip_chance);
-    auto combination_operator = new BitSumCombinationOperator();
-    auto ssga = new SteadyStateGeneticAlgorithm(
+    auto const evaluation_function = new BitSumEvaluationFunction(false);
+    auto const blueprint = new BitSumGenotypeBlueprint(number_of_bits);
+    auto const creation_operator = new BitSumCreationOperator(blueprint);
+    auto const perturbation_operator = new BitSumPerturbationOperator(bit_flip_chance);
+    auto const combination_operator = new BitSumCombinationOperator();
+    auto const ssga = new SteadyStateGeneticAlgorithm(
         evaluation_function,
         creation_operator,
         perturbation_operator,
@@ -62,23 +63,26 @@ void bit_sum_genotype() {
         population_size,
         iterations_count
     );
-    auto solution = ssga->optimize();
+    for (auto const solution = ssga->optimize(); auto const bit : dynamic_cast<BitSumGenotype*>(solution)->bits) {
+        std::cout << bit;
+    }
+    std::cout << std::endl;
 }
 
 int main() {
-    // std::set<std::string> examples_sorted_by_name;
-    // for (const auto& entry : std::filesystem::directory_iterator("../examples/")) {
-        // if (entry.is_directory()) {
-            // examples_sorted_by_name.insert(entry.path().string() + "/");
-        // }
-    // }
-    // for (const auto& entry : examples_sorted_by_name) {
-        // try {
-            // run_example(entry);
-        // }
-        // catch (...) {
-            // std::cout << "FAILED" << std::endl;
-        // }
-    // }
+    std::set<std::string> examples_sorted_by_name;
+    for (const auto& entry : std::filesystem::directory_iterator("../examples/")) {
+        if (entry.is_directory()) {
+            examples_sorted_by_name.insert(entry.path().string() + "/");
+        }
+    }
+    for (const auto& entry : examples_sorted_by_name) {
+        try {
+            run_example(entry);
+        }
+        catch (...) {
+            std::cout << "FAILED" << std::endl;
+        }
+    }
     bit_sum_genotype();
 }

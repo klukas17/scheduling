@@ -9,7 +9,6 @@
 #include "JobStatistics.h"
 
 class SimulatorStatistics {
-private:
     std::map<long, JobStatistics*> statistics;
 public:
     SimulatorStatistics();

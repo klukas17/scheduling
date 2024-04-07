@@ -2,14 +2,9 @@
 // Created by mihael on 29/04/23.
 //
 
-/**
- * @file Event.cpp
- * @brief Implements the member functions of the Event class.
- */
-
 #include "Event.h"
 
-Event::Event(long time) {
+Event::Event(double const time) {
     this->time = time;
     this->event_type = ABSTRACT;
     this->message = "";
@@ -17,7 +12,7 @@ Event::Event(long time) {
 
 Event::~Event() = default;
 
-long Event::getTime() const {
+double Event::getTime() const {
     return time;
 }
 

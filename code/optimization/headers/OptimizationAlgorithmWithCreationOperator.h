@@ -4,6 +4,7 @@
 
 #ifndef OPTIMIZATIONALGORITHMWITHCREATIONOPERATOR_H
 #define OPTIMIZATIONALGORITHMWITHCREATIONOPERATOR_H
+
 #include "CreationOperator.h"
 #include "OptimizationAlgorithm.h"
 
@@ -13,7 +14,7 @@ protected:
     CreationOperator* creation_operator;
 public:
     OptimizationAlgorithmWithCreationOperator(EvaluationFunction* evaluation_function, CreationOperator* creation_operator);
-    CreationOperator* getCreationOperator();
+    [[nodiscard]] CreationOperator* getCreationOperator() const;
     ~OptimizationAlgorithmWithCreationOperator() override = 0;
 };
 

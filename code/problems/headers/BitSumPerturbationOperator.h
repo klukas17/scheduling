@@ -4,12 +4,11 @@
 
 #ifndef BITSUMPERTURBATIONOPERATOR_H
 #define BITSUMPERTURBATIONOPERATOR_H
+
 #include "PerturbationOperator.h"
 #include "UniformRealDistributionGenerator.h"
 
-
-class BitSumPerturbationOperator : public PerturbationOperator {
-private:
+class BitSumPerturbationOperator final : public PerturbationOperator {
     UniformRealDistributionGenerator* uniform_real_distribution_generator;
     double bit_flip_chance;
 public:

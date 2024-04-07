@@ -2,71 +2,25 @@
 // Created by mihael on 29/04/23.
 //
 
-/**
- * @file GenotypeNode.h
- * @brief Defines the GenotypeNode class for representing a node within an individual's genotype.
- */
-
 #ifndef SCHEDULING_GENOTYPENODE_H
 #define SCHEDULING_GENOTYPENODE_H
 
 #include "NodeType.h"
 #include "vector"
-#include "set"
 
-/**
- * @class GenotypeNode
- * @brief Represents a node within an individual's genotype.
- *
- * The GenotypeNode class serves as a base class for representing nodes within an individual's genotype in a scheduling system.
- * It includes attributes to store node information, such as identifiers, node types and processing order.
- */
 class GenotypeNode {
 protected:
-    long id; /**< Identifier for the node. */
-    NodeType node_type; /**< Type of the node. */
-    GeneralNodeType general_node_type; /**< General category of the node type. */
-    std::vector<long> step_processing_order; /**< Order of processing steps for the node. */
+    long id;
+    NodeType node_type;
+    GeneralNodeType general_node_type;
+    std::vector<long> step_processing_order;
 public:
-    /**
-     * @brief Constructs a GenotypeNode object with the provided identifier.
-     * @param id The identifier for the node.
-     */
     explicit GenotypeNode(long id);
-
-    /**
-     * @brief Virtual destructor for the GenotypeNode class.
-     */
     virtual ~GenotypeNode() = 0;
-
-    /**
-     * @brief Retrieves the identifier for the node.
-     * @return The identifier for the node.
-     */
     [[nodiscard]] long getId() const;
-
-    /**
-     * @brief Retrieves the type of the node.
-     * @return The type of the node.
-     */
-    NodeType getNodeType();
-
-    /**
-     * @brief Retrieves the general category of the node type.
-     * @return The general category of the node type.
-     */
-    GeneralNodeType getGeneralNodeType();
-
-    /**
-     * @brief Retrieves the order of processing steps for the node.
-     * @return A vector containing step identifiers in the processing order.
-     */
+    [[nodiscard]] NodeType getNodeType() const;
+    [[nodiscard]] GeneralNodeType getGeneralNodeType() const;
     std::vector<long> getStepProcessingOrder();
-
-    /**
-     * @brief Adds a processing step identifier to the processing order.
-     * @param step_id The identifier of the processing step to be added.
-     */
     void addStep(long step_id);
 };
 

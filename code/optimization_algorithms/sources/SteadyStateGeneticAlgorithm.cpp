@@ -6,7 +6,7 @@
 
 #include "EvaluatedGenotype.h"
 
-SteadyStateGeneticAlgorithm::SteadyStateGeneticAlgorithm(EvaluationFunction* evaluation_function, CreationOperator* creation_operator, PerturbationOperator* perturbation_operator, CombinationOperator* combination_operator, int population_size, int iterations_count) :
+SteadyStateGeneticAlgorithm::SteadyStateGeneticAlgorithm(EvaluationFunction* evaluation_function, CreationOperator* creation_operator, PerturbationOperator* perturbation_operator, CombinationOperator* combination_operator, int const population_size, int const iterations_count) :
     OptimizationAlgorithm(evaluation_function),
     OptimizationAlgorithmWithCreationOperator(evaluation_function, creation_operator),
     OptimizationAlgorithmWithPerturbationOperator(evaluation_function, perturbation_operator),
@@ -19,16 +19,12 @@ SteadyStateGeneticAlgorithm::SteadyStateGeneticAlgorithm(EvaluationFunction* eva
 
 Genotype* SteadyStateGeneticAlgorithm::optimize() {
     std::vector<EvaluatedGenotype*> population;
-    EvaluatedGenotype* best_unit = nullptr;
 
     for (int i = 0; i < population_size; i++) {
-        auto new_unit_genotype = creation_operator->create();
-        auto fitness = evaluation_function->evaluate(new_unit_genotype);
+        auto const new_unit_genotype = creation_operator->create();
+        auto const fitness = evaluation_function->evaluate(new_unit_genotype);
         auto evaluated_unit = new EvaluatedGenotype(new_unit_genotype, fitness);
         population.push_back(evaluated_unit);
-        if (best_unit == nullptr || best_unit->fitness_score > evaluated_unit->fitness_score) {
-            best_unit = evaluated_unit;
-        }
     }
 
     auto comparator = [](const EvaluatedGenotype* a, const EvaluatedGenotype* b) {
@@ -38,26 +34,22 @@ Genotype* SteadyStateGeneticAlgorithm::optimize() {
     std::sort(population.begin(), population.end(), comparator);
 
     for (int i = 0; i < iterations_count; i++) {
-        int parent1, parent2;
-        parent1 = selection_random_unit_generator->generate();
+        int const parent1 = selection_random_unit_generator->generate();
+        int parent2;
         do {
             parent2 = selection_random_unit_generator->generate();
         } while (parent1 == parent2);
 
-        auto new_unit_genotype = combination_operator->combine(population[parent1]->genotype, population[parent2]->genotype);
+        auto const new_unit_genotype = combination_operator->combine(population[parent1]->genotype, population[parent2]->genotype);
         perturbation_operator->perturbate(new_unit_genotype);
-        auto fitness = evaluation_function->evaluate(new_unit_genotype);
 
-        if (fitness < population.back()->fitness_score) {
+        if (auto const fitness = evaluation_function->evaluate(new_unit_genotype); fitness < population.back()->fitness_score) {
             population.pop_back();
             auto evaluated_unit = new EvaluatedGenotype(new_unit_genotype, fitness);
             auto it = std::lower_bound(population.begin(), population.end(), evaluated_unit, comparator);
             population.insert(it, evaluated_unit);
-            if (best_unit == nullptr || best_unit->fitness_score > evaluated_unit->fitness_score) {
-                best_unit = evaluated_unit;
-            }
         }
     }
 
-    return best_unit->genotype;
+    return population[0]->genotype;
 }

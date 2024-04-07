@@ -2,19 +2,14 @@
 // Created by mihael on 29/04/23.
 //
 
-/**
- * @file Machine.cpp
- * @brief Implements the member functions of the Machine class.
- */
-
 #include "Machine.h"
 
-Machine::Machine(long id, MachineType *machine_type) : TopologyElement(id) {
+Machine::Machine(long const id, MachineType *machine_type) : TopologyElement(id) {
     this->machine_type = machine_type;
     this->topology_element_type = MACHINE_TOPOLOGY_ELEMENT;
     this->general_topology_element_type = MACHINE_GENERAL_TOPOLOGY_ELEMENT;
 }
 
-MachineType *Machine::getMachineType() {
+MachineType *Machine::getMachineType() const {
     return machine_type;
 }

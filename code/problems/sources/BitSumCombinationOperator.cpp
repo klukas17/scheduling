@@ -3,7 +3,6 @@
 //
 
 #include "BitSumCombinationOperator.h"
-
 #include "BitSumGenotype.h"
 #include "SchedulingError.h"
 
@@ -12,8 +11,8 @@ BitSumCombinationOperator::BitSumCombinationOperator() {
 }
 
 Genotype* BitSumCombinationOperator::combine(Genotype* genotype1, Genotype* genotype2) {
-    auto bit_sum_genotype_1 = dynamic_cast<BitSumGenotype*>(genotype1);
-    auto bit_sum_genotype_2 = dynamic_cast<BitSumGenotype*>(genotype2);
+    auto const bit_sum_genotype_1 = dynamic_cast<BitSumGenotype*>(genotype1);
+    auto const bit_sum_genotype_2 = dynamic_cast<BitSumGenotype*>(genotype2);
     if (bit_sum_genotype_1 == nullptr || bit_sum_genotype_2 == nullptr) {
         throw SchedulingError("BitSumCombinationOperator can only work with BitSumGenotype.");
     }

@@ -2,14 +2,10 @@
 // Created by mihael on 29/04/23.
 //
 
-/**
- * @file Simulator.cpp
- * @brief Implements the member functions of the Simulator class.
- */
-
-#include <algorithm>
+#include "algorithm"
 #include "Simulator.h"
 #include "queue"
+#include "ranges"
 #include "fstream"
 #include "MachineProcessingContext.h"
 #include "JobProcessingContext.h"
@@ -45,7 +41,7 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
 
     auto statistics = SimulatorStatistics();
 
-    long time = 0;
+    double time = 0;
     std::ofstream log_file(logs_path);
 
     std::deque<Event*> event_queue;
@@ -53,34 +49,38 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
     auto machine_map = individual->getGenotypeNodeMap();
 
     std::map<long, MachineProcessingContext*> machine_processing_context_map;
-    for (auto entry : machine_map) {
-        machine_processing_context_map[entry.first] = new MachineProcessingContext(entry.first, entry.second, topology->getTopologyElementsMap().at(entry.first)->getBufferSize());
+    for (const auto& [machine_id, node] : machine_map) {
+        machine_processing_context_map[machine_id] = new MachineProcessingContext(
+            machine_id,
+            node,
+            topology->getTopologyElementsMap().at(machine_id)->getBufferSize()
+        );
     }
 
     std::map<long, JobProcessingContext*> job_processing_context_map;
-    for (auto entry : jobs) {
-        job_processing_context_map[entry.first] = new JobProcessingContext(entry.second);
+    for (const auto& [job_id, job] : jobs) {
+        job_processing_context_map[job_id] = new JobProcessingContext(job);
     }
 
     auto job_route_map = individual->getProcessingRoutes();
 
     std::map<long, std::map<long, long>> machine_to_job_times_processed_map;
-    for (auto machine_pair : topology->getTopologyElementsMap()) {
-        for (auto job_pair : jobs) {
-            machine_to_job_times_processed_map[machine_pair.first][job_pair.first] = 0;
+    for (auto [machine_id, _] : topology->getTopologyElementsMap()) {
+        for (auto job_id : jobs | std::views::keys) {
+            machine_to_job_times_processed_map[machine_id][job_id] = 0;
         }
     }
 
     std::vector<JobProcessingPrerequisites*> unfulfilled_job_processing_prerequisites;
 
     auto comparator = [topology] (MachineEvent* a, MachineEvent* b) {
-        long type1 = a->getEventType();
-        long type2 = b->getEventType();
+        long const type1 = a->getEventType();
+        long const type2 = b->getEventType();
         if (type1 != type2) {
             return type1 > type2;
         }
-        long id1 = a->getMachineId();
-        long id2 = b->getMachineId();
+        long const id1 = a->getMachineId();
+        long const id2 = b->getMachineId();
         if (topology->getPriorityValue(id1, id2) == 1) return true;
         if (topology->getPriorityValue(id1, id2) == -1) return false;
         if (type1 == MACHINE_BUFFER_ENTRY_REQUEST_SYNCHRONOUS && type2 == MACHINE_BUFFER_ENTRY_REQUEST_SYNCHRONOUS) {
@@ -93,87 +93,78 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
     };
     std::priority_queue<MachineEvent*, std::vector<MachineEvent*>, decltype(comparator)> utility_event_queue(comparator);
 
-    auto addToEventQueue = [](Event *event, std::deque<Event*> &event_queue) {
-        auto it = std::upper_bound(event_queue.begin(), event_queue.end(), event, [](const Event* a, const Event* b) {
+    auto addToEventQueue = [](Event *event, std::deque<Event*> &queue) {
+        auto const it = std::ranges::upper_bound(queue.begin(), queue.end(), event, [](const Event* a, const Event* b) {
             if (a->getTime() < b->getTime()) return true;
-            else if (a->getTime() > b->getTime()) return false;
-            auto event_type_a = a->getEventType();
-            auto event_type_b = b->getEventType();
+            if (a->getTime() > b->getTime()) return false;
+            auto const event_type_a = a->getEventType();
+            auto const event_type_b = b->getEventType();
             if ((event_type_a == BREAKDOWN_START || event_type_a == BREAKDOWN_END) && (event_type_b == BREAKDOWN_START || event_type_b == BREAKDOWN_END)) {
                 return false;
             }
             return event_type_a < event_type_b;
         });
-        event_queue.insert(it, event);
+        queue.insert(it, event);
     };
 
-    auto removeFromEventQueue = [](EventType event_type, long job_id, long machine_id, std::deque<Event*>& event_queue) {
-        auto it = event_queue.begin();
-        while (it != event_queue.end()) {
+    auto removeFromEventQueue = [](EventType const event_type, long const job_id, long const machine_id, std::deque<Event*>& queue) {
+        auto it = queue.begin();
+        while (it != queue.end()) {
             if ((*it)->getEventType() != event_type) {
-                it++;
+                ++it;
                 continue;
             }
-            auto e = dynamic_cast<JobAndMachineEvent*>(*it);
-            if (e->getJobId() == job_id && e->getMachineId() == machine_id) {
-                auto found_event = *it;
-                event_queue.erase(it);
+            if (auto const e = dynamic_cast<JobAndMachineEvent*>(*it); e->getJobId() == job_id && e->getMachineId() == machine_id) {
+                auto const found_event = *it;
+                queue.erase(it);
                 delete found_event;
                 break;
             }
-            else {
-                it++;
-            }
+            ++it;
         }
     };
 
-    auto removeFromEventQueueAnyJob = [](EventType event_type, long machine_id, std::deque<Event*>& event_queue) {
-        auto it = event_queue.begin();
-        while (it != event_queue.end()) {
+    auto removeFromEventQueueAnyJob = [](EventType const event_type, long const machine_id, std::deque<Event*>& queue) {
+        auto it = queue.begin();
+        while (it != queue.end()) {
             if ((*it)->getEventType() != event_type) {
-                it++;
+                ++it;
                 continue;
             }
-            auto e = dynamic_cast<JobAndMachineEvent*>(*it);
-            if (e->getMachineId() == machine_id) {
-                auto found_event = *it;
-                event_queue.erase(it);
+            if (auto const e = dynamic_cast<JobAndMachineEvent*>(*it); e->getMachineId() == machine_id) {
+                auto const found_event = *it;
+                queue.erase(it);
                 delete found_event;
                 break;
             }
-            else {
-                it++;
-            }
+            ++it;
         }
     };
 
-    auto findInEventQueueAnyJob = [](EventType event_type, long machine_id, std::deque<Event*>& event_queue) -> Event* {
-        auto it = event_queue.begin();
-        while (it != event_queue.end()) {
+    auto findInEventQueueAnyJob = [](EventType const event_type, long const machine_id, std::deque<Event*>& queue) -> Event* {
+        auto it = queue.begin();
+        while (it != queue.end()) {
             if ((*it)->getEventType() != event_type) {
-                it++;
+                ++it;
                 continue;
             }
-            auto e = dynamic_cast<JobAndMachineEvent*>(*it);
-            if (e->getMachineId() == machine_id) {
+            if (auto const e = dynamic_cast<JobAndMachineEvent*>(*it); e->getMachineId() == machine_id) {
                 return e;
             }
-            else {
-                it++;
-            }
+            ++it;
         }
         return nullptr;
     };
 
-    for (const auto& pair : jobs) {
-        addToEventQueue(new SystemEntry(pair.second->getReleaseTime(), pair.first), event_queue);
-        statistics.addJobStatistics(new JobStatistics(pair.second->getId(), pair.second->getReleaseTime(), pair.second->getDueTime(), pair.second->getWeight()));
+    for (auto [job_id, job] : jobs) {
+        addToEventQueue(new SystemEntry(job->getReleaseTime(), job_id), event_queue);
+        statistics.addJobStatistics(new JobStatistics(job->getId(), job->getReleaseTime(), job->getDueTime(), job->getWeight()));
     }
 
-    for (const auto& pair : topology->getTopologyElementsMap()) {
-        for (auto breakdown : pair.second->getBreakdowns()) {
-            addToEventQueue(new BreakdownStart(breakdown->getStartTime(), pair.first), event_queue);
-            addToEventQueue(new BreakdownEnd(breakdown->getEndTime(), pair.first), event_queue);
+    for (auto [topology_element_id, topology_element] : topology->getTopologyElementsMap()) {
+        for (auto breakdown : topology_element->getBreakdowns()) {
+            addToEventQueue(new BreakdownStart(breakdown->getStartTime(), topology_element_id), event_queue);
+            addToEventQueue(new BreakdownEnd(breakdown->getEndTime(), topology_element_id), event_queue);
         }
     }
 
@@ -183,7 +174,7 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
 
             Event* event = event_queue.front();
             event_queue.pop_front();
-            long event_time = event->getTime();
+            double event_time = event->getTime();
             time = event_time;
 
             switch (event->getEventType()) {
@@ -195,7 +186,6 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     job_processing_context_map[job_id]->setJobProcessingStep(processing_step);
                     long machine_id = processing_step->getMachineId();
                     long step_id = processing_step->getProcessingStepId();
-                    auto machine_processing_context = machine_processing_context_map[machine_id];
                     utility_event_queue.push(new MachineBufferEntryRequestSynchronous(time, job_id, machine_id, step_id));
                     break;
                 }
@@ -207,8 +197,7 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     if (!job_processing_context->checkIfPathFinished()) {
                         throw SchedulingError("Path invalid for job " + std::to_string(job_id));
                     }
-                    auto previous_machine_processing_context = job_processing_context->getPreviousMachineProcessingContext();
-                    if (previous_machine_processing_context) {
+                    if (auto previous_machine_processing_context = job_processing_context->getPreviousMachineProcessingContext(); previous_machine_processing_context) {
                         previous_machine_processing_context->decreaseStepsInBuffer();
                         utility_event_queue.push(new WakeMachine(time, previous_machine_processing_context->getMachineId()));
                     }
@@ -226,20 +215,18 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     auto machine_processing_context = machine_processing_context_map[machine_id];
                     auto job_processing_context = job_processing_context_map[job_id];
                     job_processing_context->moveToNextPathNode(machine_id);
-                    auto previous_machine_processing_context = job_processing_context->getPreviousMachineProcessingContext();
-                    if (previous_machine_processing_context) {
+                    if (auto previous_machine_processing_context = job_processing_context->getPreviousMachineProcessingContext();previous_machine_processing_context) {
                         previous_machine_processing_context->decreaseStepsInBuffer();
                         utility_event_queue.push(new WakeMachine(time, previous_machine_processing_context->getMachineId()));
                     }
                     job_processing_context->setPreviousMachineProcessingContext(machine_processing_context);
                     auto job = jobs.at(job_id);
-                    long processing_duration = job->getProcessingTime(machine_id);
+                    auto processing_duration = job->getProcessingTime(machine_id);
                     bool preempt = job->getJobType()->getPreempt();
                     if (topology->getTopologyElementsMap().at(machine_id)->getTopologyElementType() == MACHINE_TOPOLOGY_ELEMENT) {
-                        preempt = preempt && ((Machine*)topology->getTopologyElementsMap().at(machine_id))->getMachineType()->getPreempt();
+                        preempt = preempt && dynamic_cast<Machine*>(topology->getTopologyElementsMap().at(machine_id))->getMachineType()->getPreempt();
                     }
-                    auto path_tree_node = job->getPathTreeNode(individual->getProcessingRoute(job_id)->getProcessingStep(step_id)->getPathNodeId());
-                    if (path_tree_node->getPathNode()->getPrerequisites().empty()) {
+                    if (auto path_tree_node = job->getPathTreeNode(individual->getProcessingRoute(job_id)->getProcessingStep(step_id)->getPathNodeId()); path_tree_node->getPathNode()->getPrerequisites().empty()) {
                         machine_processing_context->addStepToBuffer(step_id, job_id, job->getJobType()->getId(), time, processing_duration, preempt);
                         utility_event_queue.push(new WakeMachine(time, machine_id));
                     }
@@ -261,13 +248,11 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     machine_processing_context->startProcessingAStep();
                     machine_processing_context->setLastJobType(jobs.at(job_id)->getJobType());
                     machine_processing_context->setTimeStartedProcessingForCurrent(time);
-                    long processing_duration = machine_processing_context->getRemainingTimeForCurrent();
+                    auto processing_duration = machine_processing_context->getRemainingTimeForCurrent();
                     addToEventQueue(new MachineExit(time + processing_duration, job_id, machine_id, step_id), event_queue);
-                    auto topology_element = topology->getTopologyElementsMap().at(machine_id);
-                    if (topology_element->getTopologyElementType() == MACHINE_TOPOLOGY_ELEMENT) {
-                        auto machine = (Machine*) topology_element;
-                        auto batch_processing_scenario = machine->getMachineType()->getBatchProcessingScenarioRules()->findBatchProcessingScenario(jobs.at(job_id)->getJobType()->getId());
-                        if (batch_processing_scenario) {
+                    if (auto const topology_element = topology->getTopologyElementsMap().at(machine_id); topology_element->getTopologyElementType() == MACHINE_TOPOLOGY_ELEMENT) {
+                        auto machine = dynamic_cast<Machine*>(topology_element);
+                        if (auto const batch_processing_scenario = machine->getMachineType()->getBatchProcessingScenarioRules()->findBatchProcessingScenario(jobs.at(job_id)->getJobType()->getId()); batch_processing_scenario) {
                             machine_processing_context->setBatchProcessingScenario(batch_processing_scenario);
                             utility_event_queue.push(new WakeMachine(time, machine_id));
                         }
@@ -279,10 +264,8 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     auto machine_exit_event = dynamic_cast<MachineExit*>(event);
                     long job_id = machine_exit_event->getJobId();
                     long machine_id = machine_exit_event->getMachineId();
-                    long step_id = machine_exit_event->getStepId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
-                    auto job_route = job_route_map[job_id];
-                    if (job_route->checkHasFinished()) {
+                    if (auto const job_route = job_route_map[job_id]; job_route->checkHasFinished()) {
                         job_processing_context_map[job_id]->setJobProcessingStep(nullptr);
                         addToEventQueue(new SystemExit(time, job_id), event_queue);
                     }
@@ -310,7 +293,7 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                             addToEventQueue(new PrerequisitesWaitEnd(time, prerequisite_job_id, prerequisite_machine_id, prerequisite_step_id), event_queue);
                         }
                         else {
-                            it++;
+                            ++it;
                         }
                     }
                     break;
@@ -324,9 +307,9 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     auto job = jobs.at(job_id);
                     auto path_tree_node = job->getPathTreeNode(individual->getProcessingRoute(job_id)->getProcessingStep(step_id)->getPathNodeId());
                     auto job_processing_prerequisites = new JobProcessingPrerequisites(job_id, machine_id, step_id, path_tree_node->getPathNode()->getPrerequisites());
-                    for (auto machine_pair : topology->getTopologyElementsMap()) {
-                        for (auto job_pair : jobs) {
-                            job_processing_prerequisites->updatePrerequisites(machine_pair.first, job_pair.first, machine_to_job_times_processed_map[machine_pair.first][job_pair.first]);
+                    for (auto [machine_id, _] : topology->getTopologyElementsMap()) {
+                        for (auto other_job_id : jobs | std::views::keys) {
+                            job_processing_prerequisites->updatePrerequisites(machine_id, other_job_id, machine_to_job_times_processed_map[machine_id][other_job_id]);
                         }
                     }
                     if (job_processing_prerequisites->checkAllPrerequisitesSatisfied()) {
@@ -343,7 +326,6 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     auto prerequisite_wait_end_event = dynamic_cast<PrerequisitesWaitEnd*>(event);
                     long job_id = prerequisite_wait_end_event->getJobId();
                     long machine_id = prerequisite_wait_end_event->getMachineId();
-                    long step_id = prerequisite_wait_end_event->getStepId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
                     machine_processing_context->moveStepFromWaitingToBuffer(job_id);
                     utility_event_queue.push(new WakeMachine(time, machine_id));
@@ -354,7 +336,6 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     auto preempt_event = dynamic_cast<Preempt*>(event);
                     long job_id = preempt_event->getJobId();
                     long machine_id = preempt_event->getMachineId();
-                    long step_id = preempt_event->getStepId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
                     machine_processing_context->moveCurrentToBuffer(time);
                     removeFromEventQueue(MACHINE_EXIT, job_id, machine_id, event_queue);
@@ -384,9 +365,7 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                         }
                     }
                     if (machine_processing_context->getSetup()) {
-                        auto processing_pair = machine_processing_context->peekAtFirstProcessingStep();
-                        long step_id = processing_pair.first;
-                        long job_id = processing_pair.second;
+                        auto [step_id, job_id] = machine_processing_context->peekAtFirstProcessingStep();
                         addToEventQueue(new SetupCancel(time, job_id, machine_id, step_id, machine_processing_context->getSetup()), event_queue);
                     }
                     removeFromEventQueueAnyJob(MACHINE_ENTRY, machine_id, event_queue);
@@ -427,7 +406,6 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     auto setup_cancel_event = dynamic_cast<SetupCancel*>(event);
                     long job_id = setup_cancel_event->getJobId();
                     long machine_id = setup_cancel_event->getMachineId();
-                    long step_id = setup_cancel_event->getStepId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
                     removeFromEventQueue(SETUP_END, job_id, machine_id, event_queue);
                     machine_processing_context->setSetup(nullptr);
@@ -439,7 +417,6 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     auto machine_exit_forced_event = dynamic_cast<MachineExitForced*>(event);
                     long job_id = machine_exit_forced_event->getJobId();
                     long machine_id = machine_exit_forced_event->getMachineId();
-                    long step_id = machine_exit_forced_event->getStepId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
                     machine_processing_context->finishProcessingAStep();
                     utility_event_queue.push(new WakeMachine(time, machine_id));
@@ -452,8 +429,7 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     auto system_exit_forced_event = dynamic_cast<SystemExitForced*>(event);
                     long job_id = system_exit_forced_event->getJobId();
                     auto job_processing_context = job_processing_context_map[job_id];
-                    auto previous_machine_processing_context = job_processing_context->getPreviousMachineProcessingContext();
-                    if (previous_machine_processing_context) {
+                    if (auto previous_machine_processing_context = job_processing_context->getPreviousMachineProcessingContext(); previous_machine_processing_context) {
                         previous_machine_processing_context->decreaseStepsInBuffer();
                         utility_event_queue.push(new WakeMachine(time, previous_machine_processing_context->getMachineId()));
                     }
@@ -470,7 +446,7 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     long step_id = machine_entry_batch_event->getStepId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
                     machine_processing_context->setTimeStartedProcessingForCurrentInBatch(time, job_id);
-                    long processing_duration = machine_processing_context->getRemainingTimeForCurrentInBatch(job_id);
+                    auto processing_duration = machine_processing_context->getRemainingTimeForCurrentInBatch(job_id);
                     addToEventQueue(new MachineExitBatch(time + processing_duration, job_id, machine_id, step_id), event_queue);
                     break;
                 }
@@ -479,10 +455,8 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     auto machine_exit_batch_event = dynamic_cast<MachineExitBatch*>(event);
                     long job_id = machine_exit_batch_event->getJobId();
                     long machine_id = machine_exit_batch_event->getMachineId();
-                    long step_id = machine_exit_batch_event->getStepId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
-                    auto job_route = job_route_map[job_id];
-                    if (job_route->checkHasFinished()) {
+                    if (auto const job_route = job_route_map[job_id]; job_route->checkHasFinished()) {
                         job_processing_context_map[job_id]->setJobProcessingStep(nullptr);
                         addToEventQueue(new SystemExit(time, job_id), event_queue);
                     }
@@ -508,7 +482,7 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                             addToEventQueue(new PrerequisitesWaitEnd(time, prerequisite_job_id, prerequisite_machine_id, prerequisite_step_id), event_queue);
                         }
                         else {
-                            it++;
+                            ++it;
                         }
                     }
                     break;
@@ -518,8 +492,6 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     auto machine_exit_forced_batch_event = dynamic_cast<MachineExitForcedBatch*>(event);
                     long job_id = machine_exit_forced_batch_event->getJobId();
                     long machine_id = machine_exit_forced_batch_event->getMachineId();
-                    long step_id = machine_exit_forced_batch_event->getStepId();
-                    auto machine_processing_context = machine_processing_context_map[machine_id];
                     removeFromEventQueue(MACHINE_EXIT_BATCH, job_id, machine_id, event_queue);
                     addToEventQueue(new SystemExitForced(time, job_id), event_queue);
                     break;
@@ -529,7 +501,6 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     auto preempt_batch_event = dynamic_cast<PreemptBatch*>(event);
                     long job_id = preempt_batch_event->getJobId();
                     long machine_id = preempt_batch_event->getMachineId();
-                    long step_id = preempt_batch_event->getStepId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
                     machine_processing_context->moveCurrentInBatchToBuffer(time, job_id);
                     removeFromEventQueue(MACHINE_EXIT_BATCH, job_id, machine_id, event_queue);
@@ -584,7 +555,7 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                 case MACHINE_EXIT_BATCH:
                 case MACHINE_EXIT_FORCED_BATCH:
                 case PREEMPT_BATCH:
-                    throw SchedulingError("Non utility event encountered in the utility_event_queue in Simulator::simulate function.");;
+                    throw SchedulingError("Non utility event encountered in the utility_event_queue in Simulator::simulate function.");
 
                 case WAKE_MACHINE: {
                     auto wake_machine_event = dynamic_cast<WakeMachine*>(event);
@@ -599,17 +570,12 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                         break;
                     }
                     if (!machine_processing_context->getCurrentlyWorking()) {
-                        auto processing_pair = machine_processing_context->peekAtFirstProcessingStep();
-                        long step_id = processing_pair.first;
-                        long job_id = processing_pair.second;
-                        auto setup = machine_processing_context->getSetup();
-                        if (setup != nullptr) {
-                            auto setup_end_event = dynamic_cast<SetupEnd*>(findInEventQueueAnyJob(SETUP_END, machine_id, event_queue));
-                            if (setup_end_event != nullptr) {
+                        auto [step_id, job_id] = machine_processing_context->peekAtFirstProcessingStep();
+                        if (auto setup = machine_processing_context->getSetup(); setup != nullptr) {
+                            if (auto setup_end_event = dynamic_cast<SetupEnd*>(findInEventQueueAnyJob(SETUP_END, machine_id, event_queue)); setup_end_event != nullptr) {
                                 long setup_step_id = setup_end_event->getStepId();
                                 long setup_job_id = setup_end_event->getJobId();
-                                bool should_cancel_setup = machine_processing_context->comparePrioritiesOfTwoSteps(step_id, setup_step_id);
-                                if (should_cancel_setup) {
+                                if (bool should_cancel_setup = machine_processing_context->comparePrioritiesOfTwoSteps(step_id, setup_step_id); should_cancel_setup) {
                                     addToEventQueue(new SetupCancel(time, setup_job_id, machine_id, setup_step_id, machine_processing_context->getSetup()), event_queue);
                                 }
                             }
@@ -618,14 +584,12 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                             }
                             break;
                         }
-                        auto topology_element = topology->getTopologyElementsMap().at(machine_id);
-                        if (topology_element->getTopologyElementType() == MACHINE_TOPOLOGY_ELEMENT) {
-                            auto machine = (Machine*) topology_element;
+                        if (auto topology_element = topology->getTopologyElementsMap().at(machine_id); topology_element->getTopologyElementType() == MACHINE_TOPOLOGY_ELEMENT) {
+                            auto machine = dynamic_cast<Machine*>(topology_element);
                             auto setup_rules = machine->getMachineType()->getSetupRules();
                             auto last_job_type = machine_processing_context->getLastJobType();
                             auto job_type = jobs.at(job_id)->getJobType();
-                            auto new_setup = setup_rules->findSetup(last_job_type ? last_job_type->getId() : -1, job_type->getId());
-                            if (new_setup) {
+                            if (auto new_setup = setup_rules->findSetup(last_job_type ? last_job_type->getId() : -1, job_type->getId()); new_setup) {
                                 machine_processing_context->setSetup(new_setup);
                                 addToEventQueue(new SetupStart(time, job_id, machine_id, step_id, new_setup), event_queue);
                                 break;
@@ -642,8 +606,7 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                         }
                     }
                     if (!machine_processing_context->getBatchProcessingStarted()) {
-                        auto batch_jobs_started = machine_processing_context->startBatchProcessing();
-                        for (auto job : batch_jobs_started) {
+                        for (auto const batch_jobs_started = machine_processing_context->startBatchProcessing(); auto job : batch_jobs_started) {
                             addToEventQueue(new MachineEntryBatch(time, std::get<1>(job), machine_id, std::get<0>(job)), event_queue);
                         }
                         machine_processing_context->setBatchProcessingStarted();
@@ -656,14 +619,7 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     long job_id = machine_buffer_entry_request_synchronous_event->getJobId();
                     long machine_id = machine_buffer_entry_request_synchronous_event->getMachineId();
                     long step_id = machine_buffer_entry_request_synchronous_event->getStepId();
-                    auto machine_processing_context = machine_processing_context_map[machine_id];
-                    auto job = jobs.at(job_id);
-                    long processing_duration = job->getProcessingTime(machine_id);
-                    bool preempt = job->getJobType()->getPreempt();
-                    if (topology->getTopologyElementsMap().at(machine_id)->getTopologyElementType() == MACHINE_TOPOLOGY_ELEMENT) {
-                        preempt = preempt && ((Machine*)topology->getTopologyElementsMap().at(machine_id))->getMachineType()->getPreempt();
-                    }
-                    if (machine_processing_context->bufferHasSpace()) {
+                    if (auto machine_processing_context = machine_processing_context_map[machine_id]; machine_processing_context->bufferHasSpace()) {
                         addToEventQueue(new MachineBufferEntry(time, job_id, machine_id, step_id), event_queue);
                     }
                     else {
@@ -679,10 +635,10 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     long step_id = machine_buffer_entry_request_asynchronous_event->getStepId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
                     auto job = jobs.at(job_id);
-                    long processing_duration = job->getProcessingTime(machine_id);
+                    auto processing_duration = job->getProcessingTime(machine_id);
                     bool preempt = job->getJobType()->getPreempt();
                     if (topology->getTopologyElementsMap().at(machine_id)->getTopologyElementType() == MACHINE_TOPOLOGY_ELEMENT) {
-                        preempt = preempt && ((Machine*)topology->getTopologyElementsMap().at(machine_id))->getMachineType()->getPreempt();
+                        preempt = preempt && dynamic_cast<Machine*>(topology->getTopologyElementsMap().at(machine_id))->getMachineType()->getPreempt();
                     }
                     if (machine_processing_context->bufferHasSpace()) {
                         addToEventQueue(new MachineBufferEntry(time, job_id, machine_id, step_id), event_queue);

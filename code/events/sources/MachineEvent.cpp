@@ -2,14 +2,9 @@
 // Created by mihael on 30/04/23.
 //
 
-/**
- * @file MachineEvent.cpp
- * @brief Implements the member functions of the MachineEvent class.
- */
-
 #include "MachineEvent.h"
 
-MachineEvent::MachineEvent(long time, long machine_id) : Event(time) {
+MachineEvent::MachineEvent(double const time, long const machine_id) : Event(time) {
     this->machine_id = machine_id;
 }
 

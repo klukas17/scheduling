@@ -4,6 +4,7 @@
 
 #ifndef OPTIMIZATIONALGORITHMWITHNEIGHBORHOODOPERATOR_H
 #define OPTIMIZATIONALGORITHMWITHNEIGHBORHOODOPERATOR_H
+
 #include "NeighborhoodOperator.h"
 #include "OptimizationAlgorithm.h"
 
@@ -13,7 +14,7 @@ protected:
     NeighborhoodOperator* neighborhood_operator;
 public:
     OptimizationAlgorithmWithNeighborhoodOperator(EvaluationFunction* evaluation_function, NeighborhoodOperator* neighborhood_operator);
-    NeighborhoodOperator* getNeighborhoodOperator();
+    [[nodiscard]] NeighborhoodOperator* getNeighborhoodOperator() const;
     ~OptimizationAlgorithmWithNeighborhoodOperator() override = 0;
 };
 

@@ -4,12 +4,11 @@
 
 #include "MakespanObjectiveFunction.h"
 
-MakespanObjectiveFunction::MakespanObjectiveFunction() {}
+MakespanObjectiveFunction::MakespanObjectiveFunction() = default;
 
 double MakespanObjectiveFunction::evaluate(SimulatorStatistics *statistics) {
     double result = 0;
-    for (auto pair : statistics->getStatistics()) {
-        auto job_statistics = pair.second;
+    for (auto [_, job_statistics] : statistics->getStatistics()) {
         if (job_statistics->getJobStatus() != UNTERMINATED && job_statistics->getExitTime() > result) {
             result = job_statistics->getExitTime();
         }

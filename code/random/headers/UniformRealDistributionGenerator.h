@@ -8,8 +8,7 @@
 
 
 class UniformRealDistributionGenerator {
-private:
-    std::uniform_real_distribution<double> generator;
+    std::uniform_real_distribution<> generator;
 public:
     UniformRealDistributionGenerator(double lower_limit, double upper_limit);
     double generate();

@@ -4,14 +4,14 @@
 
 #ifndef BITSUMGENOTYPE_H
 #define BITSUMGENOTYPE_H
+
 #include "Genotype.h"
 #include "vector"
 
-
-class BitSumGenotype : public Genotype {
+class BitSumGenotype final : public Genotype {
 public:
     std::vector<int> bits;
-    BitSumGenotype(std::vector<int>& bits);
+    explicit BitSumGenotype(std::vector<int>& bits);
 };
 
 
