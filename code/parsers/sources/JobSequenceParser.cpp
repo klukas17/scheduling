@@ -340,14 +340,15 @@ std::tuple<PathNode*, PathTreeNode*, long> JobSequenceParser::parsePathNodeWithY
                 route_group_child_path_tree_nodes.push_back(route_group_child_path_tree_node);
                 path_tree_node_id = child_path_tree_node_id;
             }
-
-            for (int i = 0; i < route_group_child_path_nodes.size() - 1; i++) {
-                connectGraphsOfPathNodes(route_group_child_path_nodes[i], route_group_child_path_nodes[i + 1]);
+            if (!route_group_child_path_nodes.empty()) {
+                for (int i = 0; i < route_group_child_path_nodes.size() - 1; i++) {
+                    connectGraphsOfPathNodes(route_group_child_path_nodes[i], route_group_child_path_nodes[i + 1]);
+                }
+                for (auto child : route_group_child_path_tree_nodes) {
+                    route_group_path_tree_node->addChild(child);
+                }
+                route_group_path_node->setNext(route_group_child_path_nodes[0]);
             }
-            for (auto child : route_group_child_path_tree_nodes) {
-                route_group_path_tree_node->addChild(child);
-            }
-            route_group_path_node->setNext(route_group_child_path_nodes[0]);
         }
     }
 

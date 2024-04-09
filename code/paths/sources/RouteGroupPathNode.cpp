@@ -15,3 +15,11 @@ PathNode *RouteGroupPathNode::getNext() const {
 void RouteGroupPathNode::setNext(PathNode *path_node) {
     this->next = path_node;
 }
+
+std::map<long, PathNode*> RouteGroupPathNode::getChildren() const {
+    return children;
+}
+
+void RouteGroupPathNode::addChild(PathNode* path_node, long const path_node_id) {
+    children[path_node_id] = path_node;
+}

@@ -3,7 +3,7 @@ project(scheduling)
 
 set(CMAKE_CXX_STANDARD 20)
 
-#add_compile_options(-O3)
+#set(CMAKE_CXX_FLAGS "-O3 -Wall -Wextra")
 
 # https://github.com/jbeder/yaml-cpp
 set(YAML_CPP_DIR ~/libs/yaml-cpp)
@@ -15,6 +15,7 @@ include_directories(
         code/evaluation/headers
         code/events/headers
         code/genotype/headers
+        code/job_sequence_generators/headers
         code/jobs/headers
         code/machines/headers
         code/optimization/headers
@@ -34,6 +35,7 @@ file(GLOB PROJECT_HEADERS
         code/evaluation/headers/*.h
         code/events/headers/*.h
         code/genotype/headers/*.h
+        code/job_sequence_generators/headers/*.h
         code/jobs/headers/*.h
         code/machines/headers/*.h
         code/optimization/headers/*.h
@@ -53,6 +55,7 @@ file(GLOB PROJECT_SOURCES
         code/evaluation/sources/*.cpp
         code/events/sources/*.cpp
         code/genotype/sources/*.cpp
+        code/job_sequence_generators/sources/*.cpp
         code/jobs/sources/*.cpp
         code/machines/sources/*.cpp
         code/optimization/sources/*.cpp

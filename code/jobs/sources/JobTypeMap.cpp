@@ -24,3 +24,11 @@ void JobTypeMap::addJobType(long const job_type_id, JobType *job_type) {
     }
     job_type_map[job_type_id] = job_type;
 }
+
+std::map<long, std::tuple<PathNode*, PathTreeNode*, std::set<long>>> JobTypeMap::prepareDataForJobSequenceGenerator(TopologyElement* topology_element) {
+    std::map<long, std::tuple<PathNode*, PathTreeNode*, std::set<long>>> data;
+    for (auto [job_type_id, job_type] : job_type_map) {
+        data[job_type_id] = job_type->prepareDataForJobSequenceGenerator(topology_element);
+    }
+    return data;
+}

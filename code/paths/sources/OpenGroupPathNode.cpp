@@ -23,3 +23,12 @@ std::vector<std::pair<long, PathNode*>> OpenGroupPathNode::getSubPathNodes() {
 void OpenGroupPathNode::addSubPathNode(long id, PathNode *path_node) {
     this->sub_path_nodes.emplace_back(id, path_node);
 }
+
+std::map<long, PathNode*> OpenGroupPathNode::getChildren() const {
+    return children;
+}
+
+void OpenGroupPathNode::addChild(PathNode* path_node, long const path_node_id) {
+    children[path_node_id] = path_node;
+}
+

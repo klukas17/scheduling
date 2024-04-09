@@ -4,6 +4,7 @@
 #include "BitSumGenotype.h"
 #include "BitSumGenotypeBlueprint.h"
 #include "BitSumPerturbationOperator.h"
+#include "ExponentialDistribution.h"
 #include "MachineSpecificationsParser.h"
 #include "MachineTopologyParser.h"
 #include "JobSpecificationsParser.h"
@@ -17,6 +18,8 @@
 #include "set"
 #include "filesystem"
 #include "iostream"
+#include "JobSequenceGenerator.h"
+#include "JobSequenceGeneratorSerializer.h"
 #include "MakespanObjectiveFunction.h"
 #include "SteadyStateGeneticAlgorithm.h"
 
@@ -41,7 +44,27 @@ void run_example(const std::string& dir) {
 
     auto const statistics = Simulator::simulate(individual, topology, jobs, true, dir + "output/simulator_logs.txt");
     auto objective_function = MakespanObjectiveFunction();
-    objective_function.evaluate(statistics);
+    std::cout << "OBJECTIVE FUNCTION: " << objective_function.evaluate(statistics) << std::endl;
+
+    std::map<long, JobGeneratorParameters*> job_generator_parameters;
+    for (auto [job_type_id, _] : job_type_map->getJobTypeMap()) {
+        job_generator_parameters[job_type_id] = new JobGeneratorParameters(
+            job_type_id,
+            100,
+            new ExponentialDistribution(0.2),
+            5,
+            new UniformRealDistributionGenerator(1, 5)
+        );
+    }
+    auto generated_jobs = JobSequenceGenerator::generateJobs(
+        job_generator_parameters,
+        topology->getRootElement(),
+        job_type_map,
+        0.5,
+        0.5
+    );
+    JobSequenceGeneratorSerializer::serializeJobs(dir + "output/job_sequence.yaml", generated_jobs);
+    JobSequenceParser::parse(dir + "output/job_sequence.yaml", machine_type_map, job_type_map, topology);
 }
 
 void bit_sum_genotype() {

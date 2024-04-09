@@ -4,14 +4,16 @@
 
 #ifndef UNIFORMREALDISTRIBUTIONGENERATOR_H
 #define UNIFORMREALDISTRIBUTIONGENERATOR_H
+
 #include <random>
+#include "DoubleGenerator.h"
 
 
-class UniformRealDistributionGenerator {
+class UniformRealDistributionGenerator final: public DoubleGenerator {
     std::uniform_real_distribution<> generator;
 public:
     UniformRealDistributionGenerator(double lower_limit, double upper_limit);
-    double generate();
+    double generate() override;
 };
 
 
