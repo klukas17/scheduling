@@ -6,11 +6,13 @@
 #define EXPONENTIALDISTRIBUTION_H
 #include <random>
 
-class ExponentialDistribution {
+#include "DoubleGenerator.h"
+
+class ExponentialDistribution final : public DoubleGenerator {
     std::exponential_distribution<> generator;
 public:
     explicit ExponentialDistribution(double lambda);
-    double generate();
+    double generate() override;
 };
 
 
