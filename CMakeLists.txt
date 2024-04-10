@@ -24,6 +24,7 @@ include_directories(
         code/paths/headers
         code/problems/headers
         code/random/headers
+        code/schedulers/headers
         code/serializers/headers
         code/simulator/headers
         code/topology/headers
@@ -44,6 +45,7 @@ file(GLOB PROJECT_HEADERS
         code/paths/headers/*.h
         code/problems/headers/*.h
         code/random/headers/*.h
+        code/schedulers/headers/*.h
         code/serializers/headers/*.h
         code/simulator/headers/*.h
         code/topology/headers/*.h
@@ -64,6 +66,7 @@ file(GLOB PROJECT_SOURCES
         code/paths/sources/*.cpp
         code/problems/sources/*.cpp
         code/random/sources/*.cpp
+        code/schedulers/sources/*.cpp
         code/serializers/sources/*.cpp
         code/simulator/sources/*.cpp
         code/topology/sources/*.cpp
