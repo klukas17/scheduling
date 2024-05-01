@@ -7,6 +7,7 @@
 
 
 class SchedulerParametersMachine {
+public:
     double release_time;
     double due_time;
     double weight;

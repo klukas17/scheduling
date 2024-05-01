@@ -4,12 +4,11 @@
 
 #include "MachineProcessingContext.h"
 
-MachineProcessingContext::MachineProcessingContext(long const machine_id, GenotypeNode *node, long const buffer_size) {
-    auto const step_processing_order = node->getStepProcessingOrder();
+MachineProcessingContext::MachineProcessingContext(long const machine_id, Scheduler* scheduler, long const buffer_size) {
     this->machine_id = machine_id;
-    this->node = node;
-    this->machine_buffer = new MachineBuffer(step_processing_order);
-    this->machine_buffer_requests = new MachineBuffer(step_processing_order);
+    this->scheduler = scheduler;
+    this->machine_buffer = new MachineBuffer(machine_id, scheduler);
+    this->machine_buffer_requests = new MachineBuffer(machine_id, scheduler);
     this->buffer_size = buffer_size;
     this->machine_setup_context = new MachineSetupContext();
     this->steps_in_buffer = 0;
@@ -22,10 +21,6 @@ MachineProcessingContext::MachineProcessingContext(long const machine_id, Genoty
 
 long MachineProcessingContext::getMachineId() const {
     return machine_id;
-}
-
-GenotypeNode *MachineProcessingContext::getNode() const {
-    return node;
 }
 
 long MachineProcessingContext::getBufferSize() const {

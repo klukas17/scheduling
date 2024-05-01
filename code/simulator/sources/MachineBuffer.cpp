@@ -3,53 +3,31 @@
 //
 
 #include "MachineBuffer.h"
+
+#include "OfflineScheduler.h"
 #include "SchedulingError.h"
 #include "ranges"
 
-MachineBuffer::MachineBuffer(std::vector<long> const & preferred_processing_order) {
-    this->head = nullptr;
+bool (*MachineBuffer::score_comparator)(MachineBufferElement*, MachineBufferElement*) =
+    [](MachineBufferElement* a, MachineBufferElement* b) -> bool {
+        if (a->score != b->score) {
+            return a->score < b->score;
+        }
+        return a->job_id < b->job_id;
+};
+
+MachineBuffer::MachineBuffer(long machine_id, Scheduler* scheduler) {
+    this->machine_id = machine_id;
     this->current = nullptr;
-    for (int i = 0; i < preferred_processing_order.size(); i++) {
-        step_index_to_processing_index[preferred_processing_order[i]] = i;
-        processing_index_to_step_index[i] = preferred_processing_order[i];
-        step_index_to_node[preferred_processing_order[i]] = nullptr;
-    }
+    this->scheduler = scheduler;
+    queue = std::priority_queue<MachineBufferElement*, std::vector<MachineBufferElement*>, decltype(score_comparator)>(score_comparator);
 }
 
 void MachineBuffer::addStepToBuffer(long const step_id, long const job_id, long const job_type_id, double const time_start_processing, double const time_remaining_processing, bool const preempt) {
 
-    auto const new_job = new MachineBufferElement(step_id, job_id, job_type_id, time_start_processing, time_remaining_processing, preempt);
-    step_index_to_node[step_id] = new_job;
-
-    if (head == nullptr) {
-        head = new_job;
-    }
-
-    else {
-
-        long other_index = step_index_to_processing_index[step_id] - 1;
-        while (other_index >= 0 && step_index_to_node[processing_index_to_step_index[other_index]] == nullptr) {
-            other_index--;
-        }
-
-        if (other_index == -1) {
-            new_job->next = head;
-            head->prev = new_job;
-            head = new_job;
-        }
-
-        else {
-            MachineBufferElement* other = step_index_to_node[processing_index_to_step_index[other_index]];
-            MachineBufferElement* other_next = other->next;
-            if (other_next) {
-                other_next->prev = new_job;
-            }
-            new_job->next = other_next;
-            new_job->prev = other;
-            other->next = new_job;
-        }
-
-    }
+    auto score = scheduler->calculateScore(machine_id, job_id, step_id);
+    auto const new_step = new MachineBufferElement(step_id, job_id, job_type_id, time_start_processing, time_remaining_processing, preempt, score);
+    queue.push(new_step);
 }
 
 void MachineBuffer::startProcessingAStep() {
@@ -58,16 +36,12 @@ void MachineBuffer::startProcessingAStep() {
         throw SchedulingError("Trying to start executing a step but another is executing in function MachineBuffer::startProcessingAStep.");
     }
 
-    if (head == nullptr) {
+    if (queue.empty()) {
         throw SchedulingError("Trying to take a step from an empty buffer in function MachineBuffer::startProcessingAStep.");
     }
 
-    current = head;
-    head = head->next;
-    if (current->next) {
-        current->next->prev = nullptr;
-    }
-    current->prev = current->next = nullptr;
+    current = queue.top();
+    queue.pop();
 }
 
 std::pair<long, long> MachineBuffer::peekAtFirstProcessingStep() const {
@@ -76,17 +50,18 @@ std::pair<long, long> MachineBuffer::peekAtFirstProcessingStep() const {
         throw SchedulingError("Trying to peek at the first step but another is executing in function MachineBuffer::startProcessingAStep.");
     }
 
-    if (head == nullptr) {
+    if (queue.empty()) {
         throw SchedulingError("Trying to peek at a step from an empty buffer in function MachineBuffer::startProcessingAStep.");
     }
 
-    return {head->step_id, head->job_id};
+    auto const top = queue.top();
+
+    return {top->step_id, top->job_id};
 }
 
 void MachineBuffer::finishProcessingAStep() {
 
     if (current != nullptr) {
-        step_index_to_node[current->step_id] = nullptr;
         delete current;
         current = nullptr;
     }
@@ -110,13 +85,12 @@ void MachineBuffer::finishProcessingAStepInBatch(long const job_id) {
 
 
 std::tuple<long, long> MachineBuffer::removeFirstAndRetrieveIt() {
-    if (head != nullptr) {
-        step_index_to_node[head->step_id] = nullptr;
-        long step_id = head->step_id;
-        long job_id = head->job_id;
-        auto const tmp = head;
-        head = head->next;
-        delete tmp;
+    if (!queue.empty()) {
+        auto const top = queue.top();
+        queue.pop();
+        long step_id = top->step_id;
+        long job_id = top->job_id;
+        delete top;
         return {step_id, job_id};
     }
 
@@ -133,7 +107,7 @@ bool MachineBuffer::checkShouldPreempt() {
         return false;
     }
 
-    return step_index_to_processing_index[current->step_id] > step_index_to_processing_index[head->step_id];
+    return current->score < queue.top()->score;
 }
 
 std::tuple<long, long> MachineBuffer::getCurrentStepData() const {
@@ -155,84 +129,18 @@ void MachineBuffer::addStepWaitingForPrerequisite(long step_id, long const job_i
 }
 
 void MachineBuffer::moveCurrentToBuffer(double const time) {
-
-    if (head == nullptr) {
-        head = current;
-    }
-
-    else {
-
-        long other_index = step_index_to_processing_index[current->step_id] - 1;
-        while (other_index >= 0 && step_index_to_node[processing_index_to_step_index[other_index]] == nullptr) {
-            other_index--;
-        }
-
-        if (other_index == -1) {
-            current->next = head;
-            head->prev = current;
-            head = current;
-        }
-
-        else {
-            MachineBufferElement* other = step_index_to_node[processing_index_to_step_index[other_index]];
-            MachineBufferElement* other_next = other->next;
-            if (other_next) {
-                other_next->prev = current;
-            }
-            current->next = other_next;
-            current->prev = other;
-            other->next = current;
-        }
-
-    }
-
     current->time_remaining_processing -= time - current->time_start_processing;
     current->time_start_processing = -1;
-
-    step_index_to_node[current->step_id] = current;
-
+    queue.push(current);
     current = nullptr;
 }
 
 void MachineBuffer::moveCurrentInBatchToBuffer(double const time, long const job_id) {
-
     auto const current_in_batch = current_batch[job_id];
     current_batch[job_id] = nullptr;
-
-    if (head == nullptr) {
-        head = current_in_batch;
-    }
-
-    else {
-
-        long other_index = step_index_to_processing_index[current_in_batch->step_id] - 1;
-        while (other_index >= 0 && step_index_to_node[processing_index_to_step_index[other_index]] == nullptr) {
-            other_index--;
-        }
-
-        if (other_index == -1) {
-            current_in_batch->next = head;
-            head->prev = current_in_batch;
-            head = current_in_batch;
-        }
-
-        else {
-            MachineBufferElement* other = step_index_to_node[processing_index_to_step_index[other_index]];
-            MachineBufferElement* other_next = other->next;
-            if (other_next) {
-                other_next->prev = current_in_batch;
-            }
-            current_in_batch->next = other_next;
-            current_in_batch->prev = other;
-            other->next = current_in_batch;
-        }
-
-    }
-
     current_in_batch->time_remaining_processing -= time - current_in_batch->time_start_processing;
     current_in_batch->time_start_processing = -1;
-
-    step_index_to_node[current_in_batch->step_id] = current_in_batch;
+    queue.push(current_in_batch);
 }
 
 double MachineBuffer::getRemainingTimeForCurrent() const {
@@ -288,7 +196,7 @@ void MachineBuffer::moveStepFromWaitingToBuffer(long const job_id) {
 }
 
 bool MachineBuffer::hasReadyJobs() const {
-    return head != nullptr;
+    return !queue.empty();
 }
 
 bool MachineBuffer::checkCanPreemptCurrent() const {
@@ -301,7 +209,7 @@ bool MachineBuffer::checkCanPreemptCurrent() const {
 }
 
 bool MachineBuffer::comparePrioritiesOfTwoSteps(long const step_id1, long const step_id2) {
-    return step_index_to_processing_index[step_id1] < step_index_to_processing_index[step_id2];
+    return scheduler->comparePrioritiesOfTwoSteps(machine_id, step_id1, step_id2);
 }
 
 std::vector<std::tuple<long, long> > MachineBuffer::startBatchProcessing(const BatchProcessingScenario *scenario) {
@@ -309,39 +217,27 @@ std::vector<std::tuple<long, long> > MachineBuffer::startBatchProcessing(const B
     auto const jobs_per_batch = scenario->getJobsPerBatch();
 
     auto jobs_in_batch = 1;
-    auto curr = head;
 
     std::vector<std::tuple<long, long>> jobs_added_to_batch;
+    std::vector<MachineBufferElement*> removed;
 
-    while (curr && jobs_in_batch < jobs_per_batch) {
-        if (curr->job_type_id != job_type_id || curr->time_remaining_processing != current->time_remaining_processing) {
-            curr = curr->next;
+    while (!queue.empty() && jobs_in_batch < jobs_per_batch) {
+
+        auto top = queue.top();
+        queue.pop();
+
+        if (top->job_type_id != job_type_id || top->time_remaining_processing != current->time_remaining_processing) {
+            removed.push_back(top);
             continue;
         }
 
-        if (curr == head) {
-            head = head->next;
-            if (head) {
-                head->prev = nullptr;
-            }
-        } else {
-            auto const prev = head->prev;
-            auto const next = head->next;
-            if (prev) {
-                prev->next = next;
-            }
-            if (next) {
-                next->prev = prev;
-            }
-        }
         jobs_in_batch++;
-        jobs_added_to_batch.emplace_back(curr->step_id, curr->job_id);
-        current_batch[curr->job_id] = curr;
-        step_index_to_node[curr->job_id] = nullptr;
+        jobs_added_to_batch.emplace_back(top->step_id, top->job_id);
+        current_batch[top->job_id] = top;
+    }
 
-        auto const tmp = curr;
-        curr = curr->next;
-        tmp->prev = tmp->next = nullptr;
+    for (auto element : removed) {
+        queue.push(element);
     }
 
     return jobs_added_to_batch;
