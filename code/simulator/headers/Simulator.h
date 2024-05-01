@@ -8,11 +8,12 @@
 #include "string"
 #include "Individual.h"
 #include "Job.h"
+#include "Scheduler.h"
 #include "SimulatorStatistics.h"
 
 class Simulator {
 public:
-    static SimulatorStatistics* simulate(Individual* individual, Topology* topology, const std::map<long, Job*>& jobs, bool enable_logging = false, const std::string& logs_path = "");
+    static SimulatorStatistics* simulate(Scheduler* scheduler, Topology* topology, const std::map<long, Job*>& jobs, bool enable_logging = false, const std::string& logs_path = "");
 };
 
 #endif //SCHEDULING_SIMULATOR_H

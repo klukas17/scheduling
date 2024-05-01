@@ -9,10 +9,11 @@
 #include "GenotypeNode.h"
 #include "MachineBuffer.h"
 #include "MachineSetupContext.h"
+#include "Scheduler.h"
 
 class MachineProcessingContext {
     long machine_id;
-    GenotypeNode* node;
+    Scheduler* scheduler;
     MachineBuffer* machine_buffer;
     MachineBuffer* machine_buffer_requests;
     long buffer_size;
@@ -24,9 +25,8 @@ class MachineProcessingContext {
     BatchProcessingScenario* batch_processing_scenario;
     bool batch_processing_started;
 public:
-    MachineProcessingContext(long machine_id, GenotypeNode* node, long buffer_size);
+    MachineProcessingContext(long machine_id, Scheduler* scheduler, long buffer_size);
     [[nodiscard]] long getMachineId() const;
-    [[nodiscard]] GenotypeNode* getNode() const;
     [[nodiscard]] long getBufferSize() const;
     void addStepToBuffer(long step_id, long job_id, long job_type_id, double time_start_processing, double time_remaining_processing, bool preempt);
     void addStepToBufferRequests(long step_id, long job_id, long job_type_id, double time_start_processing, double time_remaining_processing, bool preempt);

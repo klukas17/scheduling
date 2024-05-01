@@ -18,6 +18,7 @@ include_directories(
         code/job_sequence_generators/headers
         code/jobs/headers
         code/machines/headers
+        code/online_scheduling/headers
         code/optimization/headers
         code/optimization_algorithms/headers
         code/parsers/headers
@@ -39,6 +40,7 @@ file(GLOB PROJECT_HEADERS
         code/job_sequence_generators/headers/*.h
         code/jobs/headers/*.h
         code/machines/headers/*.h
+        code/online_scheduling/headers/*.h
         code/optimization/headers/*.h
         code/optimization_algorithms/headers/*.h
         code/parsers/headers/*.h
@@ -60,6 +62,7 @@ file(GLOB PROJECT_SOURCES
         code/job_sequence_generators/sources/*.cpp
         code/jobs/sources/*.cpp
         code/machines/sources/*.cpp
+        code/online_scheduling/sources/*.cpp
         code/optimization/sources/*.cpp
         code/optimization_algorithms/sources/*.cpp
         code/parsers/sources/*.cpp

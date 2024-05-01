@@ -36,8 +36,9 @@
 #include "PreemptBatch.h"
 #include "SchedulingError.h"
 #include "Machine.h"
+#include "OfflineScheduler.h"
 
-SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topology, const std::map<long, Job *> &jobs, bool enable_logging, const std::string &logs_path) {
+SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topology, const std::map<long, Job *> &jobs, bool enable_logging, const std::string &logs_path) {
 
     auto statistics = SimulatorStatistics();
 
@@ -46,14 +47,14 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
 
     std::deque<Event*> event_queue;
 
-    auto machine_map = individual->getGenotypeNodeMap();
+    auto machine_map = topology->getTopologyElementsMap();
 
     std::map<long, MachineProcessingContext*> machine_processing_context_map;
     for (const auto& [machine_id, node] : machine_map) {
         machine_processing_context_map[machine_id] = new MachineProcessingContext(
             machine_id,
-            node,
-            topology->getTopologyElementsMap().at(machine_id)->getBufferSize()
+            scheduler,
+            node->getBufferSize()
         );
     }
 
@@ -61,8 +62,6 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
     for (const auto& [job_id, job] : jobs) {
         job_processing_context_map[job_id] = new JobProcessingContext(job);
     }
-
-    auto job_route_map = individual->getProcessingRoutes();
 
     std::map<long, std::map<long, long>> machine_to_job_times_processed_map;
     for (auto [machine_id, _] : topology->getTopologyElementsMap()) {
@@ -182,7 +181,7 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                 case SYSTEM_ENTRY: {
                     auto system_entry_event = dynamic_cast<SystemEntry*>(event);
                     long job_id = system_entry_event->getJobId();
-                    auto processing_step = job_route_map[job_id]->getNextProcessingStep();
+                    auto processing_step = scheduler->getNextProcessingStep(job_id);
                     job_processing_context_map[job_id]->setJobProcessingStep(processing_step);
                     long machine_id = processing_step->getMachineId();
                     long step_id = processing_step->getProcessingStepId();
@@ -226,7 +225,7 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     if (topology->getTopologyElementsMap().at(machine_id)->getTopologyElementType() == MACHINE_TOPOLOGY_ELEMENT) {
                         preempt = preempt && dynamic_cast<Machine*>(topology->getTopologyElementsMap().at(machine_id))->getMachineType()->getPreempt();
                     }
-                    if (auto path_tree_node = job->getPathTreeNode(individual->getProcessingRoute(job_id)->getProcessingStep(step_id)->getPathNodeId()); path_tree_node->getPathNode()->getPrerequisites().empty()) {
+                    if (auto path_tree_node = job->getPathTreeNode(scheduler->getProcessingStep(job_id, step_id)->getPathNodeId()); path_tree_node->getPathNode()->getPrerequisites().empty()) {
                         machine_processing_context->addStepToBuffer(step_id, job_id, job->getJobType()->getId(), time, processing_duration, preempt);
                         utility_event_queue.push(new WakeMachine(time, machine_id));
                     }
@@ -265,12 +264,12 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     long job_id = machine_exit_event->getJobId();
                     long machine_id = machine_exit_event->getMachineId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
-                    if (auto const job_route = job_route_map[job_id]; job_route->checkHasFinished()) {
+                    if (scheduler->checkHasJobFinished(job_id)) {
                         job_processing_context_map[job_id]->setJobProcessingStep(nullptr);
                         addToEventQueue(new SystemExit(time, job_id), event_queue);
                     }
                     else {
-                        auto processing_step = job_route->getNextProcessingStep();
+                        auto processing_step = scheduler->getNextProcessingStep(job_id);
                         job_processing_context_map[job_id]->setJobProcessingStep(processing_step);
                         long next_machine_id = processing_step->getMachineId();
                         long next_step_id = processing_step->getProcessingStepId();
@@ -305,7 +304,7 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     long machine_id = prerequisite_wait_start_event->getMachineId();
                     long step_id = prerequisite_wait_start_event->getStepId();
                     auto job = jobs.at(job_id);
-                    auto path_tree_node = job->getPathTreeNode(individual->getProcessingRoute(job_id)->getProcessingStep(step_id)->getPathNodeId());
+                    auto path_tree_node = job->getPathTreeNode(scheduler->getProcessingStep(job_id, step_id)->getPathNodeId());
                     auto job_processing_prerequisites = new JobProcessingPrerequisites(job_id, machine_id, step_id, path_tree_node->getPathNode()->getPrerequisites());
                     for (auto [machine_id, _] : topology->getTopologyElementsMap()) {
                         for (auto other_job_id : jobs | std::views::keys) {
@@ -456,12 +455,12 @@ SimulatorStatistics* Simulator::simulate(Individual *individual, Topology* topol
                     long job_id = machine_exit_batch_event->getJobId();
                     long machine_id = machine_exit_batch_event->getMachineId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
-                    if (auto const job_route = job_route_map[job_id]; job_route->checkHasFinished()) {
+                    if (scheduler->checkHasJobFinished(job_id)) {
                         job_processing_context_map[job_id]->setJobProcessingStep(nullptr);
                         addToEventQueue(new SystemExit(time, job_id), event_queue);
                     }
                     else {
-                        auto processing_step = job_route->getNextProcessingStep();
+                        auto processing_step = scheduler->getNextProcessingStep(job_id);
                         job_processing_context_map[job_id]->setJobProcessingStep(processing_step);
                         long next_machine_id = processing_step->getMachineId();
                         long next_step_id = processing_step->getProcessingStepId();

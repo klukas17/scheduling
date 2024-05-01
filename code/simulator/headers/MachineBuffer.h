@@ -5,22 +5,24 @@
 #ifndef SCHEDULING_MACHINEBUFFER_H
 #define SCHEDULING_MACHINEBUFFER_H
 
+#include <queue>
 #include "BatchProcessingScenario.h"
 #include "MachineBufferElement.h"
 #include "vector"
 #include "map"
+#include "Scheduler.h"
 #include "tuple"
 
 class MachineBuffer {
-    MachineBufferElement* head;
+    static bool (*score_comparator)(MachineBufferElement*, MachineBufferElement*);
+    long machine_id;
     MachineBufferElement* current;
+    Scheduler* scheduler;
     std::map<long, MachineBufferElement*> current_batch;
-    std::map<long, long> step_index_to_processing_index;
-    std::map<long, long> processing_index_to_step_index;
-    std::map<long, MachineBufferElement*> step_index_to_node;
+    std::priority_queue<MachineBufferElement*, std::vector<MachineBufferElement*>, decltype(score_comparator)> queue;
     std::map<long, std::tuple<long, long, double, double, bool>> steps_waiting_for_prerequisites;
 public:
-    explicit MachineBuffer(std::vector<long> const & preferred_processing_order);
+    MachineBuffer(long machine_id, Scheduler* scheduler);
     void addStepToBuffer(long step_id, long job_id, long job_type_id, double time_start_processing, double time_remaining_processing, bool preempt);
     void startProcessingAStep();
     [[nodiscard]] std::pair<long, long> peekAtFirstProcessingStep() const;
