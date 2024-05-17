@@ -13,6 +13,7 @@
 PathNode::PathNode(long const path_node_id, TopologyElement* topology_element) {
     this->path_node_id = path_node_id;
     this->topology_element = topology_element;
+    this->remaining_processing_time = 0;
 }
 
 PathNode::~PathNode() = default;
@@ -31,6 +32,22 @@ std::vector<Prerequisite *> PathNode::getPrerequisites() {
 
 void PathNode::addPrerequisite(Prerequisite *prerequisite) {
     prerequisites.push_back(prerequisite);
+}
+
+std::vector<PathNode*> PathNode::getPredecessors() {
+    return predecessors;
+}
+
+void PathNode::addPredecessor(PathNode* predecessor) {
+    predecessors.push_back(predecessor);
+}
+
+double PathNode::getRemainingProcessingTime() {
+    return remaining_processing_time;
+}
+
+void PathNode::setRemainingProcessingTime(double remaining_processing_time) {
+    this->remaining_processing_time = remaining_processing_time;
 }
 
 void PathNode::deletePathNode() {
@@ -80,7 +97,7 @@ void PathNode::deletePathNode() {
     }
 
     for (auto const & node : nodes_to_be_deleted) {
-        delete node;
+        // delete node;
     }
 }
 

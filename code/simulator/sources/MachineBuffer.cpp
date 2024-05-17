@@ -7,6 +7,7 @@
 #include "OfflineScheduler.h"
 #include "SchedulingError.h"
 #include "ranges"
+#include <algorithm>
 
 bool (*MachineBuffer::score_comparator)(MachineBufferElement*, MachineBufferElement*) =
     [](MachineBufferElement* a, MachineBufferElement* b) -> bool {
@@ -20,14 +21,16 @@ MachineBuffer::MachineBuffer(long machine_id, Scheduler* scheduler) {
     this->machine_id = machine_id;
     this->current = nullptr;
     this->scheduler = scheduler;
-    queue = std::priority_queue<MachineBufferElement*, std::vector<MachineBufferElement*>, decltype(score_comparator)>(score_comparator);
+    this->changes_to_steps_made = false;
 }
 
 void MachineBuffer::addStepToBuffer(long const step_id, long const job_id, long const job_type_id, double const time_start_processing, double const time_remaining_processing, bool const preempt) {
-
     auto score = scheduler->calculateScore(machine_id, job_id, step_id);
     auto const new_step = new MachineBufferElement(step_id, job_id, job_type_id, time_start_processing, time_remaining_processing, preempt, score);
-    queue.push(new_step);
+    remaining_time_processing_index[job_id] = time_remaining_processing;
+    queue.push_back(new_step);
+    std::push_heap(queue.begin(), queue.end(), score_comparator);
+    changes_to_steps_made = true;
 }
 
 void MachineBuffer::startProcessingAStep() {
@@ -40,11 +43,17 @@ void MachineBuffer::startProcessingAStep() {
         throw SchedulingError("Trying to take a step from an empty buffer in function MachineBuffer::startProcessingAStep.");
     }
 
-    current = queue.top();
-    queue.pop();
+    if (changes_to_steps_made) {
+        resetQueue();
+    }
+
+    std::pop_heap(queue.begin(), queue.end(), score_comparator);
+    current = queue.back();
+    queue.pop_back();
+    changes_to_steps_made = true;
 }
 
-std::pair<long, long> MachineBuffer::peekAtFirstProcessingStep() const {
+std::pair<long, long> MachineBuffer::peekAtFirstProcessingStep() {
 
     if (current != nullptr) {
         throw SchedulingError("Trying to peek at the first step but another is executing in function MachineBuffer::startProcessingAStep.");
@@ -54,7 +63,11 @@ std::pair<long, long> MachineBuffer::peekAtFirstProcessingStep() const {
         throw SchedulingError("Trying to peek at a step from an empty buffer in function MachineBuffer::startProcessingAStep.");
     }
 
-    auto const top = queue.top();
+    if (changes_to_steps_made) {
+        resetQueue();
+    }
+
+    auto const top = queue.front();
 
     return {top->step_id, top->job_id};
 }
@@ -62,7 +75,9 @@ std::pair<long, long> MachineBuffer::peekAtFirstProcessingStep() const {
 void MachineBuffer::finishProcessingAStep() {
 
     if (current != nullptr) {
-        delete current;
+        remaining_time_processing_index[current->job_id] = 0;
+        changes_to_steps_made = true;
+        // delete current;
         current = nullptr;
     }
 
@@ -74,8 +89,10 @@ void MachineBuffer::finishProcessingAStep() {
 void MachineBuffer::finishProcessingAStepInBatch(long const job_id) {
 
     if (auto const current_in_batch = current_batch[job_id]; current_in_batch != nullptr) {
-        current_batch[current_in_batch->job_id] = nullptr;
-        delete current_in_batch;
+        current_batch.erase(current_in_batch->job_id);
+        remaining_time_processing_index[current_in_batch->job_id] = 0;
+        changes_to_steps_made = true;
+        // delete current_in_batch;
     }
 
     else {
@@ -86,11 +103,13 @@ void MachineBuffer::finishProcessingAStepInBatch(long const job_id) {
 
 std::tuple<long, long> MachineBuffer::removeFirstAndRetrieveIt() {
     if (!queue.empty()) {
-        auto const top = queue.top();
-        queue.pop();
+        std::pop_heap(queue.begin(), queue.end(), score_comparator);
+        auto const top = queue.back();
+        queue.pop_back();
+        changes_to_steps_made = true;
         long step_id = top->step_id;
         long job_id = top->job_id;
-        delete top;
+        // delete top;
         return {step_id, job_id};
     }
 
@@ -107,7 +126,7 @@ bool MachineBuffer::checkShouldPreempt() {
         return false;
     }
 
-    return current->score < queue.top()->score;
+    return current->score < queue.front()->score;
 }
 
 std::tuple<long, long> MachineBuffer::getCurrentStepData() const {
@@ -130,17 +149,23 @@ void MachineBuffer::addStepWaitingForPrerequisite(long step_id, long const job_i
 
 void MachineBuffer::moveCurrentToBuffer(double const time) {
     current->time_remaining_processing -= time - current->time_start_processing;
+    remaining_time_processing_index[current->job_id] = current->time_remaining_processing;
     current->time_start_processing = -1;
-    queue.push(current);
+    queue.push_back(current);
+    std::push_heap(queue.begin(), queue.end(), score_comparator);
     current = nullptr;
+    changes_to_steps_made = true;
 }
 
 void MachineBuffer::moveCurrentInBatchToBuffer(double const time, long const job_id) {
     auto const current_in_batch = current_batch[job_id];
-    current_batch[job_id] = nullptr;
+    current_batch.erase(job_id);
     current_in_batch->time_remaining_processing -= time - current_in_batch->time_start_processing;
+    remaining_time_processing_index[current_in_batch->job_id] = current_in_batch->time_remaining_processing;
     current_in_batch->time_start_processing = -1;
-    queue.push(current_in_batch);
+    queue.push_back(current_in_batch);
+    std::push_heap(queue.begin(), queue.end(), score_comparator);
+    changes_to_steps_made = true;
 }
 
 double MachineBuffer::getRemainingTimeForCurrent() const {
@@ -193,6 +218,7 @@ void MachineBuffer::moveStepFromWaitingToBuffer(long const job_id) {
         std::get<4>(steps_waiting_for_prerequisites[job_id])
     );
     steps_waiting_for_prerequisites[job_id] = {};
+    changes_to_steps_made = true;
 }
 
 bool MachineBuffer::hasReadyJobs() const {
@@ -223,8 +249,9 @@ std::vector<std::tuple<long, long> > MachineBuffer::startBatchProcessing(const B
 
     while (!queue.empty() && jobs_in_batch < jobs_per_batch) {
 
-        auto top = queue.top();
-        queue.pop();
+        std::pop_heap(queue.begin(), queue.end(), score_comparator);
+        auto top = queue.back();
+        queue.pop_back();
 
         if (top->job_type_id != job_type_id || top->time_remaining_processing != current->time_remaining_processing) {
             removed.push_back(top);
@@ -237,8 +264,22 @@ std::vector<std::tuple<long, long> > MachineBuffer::startBatchProcessing(const B
     }
 
     for (auto element : removed) {
-        queue.push(element);
+        queue.push_back(element);
     }
 
+    changes_to_steps_made = true;
+
     return jobs_added_to_batch;
+}
+
+double MachineBuffer::getRemainingTimeProcessing(long job_id) {
+    return remaining_time_processing_index[job_id];
+}
+
+void MachineBuffer::resetQueue() {
+    changes_to_steps_made = false;
+    for (auto element : queue) {
+        element->score = scheduler->calculateScore(machine_id, element->job_id, element->step_id);
+    }
+    std::make_heap(queue.begin(), queue.end(), score_comparator);
 }

@@ -22,6 +22,7 @@ public:
     static std::tuple<PathNode*, PathTreeNode*, long> parsePathNodeWithoutYAMLNode(const std::string& path, TopologyElement* topology_element, MachineTypeMap* machine_type_map, const std::set<long>& forbidden_machine_types, long path_tree_node_id);
     static void connectGraphsOfPathNodes(PathNode* path_node, PathNode* next_path_node);
     static void calculateJobProcessingTimes(Job* job, Topology* topology);
+    static void calculatePredecessorsAndRemainingProcessingTimes(Job* job, PathNode* path_node);
 };
 
 #endif //SCHEDULING_JOBSEQUENCEPARSER_H

@@ -10,9 +10,12 @@
 #include "RouteGroupPathNode.h"
 #include "OpenGroupPathNode.h"
 
+#include "iostream"
+
 JobProcessingContext::JobProcessingContext(Job* job) {
     this->job = job;
     this->path_node = job->getPathsRootNode();
+    this->prev_path_node = nullptr;
     this->job_processing_step = nullptr;
     this->last_processed_path_node_id = -1;
     this->processing_started = false;
@@ -37,6 +40,13 @@ void JobProcessingContext::moveToNextPathNode(long const next_machine_id) {
         throw SchedulingError("Path invalid for job " + std::to_string(job->getId()));
     }
 
+    // if (prev_path_node)
+    // std::cout << prev_path_node->getTopologyElement()->getId() << " -> ";
+    // else
+    // std::cout << "nullptr -> ";
+
+    prev_path_node = path_node;
+
     if (processing_started && path_node->getTopologyElement()->getTopologyElementType() == PARALLEL_GROUP_TOPOLOGY_ELEMENT && last_processed_path_node_id == path_node->getPathNodeId()) {
         auto const parallel_group_path_node = dynamic_cast<ParallelGroupPathNode*>(path_node);
         PathNode* next_path_node = nullptr;
@@ -50,6 +60,7 @@ void JobProcessingContext::moveToNextPathNode(long const next_machine_id) {
             throw SchedulingError("Path invalid for job " + std::to_string(job->getId()));
         }
         path_node = next_path_node;
+        prev_path_node = next_path_node;
     }
 
     if (processing_started && path_node->getTopologyElement()->getTopologyElementType() == OPEN_GROUP_TOPOLOGY_ELEMENT && last_processed_path_node_id == path_node->getPathNodeId() && !frames.empty() && frames.top()->getOpenGroupPathTreeNode()->getPathNode()->getPathNodeId() == path_node->getPathNodeId()) {
@@ -65,6 +76,7 @@ void JobProcessingContext::moveToNextPathNode(long const next_machine_id) {
         }
         frames.top()->visitChild(job_processing_step->getPathNodeId());
         path_node = next_path_node;
+        prev_path_node = next_path_node;
     }
 
     if (!processing_started) {
@@ -135,10 +147,15 @@ void JobProcessingContext::moveToNextPathNode(long const next_machine_id) {
         if (frames.top()->checkAllChildrenVisited()) {
             auto const frame = frames.top();
             frames.pop();
-            delete frame;
+            // delete frame;
             path_node = dynamic_cast<OpenGroupPathNode*>(path_node)->getNext();
         }
     }
+
+    // if (prev_path_node)
+    // std::cout << prev_path_node->getTopologyElement()->getId() << std::endl;
+    // else
+    // std::cout << "nullptr" << std::endl;
 }
 
 bool JobProcessingContext::checkIfPathFinished() const {
@@ -151,4 +168,127 @@ MachineProcessingContext *JobProcessingContext::getPreviousMachineProcessingCont
 
 void JobProcessingContext::setPreviousMachineProcessingContext(MachineProcessingContext *previous_machine_processing_context) {
     this->previous_machine_processing_context = previous_machine_processing_context;
+}
+
+void JobProcessingContext::markCurrentPathNodeAsCompleted() {
+    auto processing_time = job->getProcessingTime(prev_path_node->getTopologyElement()->getId());
+    if (processing_time == 0) {
+        return;
+    }
+    std::map<long, double> applied_diffs_map;
+    reduceRemainingProcessingTime(prev_path_node, processing_time, applied_diffs_map);
+}
+
+void JobProcessingContext::reduceRemainingProcessingTime(PathNode* path_node, double diff, std::map<long, double>& applied_diffs_map) {
+
+    if (path_node->getTopologyElement()->getTopologyElementType() == PARALLEL_GROUP_TOPOLOGY_ELEMENT) {
+        auto parallel_group_path_node = dynamic_cast<ParallelGroupPathNode*>(path_node);
+        auto old_remaining_time = parallel_group_path_node->getRemainingProcessingTime();
+        auto new_remaining_time = parallel_group_path_node->getRemainingProcessingTime();
+        for (auto [_, next] : parallel_group_path_node->getNext()) {
+            new_remaining_time = std::min(new_remaining_time, next->getRemainingProcessingTime());
+        }
+        diff = old_remaining_time - new_remaining_time;
+    }
+
+    if (diff <= 0) {
+        return;
+    }
+
+    auto path_node_id = path_node->getPathNodeId();
+
+    if (!applied_diffs_map.contains(path_node_id)) {
+        applied_diffs_map[path_node_id] = 0;
+    }
+
+    auto applied_diff = applied_diffs_map[path_node_id];
+    auto delta_diff = diff - applied_diff;
+
+    if (delta_diff <= 0) {
+        return;
+    }
+
+    applied_diffs_map[path_node_id] = diff;
+    path_node->setRemainingProcessingTime(path_node->getRemainingProcessingTime() - delta_diff);
+    for (auto predecessor : path_node->getPredecessors()) {
+        reduceRemainingProcessingTime(predecessor, diff, applied_diffs_map);
+    }
+}
+
+void JobProcessingContext::logRemainingProcessingTimes() {
+    std::set<long> visited;
+    logRemainingProcessingTimesForPathNode(job->getPathsRootNode(), visited);
+}
+
+void JobProcessingContext::logRemainingProcessingTimesForPathNode(PathNode* node, std::set<long>& visited) {
+
+    long path_node_id = node->getPathNodeId();
+    if (visited.contains(path_node_id)) {
+        return;
+    }
+    visited.insert(path_node_id);
+
+    switch(node->getTopologyElement()->getTopologyElementType()) {
+    case ABSTRACT_TOPOLOGY_ELEMENT: {
+            break;
+    }
+
+    case MACHINE_TOPOLOGY_ELEMENT: {
+            auto machine_path_node = dynamic_cast<MachinePathNode*>(node);
+            std::cout << "Machine " << machine_path_node->getTopologyElement()->getId() << " = ";
+            std::cout << machine_path_node->getRemainingProcessingTime();
+            std::cout << std::endl;
+            auto next = machine_path_node->getNext();
+            if (next) {
+                logRemainingProcessingTimesForPathNode(next, visited);
+            }
+            break;
+    }
+
+    case SERIAL_GROUP_TOPOLOGY_ELEMENT: {
+            auto serial_group_path_node = dynamic_cast<SerialGroupPathNode*>(node);
+            std::cout << serial_group_path_node->getRemainingProcessingTime();
+            std::cout << std::endl;
+            auto next = serial_group_path_node->getNext();
+            if (next) {
+                logRemainingProcessingTimesForPathNode(next, visited);
+            }
+            break;
+    }
+
+    case PARALLEL_GROUP_TOPOLOGY_ELEMENT: {
+            auto paralell_group_path_node = dynamic_cast<ParallelGroupPathNode*>(node);
+            std::cout << paralell_group_path_node->getRemainingProcessingTime();
+            std::cout << std::endl;
+            for (auto [_, next] : paralell_group_path_node->getNext()) {
+                logRemainingProcessingTimesForPathNode(next, visited);
+            }
+            break;
+    }
+
+    case ROUTE_GROUP_TOPOLOGY_ELEMENT: {
+            auto route_group_path_node = dynamic_cast<RouteGroupPathNode*>(node);
+            std::cout << route_group_path_node->getRemainingProcessingTime();
+            std::cout << std::endl;
+            auto next = route_group_path_node->getNext();
+            if (next) {
+                logRemainingProcessingTimesForPathNode(next, visited);
+            }
+            break;
+    }
+
+    case OPEN_GROUP_TOPOLOGY_ELEMENT: {
+            auto open_group_path_node = dynamic_cast<OpenGroupPathNode*>(node);
+            std::cout << open_group_path_node->getRemainingProcessingTime();
+            std::cout << std::endl;
+            for (auto [_, sub_path_node] : open_group_path_node->getSubPathNodes()) {
+                logRemainingProcessingTimesForPathNode(sub_path_node, visited);
+            }
+            auto next = open_group_path_node->getNext();
+            if (next) {
+                logRemainingProcessingTimesForPathNode(next, visited);
+            }
+            break;
+    }
+    }
 }

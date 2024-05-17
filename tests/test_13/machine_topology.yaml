@@ -1,0 +1,46 @@
+topology:
+  open:
+    id: 1
+    body:
+      - open:
+          id: 2
+          body:
+            - open:
+                id: 4
+                body:
+                  - machine:
+                      id: 101
+                      machine_type_id: 1
+                  - machine:
+                      id: 102
+                      machine_type_id: 1
+            - open:
+                id: 5
+                body:
+                  - machine:
+                      id: 103
+                      machine_type_id: 1
+                  - machine:
+                      id: 104
+                      machine_type_id: 1
+      - open:
+          id: 3
+          body:
+            - open:
+                id: 6
+                body:
+                  - machine:
+                      id: 105
+                      machine_type_id: 1
+                  - machine:
+                      id: 106
+                      machine_type_id: 1
+            - open:
+                id: 7
+                body:
+                  - machine:
+                      id: 107
+                      machine_type_id: 1
+                  - machine:
+                      id: 108
+                      machine_type_id: 1

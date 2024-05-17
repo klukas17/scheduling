@@ -8,7 +8,7 @@
 #include "RandomnessEngine.h"
 
 
-class UniformIntDistributionGenerator final: IntegerGenerator {
+class UniformIntDistributionGenerator final: public IntegerGenerator {
     std::uniform_int_distribution<> generator;
 public:
     UniformIntDistributionGenerator(int lower_limit, int upper_limit);

@@ -4,6 +4,10 @@
 
 #include "BitSumGenotype.h"
 
-BitSumGenotype::BitSumGenotype(std::vector<int>& bits) {
+BitSumGenotype::BitSumGenotype(std::vector<int> bits) {
     this->bits = std::move(bits);
+}
+
+Genotype* BitSumGenotype::copy() {
+    return new BitSumGenotype(this->bits);
 }

@@ -8,6 +8,7 @@
 class Genotype {
 public:
     virtual ~Genotype() = 0;
+    virtual Genotype* copy() = 0;
 };
 
 

@@ -6,7 +6,7 @@
 #define OPTIMIZATIONALGORITHM_H
 
 #include "EvaluationFunction.h"
-#include "Genotype.h"
+#include "Population.h"
 
 class OptimizationAlgorithm {
 protected:
@@ -14,7 +14,7 @@ protected:
 public:
     explicit OptimizationAlgorithm(EvaluationFunction* evaluation_function);
     [[nodiscard]] EvaluationFunction* getEvaluationFunction() const;
-    virtual Genotype* optimize() = 0;
+    virtual void optimize(Population* population) = 0;
     virtual ~OptimizationAlgorithm() = 0;
 };
 

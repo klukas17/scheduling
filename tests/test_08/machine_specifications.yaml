@@ -1,0 +1,7 @@
+machines:
+  - machine_id: 1
+    batch_processing:
+      - job_type_id: 1
+        jobs_per_batch: 5
+      - job_type_id: 2
+        jobs_per_batch: 5

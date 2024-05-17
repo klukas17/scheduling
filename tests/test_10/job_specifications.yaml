@@ -1,0 +1,5 @@
+jobs:
+  - job_id: 1
+    processing_times:
+      - machine_id: 1
+        time: 5

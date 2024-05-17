@@ -203,3 +203,7 @@ void MachineProcessingContext::setBatchProcessingStarted() {
 std::vector<std::tuple<long, long> > MachineProcessingContext::startBatchProcessing() const {
     return machine_buffer->startBatchProcessing(batch_processing_scenario);
 }
+
+double MachineProcessingContext::getRemainingTimeProcessing(long job_id) {
+    return machine_buffer->getRemainingTimeProcessing(job_id);
+}

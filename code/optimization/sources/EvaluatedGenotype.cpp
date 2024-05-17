@@ -8,3 +8,7 @@ EvaluatedGenotype::EvaluatedGenotype(Genotype* genotype, double const fitness_sc
     this->genotype = genotype;
     this->fitness_score = fitness_score;
 }
+
+EvaluatedGenotype::~EvaluatedGenotype() {
+    // delete genotype;
+}

@@ -15,10 +15,6 @@ Genotype* ConstantProgramming::copy() {
 }
 
 double ConstantProgramming::calculateScore(std::map<std::string, double> params) {
-    for (const auto& [param_name, param_value] : params) {
-        std::cout << param_name << "=" << param_value << ", ";
-    }
-    std::cout << std::endl;
     return constant;
 }
 

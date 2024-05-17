@@ -38,9 +38,16 @@
 #include "Machine.h"
 #include "OfflineScheduler.h"
 
+Simulator::Simulator() {
+    this->simulator_state = nullptr;
+}
+
 SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topology, const std::map<long, Job *> &jobs, bool enable_logging, const std::string &logs_path) {
 
-    auto statistics = SimulatorStatistics();
+    auto statistics = new SimulatorStatistics();
+    simulator_state = new SimulatorState(jobs, topology);
+
+    scheduler->setSimulatorState(simulator_state);
 
     double time = 0;
     std::ofstream log_file(logs_path);
@@ -116,7 +123,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
             if (auto const e = dynamic_cast<JobAndMachineEvent*>(*it); e->getJobId() == job_id && e->getMachineId() == machine_id) {
                 auto const found_event = *it;
                 queue.erase(it);
-                delete found_event;
+                // delete found_event;
                 break;
             }
             ++it;
@@ -133,7 +140,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
             if (auto const e = dynamic_cast<JobAndMachineEvent*>(*it); e->getMachineId() == machine_id) {
                 auto const found_event = *it;
                 queue.erase(it);
-                delete found_event;
+                // delete found_event;
                 break;
             }
             ++it;
@@ -157,7 +164,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
 
     for (auto [job_id, job] : jobs) {
         addToEventQueue(new SystemEntry(job->getReleaseTime(), job_id), event_queue);
-        statistics.addJobStatistics(new JobStatistics(job->getId(), job->getReleaseTime(), job->getDueTime(), job->getWeight()));
+        statistics->addJobStatistics(new JobStatistics(job->getId(), job->getReleaseTime(), job->getDueTime(), job->getWeight()));
     }
 
     for (auto [topology_element_id, topology_element] : topology->getTopologyElementsMap()) {
@@ -175,6 +182,8 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
             event_queue.pop_front();
             double event_time = event->getTime();
             time = event_time;
+
+            simulator_state->setTime(time);
 
             switch (event->getEventType()) {
 
@@ -200,7 +209,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                         previous_machine_processing_context->decreaseStepsInBuffer();
                         utility_event_queue.push(new WakeMachine(time, previous_machine_processing_context->getMachineId()));
                     }
-                    auto job_statistics = statistics.getJobStatistics(job_id);
+                    auto job_statistics = statistics->getJobStatistics(job_id);
                     job_statistics->setExitTime(time);
                     job_statistics->setJobStatus(SUCCESSFULLY_TERMINATED);
                     break;
@@ -227,6 +236,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                     }
                     if (auto path_tree_node = job->getPathTreeNode(scheduler->getProcessingStep(job_id, step_id)->getPathNodeId()); path_tree_node->getPathNode()->getPrerequisites().empty()) {
                         machine_processing_context->addStepToBuffer(step_id, job_id, job->getJobType()->getId(), time, processing_duration, preempt);
+                        simulator_state->machineBufferEntry(machine_id, job_id, machine_processing_context->getRemainingTimeProcessing(job_id));
                         utility_event_queue.push(new WakeMachine(time, machine_id));
                     }
                     else {
@@ -256,6 +266,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                             utility_event_queue.push(new WakeMachine(time, machine_id));
                         }
                     }
+                    simulator_state->machineEntry(machine_id, job_id, machine_processing_context->getRemainingTimeProcessing(job_id));
                     break;
                 }
 
@@ -264,6 +275,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                     long job_id = machine_exit_event->getJobId();
                     long machine_id = machine_exit_event->getMachineId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
+                    job_processing_context_map[job_id]->markCurrentPathNodeAsCompleted();
                     if (scheduler->checkHasJobFinished(job_id)) {
                         job_processing_context_map[job_id]->setJobProcessingStep(nullptr);
                         addToEventQueue(new SystemExit(time, job_id), event_queue);
@@ -288,13 +300,14 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                             auto prerequisite_job_id = job_processing_prerequisite->getJobId();
                             auto prerequisite_machine_id = job_processing_prerequisite->getMachineId();
                             auto prerequisite_step_id = job_processing_prerequisite->getStepId();
-                            delete job_processing_prerequisite;
+                            // delete job_processing_prerequisite;
                             addToEventQueue(new PrerequisitesWaitEnd(time, prerequisite_job_id, prerequisite_machine_id, prerequisite_step_id), event_queue);
                         }
                         else {
                             ++it;
                         }
                     }
+                    simulator_state->machineExit(machine_id, job_id);
                     break;
                 }
 
@@ -312,7 +325,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                         }
                     }
                     if (job_processing_prerequisites->checkAllPrerequisitesSatisfied()) {
-                        delete job_processing_prerequisites;
+                        // delete job_processing_prerequisites;
                         addToEventQueue(new PrerequisitesWaitEnd(time, job_id, machine_id, step_id), event_queue);
                     }
                     else {
@@ -328,6 +341,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                     auto machine_processing_context = machine_processing_context_map[machine_id];
                     machine_processing_context->moveStepFromWaitingToBuffer(job_id);
                     utility_event_queue.push(new WakeMachine(time, machine_id));
+                    simulator_state->machineBufferEntry(machine_id, job_id, machine_processing_context->getRemainingTimeProcessing(job_id));
                     break;
                 }
 
@@ -339,6 +353,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                     machine_processing_context->moveCurrentToBuffer(time);
                     removeFromEventQueue(MACHINE_EXIT, job_id, machine_id, event_queue);
                     utility_event_queue.push(new WakeMachine(time, machine_id));
+                    simulator_state->preempt(machine_id, job_id, machine_processing_context->getRemainingTimeProcessing(job_id));
                     break;
                 }
 
@@ -417,10 +432,12 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                     long job_id = machine_exit_forced_event->getJobId();
                     long machine_id = machine_exit_forced_event->getMachineId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
+                    job_processing_context_map[job_id]->markCurrentPathNodeAsCompleted();
                     machine_processing_context->finishProcessingAStep();
                     utility_event_queue.push(new WakeMachine(time, machine_id));
                     removeFromEventQueue(MACHINE_EXIT, job_id, machine_id, event_queue);
                     addToEventQueue(new SystemExitForced(time, job_id), event_queue);
+                    simulator_state->machineExit(machine_id, job_id);
                     break;
                 }
 
@@ -432,7 +449,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                         previous_machine_processing_context->decreaseStepsInBuffer();
                         utility_event_queue.push(new WakeMachine(time, previous_machine_processing_context->getMachineId()));
                     }
-                    auto job_statistics = statistics.getJobStatistics(job_id);
+                    auto job_statistics = statistics->getJobStatistics(job_id);
                     job_statistics->setExitTime(time);
                     job_statistics->setJobStatus(FORCEFULLY_TERMINATED);
                     break;
@@ -447,6 +464,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                     machine_processing_context->setTimeStartedProcessingForCurrentInBatch(time, job_id);
                     auto processing_duration = machine_processing_context->getRemainingTimeForCurrentInBatch(job_id);
                     addToEventQueue(new MachineExitBatch(time + processing_duration, job_id, machine_id, step_id), event_queue);
+                    simulator_state->machineEntry(machine_id, job_id, machine_processing_context->getRemainingTimeProcessing(job_id));
                     break;
                 }
 
@@ -455,6 +473,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                     long job_id = machine_exit_batch_event->getJobId();
                     long machine_id = machine_exit_batch_event->getMachineId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
+                    job_processing_context_map[job_id]->markCurrentPathNodeAsCompleted();
                     if (scheduler->checkHasJobFinished(job_id)) {
                         job_processing_context_map[job_id]->setJobProcessingStep(nullptr);
                         addToEventQueue(new SystemExit(time, job_id), event_queue);
@@ -477,13 +496,14 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                             auto prerequisite_job_id = job_processing_prerequisite->getJobId();
                             auto prerequisite_machine_id = job_processing_prerequisite->getMachineId();
                             auto prerequisite_step_id = job_processing_prerequisite->getStepId();
-                            delete job_processing_prerequisite;
+                            // delete job_processing_prerequisite;
                             addToEventQueue(new PrerequisitesWaitEnd(time, prerequisite_job_id, prerequisite_machine_id, prerequisite_step_id), event_queue);
                         }
                         else {
                             ++it;
                         }
                     }
+                    simulator_state->machineExit(machine_id, job_id);
                     break;
                 }
 
@@ -491,8 +511,10 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                     auto machine_exit_forced_batch_event = dynamic_cast<MachineExitForcedBatch*>(event);
                     long job_id = machine_exit_forced_batch_event->getJobId();
                     long machine_id = machine_exit_forced_batch_event->getMachineId();
+                    job_processing_context_map[job_id]->markCurrentPathNodeAsCompleted();
                     removeFromEventQueue(MACHINE_EXIT_BATCH, job_id, machine_id, event_queue);
                     addToEventQueue(new SystemExitForced(time, job_id), event_queue);
+                    simulator_state->machineExit(machine_id, job_id);
                     break;
                 }
 
@@ -503,6 +525,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                     auto machine_processing_context = machine_processing_context_map[machine_id];
                     machine_processing_context->moveCurrentInBatchToBuffer(time, job_id);
                     removeFromEventQueue(MACHINE_EXIT_BATCH, job_id, machine_id, event_queue);
+                    simulator_state->preempt(machine_id, job_id, machine_processing_context->getRemainingTimeProcessing(job_id));
                     break;
                 }
 
@@ -524,13 +547,16 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                 log_file << "[" << time << "] " << event->getMessage() << std::endl;
             }
 
-            delete event;
+            // delete event;
         }
 
         else {
 
             auto event = utility_event_queue.top();
             utility_event_queue.pop();
+
+            time = event->getTime();
+            simulator_state->setTime(time);
 
             switch (event->getEventType()) {
 
@@ -650,9 +676,13 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
 
             }
 
-            delete event;
+            // delete event;
         }
     }
 
     log_file.close();
+
+    scheduler->setSimulatorState(nullptr);
+
+    return statistics;
 }

@@ -14,6 +14,8 @@ protected:
     long path_node_id;
     TopologyElement* topology_element;
     std::vector<Prerequisite*> prerequisites;
+    std::vector<PathNode*> predecessors;
+    double remaining_processing_time;
 public:
     PathNode(long path_node_id, TopologyElement* topology_element);
     virtual ~PathNode() = 0;
@@ -21,6 +23,10 @@ public:
     [[nodiscard]] TopologyElement* getTopologyElement() const;
     std::vector<Prerequisite*> getPrerequisites();
     void addPrerequisite(Prerequisite* prerequisite);
+    std::vector<PathNode*> getPredecessors();
+    void addPredecessor(PathNode* predecessor);
+    double getRemainingProcessingTime();
+    void setRemainingProcessingTime(double remaining_processing_time);
     void deletePathNode();
     static void findSubPathNodes(PathNode* current_node, std::set<PathNode*>& sub_path_nodes);
 };
