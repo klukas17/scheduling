@@ -18,8 +18,8 @@ OfflineScheduler::OfflineScheduler(Individual* individual) {
 
 OfflineScheduler::~OfflineScheduler() = default;
 
-Individual* OfflineScheduler::getIndividual() const {
-    return individual;
+void OfflineScheduler::setSimulatorState(SimulatorState* simulator_state) {
+    this->simulator_state = simulator_state;
 }
 
 double OfflineScheduler::calculateScore(long machine_id, long job_id, long step_id) {
