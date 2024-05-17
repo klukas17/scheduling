@@ -1,0 +1,55 @@
+topology:
+  serial:
+    id: 1
+    body:
+      - open:
+          id: 2
+          body:
+            - parallel:
+                id: 3
+                body:
+                  - machine:
+                      id: 104
+                      machine_type_id: 1
+                  - open:
+                      id: 4
+                      body:
+                        - machine:
+                            id: 201
+                            machine_type_id: 1
+                        - machine:
+                            id: 202
+                            machine_type_id: 1
+                        - machine:
+                            id: 203
+                            machine_type_id: 1
+                        - machine:
+                            id: 204
+                            machine_type_id: 1
+                        - machine:
+                            id: 205
+                            machine_type_id: 1
+                        - machine:
+                            id: 206
+                            machine_type_id: 1
+                        - machine:
+                            id: 207
+                            machine_type_id: 1
+                        - machine:
+                            id: 208
+                            machine_type_id: 1
+                        - machine:
+                            id: 209
+                            machine_type_id: 1
+                        - machine:
+                            id: 210
+                            machine_type_id: 1
+      - machine:
+          id: 101
+          machine_type_id: 1
+      - machine:
+          id: 102
+          machine_type_id: 1
+      - machine:
+          id: 103
+          machine_type_id: 1

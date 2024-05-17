@@ -1,0 +1,24 @@
+job_sequence:
+  - job_id: 1
+    job_type_id: 1
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+            sub_machines:
+              - machine_id: 104
+              - machine_id: 105
+              - machine_id: 3
+                sub_machines:
+                  - machine_id: 4
+                    sub_machines:
+                      - machine_id: 106
+                      - machine_id: 107
+                  - machine_id: 5
+                    sub_machines:
+                      - machine_id: 108
+                      - machine_id: 109
+                      - machine_id: 110
+          - machine_id: 101
+          - machine_id: 102
+          - machine_id: 103

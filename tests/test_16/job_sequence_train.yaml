@@ -1,0 +1,70 @@
+job_sequence:
+  - job_id: 1
+    job_type_id: 1
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+            sub_machines:
+              - machine_id: 4
+                sub_machines:
+                  - machine_id: 11
+                    sub_machines:
+                      - machine_id: 101
+                  - machine_id: 12
+                    sub_machines:
+                      - machine_id: 102
+                      - machine_id: 103
+              - machine_id: 5
+                sub_machines:
+                  - machine_id: 13
+                    sub_machines:
+                      - machine_id: 104
+                      - machine_id: 105
+                      - machine_id: 106
+                  - machine_id: 14
+                    sub_machines:
+                      - machine_id: 107
+                      - machine_id: 108
+                      - machine_id: 109
+                      - machine_id: 110
+          - machine_id: 3
+            sub_machines:
+              - machine_id: 6
+                sub_machines:
+                  - machine_id: 15
+                    sub_machines:
+                      - machine_id: 111
+                      - machine_id: 112
+                      - machine_id: 113
+                      - machine_id: 114
+                      - machine_id: 115
+                  - machine_id: 16
+                    sub_machines:
+                      - machine_id: 116
+                      - machine_id: 117
+                      - machine_id: 118
+                      - machine_id: 119
+                      - machine_id: 120
+                      - machine_id: 121
+              - machine_id: 7
+                sub_machines:
+                  - machine_id: 17
+                    sub_machines:
+                      - machine_id: 122
+                      - machine_id: 123
+                      - machine_id: 124
+                      - machine_id: 125
+                      - machine_id: 126
+                      - machine_id: 127
+                      - machine_id: 128
+                  - machine_id: 18
+                    sub_machines:
+                      - machine_id: 129
+                      - machine_id: 130
+                      - machine_id: 131
+                      - machine_id: 132
+                      - machine_id: 133
+                      - machine_id: 134
+                      - machine_id: 135
+                      - machine_id: 136

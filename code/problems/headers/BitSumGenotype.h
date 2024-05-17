@@ -11,7 +11,8 @@
 class BitSumGenotype final : public Genotype {
 public:
     std::vector<int> bits;
-    explicit BitSumGenotype(std::vector<int>& bits);
+    explicit BitSumGenotype(std::vector<int> bits);
+    Genotype* copy() override;
 };
 
 

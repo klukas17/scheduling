@@ -70,6 +70,7 @@ public:
     [[nodiscard]] bool getBatchProcessingStarted() const;
     void setBatchProcessingStarted();
     [[nodiscard]] std::vector<std::tuple<long, long>> startBatchProcessing() const;
+    double getRemainingTimeProcessing(long job_id);
 };
 
 #endif // SCHEDULING_MACHINEPROCESSINGCONTEXT_H

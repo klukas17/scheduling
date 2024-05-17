@@ -1,0 +1,647 @@
+job_sequence:
+  - job_id: 1
+    job_type_id: 1
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+            sub_machines:
+              - machine_id: 3
+                sub_machines:
+                  - machine_id: 4
+                  - machine_id: 5
+                  - machine_id: 6
+                  - machine_id: 7
+                  - machine_id: 8
+              - machine_id: 9
+                sub_machines:
+                  - machine_id: 10
+                  - machine_id: 11
+                  - machine_id: 12
+                  - machine_id: 13
+                  - machine_id: 14
+              - machine_id: 15
+                sub_machines:
+                  - machine_id: 16
+                  - machine_id: 17
+                  - machine_id: 18
+                  - machine_id: 19
+                  - machine_id: 20
+              - machine_id: 21
+                sub_machines:
+                  - machine_id: 22
+                  - machine_id: 23
+                  - machine_id: 24
+                  - machine_id: 25
+                  - machine_id: 26
+              - machine_id: 27
+                sub_machines:
+                  - machine_id: 28
+                  - machine_id: 29
+                  - machine_id: 30
+                  - machine_id: 31
+                  - machine_id: 32
+          - machine_id: 33
+            sub_machines:
+              - machine_id: 34
+                sub_machines:
+                  - machine_id: 35
+                    sub_machines:
+                      - machine_id: 36
+                        sub_machines:
+                          - machine_id: 37
+                            sub_machines:
+                              - machine_id: 38
+                              - machine_id: 39
+                              - machine_id: 40
+                          - machine_id: 41
+                            sub_machines:
+                              - machine_id: 42
+                              - machine_id: 43
+                              - machine_id: 44
+                          - machine_id: 45
+                            sub_machines:
+                              - machine_id: 46
+                              - machine_id: 47
+                              - machine_id: 48
+                      - machine_id: 49
+                        sub_machines:
+                          - machine_id: 50
+                            sub_machines:
+                              - machine_id: 51
+                              - machine_id: 52
+                              - machine_id: 53
+                          - machine_id: 54
+                            sub_machines:
+                              - machine_id: 55
+                              - machine_id: 56
+                              - machine_id: 57
+                          - machine_id: 58
+                            sub_machines:
+                              - machine_id: 59
+                              - machine_id: 60
+                              - machine_id: 61
+                      - machine_id: 62
+                        sub_machines:
+                          - machine_id: 63
+                            sub_machines:
+                              - machine_id: 64
+                              - machine_id: 65
+                              - machine_id: 66
+                          - machine_id: 67
+                            sub_machines:
+                              - machine_id: 68
+                              - machine_id: 69
+                              - machine_id: 70
+                          - machine_id: 71
+                            sub_machines:
+                              - machine_id: 72
+                              - machine_id: 73
+                              - machine_id: 74
+                  - machine_id: 75
+                    sub_machines:
+                      - machine_id: 76
+                        sub_machines:
+                          - machine_id: 77
+                            sub_machines:
+                              - machine_id: 78
+                              - machine_id: 79
+                              - machine_id: 80
+                          - machine_id: 81
+                            sub_machines:
+                              - machine_id: 82
+                              - machine_id: 83
+                              - machine_id: 84
+                          - machine_id: 85
+                            sub_machines:
+                              - machine_id: 86
+                              - machine_id: 87
+                              - machine_id: 88
+                      - machine_id: 89
+                        sub_machines:
+                          - machine_id: 90
+                            sub_machines:
+                              - machine_id: 91
+                              - machine_id: 92
+                              - machine_id: 93
+                          - machine_id: 94
+                            sub_machines:
+                              - machine_id: 95
+                              - machine_id: 96
+                              - machine_id: 97
+                          - machine_id: 98
+                            sub_machines:
+                              - machine_id: 99
+                              - machine_id: 100
+                              - machine_id: 101
+                      - machine_id: 102
+                        sub_machines:
+                          - machine_id: 103
+                            sub_machines:
+                              - machine_id: 104
+                              - machine_id: 105
+                              - machine_id: 106
+                          - machine_id: 107
+                            sub_machines:
+                              - machine_id: 108
+                              - machine_id: 109
+                              - machine_id: 110
+                          - machine_id: 111
+                            sub_machines:
+                              - machine_id: 112
+                              - machine_id: 113
+                              - machine_id: 114
+                  - machine_id: 115
+                    sub_machines:
+                      - machine_id: 116
+                        sub_machines:
+                          - machine_id: 117
+                            sub_machines:
+                              - machine_id: 118
+                              - machine_id: 119
+                              - machine_id: 120
+                          - machine_id: 121
+                            sub_machines:
+                              - machine_id: 122
+                              - machine_id: 123
+                              - machine_id: 124
+                          - machine_id: 125
+                            sub_machines:
+                              - machine_id: 126
+                              - machine_id: 127
+                              - machine_id: 128
+                      - machine_id: 129
+                        sub_machines:
+                          - machine_id: 130
+                            sub_machines:
+                              - machine_id: 131
+                              - machine_id: 132
+                              - machine_id: 133
+                          - machine_id: 134
+                            sub_machines:
+                              - machine_id: 135
+                              - machine_id: 136
+                              - machine_id: 137
+                          - machine_id: 138
+                            sub_machines:
+                              - machine_id: 139
+                              - machine_id: 140
+                              - machine_id: 141
+                      - machine_id: 142
+                        sub_machines:
+                          - machine_id: 143
+                            sub_machines:
+                              - machine_id: 144
+                              - machine_id: 145
+                              - machine_id: 146
+                          - machine_id: 147
+                            sub_machines:
+                              - machine_id: 148
+                              - machine_id: 149
+                              - machine_id: 150
+                          - machine_id: 151
+                            sub_machines:
+                              - machine_id: 152
+                              - machine_id: 153
+                              - machine_id: 154
+              - machine_id: 155
+                sub_machines:
+                  - machine_id: 156
+                    sub_machines:
+                      - machine_id: 157
+                        sub_machines:
+                          - machine_id: 158
+                            sub_machines:
+                              - machine_id: 159
+                              - machine_id: 160
+                              - machine_id: 161
+                          - machine_id: 162
+                            sub_machines:
+                              - machine_id: 163
+                              - machine_id: 164
+                              - machine_id: 165
+                          - machine_id: 166
+                            sub_machines:
+                              - machine_id: 167
+                              - machine_id: 168
+                              - machine_id: 169
+                      - machine_id: 170
+                        sub_machines:
+                          - machine_id: 171
+                            sub_machines:
+                              - machine_id: 172
+                              - machine_id: 173
+                              - machine_id: 174
+                          - machine_id: 175
+                            sub_machines:
+                              - machine_id: 176
+                              - machine_id: 177
+                              - machine_id: 178
+                          - machine_id: 179
+                            sub_machines:
+                              - machine_id: 180
+                              - machine_id: 181
+                              - machine_id: 182
+                      - machine_id: 183
+                        sub_machines:
+                          - machine_id: 184
+                            sub_machines:
+                              - machine_id: 185
+                              - machine_id: 186
+                              - machine_id: 187
+                          - machine_id: 188
+                            sub_machines:
+                              - machine_id: 189
+                              - machine_id: 190
+                              - machine_id: 191
+                          - machine_id: 192
+                            sub_machines:
+                              - machine_id: 193
+                              - machine_id: 194
+                              - machine_id: 195
+                  - machine_id: 196
+                    sub_machines:
+                      - machine_id: 197
+                        sub_machines:
+                          - machine_id: 198
+                            sub_machines:
+                              - machine_id: 199
+                              - machine_id: 200
+                              - machine_id: 201
+                          - machine_id: 202
+                            sub_machines:
+                              - machine_id: 203
+                              - machine_id: 204
+                              - machine_id: 205
+                          - machine_id: 206
+                            sub_machines:
+                              - machine_id: 207
+                              - machine_id: 208
+                              - machine_id: 209
+                      - machine_id: 210
+                        sub_machines:
+                          - machine_id: 211
+                            sub_machines:
+                              - machine_id: 212
+                              - machine_id: 213
+                              - machine_id: 214
+                          - machine_id: 215
+                            sub_machines:
+                              - machine_id: 216
+                              - machine_id: 217
+                              - machine_id: 218
+                          - machine_id: 219
+                            sub_machines:
+                              - machine_id: 220
+                              - machine_id: 221
+                              - machine_id: 222
+                      - machine_id: 223
+                        sub_machines:
+                          - machine_id: 224
+                            sub_machines:
+                              - machine_id: 225
+                              - machine_id: 226
+                              - machine_id: 227
+                          - machine_id: 228
+                            sub_machines:
+                              - machine_id: 229
+                              - machine_id: 230
+                              - machine_id: 231
+                          - machine_id: 232
+                            sub_machines:
+                              - machine_id: 233
+                              - machine_id: 234
+                              - machine_id: 235
+                  - machine_id: 236
+                    sub_machines:
+                      - machine_id: 237
+                        sub_machines:
+                          - machine_id: 238
+                            sub_machines:
+                              - machine_id: 239
+                              - machine_id: 240
+                              - machine_id: 241
+                          - machine_id: 242
+                            sub_machines:
+                              - machine_id: 243
+                              - machine_id: 244
+                              - machine_id: 245
+                          - machine_id: 246
+                            sub_machines:
+                              - machine_id: 247
+                              - machine_id: 248
+                              - machine_id: 249
+                      - machine_id: 250
+                        sub_machines:
+                          - machine_id: 251
+                            sub_machines:
+                              - machine_id: 252
+                              - machine_id: 253
+                              - machine_id: 254
+                          - machine_id: 255
+                            sub_machines:
+                              - machine_id: 256
+                              - machine_id: 257
+                              - machine_id: 258
+                          - machine_id: 259
+                            sub_machines:
+                              - machine_id: 260
+                              - machine_id: 261
+                              - machine_id: 262
+                      - machine_id: 263
+                        sub_machines:
+                          - machine_id: 264
+                            sub_machines:
+                              - machine_id: 265
+                              - machine_id: 266
+                              - machine_id: 267
+                          - machine_id: 268
+                            sub_machines:
+                              - machine_id: 269
+                              - machine_id: 270
+                              - machine_id: 271
+                          - machine_id: 272
+                            sub_machines:
+                              - machine_id: 273
+                              - machine_id: 274
+                              - machine_id: 275
+              - machine_id: 276
+                sub_machines:
+                  - machine_id: 277
+                    sub_machines:
+                      - machine_id: 278
+                        sub_machines:
+                          - machine_id: 279
+                            sub_machines:
+                              - machine_id: 280
+                              - machine_id: 281
+                              - machine_id: 282
+                          - machine_id: 283
+                            sub_machines:
+                              - machine_id: 284
+                              - machine_id: 285
+                              - machine_id: 286
+                          - machine_id: 287
+                            sub_machines:
+                              - machine_id: 288
+                              - machine_id: 289
+                              - machine_id: 290
+                      - machine_id: 291
+                        sub_machines:
+                          - machine_id: 292
+                            sub_machines:
+                              - machine_id: 293
+                              - machine_id: 294
+                              - machine_id: 295
+                          - machine_id: 296
+                            sub_machines:
+                              - machine_id: 297
+                              - machine_id: 298
+                              - machine_id: 299
+                          - machine_id: 300
+                            sub_machines:
+                              - machine_id: 301
+                              - machine_id: 302
+                              - machine_id: 303
+                      - machine_id: 304
+                        sub_machines:
+                          - machine_id: 305
+                            sub_machines:
+                              - machine_id: 306
+                              - machine_id: 307
+                              - machine_id: 308
+                          - machine_id: 309
+                            sub_machines:
+                              - machine_id: 310
+                              - machine_id: 311
+                              - machine_id: 312
+                          - machine_id: 313
+                            sub_machines:
+                              - machine_id: 314
+                              - machine_id: 315
+                              - machine_id: 316
+                  - machine_id: 317
+                    sub_machines:
+                      - machine_id: 318
+                        sub_machines:
+                          - machine_id: 319
+                            sub_machines:
+                              - machine_id: 320
+                              - machine_id: 321
+                              - machine_id: 322
+                          - machine_id: 323
+                            sub_machines:
+                              - machine_id: 324
+                              - machine_id: 325
+                              - machine_id: 326
+                          - machine_id: 327
+                            sub_machines:
+                              - machine_id: 328
+                              - machine_id: 329
+                              - machine_id: 330
+                      - machine_id: 331
+                        sub_machines:
+                          - machine_id: 332
+                            sub_machines:
+                              - machine_id: 333
+                              - machine_id: 334
+                              - machine_id: 335
+                          - machine_id: 336
+                            sub_machines:
+                              - machine_id: 337
+                              - machine_id: 338
+                              - machine_id: 339
+                          - machine_id: 340
+                            sub_machines:
+                              - machine_id: 341
+                              - machine_id: 342
+                              - machine_id: 343
+                      - machine_id: 344
+                        sub_machines:
+                          - machine_id: 345
+                            sub_machines:
+                              - machine_id: 346
+                              - machine_id: 347
+                              - machine_id: 348
+                          - machine_id: 349
+                            sub_machines:
+                              - machine_id: 350
+                              - machine_id: 351
+                              - machine_id: 352
+                          - machine_id: 353
+                            sub_machines:
+                              - machine_id: 354
+                              - machine_id: 355
+                              - machine_id: 356
+                  - machine_id: 357
+                    sub_machines:
+                      - machine_id: 358
+                        sub_machines:
+                          - machine_id: 359
+                            sub_machines:
+                              - machine_id: 360
+                              - machine_id: 361
+                              - machine_id: 362
+                          - machine_id: 363
+                            sub_machines:
+                              - machine_id: 364
+                              - machine_id: 365
+                              - machine_id: 366
+                          - machine_id: 367
+                            sub_machines:
+                              - machine_id: 368
+                              - machine_id: 369
+                              - machine_id: 370
+                      - machine_id: 371
+                        sub_machines:
+                          - machine_id: 372
+                            sub_machines:
+                              - machine_id: 373
+                              - machine_id: 374
+                              - machine_id: 375
+                          - machine_id: 376
+                            sub_machines:
+                              - machine_id: 377
+                              - machine_id: 378
+                              - machine_id: 379
+                          - machine_id: 380
+                            sub_machines:
+                              - machine_id: 381
+                              - machine_id: 382
+                              - machine_id: 383
+                      - machine_id: 384
+                        sub_machines:
+                          - machine_id: 385
+                            sub_machines:
+                              - machine_id: 386
+                              - machine_id: 387
+                              - machine_id: 388
+                          - machine_id: 389
+                            sub_machines:
+                              - machine_id: 390
+                              - machine_id: 391
+                              - machine_id: 392
+                          - machine_id: 393
+                            sub_machines:
+                              - machine_id: 394
+                              - machine_id: 395
+                              - machine_id: 396
+          - machine_id: 397
+            sub_machines:
+              - machine_id: 398
+                sub_machines:
+                  - machine_id: 399
+                    sub_machines:
+                      - machine_id: 400
+                      - machine_id: 401
+                      - machine_id: 402
+                  - machine_id: 403
+                    sub_machines:
+                      - machine_id: 404
+                      - machine_id: 405
+                      - machine_id: 406
+                  - machine_id: 407
+                    sub_machines:
+                      - machine_id: 408
+                      - machine_id: 409
+                      - machine_id: 410
+              - machine_id: 411
+                sub_machines:
+                  - machine_id: 412
+                    sub_machines:
+                      - machine_id: 413
+                      - machine_id: 414
+                      - machine_id: 415
+                  - machine_id: 416
+                    sub_machines:
+                      - machine_id: 417
+                      - machine_id: 418
+                      - machine_id: 419
+                  - machine_id: 420
+                    sub_machines:
+                      - machine_id: 421
+                      - machine_id: 422
+                      - machine_id: 423
+              - machine_id: 424
+                sub_machines:
+                  - machine_id: 425
+                    sub_machines:
+                      - machine_id: 426
+                      - machine_id: 427
+                      - machine_id: 428
+                  - machine_id: 429
+                    sub_machines:
+                      - machine_id: 430
+                      - machine_id: 431
+                      - machine_id: 432
+                  - machine_id: 433
+                    sub_machines:
+                      - machine_id: 434
+                      - machine_id: 435
+                      - machine_id: 436
+          - machine_id: 437
+            sub_machines:
+              - machine_id: 438
+                sub_machines:
+                  - machine_id: 439
+                    sub_machines:
+                      - machine_id: 440
+              - machine_id: 438
+                sub_machines:
+                  - machine_id: 439
+                    sub_machines:
+                      - machine_id: 441
+              - machine_id: 438
+                sub_machines:
+                  - machine_id: 439
+                    sub_machines:
+                      - machine_id: 442
+              - machine_id: 438
+                sub_machines:
+                  - machine_id: 443
+                    sub_machines:
+                      - machine_id: 444
+              - machine_id: 438
+                sub_machines:
+                  - machine_id: 443
+                    sub_machines:
+                      - machine_id: 445
+              - machine_id: 438
+                sub_machines:
+                  - machine_id: 443
+                    sub_machines:
+                      - machine_id: 446
+              - machine_id: 438
+                sub_machines:
+                  - machine_id: 447
+                    sub_machines:
+                      - machine_id: 448
+              - machine_id: 438
+                sub_machines:
+                  - machine_id: 447
+                    sub_machines:
+                      - machine_id: 449
+              - machine_id: 438
+                sub_machines:
+                  - machine_id: 447
+                    sub_machines:
+                      - machine_id: 450
+              - machine_id: 451
+                sub_machines:
+                  - machine_id: 452
+                    sub_machines:
+                      - machine_id: 453
+                      - machine_id: 454
+                      - machine_id: 455
+                  - machine_id: 456
+                    sub_machines:
+                      - machine_id: 457
+                      - machine_id: 458
+                      - machine_id: 459
+                  - machine_id: 460
+                    sub_machines:
+                      - machine_id: 461
+                      - machine_id: 462
+                      - machine_id: 463
+              - machine_id: 464
+          - machine_id: 477

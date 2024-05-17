@@ -25,13 +25,13 @@ void PathTreeNode::deletePathTreeNode() {
     }
 
     if (general_topology_element_type == MACHINE_GENERAL_TOPOLOGY_ELEMENT) {
-        delete this;
+        //delete this;
     }
 
     else if (general_topology_element_type == GROUP_GENERAL_TOPOLOGY_ELEMENT) {
         for (auto const child : dynamic_cast<GroupPathTreeNode*>(this)->getChildren()) {
             child->deletePathTreeNode();
         }
-        delete this;
+        //delete this;
     }
 }

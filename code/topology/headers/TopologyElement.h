@@ -16,6 +16,7 @@ protected:
     TopologyElementType topology_element_type;
     GeneralTopologyElementType general_topology_element_type;
     std::set<long> predecessor_element_ids;
+    std::set<long> immediate_predecessor_element_ids;
     std::vector<Breakdown*> breakdowns;
     long buffer_size;
 public:

@@ -1,0 +1,39 @@
+job_sequence:
+  - job_id: 1
+    job_type_id: 1
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+            sub_machines:
+              - machine_id: 11
+                sub_machines:
+                  - machine_id: 101
+                  - machine_id: 102
+                  - machine_id: 103
+              - machine_id: 12
+                sub_machines:
+                  - machine_id: 104
+                  - machine_id: 105
+                  - machine_id: 106
+                  - machine_id: 107
+          - machine_id: 3
+            sub_machines:
+              - machine_id: 13
+                sub_machines:
+                  - machine_id: 108
+                  - machine_id: 109
+              - machine_id: 14
+                sub_machines:
+                  - machine_id: 110
+                  - machine_id: 111
+                  - machine_id: 112
+          - machine_id: 4
+            sub_machines:
+              - machine_id: 15
+                sub_machines:
+                  - machine_id: 113
+              - machine_id: 16
+                sub_machines:
+                  - machine_id: 114
+                  - machine_id: 115

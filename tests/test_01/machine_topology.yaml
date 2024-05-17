@@ -1,0 +1,1432 @@
+topology:
+  serial:
+    id: 1
+    body:
+      - serial:
+          id: 2
+          body:
+            - parallel:
+                id: 3
+                body:
+                  - machine:
+                      id: 4
+                      machine_type_id: 1
+                  - machine:
+                      id: 5
+                      machine_type_id: 1
+                  - machine:
+                      id: 6
+                      machine_type_id: 1
+                  - machine:
+                      id: 7
+                      machine_type_id: 1
+                  - machine:
+                      id: 8
+                      machine_type_id: 1
+            - parallel:
+                id: 9
+                body:
+                  - machine:
+                      id: 10
+                      machine_type_id: 1
+                  - machine:
+                      id: 11
+                      machine_type_id: 1
+                  - machine:
+                      id: 12
+                      machine_type_id: 1
+                  - machine:
+                      id: 13
+                      machine_type_id: 1
+                  - machine:
+                      id: 14
+                      machine_type_id: 1
+            - parallel:
+                id: 15
+                body:
+                  - machine:
+                      id: 16
+                      machine_type_id: 1
+                  - machine:
+                      id: 17
+                      machine_type_id: 1
+                  - machine:
+                      id: 18
+                      machine_type_id: 1
+                  - machine:
+                      id: 19
+                      machine_type_id: 1
+                  - machine:
+                      id: 20
+                      machine_type_id: 1
+            - parallel:
+                id: 21
+                body:
+                  - machine:
+                      id: 22
+                      machine_type_id: 1
+                  - machine:
+                      id: 23
+                      machine_type_id: 1
+                  - machine:
+                      id: 24
+                      machine_type_id: 1
+                  - machine:
+                      id: 25
+                      machine_type_id: 1
+                  - machine:
+                      id: 26
+                      machine_type_id: 1
+            - parallel:
+                id: 27
+                body:
+                  - machine:
+                      id: 28
+                      machine_type_id: 1
+                  - machine:
+                      id: 29
+                      machine_type_id: 1
+                  - machine:
+                      id: 30
+                      machine_type_id: 1
+                  - machine:
+                      id: 31
+                      machine_type_id: 1
+                  - machine:
+                      id: 32
+                      machine_type_id: 1
+      - parallel:
+          id: 33
+          body:
+            - parallel:
+                id: 34
+                body:
+                  - parallel:
+                      id: 35
+                      body:
+                        - parallel:
+                            id: 36
+                            body:
+                              - parallel:
+                                  id: 37
+                                  body:
+                                    - machine:
+                                        id: 38
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 39
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 40
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 41
+                                  body:
+                                    - machine:
+                                        id: 42
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 43
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 44
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 45
+                                  body:
+                                    - machine:
+                                        id: 46
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 47
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 48
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 49
+                            body:
+                              - parallel:
+                                  id: 50
+                                  body:
+                                    - machine:
+                                        id: 51
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 52
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 53
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 54
+                                  body:
+                                    - machine:
+                                        id: 55
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 56
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 57
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 58
+                                  body:
+                                    - machine:
+                                        id: 59
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 60
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 61
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 62
+                            body:
+                              - parallel:
+                                  id: 63
+                                  body:
+                                    - machine:
+                                        id: 64
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 65
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 66
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 67
+                                  body:
+                                    - machine:
+                                        id: 68
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 69
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 70
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 71
+                                  body:
+                                    - machine:
+                                        id: 72
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 73
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 74
+                                        machine_type_id: 1
+                  - parallel:
+                      id: 75
+                      body:
+                        - parallel:
+                            id: 76
+                            body:
+                              - parallel:
+                                  id: 77
+                                  body:
+                                    - machine:
+                                        id: 78
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 79
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 80
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 81
+                                  body:
+                                    - machine:
+                                        id: 82
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 83
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 84
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 85
+                                  body:
+                                    - machine:
+                                        id: 86
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 87
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 88
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 89
+                            body:
+                              - parallel:
+                                  id: 90
+                                  body:
+                                    - machine:
+                                        id: 91
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 92
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 93
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 94
+                                  body:
+                                    - machine:
+                                        id: 95
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 96
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 97
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 98
+                                  body:
+                                    - machine:
+                                        id: 99
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 100
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 101
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 102
+                            body:
+                              - parallel:
+                                  id: 103
+                                  body:
+                                    - machine:
+                                        id: 104
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 105
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 106
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 107
+                                  body:
+                                    - machine:
+                                        id: 108
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 109
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 110
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 111
+                                  body:
+                                    - machine:
+                                        id: 112
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 113
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 114
+                                        machine_type_id: 1
+                  - parallel:
+                      id: 115
+                      body:
+                        - parallel:
+                            id: 116
+                            body:
+                              - parallel:
+                                  id: 117
+                                  body:
+                                    - machine:
+                                        id: 118
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 119
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 120
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 121
+                                  body:
+                                    - machine:
+                                        id: 122
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 123
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 124
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 125
+                                  body:
+                                    - machine:
+                                        id: 126
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 127
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 128
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 129
+                            body:
+                              - parallel:
+                                  id: 130
+                                  body:
+                                    - machine:
+                                        id: 131
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 132
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 133
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 134
+                                  body:
+                                    - machine:
+                                        id: 135
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 136
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 137
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 138
+                                  body:
+                                    - machine:
+                                        id: 139
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 140
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 141
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 142
+                            body:
+                              - parallel:
+                                  id: 143
+                                  body:
+                                    - machine:
+                                        id: 144
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 145
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 146
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 147
+                                  body:
+                                    - machine:
+                                        id: 148
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 149
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 150
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 151
+                                  body:
+                                    - machine:
+                                        id: 152
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 153
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 154
+                                        machine_type_id: 1
+            - parallel:
+                id: 155
+                body:
+                  - parallel:
+                      id: 156
+                      body:
+                        - parallel:
+                            id: 157
+                            body:
+                              - parallel:
+                                  id: 158
+                                  body:
+                                    - machine:
+                                        id: 159
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 160
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 161
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 162
+                                  body:
+                                    - machine:
+                                        id: 163
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 164
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 165
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 166
+                                  body:
+                                    - machine:
+                                        id: 167
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 168
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 169
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 170
+                            body:
+                              - parallel:
+                                  id: 171
+                                  body:
+                                    - machine:
+                                        id: 172
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 173
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 174
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 175
+                                  body:
+                                    - machine:
+                                        id: 176
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 177
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 178
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 179
+                                  body:
+                                    - machine:
+                                        id: 180
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 181
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 182
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 183
+                            body:
+                              - parallel:
+                                  id: 184
+                                  body:
+                                    - machine:
+                                        id: 185
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 186
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 187
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 188
+                                  body:
+                                    - machine:
+                                        id: 189
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 190
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 191
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 192
+                                  body:
+                                    - machine:
+                                        id: 193
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 194
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 195
+                                        machine_type_id: 1
+                  - parallel:
+                      id: 196
+                      body:
+                        - parallel:
+                            id: 197
+                            body:
+                              - parallel:
+                                  id: 198
+                                  body:
+                                    - machine:
+                                        id: 199
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 200
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 201
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 202
+                                  body:
+                                    - machine:
+                                        id: 203
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 204
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 205
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 206
+                                  body:
+                                    - machine:
+                                        id: 207
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 208
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 209
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 210
+                            body:
+                              - parallel:
+                                  id: 211
+                                  body:
+                                    - machine:
+                                        id: 212
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 213
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 214
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 215
+                                  body:
+                                    - machine:
+                                        id: 216
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 217
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 218
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 219
+                                  body:
+                                    - machine:
+                                        id: 220
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 221
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 222
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 223
+                            body:
+                              - parallel:
+                                  id: 224
+                                  body:
+                                    - machine:
+                                        id: 225
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 226
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 227
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 228
+                                  body:
+                                    - machine:
+                                        id: 229
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 230
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 231
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 232
+                                  body:
+                                    - machine:
+                                        id: 233
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 234
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 235
+                                        machine_type_id: 1
+                  - parallel:
+                      id: 236
+                      body:
+                        - parallel:
+                            id: 237
+                            body:
+                              - parallel:
+                                  id: 238
+                                  body:
+                                    - machine:
+                                        id: 239
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 240
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 241
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 242
+                                  body:
+                                    - machine:
+                                        id: 243
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 244
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 245
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 246
+                                  body:
+                                    - machine:
+                                        id: 247
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 248
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 249
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 250
+                            body:
+                              - parallel:
+                                  id: 251
+                                  body:
+                                    - machine:
+                                        id: 252
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 253
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 254
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 255
+                                  body:
+                                    - machine:
+                                        id: 256
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 257
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 258
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 259
+                                  body:
+                                    - machine:
+                                        id: 260
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 261
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 262
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 263
+                            body:
+                              - parallel:
+                                  id: 264
+                                  body:
+                                    - machine:
+                                        id: 265
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 266
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 267
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 268
+                                  body:
+                                    - machine:
+                                        id: 269
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 270
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 271
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 272
+                                  body:
+                                    - machine:
+                                        id: 273
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 274
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 275
+                                        machine_type_id: 1
+            - parallel:
+                id: 276
+                body:
+                  - parallel:
+                      id: 277
+                      body:
+                        - parallel:
+                            id: 278
+                            body:
+                              - parallel:
+                                  id: 279
+                                  body:
+                                    - machine:
+                                        id: 280
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 281
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 282
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 283
+                                  body:
+                                    - machine:
+                                        id: 284
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 285
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 286
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 287
+                                  body:
+                                    - machine:
+                                        id: 288
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 289
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 290
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 291
+                            body:
+                              - parallel:
+                                  id: 292
+                                  body:
+                                    - machine:
+                                        id: 293
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 294
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 295
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 296
+                                  body:
+                                    - machine:
+                                        id: 297
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 298
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 299
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 300
+                                  body:
+                                    - machine:
+                                        id: 301
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 302
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 303
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 304
+                            body:
+                              - parallel:
+                                  id: 305
+                                  body:
+                                    - machine:
+                                        id: 306
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 307
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 308
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 309
+                                  body:
+                                    - machine:
+                                        id: 310
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 311
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 312
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 313
+                                  body:
+                                    - machine:
+                                        id: 314
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 315
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 316
+                                        machine_type_id: 1
+                  - parallel:
+                      id: 317
+                      body:
+                        - parallel:
+                            id: 318
+                            body:
+                              - parallel:
+                                  id: 319
+                                  body:
+                                    - machine:
+                                        id: 320
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 321
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 322
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 323
+                                  body:
+                                    - machine:
+                                        id: 324
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 325
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 326
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 327
+                                  body:
+                                    - machine:
+                                        id: 328
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 329
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 330
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 331
+                            body:
+                              - parallel:
+                                  id: 332
+                                  body:
+                                    - machine:
+                                        id: 333
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 334
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 335
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 336
+                                  body:
+                                    - machine:
+                                        id: 337
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 338
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 339
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 340
+                                  body:
+                                    - machine:
+                                        id: 341
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 342
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 343
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 344
+                            body:
+                              - parallel:
+                                  id: 345
+                                  body:
+                                    - machine:
+                                        id: 346
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 347
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 348
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 349
+                                  body:
+                                    - machine:
+                                        id: 350
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 351
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 352
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 353
+                                  body:
+                                    - machine:
+                                        id: 354
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 355
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 356
+                                        machine_type_id: 1
+                  - parallel:
+                      id: 357
+                      body:
+                        - parallel:
+                            id: 358
+                            body:
+                              - parallel:
+                                  id: 359
+                                  body:
+                                    - machine:
+                                        id: 360
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 361
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 362
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 363
+                                  body:
+                                    - machine:
+                                        id: 364
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 365
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 366
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 367
+                                  body:
+                                    - machine:
+                                        id: 368
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 369
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 370
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 371
+                            body:
+                              - parallel:
+                                  id: 372
+                                  body:
+                                    - machine:
+                                        id: 373
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 374
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 375
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 376
+                                  body:
+                                    - machine:
+                                        id: 377
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 378
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 379
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 380
+                                  body:
+                                    - machine:
+                                        id: 381
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 382
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 383
+                                        machine_type_id: 1
+                        - parallel:
+                            id: 384
+                            body:
+                              - parallel:
+                                  id: 385
+                                  body:
+                                    - machine:
+                                        id: 386
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 387
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 388
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 389
+                                  body:
+                                    - machine:
+                                        id: 390
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 391
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 392
+                                        machine_type_id: 1
+                              - parallel:
+                                  id: 393
+                                  body:
+                                    - machine:
+                                        id: 394
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 395
+                                        machine_type_id: 1
+                                    - machine:
+                                        id: 396
+                                        machine_type_id: 1
+      - route:
+          id: 397
+          body:
+            - route:
+                id: 398
+                body:
+                  - route:
+                      id: 399
+                      body:
+                        - machine:
+                            id: 400
+                            machine_type_id: 1
+                        - machine:
+                            id: 401
+                            machine_type_id: 1
+                        - machine:
+                            id: 402
+                            machine_type_id: 1
+                  - route:
+                      id: 403
+                      body:
+                        - machine:
+                            id: 404
+                            machine_type_id: 1
+                        - machine:
+                            id: 405
+                            machine_type_id: 1
+                        - machine:
+                            id: 406
+                            machine_type_id: 1
+                  - route:
+                      id: 407
+                      body:
+                        - machine:
+                            id: 408
+                            machine_type_id: 1
+                        - machine:
+                            id: 409
+                            machine_type_id: 1
+                        - machine:
+                            id: 410
+                            machine_type_id: 1
+            - route:
+                id: 411
+                body:
+                  - route:
+                      id: 412
+                      body:
+                        - machine:
+                            id: 413
+                            machine_type_id: 1
+                        - machine:
+                            id: 414
+                            machine_type_id: 1
+                        - machine:
+                            id: 415
+                            machine_type_id: 1
+                  - route:
+                      id: 416
+                      body:
+                        - machine:
+                            id: 417
+                            machine_type_id: 1
+                        - machine:
+                            id: 418
+                            machine_type_id: 1
+                        - machine:
+                            id: 419
+                            machine_type_id: 1
+                  - route:
+                      id: 420
+                      body:
+                        - machine:
+                            id: 421
+                            machine_type_id: 1
+                        - machine:
+                            id: 422
+                            machine_type_id: 1
+                        - machine:
+                            id: 423
+                            machine_type_id: 1
+            - route:
+                id: 424
+                body:
+                  - route:
+                      id: 425
+                      body:
+                        - machine:
+                            id: 426
+                            machine_type_id: 1
+                        - machine:
+                            id: 427
+                            machine_type_id: 1
+                        - machine:
+                            id: 428
+                            machine_type_id: 1
+                  - route:
+                      id: 429
+                      body:
+                        - machine:
+                            id: 430
+                            machine_type_id: 1
+                        - machine:
+                            id: 431
+                            machine_type_id: 1
+                        - machine:
+                            id: 432
+                            machine_type_id: 1
+                  - route:
+                      id: 433
+                      body:
+                        - machine:
+                            id: 434
+                            machine_type_id: 1
+                        - machine:
+                            id: 435
+                            machine_type_id: 1
+                        - machine:
+                            id: 436
+                            machine_type_id: 1
+      - open:
+          id: 437
+          body:
+            - open:
+                id: 438
+                body:
+                  - open:
+                      id: 439
+                      body:
+                        - machine:
+                            id: 440
+                            machine_type_id: 1
+                        - machine:
+                            id: 441
+                            machine_type_id: 1
+                        - machine:
+                            id: 442
+                            machine_type_id: 1
+                  - open:
+                      id: 443
+                      body:
+                        - machine:
+                            id: 444
+                            machine_type_id: 1
+                        - machine:
+                            id: 445
+                            machine_type_id: 1
+                        - machine:
+                            id: 446
+                            machine_type_id: 1
+                  - open:
+                      id: 447
+                      body:
+                        - machine:
+                            id: 448
+                            machine_type_id: 1
+                        - machine:
+                            id: 449
+                            machine_type_id: 1
+                        - machine:
+                            id: 450
+                            machine_type_id: 1
+            - open:
+                id: 451
+                body:
+                  - open:
+                      id: 452
+                      body:
+                        - machine:
+                            id: 453
+                            machine_type_id: 1
+                        - machine:
+                            id: 454
+                            machine_type_id: 1
+                        - machine:
+                            id: 455
+                            machine_type_id: 1
+                  - open:
+                      id: 456
+                      body:
+                        - machine:
+                            id: 457
+                            machine_type_id: 1
+                        - machine:
+                            id: 458
+                            machine_type_id: 1
+                        - machine:
+                            id: 459
+                            machine_type_id: 1
+                  - open:
+                      id: 460
+                      body:
+                        - machine:
+                            id: 461
+                            machine_type_id: 1
+                        - machine:
+                            id: 462
+                            machine_type_id: 1
+                        - machine:
+                            id: 463
+                            machine_type_id: 1
+            - open:
+                id: 464
+                body:
+                  - open:
+                      id: 465
+                      body:
+                        - machine:
+                            id: 466
+                            machine_type_id: 1
+                        - machine:
+                            id: 467
+                            machine_type_id: 1
+                        - machine:
+                            id: 468
+                            machine_type_id: 1
+                  - open:
+                      id: 469
+                      body:
+                        - machine:
+                            id: 470
+                            machine_type_id: 1
+                        - machine:
+                            id: 471
+                            machine_type_id: 1
+                        - machine:
+                            id: 472
+                            machine_type_id: 1
+                  - open:
+                      id: 473
+                      body:
+                        - machine:
+                            id: 474
+                            machine_type_id: 1
+                        - machine:
+                            id: 475
+                            machine_type_id: 1
+                        - machine:
+                            id: 476
+                            machine_type_id: 1
+      - machine:
+          id: 477
+          machine_type_id: 1
