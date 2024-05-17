@@ -11,14 +11,16 @@ public:
     double release_time;
     double due_time;
     double weight;
-    bool batch_processing_enabled;
-    int number_of_sibling_jobs_in_buffer;
+    double time;
+    double combined_weights_of_batch_compatible_jobs;
+    int number_of_batch_compatible_jobs;
     SchedulerParametersMachine(
         double release_time,
         double due_time,
         double weight,
-        bool batch_processing_enabled,
-        int number_of_sibling_jobs_in_buffer
+        double time,
+        double combined_weights_of_batch_compatible_jobs,
+        int number_of_batch_compatible_jobs
     );
 };
 

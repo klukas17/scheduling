@@ -4,4 +4,8 @@
 
 #include "Scheduler.h"
 
+Scheduler::Scheduler() {
+    this->simulator_state = nullptr;
+}
+
 Scheduler::~Scheduler() = default;

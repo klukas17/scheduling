@@ -12,13 +12,17 @@ public:
     double due_time;
     double weight;
     double time;
-    double number_of_jobs_passed_through_a_child_machine;
+    double remaining_processing_time_in_branch;
+    int number_of_jobs_passed_through_a_machine;
+    int number_of_jobs_in_branch;
     SchedulerParametersGroup(
         double release_time,
         double due_time,
         double weight,
         double time,
-        double number_of_jobs_passed_through_a_child_machine
+        double remaining_processing_time_in_branch,
+        int number_of_jobs_passed_through_a_machine,
+        int number_of_jobs_in_branch
     );
 };
 
