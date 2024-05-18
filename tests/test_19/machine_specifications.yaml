@@ -1,0 +1,8 @@
+machines:
+  - machine_id: 1
+    setup:
+      - from: 1
+        to: 2
+        time: 3
+      - to: 1
+        time: 1

@@ -13,6 +13,7 @@
 #include "SerialGroup.h"
 #include "SerialGroupPathNode.h"
 #include <limits>
+#include <utility>
 
 SimulatorState::SimulatorState(const std::map<long, Job*>& jobs, Topology* topology) {
     this->jobs = jobs;
@@ -20,6 +21,11 @@ SimulatorState::SimulatorState(const std::map<long, Job*>& jobs, Topology* topol
     this->time = 0;
     for (auto job_id : jobs | std::ranges::views::keys) {
         job_info_map[job_id] = new SimulatorStateJobInfo();
+    }
+    for (auto [machine_id, topology_element] : topology->getTopologyElementsMap()) {
+        auto breakdowns_vector = topology_element->getBreakdowns();
+        std::deque<Breakdown*> breakdowns(breakdowns_vector.begin(), breakdowns_vector.end());
+        breakdowns_map[machine_id] = breakdowns;
     }
 }
 
@@ -30,6 +36,11 @@ double SimulatorState::getTime() {
 void SimulatorState::setTime(double time) {
     this->time = time;
 }
+
+void SimulatorState::setMachineProcessingContextMap(std::map<long, MachineProcessingContext*> machine_processing_context_map) {
+    this->machine_processing_context_map = std::move(machine_processing_context_map);
+}
+
 
 Job* SimulatorState::getJob(long job_id) {
     return jobs[job_id];
@@ -173,4 +184,44 @@ double SimulatorState::calculateRemainingProcessingTimeForPathNode(PathNode* pat
         result = std::min(result, calculateRemainingProcessingTimeForPathNode(predecessor, path_node, diff));
     }
     return result;
+}
+
+bool SimulatorState::calculatePreemptAllowed(long machine_id, long job_id) {
+    auto topology_element = topology->getTopologyElementsMap().at(machine_id);
+    if (topology_element->getTopologyElementType() != MACHINE_TOPOLOGY_ELEMENT) {
+        return false;
+    }
+    auto machine = dynamic_cast<Machine*>(topology_element);
+    auto job = jobs.at(job_id);
+    return machine->getMachineType()->getPreempt() && job->getJobType()->getPreempt();
+}
+
+double SimulatorState::calculateTimeUntilNextBreakdown(long machine_id) {
+    std::deque<Breakdown*>& breakdowns = breakdowns_map[machine_id];
+    while (!breakdowns.empty() && breakdowns[0]->getStartTime() < time) {
+        breakdowns.pop_front();
+    }
+    if (breakdowns.empty()) {
+        return std::numeric_limits<double>::infinity();
+    } else {
+        return breakdowns[0]->getStartTime() - time;
+    }
+}
+
+double SimulatorState::calculateSetupLength(long machine_id, long job_id) {
+    auto topology_element = topology->getTopologyElementsMap().at(machine_id);
+    if (topology_element->getTopologyElementType() != MACHINE_TOPOLOGY_ELEMENT) {
+        return 0;
+    }
+    auto machine = dynamic_cast<Machine*>(topology_element);
+    auto machine_processing_context = machine_processing_context_map[machine_id];
+    auto setup_rules = machine->getMachineType()->getSetupRules();
+    auto last_job_type = machine_processing_context->getLastJobType();
+    auto job_type = jobs.at(job_id)->getJobType();
+    auto setup = setup_rules->findSetup(last_job_type ? last_job_type->getId() : -1, job_type->getId());
+    if (setup) {
+        return setup->getDuration();
+    } else {
+        return 0;
+    }
 }

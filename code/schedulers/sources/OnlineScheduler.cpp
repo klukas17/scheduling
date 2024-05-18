@@ -34,7 +34,10 @@ double OnlineScheduler::calculateScore(long machine_id, long job_id, long step_i
         job->getWeight(),
         simulator_state->getTime(),
         simulator_state->calculateCombinedWeightsOfBatchCompatibleJobs(machine_id, job_id),
-        simulator_state->calculateNumberOfBatchCompatibleJobs(machine_id, job_id)
+        simulator_state->calculateNumberOfBatchCompatibleJobs(machine_id, job_id),
+        simulator_state->calculateSetupLength(machine_id, job_id),
+        simulator_state->calculateTimeUntilNextBreakdown(machine_id),
+        simulator_state->calculatePreemptAllowed(machine_id, job_id)
     );
     auto score = online_scheduling_algorithm_cluster->getAlgorithm(machine_id)->calculateScore(params);
     calculated_scores[machine_id][step_id] = score;

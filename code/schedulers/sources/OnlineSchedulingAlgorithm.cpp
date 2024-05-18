@@ -20,7 +20,10 @@ std::vector<std::string> OnlineSchedulingAlgorithm::machine_inputs = {
     "weight",
     "time",
     "combined_weights_of_batch_compatible_jobs",
-    "number_of_batch_compatible_jobs"
+    "number_of_batch_compatible_jobs",
+    "setup_length",
+    "time_until_next_breakdown",
+    "preempt_allowed"
 };
 
 void OnlineSchedulingAlgorithm::setInputs(GeneralTopologyElementType general_topology_element_type) {
@@ -60,6 +63,9 @@ double OnlineSchedulingAlgorithm::calculateScore(SchedulerParametersMachine* mac
     params["time"] = machine_params->time;
     params["combined_weights_of_batch_compatible_jobs"] = machine_params->combined_weights_of_batch_compatible_jobs;
     params["number_of_batch_compatible_jobs"] = machine_params->number_of_batch_compatible_jobs;
+    params["setup_length"] = machine_params->setup_length;
+    params["time_until_next_breakdown"] = machine_params->time_until_next_breakdown;
+    params["preempt_allowed"] = machine_params->preempt_allowed;
     // delete machine_params;
     return calculateScore(params);
 }

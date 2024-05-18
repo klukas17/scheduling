@@ -19,7 +19,7 @@
 
 int main() {
 
-    std::string const dir = "../tests/test_11/";
+    std::string const dir = "../tests/test_19/";
 
     MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
 

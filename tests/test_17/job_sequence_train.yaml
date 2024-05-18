@@ -1,0 +1,10 @@
+job_sequence:
+  - job_id: 1
+    job_type_id: 1
+    processing_route:
+      - machine_id: 1
+  - job_id: 2
+    job_type_id: 2
+    release_time: 1
+    processing_route:
+      - machine_id: 1
