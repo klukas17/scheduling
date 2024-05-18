@@ -547,7 +547,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                 log_file << "[" << time << "] " << event->getMessage() << std::endl;
             }
 
-            // delete event;
+            delete event;
         }
 
         else {
@@ -676,7 +676,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
 
             }
 
-            // delete event;
+            delete event;
         }
     }
 

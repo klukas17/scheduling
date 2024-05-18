@@ -40,11 +40,6 @@ void JobProcessingContext::moveToNextPathNode(long const next_machine_id) {
         throw SchedulingError("Path invalid for job " + std::to_string(job->getId()));
     }
 
-    // if (prev_path_node)
-    // std::cout << prev_path_node->getTopologyElement()->getId() << " -> ";
-    // else
-    // std::cout << "nullptr -> ";
-
     prev_path_node = path_node;
 
     if (processing_started && path_node->getTopologyElement()->getTopologyElementType() == PARALLEL_GROUP_TOPOLOGY_ELEMENT && last_processed_path_node_id == path_node->getPathNodeId()) {
@@ -152,10 +147,6 @@ void JobProcessingContext::moveToNextPathNode(long const next_machine_id) {
         }
     }
 
-    // if (prev_path_node)
-    // std::cout << prev_path_node->getTopologyElement()->getId() << std::endl;
-    // else
-    // std::cout << "nullptr" << std::endl;
 }
 
 bool JobProcessingContext::checkIfPathFinished() const {
@@ -218,6 +209,7 @@ void JobProcessingContext::reduceRemainingProcessingTime(PathNode* path_node, do
 void JobProcessingContext::logRemainingProcessingTimes() {
     std::set<long> visited;
     logRemainingProcessingTimesForPathNode(job->getPathsRootNode(), visited);
+    std::cout << std::endl;
 }
 
 void JobProcessingContext::logRemainingProcessingTimesForPathNode(PathNode* node, std::set<long>& visited) {
@@ -247,6 +239,7 @@ void JobProcessingContext::logRemainingProcessingTimesForPathNode(PathNode* node
 
     case SERIAL_GROUP_TOPOLOGY_ELEMENT: {
             auto serial_group_path_node = dynamic_cast<SerialGroupPathNode*>(node);
+            std::cout << "Serial group " << serial_group_path_node->getTopologyElement()->getId() << " = ";
             std::cout << serial_group_path_node->getRemainingProcessingTime();
             std::cout << std::endl;
             auto next = serial_group_path_node->getNext();
@@ -258,6 +251,7 @@ void JobProcessingContext::logRemainingProcessingTimesForPathNode(PathNode* node
 
     case PARALLEL_GROUP_TOPOLOGY_ELEMENT: {
             auto paralell_group_path_node = dynamic_cast<ParallelGroupPathNode*>(node);
+            std::cout << "Parallel group " << paralell_group_path_node->getTopologyElement()->getId() << " = ";
             std::cout << paralell_group_path_node->getRemainingProcessingTime();
             std::cout << std::endl;
             for (auto [_, next] : paralell_group_path_node->getNext()) {
@@ -268,6 +262,7 @@ void JobProcessingContext::logRemainingProcessingTimesForPathNode(PathNode* node
 
     case ROUTE_GROUP_TOPOLOGY_ELEMENT: {
             auto route_group_path_node = dynamic_cast<RouteGroupPathNode*>(node);
+            std::cout << "Route group " << route_group_path_node->getTopologyElement()->getId() << " = ";
             std::cout << route_group_path_node->getRemainingProcessingTime();
             std::cout << std::endl;
             auto next = route_group_path_node->getNext();
@@ -279,6 +274,7 @@ void JobProcessingContext::logRemainingProcessingTimesForPathNode(PathNode* node
 
     case OPEN_GROUP_TOPOLOGY_ELEMENT: {
             auto open_group_path_node = dynamic_cast<OpenGroupPathNode*>(node);
+            std::cout << "Open group " << open_group_path_node->getTopologyElement()->getId() << " = ";
             std::cout << open_group_path_node->getRemainingProcessingTime();
             std::cout << std::endl;
             for (auto [_, sub_path_node] : open_group_path_node->getSubPathNodes()) {

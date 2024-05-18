@@ -11,6 +11,7 @@ include_directories(${YAML_CPP_DIR}/include)
 link_directories(${YAML_CPP_DIR}/build)
 
 include_directories(
+        code/breakdowns_generators/headers
         code/errors/headers
         code/evaluation/headers
         code/events/headers
@@ -36,6 +37,7 @@ include_directories(
 )
 
 file(GLOB PROJECT_HEADERS
+        code/breakdowns_generators/headers/*.h
         code/errors/headers/*.h
         code/evaluation/headers/*.h
         code/events/headers/*.h
@@ -61,6 +63,7 @@ file(GLOB PROJECT_HEADERS
 )
 
 file(GLOB PROJECT_SOURCES
+        code/breakdowns_generators/sources/*.cpp
         code/errors/sources/*.cpp
         code/evaluation/sources/*.cpp
         code/events/sources/*.cpp
@@ -94,6 +97,7 @@ add_executable(run_examples executables/run_examples.cpp ${PROJECT_SOURCES} ${PR
 add_executable(run_example executables/run_example.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(run_test executables/run_test.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(generate_jobs executables/generate_jobs.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(generate_breakdowns executables/generate_breakdowns.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(online_scheduling executables/online_scheduling.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(topology_enumerator executables/topology_enumerator.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 
@@ -103,5 +107,6 @@ target_link_libraries(run_examples yaml-cpp)
 target_link_libraries(run_example yaml-cpp)
 target_link_libraries(run_test yaml-cpp)
 target_link_libraries(generate_jobs yaml-cpp)
+target_link_libraries(generate_breakdowns yaml-cpp)
 target_link_libraries(online_scheduling yaml-cpp)
 target_link_libraries(topology_enumerator yaml-cpp)
