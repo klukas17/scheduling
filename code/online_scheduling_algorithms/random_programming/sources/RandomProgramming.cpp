@@ -6,8 +6,6 @@
 
 #include "UniformRealDistributionGenerator.h"
 
-#include "iostream"
-
 RandomProgramming::RandomProgramming(double lower, double upper) {
     this->lower = lower;
     this->upper = upper;

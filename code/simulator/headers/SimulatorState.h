@@ -5,11 +5,15 @@
 #ifndef SIMULATORSTATE_H
 #define SIMULATORSTATE_H
 
+#include <deque>
 #include <map>
 #include "Job.h"
+#include "MachineProcessingContext.h"
 #include "SimulatorStateJobInfo.h"
 #include "Topology.h"
 
+// resolving circular dependencies
+class MachineProcessingContext;
 
 class SimulatorState {
     double time;
@@ -20,10 +24,15 @@ class SimulatorState {
     std::map<long, std::set<long>> jobs_in_machines_map;
     // machine_id -> number_of_jobs_passed
     std::map<long, int> branch_passing_map;
+    // machine_id -> breakdowns
+    std::map<long, std::deque<Breakdown*>> breakdowns_map;
+    // machine_id -> processing context
+    std::map<long, MachineProcessingContext*> machine_processing_context_map;
 public:
     SimulatorState(const std::map<long, Job*>& jobs, Topology* topology);
     double getTime();
     void setTime(double time);
+    void setMachineProcessingContextMap(std::map<long, MachineProcessingContext*> machine_processing_context_map);
     Job* getJob(long job_id);
     void setJobOnMachine(long machine_id, long job_id);
     void machineEntry(long machine_id, long job_id, double remaining_time_on_machine);
@@ -38,6 +47,9 @@ public:
     int calculateNumberOfJobsInBranch(long machine_id);
     double calculateRemainingProcessingTimeInBranch(PathNode* path_node);
     double calculateRemainingProcessingTimeForPathNode(PathNode* path_node, PathNode* prev_path_node, double diff);
+    bool calculatePreemptAllowed(long machine_id, long job_id);
+    double calculateTimeUntilNextBreakdown(long machine_id);
+    double calculateSetupLength(long machine_id, long job_id);
 };
 
 

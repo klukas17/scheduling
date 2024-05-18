@@ -65,6 +65,8 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
         );
     }
 
+    simulator_state->setMachineProcessingContextMap(machine_processing_context_map);
+
     std::map<long, JobProcessingContext*> job_processing_context_map;
     for (const auto& [job_id, job] : jobs) {
         job_processing_context_map[job_id] = new JobProcessingContext(job);

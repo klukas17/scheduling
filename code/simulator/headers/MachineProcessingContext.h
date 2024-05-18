@@ -11,6 +11,10 @@
 #include "MachineSetupContext.h"
 #include "Scheduler.h"
 
+// resolving circular dependencies
+class Scheduler;
+class MachineBuffer;
+
 class MachineProcessingContext {
     long machine_id;
     Scheduler* scheduler;

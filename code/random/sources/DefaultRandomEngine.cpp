@@ -4,7 +4,10 @@
 
 #include "DefaultRandomEngine.h"
 #include "chrono"
+#include "iostream"
 
 DefaultRandomEngine::DefaultRandomEngine() {
-    engine.seed(std::chrono::system_clock::now().time_since_epoch().count());
+    auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::cout << "Random seed = " << seed << std::endl;
+    engine.seed(seed);
 }

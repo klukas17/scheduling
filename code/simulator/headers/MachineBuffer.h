@@ -5,13 +5,15 @@
 #ifndef SCHEDULING_MACHINEBUFFER_H
 #define SCHEDULING_MACHINEBUFFER_H
 
-#include <queue>
 #include "BatchProcessingScenario.h"
 #include "MachineBufferElement.h"
 #include "vector"
 #include "map"
 #include "Scheduler.h"
 #include "tuple"
+
+// resolving circular dependencies
+class Scheduler;
 
 class MachineBuffer {
     static bool (*score_comparator)(MachineBufferElement*, MachineBufferElement*);

@@ -1,0 +1,11 @@
+topology:
+  machine:
+    id: 1
+    machine_type_id: 1
+    breakdowns:
+      - start_time: 2
+        end_time: 3
+      - start_time: 7
+        end_time: 8
+      - start_time: 11
+        end_time: 13

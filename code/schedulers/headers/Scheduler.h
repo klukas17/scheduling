@@ -7,6 +7,9 @@
 #include "JobProcessingStep.h"
 #include "SimulatorState.h"
 
+// resolving circular dependencies
+class SimulatorState;
+
 class Scheduler {
 protected:
     SimulatorState* simulator_state;
