@@ -4,7 +4,15 @@
 
 #include "SimulatorStatistics.h"
 
+#include <ranges>
+
 SimulatorStatistics::SimulatorStatistics() = default;
+
+SimulatorStatistics::~SimulatorStatistics() {
+    for (auto statistic : statistics | std::views::keys) {
+        delete statistics[statistic];
+    }
+}
 
 std::map<long, JobStatistics *> SimulatorStatistics::getStatistics() {
     return statistics;

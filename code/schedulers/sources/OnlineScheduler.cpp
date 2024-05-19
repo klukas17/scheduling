@@ -4,14 +4,18 @@
 
 #include "OnlineScheduler.h"
 #include "ranges"
-#include "iostream"
 
 OnlineScheduler::OnlineScheduler(OnlineSchedulingAlgorithmCluster* online_scheduling_algorithm_cluster) {
     this->online_scheduling_algorithm_cluster = online_scheduling_algorithm_cluster;
     this->step_id_generator = new OnlineSchedulerStepIdGenerator();
 }
 
-OnlineScheduler::~OnlineScheduler() = default;
+OnlineScheduler::~OnlineScheduler() {
+    delete step_id_generator;
+    for (auto job_context_id : job_context_map | std::views::keys) {
+        delete job_context_map[job_context_id];
+    }
+}
 
 void OnlineScheduler::setSimulatorState(SimulatorState* simulator_state) {
     this->simulator_state = simulator_state;

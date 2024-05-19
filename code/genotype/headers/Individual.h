@@ -10,6 +10,8 @@
 #include "JobProcessingRoute.h"
 #include "map"
 
+// this class should inherit from Genotype
+// proper memory management should be implemented
 class Individual {
     GenotypeNode* root_node;
     std::map<long, GenotypeNode*> genotype_node_map;

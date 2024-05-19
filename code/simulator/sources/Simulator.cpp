@@ -23,6 +23,7 @@
 #include "Preempt.h"
 #include "BreakdownStart.h"
 #include "BreakdownEnd.h"
+#include "JobSequenceParser.h"
 #include "MachineExitForced.h"
 #include "SystemExitForced.h"
 #include "SetupStart.h"
@@ -41,6 +42,8 @@
 Simulator::Simulator() {
     this->simulator_state = nullptr;
 }
+
+Simulator::~Simulator() = default;
 
 SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topology, const std::map<long, Job *> &jobs, bool enable_logging, const std::string &logs_path) {
 
@@ -125,7 +128,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
             if (auto const e = dynamic_cast<JobAndMachineEvent*>(*it); e->getJobId() == job_id && e->getMachineId() == machine_id) {
                 auto const found_event = *it;
                 queue.erase(it);
-                // delete found_event;
+                delete found_event;
                 break;
             }
             ++it;
@@ -142,7 +145,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
             if (auto const e = dynamic_cast<JobAndMachineEvent*>(*it); e->getMachineId() == machine_id) {
                 auto const found_event = *it;
                 queue.erase(it);
-                // delete found_event;
+                delete found_event;
                 break;
             }
             ++it;
@@ -302,7 +305,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                             auto prerequisite_job_id = job_processing_prerequisite->getJobId();
                             auto prerequisite_machine_id = job_processing_prerequisite->getMachineId();
                             auto prerequisite_step_id = job_processing_prerequisite->getStepId();
-                            // delete job_processing_prerequisite;
+                            delete job_processing_prerequisite;
                             addToEventQueue(new PrerequisitesWaitEnd(time, prerequisite_job_id, prerequisite_machine_id, prerequisite_step_id), event_queue);
                         }
                         else {
@@ -327,7 +330,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                         }
                     }
                     if (job_processing_prerequisites->checkAllPrerequisitesSatisfied()) {
-                        // delete job_processing_prerequisites;
+                        delete job_processing_prerequisites;
                         addToEventQueue(new PrerequisitesWaitEnd(time, job_id, machine_id, step_id), event_queue);
                     }
                     else {
@@ -498,7 +501,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                             auto prerequisite_job_id = job_processing_prerequisite->getJobId();
                             auto prerequisite_machine_id = job_processing_prerequisite->getMachineId();
                             auto prerequisite_step_id = job_processing_prerequisite->getStepId();
-                            // delete job_processing_prerequisite;
+                            delete job_processing_prerequisite;
                             addToEventQueue(new PrerequisitesWaitEnd(time, prerequisite_job_id, prerequisite_machine_id, prerequisite_step_id), event_queue);
                         }
                         else {
@@ -684,7 +687,20 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
 
     log_file.close();
 
+    delete simulator_state;
     scheduler->setSimulatorState(nullptr);
+
+    for (auto job_id : job_processing_context_map | std::views::keys) {
+        delete job_processing_context_map[job_id];
+    }
+
+    for (auto machine_id : machine_processing_context_map | std::views::keys) {
+        delete machine_processing_context_map[machine_id];
+    }
+
+    for (auto job : jobs | std::views::values) {
+        JobSequenceParser::calculateRemainingProcessingTimes(job, job->getPathsRootNode());
+    }
 
     return statistics;
 }

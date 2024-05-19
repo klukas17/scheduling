@@ -3,6 +3,8 @@
 //
 
 #include "OnlineSchedulingAlgorithmCluster.h"
+
+#include <ranges>
 #include <utility>
 
 OnlineSchedulingAlgorithmCluster::OnlineSchedulingAlgorithmCluster(Topology* topology, std::map<long, OnlineSchedulingAlgorithm*> algorithms) {
@@ -10,6 +12,12 @@ OnlineSchedulingAlgorithmCluster::OnlineSchedulingAlgorithmCluster(Topology* top
     this->algorithms = std::move(algorithms);
     for (auto [machine_id, algorithm] : this->algorithms) {
         algorithm->setInputs(topology->getTopologyElementsMap().at(machine_id)->getGeneralTopologyElementType());
+    }
+}
+
+OnlineSchedulingAlgorithmCluster::~OnlineSchedulingAlgorithmCluster() {
+    for (auto algorithm_id : algorithms | std::views::keys) {
+        delete algorithms[algorithm_id];
     }
 }
 

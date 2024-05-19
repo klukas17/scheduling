@@ -97,7 +97,7 @@ void PathNode::deletePathNode() {
     }
 
     for (auto const & node : nodes_to_be_deleted) {
-        // delete node;
+        delete node;
     }
 }
 

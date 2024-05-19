@@ -29,6 +29,12 @@ SimulatorState::SimulatorState(const std::map<long, Job*>& jobs, Topology* topol
     }
 }
 
+SimulatorState::~SimulatorState() {
+    for (auto job_info_key : job_info_map | std::views::keys) {
+        delete job_info_map[job_info_key];
+    }
+}
+
 double SimulatorState::getTime() {
     return time;
 }

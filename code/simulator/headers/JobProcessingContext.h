@@ -23,6 +23,7 @@ class JobProcessingContext {
     MachineProcessingContext* previous_machine_processing_context;
 public:
     explicit JobProcessingContext(Job* job);
+    ~JobProcessingContext();
     [[nodiscard]] Job* getJob() const;
     [[nodiscard]] PathNode* getPathNode() const;
     void setJobProcessingStep(JobProcessingStep* job_processing_step);

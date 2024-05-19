@@ -19,6 +19,12 @@ MachineProcessingContext::MachineProcessingContext(long const machine_id, Schedu
     this->batch_processing_started = true;
 }
 
+MachineProcessingContext::~MachineProcessingContext() {
+    delete machine_setup_context;
+    delete machine_buffer;
+    delete machine_buffer_requests;
+}
+
 long MachineProcessingContext::getMachineId() const {
     return machine_id;
 }

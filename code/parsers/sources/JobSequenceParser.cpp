@@ -71,7 +71,8 @@ std::map<long, Job *> JobSequenceParser::parse(const std::string &path, MachineT
 
     for (auto const & job : jobs | std::views::values) {
         calculateJobProcessingTimes(job, topology);
-        calculatePredecessorsAndRemainingProcessingTimes(job, job->getPathsRootNode());
+        calculatePredecessors(job, job->getPathsRootNode());
+        calculateRemainingProcessingTimes(job, job->getPathsRootNode());
     }
 
     return jobs;
@@ -611,7 +612,80 @@ void JobSequenceParser::calculateJobProcessingTimes(Job *job, Topology *topology
     }
 }
 
-void JobSequenceParser::calculatePredecessorsAndRemainingProcessingTimes(Job* job, PathNode* path_node) {
+void JobSequenceParser::calculatePredecessors(Job* job, PathNode* path_node) {
+
+    if (path_node == nullptr) {
+        return;
+    }
+
+    auto topology_element = path_node->getTopologyElement();
+
+    switch(topology_element->getTopologyElementType()) {
+    case ABSTRACT_TOPOLOGY_ELEMENT: {
+        break;
+    }
+
+    case MACHINE_TOPOLOGY_ELEMENT: {
+            auto machine_path_node = dynamic_cast<MachinePathNode*>(path_node);
+            auto next = machine_path_node->getNext();
+            calculatePredecessors(job, next);
+            if (next) {
+                next->addPredecessor(machine_path_node);
+            }
+            break;
+    }
+
+    case SERIAL_GROUP_TOPOLOGY_ELEMENT: {
+            auto serial_group_path_node = dynamic_cast<SerialGroupPathNode*>(path_node);
+            auto next = serial_group_path_node->getNext();
+            calculatePredecessors(job, next);
+            if (next) {
+                next->addPredecessor(serial_group_path_node);
+            }
+            break;
+    }
+
+    case PARALLEL_GROUP_TOPOLOGY_ELEMENT: {
+            auto parallel_group_path_node = dynamic_cast<ParallelGroupPathNode*>(path_node);
+            auto next = parallel_group_path_node->getNext();
+            if (!next.empty()) {
+                for (auto [next_path_node_id, next_path_node] : next) {
+                    calculatePredecessors(job, next_path_node);
+                    next_path_node->addPredecessor(parallel_group_path_node);
+                }
+            }
+            break;
+    }
+
+    case ROUTE_GROUP_TOPOLOGY_ELEMENT: {
+            auto route_group_path_node = dynamic_cast<RouteGroupPathNode*>(path_node);
+            auto next = route_group_path_node->getNext();
+            calculatePredecessors(job, next);
+            if (next) {
+                next->addPredecessor(route_group_path_node);
+            }
+            break;
+    }
+
+    case OPEN_GROUP_TOPOLOGY_ELEMENT: {
+            auto open_group_path_node = dynamic_cast<OpenGroupPathNode*>(path_node);
+            auto next = open_group_path_node->getNext();
+            auto sub_path_nodes = open_group_path_node->getSubPathNodes();
+            calculatePredecessors(job, next);
+            for (auto [sub_path_node_id, sub_path_node] : sub_path_nodes) {
+                calculatePredecessors(job, sub_path_node);
+                sub_path_node->addPredecessor(open_group_path_node);
+            }
+            if (next) {
+                next->addPredecessor(open_group_path_node);
+            }
+            break;
+    }
+
+    }
+}
+
+void JobSequenceParser::calculateRemainingProcessingTimes(Job* job, PathNode* path_node) {
 
     if (path_node == nullptr) {
         return;
@@ -629,26 +703,20 @@ void JobSequenceParser::calculatePredecessorsAndRemainingProcessingTimes(Job* jo
     case MACHINE_TOPOLOGY_ELEMENT: {
             auto machine_path_node = dynamic_cast<MachinePathNode*>(path_node);
             auto next = machine_path_node->getNext();
-            calculatePredecessorsAndRemainingProcessingTimes(job, next);
+            calculateRemainingProcessingTimes(job, next);
             machine_path_node->setRemainingProcessingTime(
                 processing_time_on_machine + (next != nullptr ? next->getRemainingProcessingTime() : 0)
             );
-            if (next) {
-                next->addPredecessor(machine_path_node);
-            }
             break;
     }
 
     case SERIAL_GROUP_TOPOLOGY_ELEMENT: {
             auto serial_group_path_node = dynamic_cast<SerialGroupPathNode*>(path_node);
             auto next = serial_group_path_node->getNext();
-            calculatePredecessorsAndRemainingProcessingTimes(job, next);
+            calculateRemainingProcessingTimes(job, next);
             serial_group_path_node->setRemainingProcessingTime(
                 processing_time_on_machine + (next != nullptr ? next->getRemainingProcessingTime() : 0)
             );
-            if (next) {
-                next->addPredecessor(serial_group_path_node);
-            }
             break;
     }
 
@@ -660,9 +728,8 @@ void JobSequenceParser::calculatePredecessorsAndRemainingProcessingTimes(Job* jo
             } else {
                 auto remaining_processing_time_in_children = std::numeric_limits<double>::infinity();
                 for (auto [next_path_node_id, next_path_node] : next) {
-                    calculatePredecessorsAndRemainingProcessingTimes(job, next_path_node);
+                    calculateRemainingProcessingTimes(job, next_path_node);
                     remaining_processing_time_in_children = std::min(remaining_processing_time_in_children, next_path_node->getRemainingProcessingTime());
-                    next_path_node->addPredecessor(parallel_group_path_node);
                 }
                 if (remaining_processing_time_in_children == std::numeric_limits<double>::infinity()) {
                     remaining_processing_time_in_children = 0;
@@ -675,13 +742,10 @@ void JobSequenceParser::calculatePredecessorsAndRemainingProcessingTimes(Job* jo
     case ROUTE_GROUP_TOPOLOGY_ELEMENT: {
             auto route_group_path_node = dynamic_cast<RouteGroupPathNode*>(path_node);
             auto next = route_group_path_node->getNext();
-            calculatePredecessorsAndRemainingProcessingTimes(job, next);
+            calculateRemainingProcessingTimes(job, next);
             route_group_path_node->setRemainingProcessingTime(
                 processing_time_on_machine + (next != nullptr ? next->getRemainingProcessingTime() : 0)
             );
-            if (next) {
-                next->addPredecessor(route_group_path_node);
-            }
             break;
     }
 
@@ -689,20 +753,16 @@ void JobSequenceParser::calculatePredecessorsAndRemainingProcessingTimes(Job* jo
             auto open_group_path_node = dynamic_cast<OpenGroupPathNode*>(path_node);
             auto next = open_group_path_node->getNext();
             auto sub_path_nodes = open_group_path_node->getSubPathNodes();
-            calculatePredecessorsAndRemainingProcessingTimes(job, next);
+            calculateRemainingProcessingTimes(job, next);
             double remaining_processing_time_in_sub_path_nodes = 0;
             for (auto [sub_path_node_id, sub_path_node] : sub_path_nodes) {
-                calculatePredecessorsAndRemainingProcessingTimes(job, sub_path_node);
+                calculateRemainingProcessingTimes(job, sub_path_node);
                 remaining_processing_time_in_sub_path_nodes += sub_path_node->getRemainingProcessingTime();
-                sub_path_node->addPredecessor(open_group_path_node);
             }
             open_group_path_node->setRemainingProcessingTime(
                 processing_time_on_machine + remaining_processing_time_in_sub_path_nodes +
                     (next != nullptr ? next->getRemainingProcessingTime() : 0)
             );
-            if (next) {
-                next->addPredecessor(open_group_path_node);
-            }
             break;
     }
 

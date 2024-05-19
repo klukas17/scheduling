@@ -31,6 +31,8 @@ double SchedulingEvaluationFunction::_evaluate(Genotype* genotype) {
     scheduler->intializeJobContexts(jobs);
     auto simulator_statistics = simulator->simulate(scheduler, topology, jobs, logs_enabled, output_dir + "logs_" + std::to_string(log_index) + ".txt");
     auto result = objective_function->evaluate(simulator_statistics);
-    // delete scheduler;
+    delete scheduler;
+    delete simulator;
+    delete simulator_statistics;
     return result;
 }

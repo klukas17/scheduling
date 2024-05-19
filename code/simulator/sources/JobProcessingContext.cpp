@@ -22,6 +22,14 @@ JobProcessingContext::JobProcessingContext(Job* job) {
     this->previous_machine_processing_context = nullptr;
 }
 
+JobProcessingContext::~JobProcessingContext() {
+    while (!frames.empty()) {
+        auto const frame = frames.top();
+        frames.pop();
+        delete frame;
+    }
+}
+
 Job *JobProcessingContext::getJob() const {
     return job;
 }
@@ -31,6 +39,10 @@ PathNode *JobProcessingContext::getPathNode() const {
 }
 
 void JobProcessingContext::setJobProcessingStep(JobProcessingStep *job_processing_step) {
+    if (this->job_processing_step) {
+        delete this->job_processing_step;
+        this->job_processing_step = nullptr;
+    }
     this->job_processing_step = job_processing_step;
 }
 
@@ -142,7 +154,7 @@ void JobProcessingContext::moveToNextPathNode(long const next_machine_id) {
         if (frames.top()->checkAllChildrenVisited()) {
             auto const frame = frames.top();
             frames.pop();
-            // delete frame;
+            delete frame;
             path_node = dynamic_cast<OpenGroupPathNode*>(path_node)->getNext();
         }
     }
