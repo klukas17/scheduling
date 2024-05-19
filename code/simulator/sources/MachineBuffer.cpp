@@ -24,6 +24,18 @@ MachineBuffer::MachineBuffer(long machine_id, Scheduler* scheduler) {
     this->changes_to_steps_made = false;
 }
 
+MachineBuffer::~MachineBuffer() {
+    if (current) {
+        delete current;
+    }
+    for (auto job_id : current_batch | std::views::keys) {
+        delete current_batch[job_id];
+    }
+    for (int i = 0; i < queue.size(); i++) {
+        delete queue[i];
+    }
+}
+
 void MachineBuffer::addStepToBuffer(long const step_id, long const job_id, long const job_type_id, double const time_start_processing, double const time_remaining_processing, bool const preempt) {
     auto score = scheduler->calculateScore(machine_id, job_id, step_id);
     auto const new_step = new MachineBufferElement(step_id, job_id, job_type_id, time_start_processing, time_remaining_processing, preempt, score);
@@ -77,7 +89,7 @@ void MachineBuffer::finishProcessingAStep() {
     if (current != nullptr) {
         remaining_time_processing_index[current->job_id] = 0;
         changes_to_steps_made = true;
-        // delete current;
+        delete current;
         current = nullptr;
     }
 
@@ -92,7 +104,7 @@ void MachineBuffer::finishProcessingAStepInBatch(long const job_id) {
         current_batch.erase(current_in_batch->job_id);
         remaining_time_processing_index[current_in_batch->job_id] = 0;
         changes_to_steps_made = true;
-        // delete current_in_batch;
+        delete current_in_batch;
     }
 
     else {
@@ -109,7 +121,7 @@ std::tuple<long, long> MachineBuffer::removeFirstAndRetrieveIt() {
         changes_to_steps_made = true;
         long step_id = top->step_id;
         long job_id = top->job_id;
-        // delete top;
+        delete top;
         return {step_id, job_id};
     }
 

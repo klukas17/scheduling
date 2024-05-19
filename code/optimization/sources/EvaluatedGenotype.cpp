@@ -10,5 +10,5 @@ EvaluatedGenotype::EvaluatedGenotype(Genotype* genotype, double const fitness_sc
 }
 
 EvaluatedGenotype::~EvaluatedGenotype() {
-    // delete genotype;
+    delete genotype;
 }

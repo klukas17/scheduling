@@ -27,6 +27,7 @@ class MachineBuffer {
     bool changes_to_steps_made;
 public:
     MachineBuffer(long machine_id, Scheduler* scheduler);
+    ~MachineBuffer();
     void addStepToBuffer(long step_id, long job_id, long job_type_id, double time_start_processing, double time_remaining_processing, bool preempt);
     void startProcessingAStep();
     [[nodiscard]] std::pair<long, long> peekAtFirstProcessingStep();

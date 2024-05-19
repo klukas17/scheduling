@@ -12,6 +12,7 @@ class SimulatorStatistics {
     std::map<long, JobStatistics*> statistics;
 public:
     SimulatorStatistics();
+    ~SimulatorStatistics();
     std::map<long, JobStatistics*> getStatistics();
     JobStatistics* getJobStatistics(long job_id);
     void addJobStatistics(JobStatistics* job_statistics);

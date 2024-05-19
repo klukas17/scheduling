@@ -51,7 +51,7 @@ double OnlineSchedulingAlgorithm::calculateScore(SchedulerParametersGroup* group
     params["remaining_processing_time_in_branch"] = group_params->remaining_processing_time_in_branch;
     params["number_of_jobs_passed_through_a_machine"] = group_params->number_of_jobs_passed_through_a_machine;
     params["number_of_jobs_in_branch"] = group_params->number_of_jobs_in_branch;
-    // delete group_params;
+    delete group_params;
     return calculateScore(params);
 }
 
@@ -66,7 +66,7 @@ double OnlineSchedulingAlgorithm::calculateScore(SchedulerParametersMachine* mac
     params["setup_length"] = machine_params->setup_length;
     params["time_until_next_breakdown"] = machine_params->time_until_next_breakdown;
     params["preempt_allowed"] = machine_params->preempt_allowed;
-    // delete machine_params;
+    delete machine_params;
     return calculateScore(params);
 }
 

@@ -30,6 +30,7 @@ class SimulatorState {
     std::map<long, MachineProcessingContext*> machine_processing_context_map;
 public:
     SimulatorState(const std::map<long, Job*>& jobs, Topology* topology);
+    ~SimulatorState();
     double getTime();
     void setTime(double time);
     void setMachineProcessingContextMap(std::map<long, MachineProcessingContext*> machine_processing_context_map);

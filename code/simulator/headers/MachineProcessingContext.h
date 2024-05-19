@@ -30,6 +30,7 @@ class MachineProcessingContext {
     bool batch_processing_started;
 public:
     MachineProcessingContext(long machine_id, Scheduler* scheduler, long buffer_size);
+    ~MachineProcessingContext();
     [[nodiscard]] long getMachineId() const;
     [[nodiscard]] long getBufferSize() const;
     void addStepToBuffer(long step_id, long job_id, long job_type_id, double time_start_processing, double time_remaining_processing, bool preempt);

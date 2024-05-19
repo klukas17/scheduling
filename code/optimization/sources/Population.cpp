@@ -35,6 +35,6 @@ void Population::insertGenotype(EvaluatedGenotype* genotype) {
     auto genotype_to_destroy = population.back();
     population.pop_back();
 
-    // delete genotype_to_destroy;
+    delete genotype_to_destroy;
 }
 

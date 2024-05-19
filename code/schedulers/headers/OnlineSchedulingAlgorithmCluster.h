@@ -17,6 +17,7 @@ class OnlineSchedulingAlgorithmCluster final : public Genotype {
     std::map<long, OnlineSchedulingAlgorithm*> algorithms;
 public:
     OnlineSchedulingAlgorithmCluster(Topology* topology, std::map<long, OnlineSchedulingAlgorithm*> algorithms);
+    ~OnlineSchedulingAlgorithmCluster();
     Genotype* copy() override;
     Topology* getTopology();
     OnlineSchedulingAlgorithm* getAlgorithm(long machine_id);

@@ -12,6 +12,8 @@ RandomProgramming::RandomProgramming(double lower, double upper) {
     this->generator = new UniformRealDistributionGenerator(lower, upper);
 }
 
+RandomProgramming::~RandomProgramming() = default;
+
 Genotype* RandomProgramming::copy() {
     return new RandomProgramming(lower, upper);
 }

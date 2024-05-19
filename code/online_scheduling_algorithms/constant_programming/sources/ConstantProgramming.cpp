@@ -10,6 +10,8 @@ ConstantProgramming::ConstantProgramming(double constant) {
     this->constant = constant;
 }
 
+ConstantProgramming::~ConstantProgramming() = default;
+
 Genotype* ConstantProgramming::copy() {
     return new ConstantProgramming(constant);
 }
