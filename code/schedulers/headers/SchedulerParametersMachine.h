@@ -14,6 +14,7 @@ public:
     double time;
     double combined_weights_of_batch_compatible_jobs;
     int number_of_batch_compatible_jobs;
+    int batch_processing_limit;
     double setup_length;
     double time_until_next_breakdown;
     bool preempt_allowed;
@@ -24,6 +25,7 @@ public:
         double time,
         double combined_weights_of_batch_compatible_jobs,
         int number_of_batch_compatible_jobs,
+        int batch_processing_limit,
         double setup_length,
         double time_until_next_breakdown,
         bool preempt_allowed

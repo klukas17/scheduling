@@ -11,6 +11,7 @@ SchedulerParametersMachine::SchedulerParametersMachine(
     double time,
     double combined_weights_of_batch_compatible_jobs,
     int number_of_batch_compatible_jobs,
+    int batch_processing_limit,
     double setup_length,
     double time_until_next_breakdown,
     bool preempt_allowed
@@ -21,6 +22,7 @@ SchedulerParametersMachine::SchedulerParametersMachine(
     this->time = time;
     this->combined_weights_of_batch_compatible_jobs = combined_weights_of_batch_compatible_jobs;
     this->number_of_batch_compatible_jobs = number_of_batch_compatible_jobs;
+    this->batch_processing_limit = batch_processing_limit;
     this->setup_length = setup_length;
     this->time_until_next_breakdown = time_until_next_breakdown;
     this->preempt_allowed = preempt_allowed;

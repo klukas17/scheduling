@@ -56,6 +56,18 @@ void SimulatorState::setJobOnMachine(long machine_id, long job_id) {
     jobs_in_machines_map[machine_id].insert(job_id);
 }
 
+void SimulatorState::initTimesProcessedMapEntry(long machine_id, long job_id) {
+    machine_to_job_times_processed_map[machine_id][job_id] = 0;
+}
+
+void SimulatorState::increaseTimesProcessedMapEntry(long machine_id, long job_id) {
+    machine_to_job_times_processed_map[machine_id][job_id]++;
+}
+
+long SimulatorState::getTimesProcessedMapEntry(long machine_id, long job_id) {
+    return machine_to_job_times_processed_map[machine_id][job_id];
+}
+
 void SimulatorState::machineEntry(long machine_id, long job_id, double remaining_time_on_machine) {
     auto job_info = job_info_map[job_id];
     job_info->setMachineId(machine_id);
@@ -102,6 +114,23 @@ double SimulatorState::calculateCombinedWeightsOfBatchCompatibleJobs(long machin
 int SimulatorState::calculateNumberOfBatchCompatibleJobs(long machine_id, long job_id) {
     auto compatible_jobs = calculateBatchCompatibleJobs(machine_id, job_id);
     return compatible_jobs.size();
+}
+
+int SimulatorState::calculateBatchProcessingLimit(long machine_id, long job_id) {
+    auto job = jobs[job_id];
+    auto job_type_id = job->getJobType()->getId();
+    auto element = topology->getTopologyElementsMap().at(machine_id);
+    if (element->getTopologyElementType() != MACHINE_TOPOLOGY_ELEMENT) {
+        return {};
+    }
+    auto machine = dynamic_cast<Machine*>(element);
+    auto batch_processing_scenario_rules = machine->getMachineType()->getBatchProcessingScenarioRules();
+    auto batch_processing_scenario = batch_processing_scenario_rules->findBatchProcessingScenario(job_type_id);
+    if (batch_processing_scenario == nullptr) {
+        return 0;
+    }
+    int limit = batch_processing_scenario->getJobsPerBatch();
+    return std::min(limit, calculateNumberOfBatchCompatibleJobs(machine_id, job_id));
 }
 
 std::vector<Job*> SimulatorState::calculateBatchCompatibleJobs(long machine_id, long job_id) {
@@ -230,4 +259,18 @@ double SimulatorState::calculateSetupLength(long machine_id, long job_id) {
     } else {
         return 0;
     }
+}
+
+bool SimulatorState::checkPrerequisitesSatisfied(PathNode* path_node) {
+    auto prerequisites = path_node->getPrerequisites();
+    return std::all_of(prerequisites.begin(), prerequisites.end(), [&](Prerequisite* prerequisite) {
+        auto machine_id = prerequisite->getMachineId();
+        auto job_id = prerequisite->getJobId();
+        auto repetitions = prerequisite->getRepetitions();
+        return machine_to_job_times_processed_map[machine_id][job_id] >= repetitions;
+    });
+}
+
+long SimulatorState::calculateSpacesInBuffer(long machine_id) {
+    return machine_processing_context_map[machine_id]->getBufferFreeSpace();
 }

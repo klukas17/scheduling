@@ -57,6 +57,10 @@ bool MachineProcessingContext::bufferHasSpace() const {
     return buffer_size > steps_in_buffer;
 }
 
+long MachineProcessingContext::getBufferFreeSpace() {
+    return std::max(0L, buffer_size - steps_in_buffer);
+}
+
 void MachineProcessingContext::addStepWaitingForPrerequisite(long const step_id, long const job_id, long const job_type_id, double const time_start_processing, double const time_remaining_processing, bool const preempt) {
     machine_buffer->addStepWaitingForPrerequisite(step_id, job_id, job_type_id, time_start_processing, time_remaining_processing, preempt);
     steps_in_buffer++;
