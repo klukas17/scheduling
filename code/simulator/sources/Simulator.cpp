@@ -75,10 +75,9 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
         job_processing_context_map[job_id] = new JobProcessingContext(job);
     }
 
-    std::map<long, std::map<long, long>> machine_to_job_times_processed_map;
     for (auto [machine_id, _] : topology->getTopologyElementsMap()) {
         for (auto job_id : jobs | std::views::keys) {
-            machine_to_job_times_processed_map[machine_id][job_id] = 0;
+            simulator_state->initTimesProcessedMapEntry(machine_id, job_id);
         }
     }
 
@@ -295,11 +294,11 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                     machine_processing_context->finishProcessingAStep();
                     machine_processing_context->removeBatchProcessingScenario();
                     utility_event_queue.push(new WakeMachine(time, machine_id));
-                    machine_to_job_times_processed_map[machine_id][job_id]++;
+                    simulator_state->increaseTimesProcessedMapEntry(machine_id, job_id);
                     auto it = unfulfilled_job_processing_prerequisites.begin();
                     while (it != unfulfilled_job_processing_prerequisites.end()) {
                         auto job_processing_prerequisite = *it;
-                        job_processing_prerequisite->updatePrerequisites(machine_id, job_id, machine_to_job_times_processed_map[machine_id][job_id]);
+                        job_processing_prerequisite->updatePrerequisites(machine_id, job_id, simulator_state->getTimesProcessedMapEntry(machine_id, job_id));
                         if (job_processing_prerequisite->checkAllPrerequisitesSatisfied()) {
                             it = unfulfilled_job_processing_prerequisites.erase(it);
                             auto prerequisite_job_id = job_processing_prerequisite->getJobId();
@@ -326,7 +325,7 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                     auto job_processing_prerequisites = new JobProcessingPrerequisites(job_id, machine_id, step_id, path_tree_node->getPathNode()->getPrerequisites());
                     for (auto [machine_id, _] : topology->getTopologyElementsMap()) {
                         for (auto other_job_id : jobs | std::views::keys) {
-                            job_processing_prerequisites->updatePrerequisites(machine_id, other_job_id, machine_to_job_times_processed_map[machine_id][other_job_id]);
+                            job_processing_prerequisites->updatePrerequisites(machine_id, other_job_id, simulator_state->getTimesProcessedMapEntry(machine_id, other_job_id));
                         }
                     }
                     if (job_processing_prerequisites->checkAllPrerequisitesSatisfied()) {
@@ -491,11 +490,11 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                         utility_event_queue.push(new MachineBufferEntryRequestAsynchronous(time, job_id, next_machine_id, next_step_id));
                     }
                     machine_processing_context->finishProcessingAStepInBatch(job_id);
-                    machine_to_job_times_processed_map[machine_id][job_id]++;
+                    simulator_state->increaseTimesProcessedMapEntry(machine_id, job_id);
                     auto it = unfulfilled_job_processing_prerequisites.begin();
                     while (it != unfulfilled_job_processing_prerequisites.end()) {
                         auto job_processing_prerequisite = *it;
-                        job_processing_prerequisite->updatePrerequisites(machine_id, job_id, machine_to_job_times_processed_map[machine_id][job_id]);
+                        job_processing_prerequisite->updatePrerequisites(machine_id, job_id, simulator_state->getTimesProcessedMapEntry(machine_id, job_id));
                         if (job_processing_prerequisite->checkAllPrerequisitesSatisfied()) {
                             it = unfulfilled_job_processing_prerequisites.erase(it);
                             auto prerequisite_job_id = job_processing_prerequisite->getJobId();

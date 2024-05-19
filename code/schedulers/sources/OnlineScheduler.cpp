@@ -39,6 +39,7 @@ double OnlineScheduler::calculateScore(long machine_id, long job_id, long step_i
         simulator_state->getTime(),
         simulator_state->calculateCombinedWeightsOfBatchCompatibleJobs(machine_id, job_id),
         simulator_state->calculateNumberOfBatchCompatibleJobs(machine_id, job_id),
+        simulator_state->calculateBatchProcessingLimit(machine_id, job_id),
         simulator_state->calculateSetupLength(machine_id, job_id),
         simulator_state->calculateTimeUntilNextBreakdown(machine_id),
         simulator_state->calculatePreemptAllowed(machine_id, job_id)

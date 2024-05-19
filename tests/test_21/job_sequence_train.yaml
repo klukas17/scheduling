@@ -1,0 +1,41 @@
+job_sequence:
+  - job_id: 1
+    job_type_id: 1
+    release_time: 0
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+  - job_id: 2
+    job_type_id: 1
+    release_time: 1
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+  - job_id: 3
+    job_type_id: 1
+    release_time: 2
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+  - job_id: 4
+    job_type_id: 1
+    release_time: 3
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+  - job_id: 5
+    job_type_id: 1
+    release_time: 4
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3

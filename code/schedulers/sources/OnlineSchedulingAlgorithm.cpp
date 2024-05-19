@@ -11,7 +11,9 @@ std::vector<std::string> OnlineSchedulingAlgorithm::group_inputs = {
     "time",
     "remaining_processing_time_in_branch",
     "number_of_jobs_passed_through_a_machine",
-    "number_of_jobs_in_branch"
+    "number_of_jobs_in_branch",
+    "free_spaces_in_buffer",
+    "prerequisites_satisfied"
 };
 
 std::vector<std::string> OnlineSchedulingAlgorithm::machine_inputs = {
@@ -21,6 +23,7 @@ std::vector<std::string> OnlineSchedulingAlgorithm::machine_inputs = {
     "time",
     "combined_weights_of_batch_compatible_jobs",
     "number_of_batch_compatible_jobs",
+    "batch_processing_limit",
     "setup_length",
     "time_until_next_breakdown",
     "preempt_allowed"
@@ -51,6 +54,8 @@ double OnlineSchedulingAlgorithm::calculateScore(SchedulerParametersGroup* group
     params["remaining_processing_time_in_branch"] = group_params->remaining_processing_time_in_branch;
     params["number_of_jobs_passed_through_a_machine"] = group_params->number_of_jobs_passed_through_a_machine;
     params["number_of_jobs_in_branch"] = group_params->number_of_jobs_in_branch;
+    params["free_spaces_in_buffer"] = group_params->free_spaces_in_buffer;
+    params["prerequisites_satisfied"] = group_params->prerequisites_satisfied;
     delete group_params;
     return calculateScore(params);
 }
@@ -63,6 +68,7 @@ double OnlineSchedulingAlgorithm::calculateScore(SchedulerParametersMachine* mac
     params["time"] = machine_params->time;
     params["combined_weights_of_batch_compatible_jobs"] = machine_params->combined_weights_of_batch_compatible_jobs;
     params["number_of_batch_compatible_jobs"] = machine_params->number_of_batch_compatible_jobs;
+    params["batch_processing_limit"] = machine_params->batch_processing_limit;
     params["setup_length"] = machine_params->setup_length;
     params["time_until_next_breakdown"] = machine_params->time_until_next_breakdown;
     params["preempt_allowed"] = machine_params->preempt_allowed;
