@@ -4,6 +4,8 @@
 
 #include "OnlineSchedulingAlgorithm.h"
 
+#include <utility>
+
 std::vector<std::string> OnlineSchedulingAlgorithm::group_inputs = {
     "release_time",
     "due_time",
@@ -12,7 +14,7 @@ std::vector<std::string> OnlineSchedulingAlgorithm::group_inputs = {
     "remaining_processing_time_in_branch",
     "number_of_jobs_passed_through_a_machine",
     "number_of_jobs_in_branch",
-    "free_spaces_in_buffer",
+    "buffer_has_free_space",
     "prerequisites_satisfied"
 };
 
@@ -45,6 +47,11 @@ void OnlineSchedulingAlgorithm::setInputs(GeneralTopologyElementType general_top
     }
 }
 
+void OnlineSchedulingAlgorithm::setInputs(std::vector<std::string> inputs) {
+    this->inputs = std::move(inputs);
+}
+
+
 double OnlineSchedulingAlgorithm::calculateScore(SchedulerParametersGroup* group_params) {
     std::map<std::string, double> params;
     params["release_time"] = group_params->release_time;
@@ -54,7 +61,7 @@ double OnlineSchedulingAlgorithm::calculateScore(SchedulerParametersGroup* group
     params["remaining_processing_time_in_branch"] = group_params->remaining_processing_time_in_branch;
     params["number_of_jobs_passed_through_a_machine"] = group_params->number_of_jobs_passed_through_a_machine;
     params["number_of_jobs_in_branch"] = group_params->number_of_jobs_in_branch;
-    params["free_spaces_in_buffer"] = group_params->free_spaces_in_buffer;
+    params["buffer_has_free_space"] = group_params->buffer_has_free_space;
     params["prerequisites_satisfied"] = group_params->prerequisites_satisfied;
     delete group_params;
     return calculateScore(params);

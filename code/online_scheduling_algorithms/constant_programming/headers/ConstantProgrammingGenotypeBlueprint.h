@@ -5,10 +5,10 @@
 #ifndef CONSTANTPROGRAMMINGGENOTYPEBLUEPRINT_H
 #define CONSTANTPROGRAMMINGGENOTYPEBLUEPRINT_H
 
-#include "GenotypeBlueprint.h"
+#include "OnlineSchedulingAlgorithmGenotypeBlueprint.h"
 
 
-class ConstantProgrammingGenotypeBlueprint final : public GenotypeBlueprint {
+class ConstantProgrammingGenotypeBlueprint final : public OnlineSchedulingAlgorithmGenotypeBlueprint {
 public:
     double constant;
     ConstantProgrammingGenotypeBlueprint(double constant);

@@ -5,10 +5,10 @@
 #ifndef RANDOMPROGRAMMINGGENOTYPEBLUEPRINT_H
 #define RANDOMPROGRAMMINGGENOTYPEBLUEPRINT_H
 
-#include "GenotypeBlueprint.h"
+#include "OnlineSchedulingAlgorithmGenotypeBlueprint.h"
 
 
-class RandomProgrammingGenotypeBlueprint final : public GenotypeBlueprint {
+class RandomProgrammingGenotypeBlueprint final : public OnlineSchedulingAlgorithmGenotypeBlueprint {
 public:
     double lower;
     double upper;

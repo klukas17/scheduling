@@ -11,6 +11,7 @@ class ConstantProgramming final : public OnlineSchedulingAlgorithm {
     double constant;
 public:
     explicit ConstantProgramming(double constant);
+    double getConstant();
     ~ConstantProgramming();
     Genotype* copy() override;
     double calculateScore(std::map<std::string, double> params) override;

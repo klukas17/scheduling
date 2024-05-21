@@ -14,6 +14,14 @@ RandomProgramming::RandomProgramming(double lower, double upper) {
 
 RandomProgramming::~RandomProgramming() = default;
 
+double RandomProgramming::getLower() {
+    return lower;
+}
+
+double RandomProgramming::getUpper() {
+    return upper;
+}
+
 Genotype* RandomProgramming::copy() {
     return new RandomProgramming(lower, upper);
 }

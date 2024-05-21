@@ -16,14 +16,15 @@
 
 class OnlineSchedulingAlgorithm : public Genotype {
 protected:
-    virtual double calculateScore(std::map<std::string, double> params) = 0;
     std::vector<std::string> inputs;
+public:
     static std::vector<std::string> group_inputs;
     static std::vector<std::string> machine_inputs;
-public:
     void setInputs(GeneralTopologyElementType general_topology_element_type);
+    void setInputs(std::vector<std::string> inputs);
     double calculateScore(SchedulerParametersGroup* group_params);
     double calculateScore(SchedulerParametersMachine* machine_params);
+    virtual double calculateScore(std::map<std::string, double> params) = 0;
 };
 
 
