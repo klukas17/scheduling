@@ -231,16 +231,13 @@ bool SimulatorState::calculatePreemptAllowed(long machine_id, long job_id) {
     return machine->getMachineType()->getPreempt() && job->getJobType()->getPreempt();
 }
 
-double SimulatorState::calculateTimeUntilNextBreakdown(long machine_id) {
+double SimulatorState::calculateTimeUntilNextBreakdown(long machine_id, long job_id) {
+    auto job = jobs.at(job_id);
     std::deque<Breakdown*>& breakdowns = breakdowns_map[machine_id];
     while (!breakdowns.empty() && breakdowns[0]->getStartTime() < time) {
         breakdowns.pop_front();
     }
-    if (breakdowns.empty()) {
-        return std::numeric_limits<double>::infinity();
-    } else {
-        return breakdowns[0]->getStartTime() - time;
-    }
+    return std::min(breakdowns.empty() ? std::numeric_limits<double>::infinity() : breakdowns[0]->getStartTime() - time, job->getProcessingTime(machine_id));
 }
 
 double SimulatorState::calculateSetupLength(long machine_id, long job_id) {
@@ -271,6 +268,6 @@ bool SimulatorState::checkPrerequisitesSatisfied(PathNode* path_node) {
     });
 }
 
-long SimulatorState::calculateSpacesInBuffer(long machine_id) {
-    return machine_processing_context_map[machine_id]->getBufferFreeSpace();
+long SimulatorState::calculateBufferHasFreeSpace(long machine_id) {
+    return machine_processing_context_map[machine_id]->bufferHasSpace();
 }

@@ -33,6 +33,10 @@ OnlineSchedulingAlgorithm* OnlineSchedulingAlgorithmCluster::getAlgorithm(long m
     return algorithms[machine_id];
 }
 
+std::map<long, OnlineSchedulingAlgorithm*> OnlineSchedulingAlgorithmCluster::getAlgorithms() {
+    return algorithms;
+}
+
 void OnlineSchedulingAlgorithmCluster::setAlgorithm(long machine_id, OnlineSchedulingAlgorithm* algorithm) {
     algorithm->setInputs(topology->getTopologyElementsMap().at(machine_id)->getGeneralTopologyElementType());
     algorithms[machine_id] = algorithm;

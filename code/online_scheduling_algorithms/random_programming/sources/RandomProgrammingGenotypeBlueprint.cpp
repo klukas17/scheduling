@@ -4,8 +4,6 @@
 
 #include "RandomProgrammingGenotypeBlueprint.h"
 
-#include <utility>
-
 RandomProgrammingGenotypeBlueprint::RandomProgrammingGenotypeBlueprint(double lower, double upper) {
     this->lower = lower;
     this->upper = upper;

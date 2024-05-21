@@ -21,6 +21,7 @@ public:
     Genotype* copy() override;
     Topology* getTopology();
     OnlineSchedulingAlgorithm* getAlgorithm(long machine_id);
+    std::map<long, OnlineSchedulingAlgorithm*> getAlgorithms();
     void setAlgorithm(long machine_id, OnlineSchedulingAlgorithm* algorithm);
 };
 

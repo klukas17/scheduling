@@ -55,10 +55,10 @@ public:
     double calculateRemainingProcessingTimeInBranch(PathNode* path_node);
     double calculateRemainingProcessingTimeForPathNode(PathNode* path_node, PathNode* prev_path_node, double diff);
     bool calculatePreemptAllowed(long machine_id, long job_id);
-    double calculateTimeUntilNextBreakdown(long machine_id);
+    double calculateTimeUntilNextBreakdown(long machine_id, long job_id);
     double calculateSetupLength(long machine_id, long job_id);
     bool checkPrerequisitesSatisfied(PathNode* path_node);
-    long calculateSpacesInBuffer(long machine_id);
+    long calculateBufferHasFreeSpace(long machine_id);
 };
 
 

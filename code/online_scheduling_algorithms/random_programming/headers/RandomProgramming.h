@@ -17,6 +17,8 @@ class RandomProgramming final : public OnlineSchedulingAlgorithm {
     DoubleGenerator* generator;
 public:
     RandomProgramming(double lower, double upper);
+    double getLower();
+    double getUpper();
     ~RandomProgramming();
     Genotype* copy() override;
     double calculateScore(std::map<std::string, double> params) override;

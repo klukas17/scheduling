@@ -10,6 +10,10 @@ set(YAML_CPP_DIR ~/libs/yaml-cpp)
 include_directories(${YAML_CPP_DIR}/include)
 link_directories(${YAML_CPP_DIR}/build)
 
+# https://gitlab.com/libeigen/eigen
+set(EIGEN_DIR ~/libs/eigen)
+include_directories(${EIGEN_DIR})
+
 include_directories(
         code/breakdowns_generators/headers
         code/errors/headers
@@ -19,8 +23,9 @@ include_directories(
         code/job_sequence_generators/headers
         code/jobs/headers
         code/machines/headers
-        code/online_scheduling_algorithms/random_programming/headers
         code/online_scheduling_algorithms/constant_programming/headers
+        code/online_scheduling_algorithms/neural_network/headers
+        code/online_scheduling_algorithms/random_programming/headers
         code/optimization/headers
         code/optimization_algorithms/headers
         code/optimization_scheduling/headers
@@ -45,8 +50,9 @@ file(GLOB PROJECT_HEADERS
         code/job_sequence_generators/headers/*.h
         code/jobs/headers/*.h
         code/machines/headers/*.h
-        code/online_scheduling_algorithms/random_programming/headers/*.h
         code/online_scheduling_algorithms/constant_programming/headers/*.h
+        code/online_scheduling_algorithms/neural_network/headers/*.h
+        code/online_scheduling_algorithms/random_programming/headers/*.h
         code/optimization/headers/*.h
         code/optimization_algorithms/headers/*.h
         code/optimization_scheduling/headers/*.h
@@ -71,8 +77,9 @@ file(GLOB PROJECT_SOURCES
         code/job_sequence_generators/sources/*.cpp
         code/jobs/sources/*.cpp
         code/machines/sources/*.cpp
-        code/online_scheduling_algorithms/random_programming/sources/*.cpp
         code/online_scheduling_algorithms/constant_programming/sources/*.cpp
+        code/online_scheduling_algorithms/neural_network/sources/*.cpp
+        code/online_scheduling_algorithms/random_programming/sources/*.cpp
         code/optimization/sources/*.cpp
         code/optimization_algorithms/sources/*.cpp
         code/optimization_scheduling/sources/*.cpp
@@ -99,7 +106,11 @@ add_executable(run_test executables/run_test.cpp ${PROJECT_SOURCES} ${PROJECT_HE
 add_executable(generate_jobs executables/generate_jobs.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(generate_breakdowns executables/generate_breakdowns.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(online_scheduling executables/online_scheduling.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(online_scheduling_genotype executables/online_scheduling_genotype.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(topology_enumerator executables/topology_enumerator.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(random_generator executables/random_generator.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(regression_algorithm executables/regression_algorithm.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(simple_experiment executables/simple_experiment.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 
 target_link_libraries(scheduling yaml-cpp)
 target_link_libraries(bit_sum_genotype yaml-cpp)
@@ -109,4 +120,8 @@ target_link_libraries(run_test yaml-cpp)
 target_link_libraries(generate_jobs yaml-cpp)
 target_link_libraries(generate_breakdowns yaml-cpp)
 target_link_libraries(online_scheduling yaml-cpp)
+target_link_libraries(online_scheduling_genotype yaml-cpp)
 target_link_libraries(topology_enumerator yaml-cpp)
+target_link_libraries(random_generator yaml-cpp)
+target_link_libraries(regression_algorithm yaml-cpp)
+target_link_libraries(simple_experiment yaml-cpp)

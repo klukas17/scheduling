@@ -41,7 +41,7 @@ JobProcessingStep* OnlineSchedulerJobContext::getNextProcessingStep() {
                 simulator_state->calculateRemainingProcessingTimeInBranch(candidate_path_node),
                 simulator_state->getNumberOfBranchPassings(candidate_path_node->getTopologyElement()->getId()),
                 simulator_state->calculateNumberOfJobsInBranch(candidate_path_node->getTopologyElement()->getId()),
-                simulator_state->calculateSpacesInBuffer(candidate_path_node->getTopologyElement()->getId()),
+                simulator_state->calculateBufferHasFreeSpace(candidate_path_node->getTopologyElement()->getId()),
                 simulator_state->checkPrerequisitesSatisfied(candidate_path_node)
             );
             double score = algorithms_cache[candidate_path_node->getTopologyElement()->getId()]->calculateScore(params);
@@ -106,7 +106,7 @@ JobProcessingStep* OnlineSchedulerJobContext::getNextProcessingStep() {
                     simulator_state->calculateRemainingProcessingTimeInBranch(path_node),
                     simulator_state->getNumberOfBranchPassings(path_node->getTopologyElement()->getId()),
                     simulator_state->calculateNumberOfJobsInBranch(path_node->getTopologyElement()->getId()),
-                    simulator_state->calculateSpacesInBuffer(path_node->getTopologyElement()->getId()),
+                    simulator_state->calculateBufferHasFreeSpace(path_node->getTopologyElement()->getId()),
                     simulator_state->checkPrerequisitesSatisfied(path_node)
                 );
                 double score = algorithm_cluster->getAlgorithm(machine_id)->calculateScore(params);

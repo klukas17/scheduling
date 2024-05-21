@@ -12,7 +12,7 @@ SchedulerParametersGroup::SchedulerParametersGroup(
     double remaining_processing_time_in_branch,
     int number_of_jobs_passed_through_a_machine,
     int number_of_jobs_in_branch,
-    long free_spaces_in_buffer,
+    long buffer_has_free_space,
     bool prerequisites_satisfied
 ) {
     this->release_time = release_time;
@@ -22,6 +22,6 @@ SchedulerParametersGroup::SchedulerParametersGroup(
     this->remaining_processing_time_in_branch = remaining_processing_time_in_branch;
     this->number_of_jobs_passed_through_a_machine = number_of_jobs_passed_through_a_machine;
     this->number_of_jobs_in_branch = number_of_jobs_in_branch;
-    this->free_spaces_in_buffer = free_spaces_in_buffer;
+    this->buffer_has_free_space = buffer_has_free_space;
     this->prerequisites_satisfied = prerequisites_satisfied;
 }

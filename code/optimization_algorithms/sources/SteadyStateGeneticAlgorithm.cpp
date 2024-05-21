@@ -3,6 +3,9 @@
 //
 
 #include "SteadyStateGeneticAlgorithm.h"
+
+#include <iostream>
+
 #include "EvaluatedGenotype.h"
 
 SteadyStateGeneticAlgorithm::SteadyStateGeneticAlgorithm(EvaluationFunction* evaluation_function, CreationOperator* creation_operator, PerturbationOperator* perturbation_operator, CombinationOperator* combination_operator, int const population_size, int const iterations_count) :
@@ -31,5 +34,6 @@ void SteadyStateGeneticAlgorithm::optimize(Population* population) {
         auto const fitness = evaluation_function->evaluate(new_unit_genotype);
         auto evaluated_unit = new EvaluatedGenotype(new_unit_genotype, fitness);
         population->insertGenotype(evaluated_unit);
+        std::cout << "ITER " << i + 1 << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
     }
 }

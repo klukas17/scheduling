@@ -38,7 +38,6 @@ public:
     [[nodiscard]] long getStepsInBufferRequests() const;
     std::tuple<long, long> removeStepFromBufferRequests();
     [[nodiscard]] bool bufferHasSpace() const;
-    long getBufferFreeSpace();
     void addStepWaitingForPrerequisite(long step_id, long job_id, long job_type_id, double time_start_processing, double time_remaining_processing, bool preempt);
     void moveStepFromWaitingToBuffer(long job_id) const;
     void startProcessingAStep() const;
