@@ -31,6 +31,10 @@ std::vector<std::string> OnlineSchedulingAlgorithm::machine_inputs = {
     "preempt_allowed"
 };
 
+std::vector<std::string> OnlineSchedulingAlgorithm::getInputs() {
+    return inputs;
+}
+
 void OnlineSchedulingAlgorithm::setInputs(GeneralTopologyElementType general_topology_element_type) {
     switch (general_topology_element_type) {
     case ABSTRACT_GENERAL_TOPOLOGY_ELEMENT:

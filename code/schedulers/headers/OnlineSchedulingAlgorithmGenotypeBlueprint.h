@@ -16,7 +16,7 @@ protected:
 public:
     OnlineSchedulingAlgorithmGenotypeBlueprint();
     std::vector<std::string> getInputs();
-    void setInputs(std::vector<std::string> inputs);
+    virtual void setInputs(std::vector<std::string> inputs);
 };
 
 
