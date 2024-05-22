@@ -25,6 +25,7 @@ Genotype* OnlineSchedulingAlgorithmClusterCreationOperator::create() {
     for (auto element_id : blueprint->topology_elements_with_algorithms_in_leaves) {
         algorithms[element_id] = dynamic_cast<OnlineSchedulingAlgorithm*>(algorithm_creation_operator->create());
     }
+    algorithm_blueprint->setInputs({});
     for (auto element_id : blueprint->topology_elements_without_algorithms) {
         algorithms[element_id] = dynamic_cast<OnlineSchedulingAlgorithm*>(new ConstantProgramming(0));
     }

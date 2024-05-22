@@ -20,6 +20,7 @@ protected:
 public:
     static std::vector<std::string> group_inputs;
     static std::vector<std::string> machine_inputs;
+    std::vector<std::string> getInputs();
     void setInputs(GeneralTopologyElementType general_topology_element_type);
     void setInputs(std::vector<std::string> inputs);
     double calculateScore(SchedulerParametersGroup* group_params);
