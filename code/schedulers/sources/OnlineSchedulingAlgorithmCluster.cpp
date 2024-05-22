@@ -22,7 +22,11 @@ OnlineSchedulingAlgorithmCluster::~OnlineSchedulingAlgorithmCluster() {
 }
 
 Genotype* OnlineSchedulingAlgorithmCluster::copy() {
-    return new OnlineSchedulingAlgorithmCluster(topology, algorithms);
+    std::map<long, OnlineSchedulingAlgorithm*> algorithms_copy;
+    for (auto [algorithm_id, algorithm] : algorithms) {
+        algorithms_copy[algorithm_id] = dynamic_cast<OnlineSchedulingAlgorithm*>(algorithm->copy());
+    }
+    return new OnlineSchedulingAlgorithmCluster(topology, algorithms_copy);
 }
 
 Topology* OnlineSchedulingAlgorithmCluster::getTopology() {

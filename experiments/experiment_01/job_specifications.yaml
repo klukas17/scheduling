@@ -1,5 +1,5 @@
 jobs:
   - job_id: 1
-    processing_times:
-      - machine_id: 1
-        time: 5
+    preempt: true
+  - job_id: 2
+    preempt: false

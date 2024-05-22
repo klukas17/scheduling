@@ -1,0 +1,121 @@
+topology:
+  parallel:
+    id: 1
+    body:
+      - parallel:
+          id: 2
+          body:
+            - parallel:
+                id: 5
+                body:
+                  - machine:
+                      id: 14
+                      machine_type_id: 1
+                  - machine:
+                      id: 15
+                      machine_type_id: 1
+                  - machine:
+                      id: 16
+                      machine_type_id: 1
+            - parallel:
+                id: 6
+                body:
+                  - machine:
+                      id: 17
+                      machine_type_id: 1
+                  - machine:
+                      id: 18
+                      machine_type_id: 1
+                  - machine:
+                      id: 19
+                      machine_type_id: 1
+            - parallel:
+                id: 7
+                body:
+                  - machine:
+                      id: 20
+                      machine_type_id: 1
+                  - machine:
+                      id: 21
+                      machine_type_id: 1
+                  - machine:
+                      id: 22
+                      machine_type_id: 1
+      - parallel:
+          id: 3
+          body:
+            - parallel:
+                id: 8
+                body:
+                  - machine:
+                      id: 23
+                      machine_type_id: 1
+                  - machine:
+                      id: 24
+                      machine_type_id: 1
+                  - machine:
+                      id: 25
+                      machine_type_id: 1
+            - parallel:
+                id: 9
+                body:
+                  - machine:
+                      id: 26
+                      machine_type_id: 1
+                  - machine:
+                      id: 27
+                      machine_type_id: 1
+                  - machine:
+                      id: 28
+                      machine_type_id: 1
+            - parallel:
+                id: 10
+                body:
+                  - machine:
+                      id: 29
+                      machine_type_id: 1
+                  - machine:
+                      id: 30
+                      machine_type_id: 1
+                  - machine:
+                      id: 31
+                      machine_type_id: 1
+      - parallel:
+          id: 4
+          body:
+            - parallel:
+                id: 11
+                body:
+                  - machine:
+                      id: 32
+                      machine_type_id: 1
+                  - machine:
+                      id: 33
+                      machine_type_id: 1
+                  - machine:
+                      id: 34
+                      machine_type_id: 1
+            - parallel:
+                id: 12
+                body:
+                  - machine:
+                      id: 35
+                      machine_type_id: 1
+                  - machine:
+                      id: 36
+                      machine_type_id: 1
+                  - machine:
+                      id: 37
+                      machine_type_id: 1
+            - parallel:
+                id: 13
+                body:
+                  - machine:
+                      id: 38
+                      machine_type_id: 1
+                  - machine:
+                      id: 39
+                      machine_type_id: 1
+                  - machine:
+                      id: 40
+                      machine_type_id: 1

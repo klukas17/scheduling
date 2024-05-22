@@ -14,7 +14,7 @@ Population::Population(int population_size) {
 }
 
 void Population::initialize(CreationOperator* creation_operator, EvaluationFunction* evaluation_function) {
-    for (int i = 0; i < population_size; i++) {
+    while (population.size() < population_size) {
         auto const new_unit_genotype = creation_operator->create();
         auto const fitness = evaluation_function->evaluate(new_unit_genotype);
         auto evaluated_unit = new EvaluatedGenotype(new_unit_genotype, fitness);

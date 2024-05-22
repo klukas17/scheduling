@@ -4,6 +4,8 @@
 
 #include "SchedulingMetaAlgorithm.h"
 
+#include <iostream>
+
 SchedulingMetaAlgorithm::SchedulingMetaAlgorithm(
     EvaluationFunction* evaluation_function,
     CreationOperator* creation_operator,
@@ -35,9 +37,10 @@ void SchedulingMetaAlgorithm::optimize(Population* population) {
         cluster_perturbation_operator->setModifiableMachines(machines_partition);
         cluster_combination_operator->setModifiableMachines(machines_partition);
         inner_optimization_algorithm->optimize(inner_optimization_algorithm_population);
-        auto best_genotype = inner_optimization_algorithm_population->getGenotype(0)->genotype;
+        auto best_genotype = inner_optimization_algorithm_population->getGenotype(0)->genotype->copy();
         auto genotype_evaluation = evaluation_function->evaluate(best_genotype);
         auto evaluated_genotype = new EvaluatedGenotype(best_genotype, genotype_evaluation);
         population->insertGenotype(evaluated_genotype);
+        std::cout << "ITER " << i + 1 << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
     }
 }

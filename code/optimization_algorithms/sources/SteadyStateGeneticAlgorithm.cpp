@@ -34,6 +34,6 @@ void SteadyStateGeneticAlgorithm::optimize(Population* population) {
         auto const fitness = evaluation_function->evaluate(new_unit_genotype);
         auto evaluated_unit = new EvaluatedGenotype(new_unit_genotype, fitness);
         population->insertGenotype(evaluated_unit);
-        std::cout << "ITER " << i + 1 << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
+        std::cout << "  ITER " << i + 1 << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
     }
 }

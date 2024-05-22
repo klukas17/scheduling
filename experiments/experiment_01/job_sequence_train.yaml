@@ -1,0 +1,2201 @@
+job_sequence:
+  - job_id: 1
+    job_type_id: 1
+    release_time: 0.36720265545739406
+    due_time: 0.36720265545739406
+    weight: 1.0856565104347016
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 2
+    job_type_id: 1
+    release_time: 0.66492667981617037
+    due_time: 0.66492667981617037
+    weight: 4.1796298485700198
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 3
+    job_type_id: 2
+    release_time: 0.71818197701331743
+    due_time: 0.71818197701331743
+    weight: 4.4152152799166426
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 4
+    job_type_id: 1
+    release_time: 1.0274410088491637
+    due_time: 1.0274410088491637
+    weight: 0.63570249010563951
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 5
+    job_type_id: 2
+    release_time: 1.0738664034020036
+    due_time: 1.0738664034020036
+    weight: 5.7810718751782648
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 6
+    job_type_id: 1
+    release_time: 1.3653092951529069
+    due_time: 1.3653092951529069
+    weight: 1.0946164337367839
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 7
+    job_type_id: 2
+    release_time: 1.3796904852558201
+    due_time: 1.3796904852558201
+    weight: 4.2513671339400894
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 8
+    job_type_id: 2
+    release_time: 1.4042237572051965
+    due_time: 1.4042237572051965
+    weight: 5.2915587949101504
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 9
+    job_type_id: 1
+    release_time: 1.4946045733330735
+    due_time: 1.4946045733330735
+    weight: 2.2086835396036912
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 10
+    job_type_id: 1
+    release_time: 2.3390829005577287
+    due_time: 2.3390829005577287
+    weight: 0.092718160346715872
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 11
+    job_type_id: 2
+    release_time: 2.3668887912035008
+    due_time: 2.3668887912035008
+    weight: 7.5100567050599958
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 12
+    job_type_id: 1
+    release_time: 2.8090896475901626
+    due_time: 2.8090896475901626
+    weight: 2.0413652929081776
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 13
+    job_type_id: 2
+    release_time: 3.2028140451446392
+    due_time: 3.2028140451446392
+    weight: 7.6349523784462505
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 14
+    job_type_id: 2
+    release_time: 3.3775099778116005
+    due_time: 3.3775099778116005
+    weight: 4.2521024256713531
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 15
+    job_type_id: 2
+    release_time: 3.4353866594978602
+    due_time: 3.4353866594978602
+    weight: 3.7415717599947871
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 16
+    job_type_id: 1
+    release_time: 3.8783154035662184
+    due_time: 3.8783154035662184
+    weight: 2.7727812872882081
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 17
+    job_type_id: 2
+    release_time: 4.0975870123506422
+    due_time: 4.0975870123506422
+    weight: 5.5711110544197506
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 18
+    job_type_id: 1
+    release_time: 4.3535364107222447
+    due_time: 4.3535364107222447
+    weight: 3.4045992378452219
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 19
+    job_type_id: 1
+    release_time: 4.4436818707600825
+    due_time: 4.4436818707600825
+    weight: 1.561173506085727
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 20
+    job_type_id: 2
+    release_time: 4.9430990718052827
+    due_time: 4.9430990718052827
+    weight: 5.2222582085380989
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 21
+    job_type_id: 1
+    release_time: 4.9792812320802913
+    due_time: 4.9792812320802913
+    weight: 2.8855896841092661
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 22
+    job_type_id: 2
+    release_time: 5.212165427817764
+    due_time: 5.212165427817764
+    weight: 5.976010538606956
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 23
+    job_type_id: 2
+    release_time: 5.3042113410343479
+    due_time: 5.3042113410343479
+    weight: 3.5124458849376632
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 24
+    job_type_id: 2
+    release_time: 5.3303805909737196
+    due_time: 5.3303805909737196
+    weight: 4.0539699821872528
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 25
+    job_type_id: 2
+    release_time: 5.5604533829950027
+    due_time: 5.5604533829950027
+    weight: 3.9745715097832659
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 26
+    job_type_id: 2
+    release_time: 5.5986943484717697
+    due_time: 5.5986943484717697
+    weight: 7.4683560108444897
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 27
+    job_type_id: 2
+    release_time: 6.2359821869183358
+    due_time: 6.2359821869183358
+    weight: 3.0889465116733414
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 28
+    job_type_id: 1
+    release_time: 6.3482725089529488
+    due_time: 6.3482725089529488
+    weight: 2.9912746949266458
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 29
+    job_type_id: 2
+    release_time: 6.8801695232001885
+    due_time: 6.8801695232001885
+    weight: 7.6622606437679766
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 30
+    job_type_id: 1
+    release_time: 6.8891799883332165
+    due_time: 6.8891799883332165
+    weight: 2.849765598648637
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 31
+    job_type_id: 2
+    release_time: 7.0704663866666522
+    due_time: 7.0704663866666522
+    weight: 3.5949333247844315
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 32
+    job_type_id: 1
+    release_time: 7.2906112804124481
+    due_time: 7.2906112804124481
+    weight: 2.5588734437092828
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 33
+    job_type_id: 2
+    release_time: 7.5658158671100173
+    due_time: 7.5658158671100173
+    weight: 6.6707715712031757
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 34
+    job_type_id: 2
+    release_time: 8.5535299856036993
+    due_time: 8.5535299856036993
+    weight: 5.8802290924392189
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 35
+    job_type_id: 1
+    release_time: 8.5561213308002007
+    due_time: 8.5561213308002007
+    weight: 4.3169123592975787
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 36
+    job_type_id: 2
+    release_time: 9.025161474966346
+    due_time: 9.025161474966346
+    weight: 5.0452132764816895
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 37
+    job_type_id: 1
+    release_time: 9.047309844697125
+    due_time: 9.047309844697125
+    weight: 0.68670148790778207
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 38
+    job_type_id: 1
+    release_time: 9.8859921562892978
+    due_time: 9.8859921562892978
+    weight: 0.74499230659466564
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 39
+    job_type_id: 1
+    release_time: 10.343092074653795
+    due_time: 10.343092074653795
+    weight: 0.19495287196687383
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 40
+    job_type_id: 2
+    release_time: 10.884265280232919
+    due_time: 10.884265280232919
+    weight: 4.5715490836389199
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 41
+    job_type_id: 2
+    release_time: 10.931447832171102
+    due_time: 10.931447832171102
+    weight: 7.4934807292927745
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 42
+    job_type_id: 1
+    release_time: 11.139695169532331
+    due_time: 11.139695169532331
+    weight: 0.51400219018033466
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 43
+    job_type_id: 1
+    release_time: 11.443619554033333
+    due_time: 11.443619554033333
+    weight: 0.56920966131159001
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 44
+    job_type_id: 1
+    release_time: 12.250605367831582
+    due_time: 12.250605367831582
+    weight: 2.0902717938090909
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 45
+    job_type_id: 2
+    release_time: 12.425989915023711
+    due_time: 12.425989915023711
+    weight: 4.6016731034443676
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 46
+    job_type_id: 2
+    release_time: 12.673663807900594
+    due_time: 12.673663807900594
+    weight: 6.073925457905414
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 47
+    job_type_id: 2
+    release_time: 13.150844623456273
+    due_time: 13.150844623456273
+    weight: 4.0065574291860901
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 48
+    job_type_id: 1
+    release_time: 13.511734978415223
+    due_time: 13.511734978415223
+    weight: 4.1239305445430103
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 49
+    job_type_id: 2
+    release_time: 14.073294789890989
+    due_time: 14.073294789890989
+    weight: 5.5839959662452809
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 50
+    job_type_id: 1
+    release_time: 14.164483075232122
+    due_time: 14.164483075232122
+    weight: 2.018822888726759
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 51
+    job_type_id: 1
+    release_time: 14.377155309409945
+    due_time: 14.377155309409945
+    weight: 0.29701415742706011
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 52
+    job_type_id: 1
+    release_time: 14.698758331692673
+    due_time: 14.698758331692673
+    weight: 0.6312707018346273
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 53
+    job_type_id: 1
+    release_time: 14.962281708604703
+    due_time: 14.962281708604703
+    weight: 3.2252883121321476
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 54
+    job_type_id: 1
+    release_time: 15.299690946992669
+    due_time: 15.299690946992669
+    weight: 0.4859159721760693
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 55
+    job_type_id: 2
+    release_time: 15.357062050797122
+    due_time: 15.357062050797122
+    weight: 6.6318719063619849
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 56
+    job_type_id: 1
+    release_time: 15.741528280470424
+    due_time: 15.741528280470424
+    weight: 2.9212222205051419
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 57
+    job_type_id: 1
+    release_time: 15.98467054603149
+    due_time: 15.98467054603149
+    weight: 4.7608780120862368
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 58
+    job_type_id: 2
+    release_time: 16.029387170678138
+    due_time: 16.029387170678138
+    weight: 5.577403880370623
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 59
+    job_type_id: 1
+    release_time: 16.163605361249989
+    due_time: 16.163605361249989
+    weight: 0.18019063623085185
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 60
+    job_type_id: 1
+    release_time: 16.314513341747336
+    due_time: 16.314513341747336
+    weight: 0.18001758617528152
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 61
+    job_type_id: 2
+    release_time: 16.560466774001977
+    due_time: 16.560466774001977
+    weight: 7.606028057814358
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 62
+    job_type_id: 2
+    release_time: 17.631256854116607
+    due_time: 17.631256854116607
+    weight: 7.6937214101836018
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 63
+    job_type_id: 2
+    release_time: 17.839868120557046
+    due_time: 17.839868120557046
+    weight: 6.2450139057163039
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 64
+    job_type_id: 2
+    release_time: 17.841849709119352
+    due_time: 17.841849709119352
+    weight: 4.0881988478040014
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 65
+    job_type_id: 2
+    release_time: 17.881962931140411
+    due_time: 17.881962931140411
+    weight: 4.8816307902059286
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 66
+    job_type_id: 2
+    release_time: 18.291272657809667
+    due_time: 18.291272657809667
+    weight: 7.9662275564833589
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 67
+    job_type_id: 1
+    release_time: 18.912823141302908
+    due_time: 18.912823141302908
+    weight: 3.3348971225236443
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 68
+    job_type_id: 2
+    release_time: 19.183221229432991
+    due_time: 19.183221229432991
+    weight: 7.9212322745585517
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 69
+    job_type_id: 1
+    release_time: 19.200615242724545
+    due_time: 19.200615242724545
+    weight: 3.7151942712605317
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 70
+    job_type_id: 1
+    release_time: 19.229057132040058
+    due_time: 19.229057132040058
+    weight: 4.7681541438663739
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 71
+    job_type_id: 1
+    release_time: 19.758090135572225
+    due_time: 19.758090135572225
+    weight: 4.5863152912272298
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 72
+    job_type_id: 2
+    release_time: 19.911397210388685
+    due_time: 19.911397210388685
+    weight: 3.2072572234117045
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 73
+    job_type_id: 2
+    release_time: 20.177939408981086
+    due_time: 20.177939408981086
+    weight: 4.1646874694077969
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 74
+    job_type_id: 1
+    release_time: 21.641791228039622
+    due_time: 21.641791228039622
+    weight: 3.3381174898881931
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 75
+    job_type_id: 2
+    release_time: 22.022522346760248
+    due_time: 22.022522346760248
+    weight: 4.5612968154572249
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 76
+    job_type_id: 1
+    release_time: 22.045469551228493
+    due_time: 22.045469551228493
+    weight: 3.5745678205316449
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 77
+    job_type_id: 2
+    release_time: 22.053446232834279
+    due_time: 22.053446232834279
+    weight: 6.044295786954903
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 78
+    job_type_id: 1
+    release_time: 22.074248701206113
+    due_time: 22.074248701206113
+    weight: 1.7513724412743583
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 79
+    job_type_id: 1
+    release_time: 22.547228178297935
+    due_time: 22.547228178297935
+    weight: 4.0191473868008707
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 80
+    job_type_id: 2
+    release_time: 23.300270394085199
+    due_time: 23.300270394085199
+    weight: 7.9762434209870507
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 81
+    job_type_id: 1
+    release_time: 23.482481821275943
+    due_time: 23.482481821275943
+    weight: 3.7113277494865948
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 82
+    job_type_id: 2
+    release_time: 23.66398286357385
+    due_time: 23.66398286357385
+    weight: 6.5922176287001859
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 83
+    job_type_id: 2
+    release_time: 23.681774928947359
+    due_time: 23.681774928947359
+    weight: 7.1039497964919294
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 84
+    job_type_id: 2
+    release_time: 23.943184771055783
+    due_time: 23.943184771055783
+    weight: 4.3563112738564982
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 85
+    job_type_id: 2
+    release_time: 24.263653859569256
+    due_time: 24.263653859569256
+    weight: 6.2334380847906292
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 86
+    job_type_id: 1
+    release_time: 24.393582647791842
+    due_time: 24.393582647791842
+    weight: 2.8776888473783191
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 87
+    job_type_id: 2
+    release_time: 24.578906621050116
+    due_time: 24.578906621050116
+    weight: 6.3860141928214578
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 88
+    job_type_id: 2
+    release_time: 24.647659041116821
+    due_time: 24.647659041116821
+    weight: 6.6158474613550204
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 89
+    job_type_id: 2
+    release_time: 24.716292216255042
+    due_time: 24.716292216255042
+    weight: 4.3332759123206346
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 90
+    job_type_id: 1
+    release_time: 24.792258167968001
+    due_time: 24.792258167968001
+    weight: 3.9754634676643903
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 91
+    job_type_id: 2
+    release_time: 24.927285385284591
+    due_time: 24.927285385284591
+    weight: 5.0615864120089551
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 92
+    job_type_id: 2
+    release_time: 25.134184038908757
+    due_time: 25.134184038908757
+    weight: 7.9885927667098553
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 93
+    job_type_id: 1
+    release_time: 25.722477924594287
+    due_time: 25.722477924594287
+    weight: 3.3320719373900558
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 94
+    job_type_id: 2
+    release_time: 25.865763819779069
+    due_time: 25.865763819779069
+    weight: 3.7338434345012024
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 95
+    job_type_id: 1
+    release_time: 26.403677143824286
+    due_time: 26.403677143824286
+    weight: 4.1864796585999828
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 96
+    job_type_id: 1
+    release_time: 26.541511846971936
+    due_time: 26.541511846971936
+    weight: 3.3840349421791034
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 97
+    job_type_id: 2
+    release_time: 26.601121957450815
+    due_time: 26.601121957450815
+    weight: 3.2574760864328711
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 98
+    job_type_id: 1
+    release_time: 26.752884686714598
+    due_time: 26.752884686714598
+    weight: 4.752715833029094
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 99
+    job_type_id: 2
+    release_time: 26.96247401584025
+    due_time: 26.96247401584025
+    weight: 7.9668831430688209
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 100
+    job_type_id: 1
+    release_time: 27.332062522571661
+    due_time: 27.332062522571661
+    weight: 4.748840857690233
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 101
+    job_type_id: 1
+    release_time: 27.697548224982995
+    due_time: 27.697548224982995
+    weight: 4.7679563424517104
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 102
+    job_type_id: 2
+    release_time: 27.917432594240481
+    due_time: 27.917432594240481
+    weight: 3.4114420227717135
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 103
+    job_type_id: 1
+    release_time: 28.140462552388311
+    due_time: 28.140462552388311
+    weight: 2.2958152773792788
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 104
+    job_type_id: 2
+    release_time: 28.28031611030292
+    due_time: 28.28031611030292
+    weight: 5.9299322622769628
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 105
+    job_type_id: 2
+    release_time: 28.307406962831379
+    due_time: 28.307406962831379
+    weight: 4.6042600098366595
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 106
+    job_type_id: 2
+    release_time: 28.65944380486285
+    due_time: 28.65944380486285
+    weight: 7.9064613749194237
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 107
+    job_type_id: 2
+    release_time: 28.969562130259522
+    due_time: 28.969562130259522
+    weight: 5.362333793175809
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 108
+    job_type_id: 2
+    release_time: 29.117189468604266
+    due_time: 29.117189468604266
+    weight: 4.2808724409317698
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 109
+    job_type_id: 2
+    release_time: 29.169895591545437
+    due_time: 29.169895591545437
+    weight: 6.1150248668627398
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 110
+    job_type_id: 1
+    release_time: 29.962006521652455
+    due_time: 29.962006521652455
+    weight: 0.75709261736466626
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 111
+    job_type_id: 2
+    release_time: 30.039795085347379
+    due_time: 30.039795085347379
+    weight: 3.7284123833744283
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 112
+    job_type_id: 1
+    release_time: 30.129253484603112
+    due_time: 30.129253484603112
+    weight: 1.8187611502011762
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 113
+    job_type_id: 1
+    release_time: 30.191979034300836
+    due_time: 30.191979034300836
+    weight: 1.352054587232008
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 114
+    job_type_id: 1
+    release_time: 30.232565897052254
+    due_time: 30.232565897052254
+    weight: 1.2473151480808893
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 115
+    job_type_id: 1
+    release_time: 30.534208978462569
+    due_time: 30.534208978462569
+    weight: 1.9555624882716329
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 116
+    job_type_id: 1
+    release_time: 30.549608399066997
+    due_time: 30.549608399066997
+    weight: 4.4657479666073803
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 117
+    job_type_id: 2
+    release_time: 31.024584808403958
+    due_time: 31.024584808403958
+    weight: 5.5458638409711032
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 118
+    job_type_id: 1
+    release_time: 31.191143247010295
+    due_time: 31.191143247010295
+    weight: 2.6663373624177797
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 119
+    job_type_id: 2
+    release_time: 31.253399830191221
+    due_time: 31.253399830191221
+    weight: 3.4642369047420742
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 120
+    job_type_id: 1
+    release_time: 31.439909229848073
+    due_time: 31.439909229848073
+    weight: 4.5964724614322234
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 121
+    job_type_id: 2
+    release_time: 31.642014865284597
+    due_time: 31.642014865284597
+    weight: 6.1429610945418194
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 122
+    job_type_id: 1
+    release_time: 31.901000003135042
+    due_time: 31.901000003135042
+    weight: 3.1126478336209269
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 123
+    job_type_id: 1
+    release_time: 32.19997305785634
+    due_time: 32.19997305785634
+    weight: 0.012757229021927941
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 124
+    job_type_id: 1
+    release_time: 32.442440592595069
+    due_time: 32.442440592595069
+    weight: 0.16908563548287786
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 125
+    job_type_id: 1
+    release_time: 32.475057991062599
+    due_time: 32.475057991062599
+    weight: 1.2627354388151744
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 126
+    job_type_id: 1
+    release_time: 32.530403070080581
+    due_time: 32.530403070080581
+    weight: 3.9599217257556356
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 127
+    job_type_id: 2
+    release_time: 32.828294664576148
+    due_time: 32.828294664576148
+    weight: 6.1295723663485511
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 128
+    job_type_id: 1
+    release_time: 32.921042765884962
+    due_time: 32.921042765884962
+    weight: 2.8665899615658463
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 129
+    job_type_id: 1
+    release_time: 33.058554490745841
+    due_time: 33.058554490745841
+    weight: 1.9864557446535211
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 130
+    job_type_id: 1
+    release_time: 33.70230658880169
+    due_time: 33.70230658880169
+    weight: 0.60831974655459908
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 131
+    job_type_id: 2
+    release_time: 33.832773237988555
+    due_time: 33.832773237988555
+    weight: 4.4016319278845586
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 132
+    job_type_id: 2
+    release_time: 34.37341186595534
+    due_time: 34.37341186595534
+    weight: 3.493786150622296
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 133
+    job_type_id: 2
+    release_time: 35.244437646625379
+    due_time: 35.244437646625379
+    weight: 6.0415995080308811
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 134
+    job_type_id: 1
+    release_time: 35.320483988240298
+    due_time: 35.320483988240298
+    weight: 3.9249024243573953
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 135
+    job_type_id: 1
+    release_time: 35.333942875336959
+    due_time: 35.333942875336959
+    weight: 3.0928338510691828
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 136
+    job_type_id: 1
+    release_time: 35.364994951391189
+    due_time: 35.364994951391189
+    weight: 0.6784313478160735
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 137
+    job_type_id: 2
+    release_time: 35.645439517635275
+    due_time: 35.645439517635275
+    weight: 7.2600121679497853
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 138
+    job_type_id: 1
+    release_time: 36.430265615343728
+    due_time: 36.430265615343728
+    weight: 2.7250456002617414
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 139
+    job_type_id: 1
+    release_time: 36.817462676080034
+    due_time: 36.817462676080034
+    weight: 3.6261188303285397
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 140
+    job_type_id: 1
+    release_time: 37.031666804200299
+    due_time: 37.031666804200299
+    weight: 3.3547803118942476
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 141
+    job_type_id: 1
+    release_time: 37.28212653853258
+    due_time: 37.28212653853258
+    weight: 3.3137528820733184
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 142
+    job_type_id: 2
+    release_time: 37.456523080099721
+    due_time: 37.456523080099721
+    weight: 6.7176077484404395
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 143
+    job_type_id: 2
+    release_time: 37.612693687044739
+    due_time: 37.612693687044739
+    weight: 7.2519903405580868
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 144
+    job_type_id: 2
+    release_time: 37.699275999881678
+    due_time: 37.699275999881678
+    weight: 4.5533614267177427
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 145
+    job_type_id: 2
+    release_time: 38.379402487009095
+    due_time: 38.379402487009095
+    weight: 7.4451571450703486
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 146
+    job_type_id: 2
+    release_time: 38.732203096119257
+    due_time: 38.732203096119257
+    weight: 4.7878846705196469
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 147
+    job_type_id: 1
+    release_time: 38.90616137707304
+    due_time: 38.90616137707304
+    weight: 2.1945235539231467
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 148
+    job_type_id: 2
+    release_time: 38.942702077269026
+    due_time: 38.942702077269026
+    weight: 3.7173648538985522
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 149
+    job_type_id: 1
+    release_time: 38.998359225668793
+    due_time: 38.998359225668793
+    weight: 3.0252315403101844
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 150
+    job_type_id: 1
+    release_time: 39.620163717203795
+    due_time: 39.620163717203795
+    weight: 0.040691607739211835
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 151
+    job_type_id: 2
+    release_time: 39.941249906724039
+    due_time: 39.941249906724039
+    weight: 5.1203794866664589
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 152
+    job_type_id: 2
+    release_time: 40.005957455212311
+    due_time: 40.005957455212311
+    weight: 7.8491861506150018
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 153
+    job_type_id: 1
+    release_time: 40.033514698665201
+    due_time: 40.033514698665201
+    weight: 0.077633293342762338
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 154
+    job_type_id: 1
+    release_time: 40.05802929330293
+    due_time: 40.05802929330293
+    weight: 0.81903708282471832
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 155
+    job_type_id: 1
+    release_time: 40.209250925557264
+    due_time: 40.209250925557264
+    weight: 0.84385907440659169
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 156
+    job_type_id: 1
+    release_time: 40.225680377850608
+    due_time: 40.225680377850608
+    weight: 2.4172636234625928
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 157
+    job_type_id: 2
+    release_time: 40.464015702124648
+    due_time: 40.464015702124648
+    weight: 3.8565877719868293
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 158
+    job_type_id: 1
+    release_time: 40.723009079386671
+    due_time: 40.723009079386671
+    weight: 4.2791504860393008
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 159
+    job_type_id: 2
+    release_time: 40.846323970940993
+    due_time: 40.846323970940993
+    weight: 4.3612192611740674
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 160
+    job_type_id: 2
+    release_time: 40.86633065644947
+    due_time: 40.86633065644947
+    weight: 5.785397618195451
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 161
+    job_type_id: 1
+    release_time: 41.479982403997482
+    due_time: 41.479982403997482
+    weight: 3.3637429161976251
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 162
+    job_type_id: 2
+    release_time: 42.055417283450112
+    due_time: 42.055417283450112
+    weight: 7.5431063108684056
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 163
+    job_type_id: 1
+    release_time: 42.193606275254091
+    due_time: 42.193606275254091
+    weight: 4.2710281833282506
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 164
+    job_type_id: 2
+    release_time: 42.958377231115719
+    due_time: 42.958377231115719
+    weight: 4.1768424161679247
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 165
+    job_type_id: 1
+    release_time: 43.085512469580507
+    due_time: 43.085512469580507
+    weight: 1.3890577383049534
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 166
+    job_type_id: 2
+    release_time: 43.316085083798271
+    due_time: 43.316085083798271
+    weight: 7.4082369365530818
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 167
+    job_type_id: 2
+    release_time: 43.792968273192741
+    due_time: 43.792968273192741
+    weight: 4.1255878640212673
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 168
+    job_type_id: 2
+    release_time: 44.024333430287967
+    due_time: 44.024333430287967
+    weight: 6.9638449842612333
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 169
+    job_type_id: 2
+    release_time: 44.082443715508347
+    due_time: 44.082443715508347
+    weight: 5.2879503112335886
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 170
+    job_type_id: 1
+    release_time: 44.096116544321767
+    due_time: 44.096116544321767
+    weight: 2.407174717526146
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 171
+    job_type_id: 2
+    release_time: 44.14553829647668
+    due_time: 44.14553829647668
+    weight: 6.8994288289018124
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 172
+    job_type_id: 2
+    release_time: 44.202030436249288
+    due_time: 44.202030436249288
+    weight: 4.4032103418741704
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 173
+    job_type_id: 1
+    release_time: 44.74484459923746
+    due_time: 44.74484459923746
+    weight: 4.2277251012722381
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 174
+    job_type_id: 1
+    release_time: 44.785952043851196
+    due_time: 44.785952043851196
+    weight: 2.8267371748525418
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 175
+    job_type_id: 1
+    release_time: 44.834422881867987
+    due_time: 44.834422881867987
+    weight: 3.5876437487865411
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 176
+    job_type_id: 2
+    release_time: 44.894206388533689
+    due_time: 44.894206388533689
+    weight: 5.3578988457214187
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 177
+    job_type_id: 2
+    release_time: 45.165286152534009
+    due_time: 45.165286152534009
+    weight: 7.5072543977484143
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 178
+    job_type_id: 1
+    release_time: 45.522408155072604
+    due_time: 45.522408155072604
+    weight: 4.315954028177341
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 179
+    job_type_id: 1
+    release_time: 46.444533156506303
+    due_time: 46.444533156506303
+    weight: 4.0653670532414807
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 180
+    job_type_id: 2
+    release_time: 46.583179007549745
+    due_time: 46.583179007549745
+    weight: 7.3618882886508255
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 181
+    job_type_id: 2
+    release_time: 47.320417071316186
+    due_time: 47.320417071316186
+    weight: 3.5016253069670471
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 182
+    job_type_id: 2
+    release_time: 47.463727871255941
+    due_time: 47.463727871255941
+    weight: 6.2105995345727365
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 183
+    job_type_id: 2
+    release_time: 47.527976594266988
+    due_time: 47.527976594266988
+    weight: 4.8987191411138999
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 184
+    job_type_id: 2
+    release_time: 47.995161060288765
+    due_time: 47.995161060288765
+    weight: 6.1073877893919022
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 185
+    job_type_id: 1
+    release_time: 48.030851079694507
+    due_time: 48.030851079694507
+    weight: 4.9172150755433659
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 186
+    job_type_id: 1
+    release_time: 48.204950871321749
+    due_time: 48.204950871321749
+    weight: 4.6119892232512312
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 187
+    job_type_id: 1
+    release_time: 48.254011179218608
+    due_time: 48.254011179218608
+    weight: 0.47457239336068108
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 188
+    job_type_id: 1
+    release_time: 48.855036840388991
+    due_time: 48.855036840388991
+    weight: 4.4828189536483043
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 189
+    job_type_id: 1
+    release_time: 49.082903199913886
+    due_time: 49.082903199913886
+    weight: 0.98893444010975318
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 190
+    job_type_id: 1
+    release_time: 49.136695356899821
+    due_time: 49.136695356899821
+    weight: 1.7016182482366571
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 191
+    job_type_id: 2
+    release_time: 49.92481836450591
+    due_time: 49.92481836450591
+    weight: 5.7577270164066414
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 192
+    job_type_id: 2
+    release_time: 50.045446491042931
+    due_time: 50.045446491042931
+    weight: 5.8768192276008699
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 193
+    job_type_id: 1
+    release_time: 50.889200360199595
+    due_time: 50.889200360199595
+    weight: 4.0763091760311152
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 194
+    job_type_id: 1
+    release_time: 50.94897166676774
+    due_time: 50.94897166676774
+    weight: 1.0714927339101219
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 195
+    job_type_id: 1
+    release_time: 51.03906194822121
+    due_time: 51.03906194822121
+    weight: 1.4041035824471984
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 196
+    job_type_id: 2
+    release_time: 51.217257926481068
+    due_time: 51.217257926481068
+    weight: 3.8345767140326008
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 197
+    job_type_id: 1
+    release_time: 51.851281185816497
+    due_time: 51.851281185816497
+    weight: 0.94359002634549838
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 198
+    job_type_id: 1
+    release_time: 51.988230651828445
+    due_time: 51.988230651828445
+    weight: 1.4097192787094812
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 199
+    job_type_id: 2
+    release_time: 52.429910302141103
+    due_time: 52.429910302141103
+    weight: 5.3028581577578642
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
+  - job_id: 200
+    job_type_id: 2
+    release_time: 52.942456619159373
+    due_time: 52.942456619159373
+    weight: 5.5938024303998564
+    processing_route:
+      - machine_id: 1
+        sub_machines:
+          - machine_id: 2
+          - machine_id: 3
+          - machine_id: 4
