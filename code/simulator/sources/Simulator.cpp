@@ -415,8 +415,13 @@ SimulatorStatistics* Simulator::simulate(Scheduler* scheduler, Topology* topolog
                     long machine_id = setup_end_event->getMachineId();
                     long step_id = setup_end_event->getStepId();
                     auto machine_processing_context = machine_processing_context_map[machine_id];
-                    addToEventQueue(new MachineEntry(time, job_id, machine_id, step_id), event_queue);
                     machine_processing_context->setSetup(nullptr);
+                    auto [next_step_id, next_job_id] = machine_processing_context->peekAtFirstProcessingStep();
+                    if (next_step_id == step_id) {
+                        addToEventQueue(new MachineEntry(time, job_id, machine_id, step_id), event_queue);
+                    } else {
+                        utility_event_queue.push(new WakeMachine(time, machine_id));
+                    }
                     break;
                 }
 

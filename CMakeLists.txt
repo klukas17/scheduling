@@ -3,7 +3,7 @@ project(scheduling)
 
 set(CMAKE_CXX_STANDARD 20)
 
-#set(CMAKE_CXX_FLAGS "-O3 -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "-O3 -Wall -Wextra")
 
 # https://github.com/jbeder/yaml-cpp
 set(YAML_CPP_DIR ~/libs/yaml-cpp)
@@ -114,6 +114,9 @@ add_executable(topology_enumerator executables/topology_enumerator.cpp ${PROJECT
 add_executable(random_generator executables/random_generator.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(regression_algorithm executables/regression_algorithm.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(simple_experiment executables/simple_experiment.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(experiment_generate_jobs executables/experiments/experiment_generate_jobs.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(experiment_generate_breakdowns executables/experiments/experiment_generate_breakdowns.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(experiment_constant_programming executables/experiments/experiment_constant_programming.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 
 target_link_libraries(scheduling yaml-cpp)
 target_link_libraries(bit_sum_genotype yaml-cpp)
@@ -128,3 +131,6 @@ target_link_libraries(topology_enumerator yaml-cpp)
 target_link_libraries(random_generator yaml-cpp)
 target_link_libraries(regression_algorithm yaml-cpp)
 target_link_libraries(simple_experiment yaml-cpp)
+target_link_libraries(experiment_generate_jobs yaml-cpp)
+target_link_libraries(experiment_generate_breakdowns yaml-cpp)
+target_link_libraries(experiment_constant_programming yaml-cpp)
