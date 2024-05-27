@@ -26,5 +26,5 @@ TBGPNode* TBGPNodePlus::copy() {
 }
 
 double TBGPNodePlus::eval(std::map<std::string, double>& params) {
-    return first_summand_node->eval(params) - second_summand_node->eval(params);
+    return first_summand_node->eval(params) + second_summand_node->eval(params);
 }

@@ -1,0 +1,60 @@
+//
+// Created by mihael on 5/26/24.
+//
+
+#include "CGPFunctionsIndex.h"
+#include <cmath>
+
+double unary_minus(double a, double b, double c) {
+    return -a;
+}
+
+double plus(double a, double b, double c) {
+    return a + b;
+}
+
+double minus(double a, double b, double c) {
+    return a - b;
+}
+
+double times(double a, double b, double c) {
+    return a * b;
+}
+
+double divide(double a, double b, double c) {
+    if (b >= -1e-6 && b <= 1e-6) {
+        return 1;
+    }
+    return a / b;
+}
+
+double square(double a, double b, double c) {
+    return std::pow(a, 2);
+}
+
+double root(double a, double b, double c) {
+    return std::sqrt(std::abs(a));
+}
+
+double branch(double a, double b, double c) {
+    return (std::abs(a) < 1) ? b : c;
+}
+
+CGPFunctionsIndex::CGPFunctionsIndex() {
+    functions[1] = unary_minus;
+    functions[2] = plus;
+    functions[3] = minus;
+    functions[4] = times;
+    functions[5] = divide;
+    functions[6] = square;
+    functions[7] = root;
+    functions[8] = branch;
+}
+
+int CGPFunctionsIndex::getNumberOfFunctions() {
+    return functions.size();
+}
+
+double CGPFunctionsIndex::executeFunction(int f_index, double a, double b, double c) {
+    return functions[f_index](a, b, c);
+}

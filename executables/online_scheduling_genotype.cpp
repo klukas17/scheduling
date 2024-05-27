@@ -4,6 +4,12 @@
 
 #include <iostream>
 
+#include "CartesianGeneticProgramming.h"
+#include "CartesianGeneticProgrammingCombinationOperator.h"
+#include "CartesianGeneticProgrammingCreationOperator.h"
+#include "CartesianGeneticProgrammingGenotypeBlueprint.h"
+#include "CartesianGeneticProgrammingPerturbationOperator.h"
+#include "CartesianGeneticProgrammingSerializationOperator.h"
 #include "ConstantProgramming.h"
 #include "ConstantProgrammingCombinationOperator.h"
 #include "ConstantProgrammingCreationOperator.h"
@@ -35,7 +41,6 @@
 #include "RandomProgrammingSerializationOperator.h"
 #include "TBGPNodeFactory.h"
 #include "Topology.h"
-#include "TreeBasedGeneticProgramming.h"
 #include "TreeBasedGeneticProgrammingCombinationOperator.h"
 #include "TreeBasedGeneticProgrammingCreationOperator.h"
 #include "TreeBasedGeneticProgrammingGenotypeBlueprint.h"
@@ -81,6 +86,117 @@ void neural_network() {
     auto deserialization = serialization_operator->deserialize(serialization);
 }
 
+void tree_based_genetic_programming() {
+
+    std::string const dir = "../experiments/experiment_99/";
+
+    MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
+
+    JobTypeMap* job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
+    machine_type_map->constructSetupAndBatchRules(job_type_map);
+
+    Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
+
+    double leaf_const_chance = 0.1;
+    double leaf_param_chance = 0.3;
+    int max_height = 10;
+
+    auto sub_node_factory = new TBGPNodeFactory(leaf_const_chance, leaf_param_chance, -1, 1);
+    auto sub_blueprint = new TreeBasedGeneticProgrammingGenotypeBlueprint(sub_node_factory, max_height);
+    auto sub_creation_operator = new TreeBasedGeneticProgrammingCreationOperator(sub_blueprint);
+    auto sub_combination_operator = new TreeBasedGeneticProgrammingCombinationOperator(sub_blueprint);
+    auto sub_perturbation_operator = new TreeBasedGeneticProgrammingPerturbationOperator(sub_blueprint);
+    auto sub_serialization_operator = new TreeBasedGeneticProgrammingSerializationOperator(sub_blueprint);
+
+    auto blueprint = new OnlineSchedulingAlgorithmClusterGenotypeBlueprint(topology);
+    auto creation_operator = new OnlineSchedulingAlgorithmClusterCreationOperator(
+        blueprint,
+        sub_creation_operator
+    );
+    auto combination_operator = new OnlineSchedulingAlgorithmClusterCombinationOperatorWithCoarseGranularity(
+        sub_combination_operator
+    );
+    auto perturbation_operator =new OnlineSchedulingAlgorithmClusterPerturbationOperator(
+        sub_perturbation_operator
+    );
+    auto serialization_operator = new OnlineSchedulingAlgorithmClusterSerializationOperator(topology, sub_serialization_operator);
+
+    auto genotype = dynamic_cast<OnlineSchedulingAlgorithmCluster*>(creation_operator->create());
+
+    auto serialization = serialization_operator->serialize(genotype);
+    for (const auto& line : serialization_operator->serialize(genotype)) {
+        std::cout << line << std::endl;
+    }
+    auto deserialization = serialization_operator->deserialize(serialization);
+
+    std::cout << std::endl;
+    for (const auto& line : serialization_operator->serialize(deserialization)) {
+        std::cout << line << std::endl;
+    }
+
+}
+
+void cartesian_genetic_programming() {
+
+    std::string const dir = "../experiments/experiment_99/";
+
+    MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
+
+    JobTypeMap* job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
+    machine_type_map->constructSetupAndBatchRules(job_type_map);
+
+    Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
+
+    int rows = 5;
+    int cols = 8;
+    double perturbation_rate = 0.1;
+
+    auto sub_blueprint = new CartesianGeneticProgrammingGenotypeBlueprint(
+        rows,
+        cols,
+        new CGPFunctionsIndex(),
+        -1,
+        1
+    );
+    auto sub_creation_operator = new CartesianGeneticProgrammingCreationOperator(sub_blueprint);
+    auto sub_combination_operator = new CartesianGeneticProgrammingCombinationOperator(sub_blueprint);
+    auto sub_perturbation_operator = new CartesianGeneticProgrammingPerturbationOperator(sub_blueprint, perturbation_rate);
+    auto sub_serialization_operator = new CartesianGeneticProgrammingSerializationOperator(sub_blueprint);
+
+    auto blueprint = new OnlineSchedulingAlgorithmClusterGenotypeBlueprint(topology);
+    auto creation_operator = new OnlineSchedulingAlgorithmClusterCreationOperator(
+        blueprint,
+        sub_creation_operator
+    );
+    auto combination_operator = new OnlineSchedulingAlgorithmClusterCombinationOperatorWithCoarseGranularity(
+        sub_combination_operator
+    );
+    auto perturbation_operator =new OnlineSchedulingAlgorithmClusterPerturbationOperator(
+        sub_perturbation_operator
+    );
+    auto serialization_operator = new OnlineSchedulingAlgorithmClusterSerializationOperator(topology, sub_serialization_operator);
+
+    auto genotype = dynamic_cast<OnlineSchedulingAlgorithmCluster*>(creation_operator->create());
+
+    auto serialization = serialization_operator->serialize(genotype);
+    for (const auto& line : serialization_operator->serialize(genotype)) {
+        std::cout << line << std::endl;
+    }
+    auto deserialization = serialization_operator->deserialize(serialization);
+
+    std::cout << std::endl;
+    for (const auto& line : serialization_operator->serialize(deserialization)) {
+        std::cout << line << std::endl;
+    }
+
+    sub_blueprint->setInputs(OnlineSchedulingAlgorithm::group_inputs);
+
+    auto cgp1 = dynamic_cast<CartesianGeneticProgramming*>(sub_creation_operator->create());
+    auto cgp2 = dynamic_cast<CartesianGeneticProgramming*>(sub_creation_operator->create());
+    auto cgp = sub_combination_operator->combine(cgp1, cgp2);
+    sub_perturbation_operator->perturbate(cgp);
+}
+
 void online_scheduling_algorithm_cluster() {
 
     std::string const dir = "../tests/test_04/";
@@ -117,60 +233,11 @@ void online_scheduling_algorithm_cluster() {
     auto deserialization = serialization_operator->deserialize(serialization);
 }
 
-void tree_based_genetic_programming() {
-
-    std::string const dir = "../experiments/experiment_01/";
-
-    MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
-
-    JobTypeMap* job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
-    machine_type_map->constructSetupAndBatchRules(job_type_map);
-
-    Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
-
-    double leaf_const_chance = 0.1;
-    double leaf_param_chance = 0.3;
-    int max_height = 10;
-
-    auto sub_node_factory = new TBGPNodeFactory(leaf_const_chance, leaf_param_chance, -1, 1);
-    auto sub_blueprint = new TreeBasedGeneticProgrammingGenotypeBlueprint(sub_node_factory, max_height);
-    auto sub_creation_operator = new TreeBasedGeneticProgrammingCreationOperator(sub_blueprint);
-    auto sub_combination_operator = new TreeBasedGeneticProgrammingCombinationOperator(sub_blueprint);
-    auto sub_perturbation_operator = new TreeBasedGeneticProgrammingPerturbationOperator(sub_blueprint);
-    auto sub_serialization_operator = new TreeBasedGeneticProgrammingSerializationOperator();
-
-    auto blueprint = new OnlineSchedulingAlgorithmClusterGenotypeBlueprint(topology);
-    auto creation_operator = new OnlineSchedulingAlgorithmClusterCreationOperator(
-        blueprint,
-        sub_creation_operator
-    );
-    auto combination_operator = new OnlineSchedulingAlgorithmClusterCombinationOperatorWithCoarseGranularity(
-        sub_combination_operator
-    );
-    auto perturbation_operator =new OnlineSchedulingAlgorithmClusterPerturbationOperator(
-        sub_perturbation_operator
-    );
-    auto serialization_operator = new OnlineSchedulingAlgorithmClusterSerializationOperator(topology, sub_serialization_operator);
-
-    auto genotype = dynamic_cast<OnlineSchedulingAlgorithmCluster*>(creation_operator->create());
-
-    auto serialization = serialization_operator->serialize(genotype);
-    for (const auto& line : serialization_operator->serialize(genotype)) {
-        std::cout << line << std::endl;
-    }
-    auto deserialization = serialization_operator->deserialize(serialization);
-
-    std::cout << std::endl;
-    for (const auto& line : serialization_operator->serialize(deserialization)) {
-        std::cout << line << std::endl;
-    }
-
-}
-
 int main() {
     // constant_programming();
     // random_programming();
     // neural_network();
-    tree_based_genetic_programming();
+    // tree_based_genetic_programming();
+    cartesian_genetic_programming();
     // online_scheduling_algorithm_cluster();
 }
