@@ -26,5 +26,5 @@ TBGPNode* TBGPNodeTimes::copy() {
 }
 
 double TBGPNodeTimes::eval(std::map<std::string, double>& params) {
-    return first_factor_node->eval(params) - second_factor_node->eval(params);
+    return first_factor_node->eval(params) * second_factor_node->eval(params);
 }

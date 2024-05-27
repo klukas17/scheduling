@@ -23,6 +23,7 @@ include_directories(
         code/job_sequence_generators/headers
         code/jobs/headers
         code/machines/headers
+        code/online_scheduling_algorithms/cartesian_genetic_programming/headers
         code/online_scheduling_algorithms/constant_programming/headers
         code/online_scheduling_algorithms/neural_network/headers
         code/online_scheduling_algorithms/random_programming/headers
@@ -51,6 +52,7 @@ file(GLOB PROJECT_HEADERS
         code/job_sequence_generators/headers/*.h
         code/jobs/headers/*.h
         code/machines/headers/*.h
+        code/online_scheduling_algorithms/cartesian_genetic_programming/headers/*.h
         code/online_scheduling_algorithms/constant_programming/headers/*.h
         code/online_scheduling_algorithms/neural_network/headers/*.h
         code/online_scheduling_algorithms/random_programming/headers/*.h
@@ -79,6 +81,7 @@ file(GLOB PROJECT_SOURCES
         code/job_sequence_generators/sources/*.cpp
         code/jobs/sources/*.cpp
         code/machines/sources/*.cpp
+        code/online_scheduling_algorithms/cartesian_genetic_programming/sources/*.cpp
         code/online_scheduling_algorithms/constant_programming/sources/*.cpp
         code/online_scheduling_algorithms/neural_network/sources/*.cpp
         code/online_scheduling_algorithms/random_programming/sources/*.cpp

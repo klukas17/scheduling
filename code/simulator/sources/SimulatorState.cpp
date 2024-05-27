@@ -268,6 +268,6 @@ bool SimulatorState::checkPrerequisitesSatisfied(PathNode* path_node) {
     });
 }
 
-long SimulatorState::calculateBufferHasFreeSpace(long machine_id) {
+bool SimulatorState::calculateBufferHasFreeSpace(long machine_id) {
     return machine_processing_context_map[machine_id]->bufferHasSpace();
 }

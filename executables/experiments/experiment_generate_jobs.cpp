@@ -16,7 +16,7 @@
 #include "UniformRealDistributionGenerator.h"
 
 int main() {
-    std::string const dir = "../experiments/experiment_1111/";
+    std::string const dir = "../experiments/experiment_00/";
 
     MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
 
@@ -31,8 +31,8 @@ int main() {
         job_generator_parameters[job_type_id] = new JobGeneratorParameters(
             job_type_id,
             // 200 za train, 500 za test
-            500,
-            new ExponentialDistribution(3),
+            100,
+            new ExponentialDistribution(8),
             0,
             new UniformRealDistributionGenerator(0, 5)
             // job_type_id == 1 ? new UniformRealDistributionGenerator(0, 5) : new UniformRealDistributionGenerator(3, 8)

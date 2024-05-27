@@ -4,6 +4,11 @@
 
 #include <iostream>
 
+#include "CartesianGeneticProgrammingCombinationOperator.h"
+#include "CartesianGeneticProgrammingCreationOperator.h"
+#include "CartesianGeneticProgrammingGenotypeBlueprint.h"
+#include "CartesianGeneticProgrammingPerturbationOperator.h"
+#include "CartesianGeneticProgrammingSerializationOperator.h"
 #include "NeuralNetworkCreationOperator.h"
 #include "NeuralNetworkGenotypeBlueprint.h"
 #include "NeuralNetworkCombinationOperator.h"
@@ -81,8 +86,50 @@ void tree_based_genetic_programming() {
     }
 }
 
+void cartesian_genetic_programming() {
+
+    int rows = 20;
+    int cols = 20;
+    double perturbation_rate = 0.2;
+
+    auto blueprint = new CartesianGeneticProgrammingGenotypeBlueprint(
+        rows,
+        cols,
+        new CGPFunctionsIndex(),
+        -1,
+        1
+    );
+    auto creation_operator = new CartesianGeneticProgrammingCreationOperator(blueprint);
+    auto combination_operator = new CartesianGeneticProgrammingCombinationOperator(blueprint);
+    auto perturbation_operator = new CartesianGeneticProgrammingPerturbationOperator(blueprint, perturbation_rate);
+    auto serialization_operator = new CartesianGeneticProgrammingSerializationOperator(blueprint);
+
+    auto evaluation_function = new RegressionFunction(true, {"x", "y"}, "../functions/function_01/data.txt");
+    blueprint->setInputs({"x", "y"});
+
+    int population_size = 50;
+    int iterations_count = 100000;
+
+    auto const ssga = new SteadyStateGeneticAlgorithm(
+        evaluation_function,
+        creation_operator,
+        perturbation_operator,
+        combination_operator,
+        population_size,
+        iterations_count
+    );
+
+    auto const population = new Population(population_size);
+
+    ssga->optimize(population);
+
+    for (auto line : serialization_operator->serialize(population->getGenotype(0)->genotype)) {
+        std::cout << line << std::endl;
+    }
+}
 
 int main() {
     // neural_network();
-    tree_based_genetic_programming();
+    // tree_based_genetic_programming();
+    cartesian_genetic_programming();
 }

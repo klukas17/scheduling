@@ -58,7 +58,7 @@ public:
     double calculateTimeUntilNextBreakdown(long machine_id, long job_id);
     double calculateSetupLength(long machine_id, long job_id);
     bool checkPrerequisitesSatisfied(PathNode* path_node);
-    long calculateBufferHasFreeSpace(long machine_id);
+    bool calculateBufferHasFreeSpace(long machine_id);
 };
 
 
