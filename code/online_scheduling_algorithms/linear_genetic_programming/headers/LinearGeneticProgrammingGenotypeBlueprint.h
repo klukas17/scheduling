@@ -10,7 +10,7 @@
 #include "OnlineSchedulingAlgorithmGenotypeBlueprint.h"
 
 
-class LinearGeneticProgrammingGenotypeBlueprint : public OnlineSchedulingAlgorithmGenotypeBlueprint {
+class LinearGeneticProgrammingGenotypeBlueprint final : public OnlineSchedulingAlgorithmGenotypeBlueprint {
 public:
     LGPRegisterInitializationStrategy* register_initialization_strategy;
     int number_of_registers;

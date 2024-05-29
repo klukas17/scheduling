@@ -32,9 +32,9 @@ LinearGeneticProgrammingPerturbationOperator::LinearGeneticProgrammingPerturbati
     instructions_probabilites.reserve(instructions.size());
     double segment = (1 - perturbation_chance_of_nop) / (instructions.size() - 1);
     for (int i = 0; i < instructions.size() - 1; i++) {
-        instructions_probabilites[i] = segment * (i + 1);
+        instructions_probabilites.push_back(segment * (i + 1));
     }
-    instructions_probabilites[instructions.size() - 1] = 1;
+    instructions_probabilites.push_back(1);
     this->instruction_type_generator = new UniformRealDistributionGenerator(0, 1);
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
     this->perturbation_rate = perturbation_rate;
@@ -59,10 +59,10 @@ void LinearGeneticProgrammingPerturbationOperator::perturbate(Genotype* genotype
             auto instruction_type = generateInstructionType();
             instruction->instruction_type = instruction_type;
             if (instruction_type == LGP_LOAD_CONSTANT) {
-                program->load_constant_map[i] = blueprint->generateConstant();
+                program->load_constant_map[instruction_index] = blueprint->generateConstant();
             }
             if (instruction_type == LGP_LOAD_PARAM) {
-                program->load_param_map[i] = blueprint->generateParam(lgp->getInputs());
+                program->load_param_map[instruction_index] = blueprint->generateParam(lgp->getInputs());
             }
         } else if (index_to_change == 1) {
             instruction->first_register_id = blueprint->generateRegister();

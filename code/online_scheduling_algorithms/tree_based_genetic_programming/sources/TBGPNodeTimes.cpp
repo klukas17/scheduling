@@ -3,6 +3,7 @@
 //
 
 #include "TBGPNodeTimes.h"
+#include <cmath>
 
 TBGPNodeTimes::TBGPNodeTimes() {
     this->node_type = TBGP_TIMES;
@@ -26,5 +27,6 @@ TBGPNode* TBGPNodeTimes::copy() {
 }
 
 double TBGPNodeTimes::eval(std::map<std::string, double>& params) {
-    return first_factor_node->eval(params) * second_factor_node->eval(params);
+    auto result = first_factor_node->eval(params) * second_factor_node->eval(params);
+    return std::isinf(result) ? 1 : result;
 }

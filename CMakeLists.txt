@@ -28,6 +28,7 @@ include_directories(
         code/online_scheduling_algorithms/linear_genetic_programming/headers
         code/online_scheduling_algorithms/neural_network/headers
         code/online_scheduling_algorithms/random_programming/headers
+        code/online_scheduling_algorithms/stack_based_genetic_programming/headers
         code/online_scheduling_algorithms/tree_based_genetic_programming/headers
         code/optimization/headers
         code/optimization_algorithms/headers
@@ -58,6 +59,7 @@ file(GLOB PROJECT_HEADERS
         code/online_scheduling_algorithms/linear_genetic_programming/headers/*.h
         code/online_scheduling_algorithms/neural_network/headers/*.h
         code/online_scheduling_algorithms/random_programming/headers/*.h
+        code/online_scheduling_algorithms/stack_based_genetic_programming/headers/*.h
         code/online_scheduling_algorithms/tree_based_genetic_programming/headers/*.h
         code/optimization/headers/*.h
         code/optimization_algorithms/headers/*.h
@@ -88,6 +90,7 @@ file(GLOB PROJECT_SOURCES
         code/online_scheduling_algorithms/linear_genetic_programming/sources/*.cpp
         code/online_scheduling_algorithms/neural_network/sources/*.cpp
         code/online_scheduling_algorithms/random_programming/sources/*.cpp
+        code/online_scheduling_algorithms/stack_based_genetic_programming/sources/*.cpp
         code/online_scheduling_algorithms/tree_based_genetic_programming/sources/*.cpp
         code/optimization/sources/*.cpp
         code/optimization_algorithms/sources/*.cpp
