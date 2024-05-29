@@ -84,9 +84,10 @@ void LGPProgram::executeProgram(LGPRegistersState* registers_state, std::map<std
 
         case LGP_TIMES:
             {
+                auto result = registers_state->getValue(instruction->second_register_id) * registers_state->getValue(instruction->third_register_id);
                 registers_state->setValue(
                    instruction->first_register_id,
-                   registers_state->getValue(instruction->second_register_id) * registers_state->getValue(instruction->third_register_id)
+                   std::isinf(result) ? 1 : result
                );
                 break;
             }
@@ -103,9 +104,10 @@ void LGPProgram::executeProgram(LGPRegistersState* registers_state, std::map<std
 
         case LGP_SQUARE:
             {
+                auto result = std::pow(registers_state->getValue(instruction->second_register_id), 2);
                 registers_state->setValue(
                    instruction->first_register_id,
-                   std::pow(registers_state->getValue(instruction->second_register_id), 2)
+                   std::isinf(result) ? 1 : result
                );
                 break;
             }

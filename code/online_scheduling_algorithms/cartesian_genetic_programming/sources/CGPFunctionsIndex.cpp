@@ -18,7 +18,8 @@ double minus(double a, double b, double c) {
 }
 
 double times(double a, double b, double c) {
-    return a * b;
+    auto result = a * b;
+    return std::isinf(result) ? 1 : result;
 }
 
 double divide(double a, double b, double c) {
@@ -29,7 +30,8 @@ double divide(double a, double b, double c) {
 }
 
 double square(double a, double b, double c) {
-    return std::pow(a, 2);
+    auto result = std::pow(a, 2);
+    return std::isinf(result) ? 1 : result;
 }
 
 double root(double a, double b, double c) {
@@ -37,7 +39,7 @@ double root(double a, double b, double c) {
 }
 
 double branch(double a, double b, double c) {
-    return (std::abs(a) < 1) ? b : c;
+    return (std::abs(a) >= 1) ? b : c;
 }
 
 CGPFunctionsIndex::CGPFunctionsIndex() {

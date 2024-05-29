@@ -25,5 +25,6 @@ TBGPNode* TBGPNodeSquare::copy() {
 }
 
 double TBGPNodeSquare::eval(std::map<std::string, double>& params) {
-    return std::pow(base_node->eval(params), 2);
+    auto result = std::pow(base_node->eval(params), 2);
+    return std::isinf(result) ? 1 : result;
 }

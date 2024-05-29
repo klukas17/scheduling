@@ -48,6 +48,12 @@
 #include "RandomProgrammingGenotypeBlueprint.h"
 #include "RandomProgrammingPerturbationOperator.h"
 #include "RandomProgrammingSerializationOperator.h"
+#include "StackBasedGeneticProgramming.h"
+#include "StackBasedGeneticProgrammingCombinationOperator.h"
+#include "StackBasedGeneticProgrammingCreationOperator.h"
+#include "StackBasedGeneticProgrammingGenotypeBlueprint.h"
+#include "StackBasedGeneticProgrammingPerturbationOperator.h"
+#include "StackBasedGeneticProgrammingSerializationOperator.h"
 #include "TBGPNodeFactory.h"
 #include "Topology.h"
 #include "TreeBasedGeneticProgrammingCombinationOperator.h"
@@ -279,6 +285,79 @@ void linear_genetic_programming() {
     sub_perturbation_operator->perturbate(lgp);
 }
 
+void stack_based_genetic_programming() {
+
+    std::string const dir = "../experiments/experiment_99/";
+
+    MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
+
+    JobTypeMap* job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
+    machine_type_map->constructSetupAndBatchRules(job_type_map);
+
+    Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
+
+    int number_of_instructions = 100;
+    double initialization_chance_of_nop = 0.5;
+    double push_constant_share = 0.1;
+    double push_param_share = 0.4;
+    double perturbation_chance_of_nop = 0.4;
+    double perturbation_rate = 0.2;
+
+    auto sub_blueprint = new StackBasedGeneticProgrammingGenotypeBlueprint(
+        number_of_instructions,
+        initialization_chance_of_nop,
+        push_constant_share,
+        push_param_share,
+        -1,
+        1
+    );
+
+    auto sub_creation_operator = new StackBasedGeneticProgrammingCreationOperator(sub_blueprint);
+    auto sub_combination_operator = new StackBasedGeneticProgrammingCombinationOperator(sub_blueprint);
+    auto sub_perturbation_operator = new StackBasedGeneticProgrammingPerturbationOperator(sub_blueprint, perturbation_rate, perturbation_chance_of_nop);
+    auto sub_serialization_operator = new StackBasedGeneticProgrammingSerializationOperator(sub_blueprint);
+
+    auto blueprint = new OnlineSchedulingAlgorithmClusterGenotypeBlueprint(topology);
+    auto creation_operator = new OnlineSchedulingAlgorithmClusterCreationOperator(
+        blueprint,
+        sub_creation_operator
+    );
+    auto combination_operator = new OnlineSchedulingAlgorithmClusterCombinationOperatorWithCoarseGranularity(
+        sub_combination_operator
+    );
+    auto perturbation_operator =new OnlineSchedulingAlgorithmClusterPerturbationOperator(
+        sub_perturbation_operator
+    );
+    auto serialization_operator = new OnlineSchedulingAlgorithmClusterSerializationOperator(topology, sub_serialization_operator);
+
+    auto genotype = dynamic_cast<OnlineSchedulingAlgorithmCluster*>(creation_operator->create());
+
+    auto serialization = serialization_operator->serialize(genotype);
+    for (const auto& line : serialization_operator->serialize(genotype)) {
+        std::cout << line << std::endl;
+    }
+    auto deserialization = serialization_operator->deserialize(serialization);
+
+    std::cout << std::endl;
+    for (const auto& line : serialization_operator->serialize(deserialization)) {
+        std::cout << line << std::endl;
+    }
+
+    sub_blueprint->setInputs({"x", "y"});
+    std::map<std::string, double> params;
+    params["x"] = 1;
+    params["y"] = -1;
+
+    auto sbgp1 = dynamic_cast<StackBasedGeneticProgramming*>(sub_creation_operator->create());
+    auto sbgp2 = dynamic_cast<StackBasedGeneticProgramming*>(sub_creation_operator->create());
+
+    auto val = sbgp1->calculateScore(params);
+    std::cout << val << std::endl;
+
+    auto sbgp = sub_combination_operator->combine(sbgp1, sbgp2);
+    sub_perturbation_operator->perturbate(sbgp);
+}
+
 void online_scheduling_algorithm_cluster() {
 
     std::string const dir = "../tests/test_04/";
@@ -321,6 +400,7 @@ int main() {
     // neural_network();
     // tree_based_genetic_programming();
     // cartesian_genetic_programming();
-    linear_genetic_programming();
+    // linear_genetic_programming();
+    stack_based_genetic_programming();
     // online_scheduling_algorithm_cluster();
 }
