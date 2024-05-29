@@ -27,21 +27,21 @@ void TBGPNodeCollector::traverseTree(TBGPNode* node, int max_height, std::vector
     switch (node->node_type)
     {
 
-    case ABSTRACT:
-    case CONST:
-    case PARAM:
+    case TBGP_ABSTRACT:
+    case TBGP_CONST:
+    case TBGP_PARAM:
         {
             break;
         }
 
-    case UNARY_MINUS:
+    case TBGP_UNARY_MINUS:
         {
             auto unary_minus_node = dynamic_cast<TBGPNodeUnaryMinus*>(node);
             traverseTree(unary_minus_node->operand_node, max_height, collection);
             break;
         }
 
-    case PLUS:
+    case TBGP_PLUS:
         {
             auto plus_node = dynamic_cast<TBGPNodePlus*>(node);
             traverseTree(plus_node->first_summand_node, max_height, collection);
@@ -49,7 +49,7 @@ void TBGPNodeCollector::traverseTree(TBGPNode* node, int max_height, std::vector
             break;
         }
 
-    case MINUS:
+    case TBGP_MINUS:
         {
             auto minus_node = dynamic_cast<TBGPNodeMinus*>(node);
             traverseTree(minus_node->minuend_node, max_height, collection);
@@ -57,7 +57,7 @@ void TBGPNodeCollector::traverseTree(TBGPNode* node, int max_height, std::vector
             break;
         }
 
-    case TIMES:
+    case TBGP_TIMES:
         {
             auto times_node = dynamic_cast<TBGPNodeTimes*>(node);
             traverseTree(times_node->first_factor_node, max_height, collection);
@@ -65,7 +65,7 @@ void TBGPNodeCollector::traverseTree(TBGPNode* node, int max_height, std::vector
             break;
         }
 
-    case DIVIDE:
+    case TBGP_DIVIDE:
         {
             auto divide_node = dynamic_cast<TBGPNodeDivide*>(node);
             traverseTree(divide_node->dividend_node, max_height, collection);
@@ -73,21 +73,21 @@ void TBGPNodeCollector::traverseTree(TBGPNode* node, int max_height, std::vector
             break;
         }
 
-    case SQUARE:
+    case TBGP_SQUARE:
         {
             auto square_node = dynamic_cast<TBGPNodeSquare*>(node);
             traverseTree(square_node->base_node, max_height, collection);
             break;
         }
 
-    case ROOT:
+    case TBGP_ROOT:
         {
             auto root_node = dynamic_cast<TBGPNodeRoot*>(node);
             traverseTree(root_node->radicand_node, max_height, collection);
             break;
         }
 
-    case BRANCH:
+    case TBGP_BRANCH:
         {
             auto branch_node = dynamic_cast<TBGPNodeBranch*>(node);
             traverseTree(branch_node->if_node, max_height, collection);

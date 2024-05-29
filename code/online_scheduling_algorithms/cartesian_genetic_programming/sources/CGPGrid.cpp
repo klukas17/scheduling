@@ -36,6 +36,15 @@ CGPGrid* CGPGrid::copy() {
     for (auto & cell : cells) {
         cells_copy.push_back(cell->copy());
     }
+    return new CGPGrid(
+        rows,
+        cols,
+        output_index,
+        functions_index,
+        cells_copy,
+        constants,
+        inputs
+    );
 }
 
 int CGPGrid::getNumberOfFunctions() {

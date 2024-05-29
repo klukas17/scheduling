@@ -20,7 +20,6 @@ std::vector<std::string> CartesianGeneticProgrammingSerializationOperator::seria
     }
     std::vector<std::string> result = {oss.str()};
 
-    // oss.clear();
     oss.str("");
     oss << grid->output_index;
     result.push_back(oss.str());

@@ -51,26 +51,26 @@ std::vector<std::string> TreeBasedGeneticProgrammingSerializationOperator::seria
     switch (node->node_type)
     {
 
-    case ABSTRACT:
+    case TBGP_ABSTRACT:
         {
             break;
         }
 
-    case CONST:
+    case TBGP_CONST:
         {
             auto const_node = dynamic_cast<TBGPNodeConst*>(node);
             oss << "CONST " << const_node->constant;
             break;
         }
 
-    case PARAM:
+    case TBGP_PARAM:
         {
             auto param_node = dynamic_cast<TBGPNodeParam*>(node);
             oss << "PARAM " << param_node->param;
             break;
         }
 
-    case UNARY_MINUS:
+    case TBGP_UNARY_MINUS:
         {
             auto unary_minus_node = dynamic_cast<TBGPNodeUnaryMinus*>(node);
             oss << "UNARY_MINUS";
@@ -80,7 +80,7 @@ std::vector<std::string> TreeBasedGeneticProgrammingSerializationOperator::seria
             break;
         }
 
-    case PLUS:
+    case TBGP_PLUS:
         {
             auto plus_node = dynamic_cast<TBGPNodePlus*>(node);
             oss << "PLUS";
@@ -93,7 +93,7 @@ std::vector<std::string> TreeBasedGeneticProgrammingSerializationOperator::seria
             break;
         }
 
-    case MINUS:
+    case TBGP_MINUS:
         {
             auto minus_node = dynamic_cast<TBGPNodeMinus*>(node);
             oss << "MINUS";
@@ -106,7 +106,7 @@ std::vector<std::string> TreeBasedGeneticProgrammingSerializationOperator::seria
             break;
         }
 
-    case TIMES:
+    case TBGP_TIMES:
         {
             auto times_node = dynamic_cast<TBGPNodeTimes*>(node);
             oss << "TIMES";
@@ -119,7 +119,7 @@ std::vector<std::string> TreeBasedGeneticProgrammingSerializationOperator::seria
             break;
         }
 
-    case DIVIDE:
+    case TBGP_DIVIDE:
         {
             auto divide_node = dynamic_cast<TBGPNodeDivide*>(node);
             oss << "DIVIDE";
@@ -132,7 +132,7 @@ std::vector<std::string> TreeBasedGeneticProgrammingSerializationOperator::seria
             break;
         }
 
-    case SQUARE:
+    case TBGP_SQUARE:
         {
             auto square_node = dynamic_cast<TBGPNodeSquare*>(node);
             oss << "SQUARE";
@@ -142,7 +142,7 @@ std::vector<std::string> TreeBasedGeneticProgrammingSerializationOperator::seria
             break;
         }
 
-    case ROOT:
+    case TBGP_ROOT:
         {
             auto root_node = dynamic_cast<TBGPNodeRoot*>(node);
             oss << "ROOT";
@@ -152,7 +152,7 @@ std::vector<std::string> TreeBasedGeneticProgrammingSerializationOperator::seria
             break;
         }
 
-    case BRANCH:
+    case TBGP_BRANCH:
         {
             auto branch_node = dynamic_cast<TBGPNodeBranch*>(node);
             oss << "BRANCH";

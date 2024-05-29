@@ -18,14 +18,14 @@ void TBGPNodeReplacer::replaceChildren(TBGPNode* parent, TBGPNode* former_child,
     switch(parent->node_type)
     {
 
-    case ABSTRACT:
-    case CONST:
-    case PARAM:
+    case TBGP_ABSTRACT:
+    case TBGP_CONST:
+    case TBGP_PARAM:
         {
             break;
         }
 
-    case UNARY_MINUS:
+    case TBGP_UNARY_MINUS:
         {
             auto unary_minus_node = dynamic_cast<TBGPNodeUnaryMinus*>(parent);
             if (unary_minus_node->operand_node == former_child) {
@@ -34,7 +34,7 @@ void TBGPNodeReplacer::replaceChildren(TBGPNode* parent, TBGPNode* former_child,
             break;
         }
 
-    case PLUS:
+    case TBGP_PLUS:
         {
             auto plus_node = dynamic_cast<TBGPNodePlus*>(parent);
             if (plus_node->first_summand_node == former_child) {
@@ -46,7 +46,7 @@ void TBGPNodeReplacer::replaceChildren(TBGPNode* parent, TBGPNode* former_child,
             break;
         }
 
-    case MINUS:
+    case TBGP_MINUS:
         {
             auto minus_node = dynamic_cast<TBGPNodeMinus*>(parent);
             if (minus_node->minuend_node == former_child) {
@@ -58,7 +58,7 @@ void TBGPNodeReplacer::replaceChildren(TBGPNode* parent, TBGPNode* former_child,
             break;
         }
 
-    case TIMES:
+    case TBGP_TIMES:
         {
             auto times_node = dynamic_cast<TBGPNodeTimes*>(parent);
             if (times_node->first_factor_node == former_child) {
@@ -70,7 +70,7 @@ void TBGPNodeReplacer::replaceChildren(TBGPNode* parent, TBGPNode* former_child,
             break;
         }
 
-    case DIVIDE:
+    case TBGP_DIVIDE:
         {
             auto divide_node = dynamic_cast<TBGPNodeDivide*>(parent);
             if (divide_node->dividend_node == former_child) {
@@ -82,7 +82,7 @@ void TBGPNodeReplacer::replaceChildren(TBGPNode* parent, TBGPNode* former_child,
             break;
         }
 
-    case SQUARE:
+    case TBGP_SQUARE:
         {
             auto square_node = dynamic_cast<TBGPNodeSquare*>(parent);
             if (square_node->base_node == former_child) {
@@ -91,7 +91,7 @@ void TBGPNodeReplacer::replaceChildren(TBGPNode* parent, TBGPNode* former_child,
             break;
         }
 
-    case ROOT:
+    case TBGP_ROOT:
         {
             auto root_node = dynamic_cast<TBGPNodeRoot*>(parent);
             if (root_node->radicand_node == former_child) {
@@ -100,7 +100,7 @@ void TBGPNodeReplacer::replaceChildren(TBGPNode* parent, TBGPNode* former_child,
             break;
         }
 
-    case BRANCH:
+    case TBGP_BRANCH:
         {
             auto branch_node = dynamic_cast<TBGPNodeBranch*>(parent);
             if (branch_node->if_node == former_child) {

@@ -6,17 +6,17 @@
 #define TBGPNODETYPE_H
 
 enum TBGPNodeType {
-    ABSTRACT,
-    CONST,
-    PARAM,
-    UNARY_MINUS,
-    PLUS,
-    MINUS,
-    TIMES,
-    DIVIDE,
-    SQUARE,
-    ROOT,
-    BRANCH
+    TBGP_ABSTRACT,
+    TBGP_CONST,
+    TBGP_PARAM,
+    TBGP_UNARY_MINUS,
+    TBGP_PLUS,
+    TBGP_MINUS,
+    TBGP_TIMES,
+    TBGP_DIVIDE,
+    TBGP_SQUARE,
+    TBGP_ROOT,
+    TBGP_BRANCH
 };
 
 #endif //TBGPNODETYPE_H

@@ -17,6 +17,15 @@
 #include "ConstantProgrammingPerturbationOperator.h"
 #include "ConstantProgrammingSerializationOperator.h"
 #include "JobSpecificationsParser.h"
+#include "LGPRegisterInitializationStrategyCircularLoading.h"
+#include "LGPRegisterInitializationStrategyEmptyLoading.h"
+#include "LGPRegisterInitializationStrategySingularLoading.h"
+#include "LinearGeneticProgramming.h"
+#include "LinearGeneticProgrammingCombinationOperator.h"
+#include "LinearGeneticProgrammingCreationOperator.h"
+#include "LinearGeneticProgrammingGenotypeBlueprint.h"
+#include "LinearGeneticProgrammingPerturbationOperator.h"
+#include "LinearGeneticProgrammingSerializationOperator.h"
 #include "MachineSpecificationsParser.h"
 #include "MachineTopologyParser.h"
 #include "MachineTypeMap.h"
@@ -197,6 +206,79 @@ void cartesian_genetic_programming() {
     sub_perturbation_operator->perturbate(cgp);
 }
 
+void linear_genetic_programming() {
+
+    std::string const dir = "../experiments/experiment_99/";
+
+    MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
+
+    JobTypeMap* job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
+    machine_type_map->constructSetupAndBatchRules(job_type_map);
+
+    Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
+
+    auto register_initialization_strategy = new LGPRegisterInitializationStrategyCircularLoading();
+    int number_of_registers = 10;
+    int number_of_instructions = 500;
+    double initialization_chance_of_nop = 0.2;
+    double perturbation_chance_of_nop = 0.1;
+    double perturbation_rate = 0.1;
+
+    auto sub_blueprint = new LinearGeneticProgrammingGenotypeBlueprint(
+        register_initialization_strategy,
+        number_of_registers,
+        number_of_instructions,
+        initialization_chance_of_nop,
+        -1,
+        1
+    );
+
+    auto sub_creation_operator = new LinearGeneticProgrammingCreationOperator(sub_blueprint);
+    auto sub_combination_operator = new LinearGeneticProgrammingCombinationOperator(sub_blueprint);
+    auto sub_perturbation_operator = new LinearGeneticProgrammingPerturbationOperator(sub_blueprint, perturbation_rate, perturbation_chance_of_nop);
+    auto sub_serialization_operator = new LinearGeneticProgrammingSerializationOperator(sub_blueprint);
+
+    auto blueprint = new OnlineSchedulingAlgorithmClusterGenotypeBlueprint(topology);
+    auto creation_operator = new OnlineSchedulingAlgorithmClusterCreationOperator(
+        blueprint,
+        sub_creation_operator
+    );
+    auto combination_operator = new OnlineSchedulingAlgorithmClusterCombinationOperatorWithCoarseGranularity(
+        sub_combination_operator
+    );
+    auto perturbation_operator =new OnlineSchedulingAlgorithmClusterPerturbationOperator(
+        sub_perturbation_operator
+    );
+    auto serialization_operator = new OnlineSchedulingAlgorithmClusterSerializationOperator(topology, sub_serialization_operator);
+
+    auto genotype = dynamic_cast<OnlineSchedulingAlgorithmCluster*>(creation_operator->create());
+
+    auto serialization = serialization_operator->serialize(genotype);
+    for (const auto& line : serialization_operator->serialize(genotype)) {
+        std::cout << line << std::endl;
+    }
+    auto deserialization = serialization_operator->deserialize(serialization);
+
+    std::cout << std::endl;
+    for (const auto& line : serialization_operator->serialize(deserialization)) {
+        std::cout << line << std::endl;
+    }
+
+    sub_blueprint->setInputs({"x", "y"});
+    std::map<std::string, double> params;
+    params["x"] = 1;
+    params["y"] = -1;
+
+    auto lgp1 = dynamic_cast<LinearGeneticProgramming*>(sub_creation_operator->create());
+    auto lgp2 = dynamic_cast<LinearGeneticProgramming*>(sub_creation_operator->create());
+
+    auto val = lgp1->calculateScore(params);
+    std::cout << val << std::endl;
+
+    auto lgp = sub_combination_operator->combine(lgp1, lgp2);
+    sub_perturbation_operator->perturbate(lgp);
+}
+
 void online_scheduling_algorithm_cluster() {
 
     std::string const dir = "../tests/test_04/";
@@ -238,6 +320,7 @@ int main() {
     // random_programming();
     // neural_network();
     // tree_based_genetic_programming();
-    cartesian_genetic_programming();
+    // cartesian_genetic_programming();
+    linear_genetic_programming();
     // online_scheduling_algorithm_cluster();
 }

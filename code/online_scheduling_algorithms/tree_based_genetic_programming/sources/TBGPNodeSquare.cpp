@@ -7,7 +7,7 @@
 #include <cmath>
 
 TBGPNodeSquare::TBGPNodeSquare() {
-    this->node_type = SQUARE;
+    this->node_type = TBGP_SQUARE;
     base_node = nullptr;
 }
 

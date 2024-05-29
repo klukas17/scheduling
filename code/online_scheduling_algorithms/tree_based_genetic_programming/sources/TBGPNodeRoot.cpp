@@ -6,7 +6,7 @@
 #include <cmath>
 
 TBGPNodeRoot::TBGPNodeRoot() {
-    this->node_type = ROOT;
+    this->node_type = TBGP_ROOT;
     radicand_node = nullptr;
 }
 

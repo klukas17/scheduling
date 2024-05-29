@@ -5,7 +5,7 @@
 #include "TBGPNodeDivide.h"
 
 TBGPNodeDivide::TBGPNodeDivide() {
-    this->node_type = DIVIDE;
+    this->node_type = TBGP_DIVIDE;
     dividend_node = divisor_node = nullptr;
 }
 

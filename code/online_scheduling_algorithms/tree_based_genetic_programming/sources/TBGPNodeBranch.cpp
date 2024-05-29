@@ -5,7 +5,7 @@
 #include "TBGPNodeBranch.h"
 
 TBGPNodeBranch::TBGPNodeBranch() {
-    this->node_type = BRANCH;
+    this->node_type = TBGP_BRANCH;
     if_node = then_node = else_node = nullptr;
 }
 

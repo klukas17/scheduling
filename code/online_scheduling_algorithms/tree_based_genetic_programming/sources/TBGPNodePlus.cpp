@@ -5,7 +5,7 @@
 #include "TBGPNodePlus.h"
 
 TBGPNodePlus::TBGPNodePlus() {
-    this->node_type = PLUS;
+    this->node_type = TBGP_PLUS;
     first_summand_node = second_summand_node = nullptr;
 }
 
