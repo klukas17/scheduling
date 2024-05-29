@@ -5,7 +5,7 @@
 #include "TBGPNodeTimes.h"
 
 TBGPNodeTimes::TBGPNodeTimes() {
-    this->node_type = TIMES;
+    this->node_type = TBGP_TIMES;
     first_factor_node = second_factor_node = nullptr;
 }
 

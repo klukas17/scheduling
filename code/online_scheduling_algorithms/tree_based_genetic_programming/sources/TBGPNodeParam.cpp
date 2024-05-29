@@ -5,7 +5,7 @@
 #include "TBGPNodeParam.h"
 
 TBGPNodeParam::TBGPNodeParam() {
-    this->node_type = PARAM;
+    this->node_type = TBGP_PARAM;
     param = "";
 }
 

@@ -24,25 +24,25 @@ void TBGPNodeDepthAdjuster::adjustHeightForNode(TBGPNode* node) {
     switch (node->node_type)
     {
 
-    case ABSTRACT:
+    case TBGP_ABSTRACT:
         {
             return;
         }
-    case CONST:
+    case TBGP_CONST:
         {
             auto const_node = dynamic_cast<TBGPNodeConst*>(node);
             const_node->height = 1;
             return;
         }
 
-    case PARAM:
+    case TBGP_PARAM:
         {
             auto param_node = dynamic_cast<TBGPNodeParam*>(node);
             param_node->height = 1;
             return;
         }
 
-    case UNARY_MINUS:
+    case TBGP_UNARY_MINUS:
         {
             auto unary_minus_node = dynamic_cast<TBGPNodeUnaryMinus*>(node);
             adjustHeightForNode(unary_minus_node->operand_node);
@@ -50,7 +50,7 @@ void TBGPNodeDepthAdjuster::adjustHeightForNode(TBGPNode* node) {
             return;
         }
 
-    case PLUS:
+    case TBGP_PLUS:
         {
             auto plus_node = dynamic_cast<TBGPNodePlus*>(node);
             adjustHeightForNode(plus_node->first_summand_node);
@@ -62,7 +62,7 @@ void TBGPNodeDepthAdjuster::adjustHeightForNode(TBGPNode* node) {
             return;
         }
 
-    case MINUS:
+    case TBGP_MINUS:
         {
             auto minus_node = dynamic_cast<TBGPNodeMinus*>(node);
             adjustHeightForNode(minus_node->minuend_node);
@@ -74,7 +74,7 @@ void TBGPNodeDepthAdjuster::adjustHeightForNode(TBGPNode* node) {
             return;
         }
 
-    case TIMES:
+    case TBGP_TIMES:
         {
             auto times_node = dynamic_cast<TBGPNodeTimes*>(node);
             adjustHeightForNode(times_node->first_factor_node);
@@ -86,7 +86,7 @@ void TBGPNodeDepthAdjuster::adjustHeightForNode(TBGPNode* node) {
             return;
         }
 
-    case DIVIDE:
+    case TBGP_DIVIDE:
         {
             auto divide_node = dynamic_cast<TBGPNodeDivide*>(node);
             adjustHeightForNode(divide_node->dividend_node);
@@ -98,7 +98,7 @@ void TBGPNodeDepthAdjuster::adjustHeightForNode(TBGPNode* node) {
             return;
         }
 
-    case SQUARE:
+    case TBGP_SQUARE:
         {
             auto square_node = dynamic_cast<TBGPNodeSquare*>(node);
             adjustHeightForNode(square_node->base_node);
@@ -106,7 +106,7 @@ void TBGPNodeDepthAdjuster::adjustHeightForNode(TBGPNode* node) {
             return;
         }
 
-    case ROOT:
+    case TBGP_ROOT:
         {
             auto root_node = dynamic_cast<TBGPNodeRoot*>(node);
             adjustHeightForNode(root_node->radicand_node);
@@ -114,7 +114,7 @@ void TBGPNodeDepthAdjuster::adjustHeightForNode(TBGPNode* node) {
             return;
         }
 
-    case BRANCH:
+    case TBGP_BRANCH:
         {
             auto branch_node = dynamic_cast<TBGPNodeBranch*>(node);
             adjustHeightForNode(branch_node->if_node);
@@ -137,25 +137,25 @@ void TBGPNodeDepthAdjuster::adjustMaxDepthForNode(TBGPNode* node, int max_depth)
         switch (node->node_type)
     {
 
-    case ABSTRACT:
+    case TBGP_ABSTRACT:
         {
             return;
         }
-    case CONST:
+    case TBGP_CONST:
         {
             auto const_node = dynamic_cast<TBGPNodeConst*>(node);
             const_node->max_depth = max_depth;
             return;
         }
 
-    case PARAM:
+    case TBGP_PARAM:
         {
             auto param_node = dynamic_cast<TBGPNodeParam*>(node);
             param_node->max_depth = max_depth;
             return;
         }
 
-    case UNARY_MINUS:
+    case TBGP_UNARY_MINUS:
         {
             auto unary_minus_node = dynamic_cast<TBGPNodeUnaryMinus*>(node);
             unary_minus_node->max_depth = max_depth;
@@ -163,7 +163,7 @@ void TBGPNodeDepthAdjuster::adjustMaxDepthForNode(TBGPNode* node, int max_depth)
             return;
         }
 
-    case PLUS:
+    case TBGP_PLUS:
         {
             auto plus_node = dynamic_cast<TBGPNodePlus*>(node);
             plus_node->max_depth = max_depth;
@@ -172,7 +172,7 @@ void TBGPNodeDepthAdjuster::adjustMaxDepthForNode(TBGPNode* node, int max_depth)
             return;
         }
 
-    case MINUS:
+    case TBGP_MINUS:
         {
             auto minus_node = dynamic_cast<TBGPNodeMinus*>(node);
             minus_node->max_depth = max_depth;
@@ -181,7 +181,7 @@ void TBGPNodeDepthAdjuster::adjustMaxDepthForNode(TBGPNode* node, int max_depth)
             return;
         }
 
-    case TIMES:
+    case TBGP_TIMES:
         {
             auto times_node = dynamic_cast<TBGPNodeTimes*>(node);
             times_node->max_depth = max_depth;
@@ -190,7 +190,7 @@ void TBGPNodeDepthAdjuster::adjustMaxDepthForNode(TBGPNode* node, int max_depth)
             return;
         }
 
-    case DIVIDE:
+    case TBGP_DIVIDE:
         {
             auto divide_node = dynamic_cast<TBGPNodeDivide*>(node);
             divide_node->max_depth = max_depth;
@@ -199,7 +199,7 @@ void TBGPNodeDepthAdjuster::adjustMaxDepthForNode(TBGPNode* node, int max_depth)
             return;
         }
 
-    case SQUARE:
+    case TBGP_SQUARE:
         {
             auto square_node = dynamic_cast<TBGPNodeSquare*>(node);
             square_node->max_depth = max_depth;
@@ -207,7 +207,7 @@ void TBGPNodeDepthAdjuster::adjustMaxDepthForNode(TBGPNode* node, int max_depth)
             return;
         }
 
-    case ROOT:
+    case TBGP_ROOT:
         {
             auto root_node = dynamic_cast<TBGPNodeRoot*>(node);
             root_node->max_depth = max_depth;
@@ -215,7 +215,7 @@ void TBGPNodeDepthAdjuster::adjustMaxDepthForNode(TBGPNode* node, int max_depth)
             return;
         }
 
-    case BRANCH:
+    case TBGP_BRANCH:
         {
             auto branch_node = dynamic_cast<TBGPNodeBranch*>(node);
             branch_node->max_depth = max_depth;

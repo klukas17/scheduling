@@ -5,7 +5,7 @@
 #include "TBGPNodeMinus.h"
 
 TBGPNodeMinus::TBGPNodeMinus() {
-    this->node_type = MINUS;
+    this->node_type = TBGP_MINUS;
     minuend_node = subtrahend_node = nullptr;
 }
 

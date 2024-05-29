@@ -21,14 +21,14 @@
 #include "UniformRealDistributionGenerator.h"
 
 std::vector<TBGPNodeType> TBGPNodeFactory::inner_node_types = {
-    UNARY_MINUS,
-    PLUS,
-    MINUS,
-    TIMES,
-    DIVIDE,
-    SQUARE,
-    ROOT,
-    BRANCH
+    TBGP_UNARY_MINUS,
+    TBGP_PLUS,
+    TBGP_MINUS,
+    TBGP_TIMES,
+    TBGP_DIVIDE,
+    TBGP_SQUARE,
+    TBGP_ROOT,
+    TBGP_BRANCH
 };
 
 TBGPNodeFactory::TBGPNodeFactory(double leaf_const_chance, double leaf_param_chance, double constant_min, double constant_max) {
@@ -75,7 +75,7 @@ TBGPNode* TBGPNodeFactory::createNode(int max_height) {
         switch(node_type)
         {
 
-        case UNARY_MINUS:
+        case TBGP_UNARY_MINUS:
             {
                 auto node = new TBGPNodeUnaryMinus();
                 node->operand_node = createNode(max_height - 1);
@@ -83,7 +83,7 @@ TBGPNode* TBGPNodeFactory::createNode(int max_height) {
                 return node;
             }
 
-        case PLUS:
+        case TBGP_PLUS:
             {
                 auto node = new TBGPNodePlus();
                 node->first_summand_node = createNode(max_height - 1);
@@ -93,7 +93,7 @@ TBGPNode* TBGPNodeFactory::createNode(int max_height) {
                 return node;
             }
 
-        case MINUS:
+        case TBGP_MINUS:
             {
                 auto node = new TBGPNodeMinus();
                 node->minuend_node = createNode(max_height - 1);
@@ -103,7 +103,7 @@ TBGPNode* TBGPNodeFactory::createNode(int max_height) {
                 return node;
             }
 
-        case TIMES:
+        case TBGP_TIMES:
             {
                 auto node = new TBGPNodeTimes();
                 node->first_factor_node = createNode(max_height - 1);
@@ -113,7 +113,7 @@ TBGPNode* TBGPNodeFactory::createNode(int max_height) {
                 return node;
             }
 
-        case DIVIDE:
+        case TBGP_DIVIDE:
             {
                 auto node = new TBGPNodeDivide();
                 node->dividend_node = createNode(max_height - 1);
@@ -123,7 +123,7 @@ TBGPNode* TBGPNodeFactory::createNode(int max_height) {
                 return node;
             }
 
-        case SQUARE:
+        case TBGP_SQUARE:
             {
                 auto node = new TBGPNodeSquare();
                 node->base_node = createNode(max_height - 1);
@@ -131,7 +131,7 @@ TBGPNode* TBGPNodeFactory::createNode(int max_height) {
                 return node;
             }
 
-        case ROOT:
+        case TBGP_ROOT:
             {
                 auto node = new TBGPNodeRoot();
                 node->radicand_node = createNode(max_height - 1);
@@ -139,7 +139,7 @@ TBGPNode* TBGPNodeFactory::createNode(int max_height) {
                 return node;
             }
 
-        case BRANCH:
+        case TBGP_BRANCH:
             {
                 auto node = new TBGPNodeBranch();
                 node->if_node = createNode(max_height - 1);

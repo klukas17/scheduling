@@ -5,7 +5,7 @@
 #include "TBGPNodeUnaryMinus.h"
 
 TBGPNodeUnaryMinus::TBGPNodeUnaryMinus() {
-    this->node_type = UNARY_MINUS;
+    this->node_type = TBGP_UNARY_MINUS;
     operand_node = nullptr;
 }
 

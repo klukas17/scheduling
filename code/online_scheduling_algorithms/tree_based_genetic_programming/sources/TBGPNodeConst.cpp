@@ -5,7 +5,7 @@
 #include "TBGPNodeConst.h"
 
 TBGPNodeConst::TBGPNodeConst() {
-    this->node_type = CONST;
+    this->node_type = TBGP_CONST;
     constant = 0;
 }
 
