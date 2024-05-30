@@ -16,6 +16,12 @@
 #include "ConstantProgrammingGenotypeBlueprint.h"
 #include "ConstantProgrammingPerturbationOperator.h"
 #include "ConstantProgrammingSerializationOperator.h"
+#include "GeneExpressionProgramming.h"
+#include "GeneExpressionProgrammingCombinationOperator.h"
+#include "GeneExpressionProgrammingCreationOperator.h"
+#include "GeneExpressionProgrammingGenotypeBlueprint.h"
+#include "GeneExpressionProgrammingPerturbationOperator.h"
+#include "GeneExpressionProgrammingSerializationOperator.h"
 #include "JobSpecificationsParser.h"
 #include "LGPRegisterInitializationStrategyCircularLoading.h"
 #include "LGPRegisterInitializationStrategyEmptyLoading.h"
@@ -358,6 +364,86 @@ void stack_based_genetic_programming() {
     sub_perturbation_operator->perturbate(sbgp);
 }
 
+void gene_expression_programming() {
+    std::string const dir = "../experiments/experiment_99/";
+
+    MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
+
+    JobTypeMap* job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
+    machine_type_map->constructSetupAndBatchRules(job_type_map);
+
+    Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
+
+    int head_size = 50;
+    double tail_chance_of_param = 0.5;
+    double perturbation_rate = 0.2;
+    double chance_of_transposition = 1;
+    int transposition_max_length = 5;
+
+    auto sub_blueprint = new GeneExpressionProgrammingGenotypeBlueprint(
+        head_size,
+        tail_chance_of_param,
+        -1,
+        1
+    );
+
+    auto sub_creation_operator = new GeneExpressionProgrammingCreationOperator(sub_blueprint);
+    auto sub_combination_operator = new GeneExpressionProgrammingCombinationOperator(sub_blueprint);
+    auto sub_perturbation_operator = new GeneExpressionProgrammingPerturbationOperator(sub_blueprint, perturbation_rate, chance_of_transposition, transposition_max_length);
+    auto sub_serialization_operator = new GeneExpressionProgrammingSerializationOperator(sub_blueprint);
+
+    auto blueprint = new OnlineSchedulingAlgorithmClusterGenotypeBlueprint(topology);
+    auto creation_operator = new OnlineSchedulingAlgorithmClusterCreationOperator(
+        blueprint,
+        sub_creation_operator
+    );
+    auto combination_operator = new OnlineSchedulingAlgorithmClusterCombinationOperatorWithCoarseGranularity(
+        sub_combination_operator
+    );
+    auto perturbation_operator =new OnlineSchedulingAlgorithmClusterPerturbationOperator(
+        sub_perturbation_operator
+    );
+    auto serialization_operator = new OnlineSchedulingAlgorithmClusterSerializationOperator(topology, sub_serialization_operator);
+
+    auto genotype = dynamic_cast<OnlineSchedulingAlgorithmCluster*>(creation_operator->create());
+
+    auto serialization = serialization_operator->serialize(genotype);
+    for (const auto& line : serialization_operator->serialize(genotype)) {
+    std::cout << line << std::endl;
+    }
+    auto deserialization = serialization_operator->deserialize(serialization);
+
+    std::cout << std::endl;
+        for (const auto& line : serialization_operator->serialize(deserialization)) {
+        std::cout << line << std::endl;
+    }
+
+    sub_blueprint->setInputs({"x", "y"});
+    std::map<std::string, double> params;
+    params["x"] = 1;
+    params["y"] = -1;
+
+    auto gep1 = dynamic_cast<GeneExpressionProgramming*>(sub_creation_operator->create());
+
+    // for (const auto& line : sub_serialization_operator->serialize(gep1)) {
+    //     std::cout << line << std::endl;
+    // }
+    // std::cout << std::endl;
+    // for (const auto& line : sub_serialization_operator->serializePhenotype(gep1)) {
+    //     std::cout << line << std::endl;
+    // }
+
+    auto gep2 = dynamic_cast<GeneExpressionProgramming*>(sub_creation_operator->create());
+
+    auto val = gep1->calculateScore(params);
+    std::cout << val << std::endl;
+
+    auto gep = sub_combination_operator->combine(gep1, gep2);
+    sub_perturbation_operator->perturbate(gep);
+
+    std::cout << dynamic_cast<GeneExpressionProgramming*>(gep)->calculateScore(params) << std::endl;
+}
+
 void online_scheduling_algorithm_cluster() {
 
     std::string const dir = "../tests/test_04/";
@@ -401,6 +487,7 @@ int main() {
     // tree_based_genetic_programming();
     // cartesian_genetic_programming();
     // linear_genetic_programming();
-    stack_based_genetic_programming();
+    // stack_based_genetic_programming();
+    gene_expression_programming();
     // online_scheduling_algorithm_cluster();
 }

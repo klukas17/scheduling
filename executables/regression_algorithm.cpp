@@ -9,6 +9,11 @@
 #include "CartesianGeneticProgrammingGenotypeBlueprint.h"
 #include "CartesianGeneticProgrammingPerturbationOperator.h"
 #include "CartesianGeneticProgrammingSerializationOperator.h"
+#include "GeneExpressionProgrammingCombinationOperator.h"
+#include "GeneExpressionProgrammingCreationOperator.h"
+#include "GeneExpressionProgrammingGenotypeBlueprint.h"
+#include "GeneExpressionProgrammingPerturbationOperator.h"
+#include "GeneExpressionProgrammingSerializationOperator.h"
 #include "LGPRegisterInitializationStrategyCircularLoading.h"
 #include "LinearGeneticProgrammingCombinationOperator.h"
 #include "LinearGeneticProgrammingCreationOperator.h"
@@ -233,10 +238,55 @@ void stack_based_genetic_programming() {
     }
 }
 
+void gene_expression_programming() {
+
+    int head_size = 10;
+    double tail_chance_of_param = 0.8;
+    double perturbation_rate = 0.2;
+    double chance_of_transposition = 0.1;
+    int transposition_max_length = 5;
+
+    auto blueprint = new GeneExpressionProgrammingGenotypeBlueprint(
+        head_size,
+        tail_chance_of_param,
+        -1,
+        1
+    );
+
+    auto creation_operator = new GeneExpressionProgrammingCreationOperator(blueprint);
+    auto combination_operator = new GeneExpressionProgrammingCombinationOperator(blueprint);
+    auto perturbation_operator = new GeneExpressionProgrammingPerturbationOperator(blueprint, perturbation_rate, chance_of_transposition, transposition_max_length);
+    auto serialization_operator = new GeneExpressionProgrammingSerializationOperator(blueprint);
+
+    auto evaluation_function = new RegressionFunction(true, {"x", "y"}, "../functions/function_01/data.txt");
+    blueprint->setInputs({"x", "y"});
+
+    int population_size = 50;
+    int iterations_count = 100000;
+
+    auto const ssga = new SteadyStateGeneticAlgorithm(
+        evaluation_function,
+        creation_operator,
+        perturbation_operator,
+        combination_operator,
+        population_size,
+        iterations_count
+    );
+
+    auto const population = new Population(population_size);
+
+    ssga->optimize(population);
+
+    for (auto line : serialization_operator->serialize(population->getGenotype(0)->genotype)) {
+        std::cout << line << std::endl;
+    }
+}
+
 int main() {
     // neural_network();
     // tree_based_genetic_programming();
     // cartesian_genetic_programming();
     // linear_genetic_programming();
-    stack_based_genetic_programming();
+    // stack_based_genetic_programming();
+    gene_expression_programming();
 }
