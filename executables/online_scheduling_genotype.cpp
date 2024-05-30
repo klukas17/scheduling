@@ -35,6 +35,12 @@
 #include "MachineSpecificationsParser.h"
 #include "MachineTopologyParser.h"
 #include "MachineTypeMap.h"
+#include "MultiExpressionProgramming.h"
+#include "MultiExpressionProgrammingCombinationOperator.h"
+#include "MultiExpressionProgrammingCreationOperator.h"
+#include "MultiExpressionProgrammingGenotypeBlueprint.h"
+#include "MultiExpressionProgrammingPerturbationOperator.h"
+#include "MultiExpressionProgrammingSerializationOperator.h"
 #include "NeuralNetwork.h"
 #include "NeuralNetworkCombinationOperator.h"
 #include "NeuralNetworkCreationOperator.h"
@@ -444,6 +450,72 @@ void gene_expression_programming() {
     std::cout << dynamic_cast<GeneExpressionProgramming*>(gep)->calculateScore(params) << std::endl;
 }
 
+void multi_expression_programming() {
+
+    std::string const dir = "../experiments/experiment_99/";
+
+    MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
+
+    JobTypeMap* job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
+    machine_type_map->constructSetupAndBatchRules(job_type_map);
+
+    Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
+
+    int number_of_instructions = 200;
+    double perturbation_rate = 0.2;
+
+    auto sub_blueprint = new MultiExpressionProgrammingGenotypeBlueprint(
+        number_of_instructions,
+        -1,
+        1
+    );
+
+    auto sub_creation_operator = new MultiExpressionProgrammingCreationOperator(sub_blueprint);
+    auto sub_combination_operator = new MultiExpressionProgrammingCombinationOperator(sub_blueprint);
+    auto sub_perturbation_operator = new MultiExpressionProgrammingPerturbationOperator(sub_blueprint, perturbation_rate);
+    auto sub_serialization_operator = new MultiExpressionProgrammingSerializationOperator(sub_blueprint);
+
+    auto blueprint = new OnlineSchedulingAlgorithmClusterGenotypeBlueprint(topology);
+    auto creation_operator = new OnlineSchedulingAlgorithmClusterCreationOperator(
+        blueprint,
+        sub_creation_operator
+    );
+    auto combination_operator = new OnlineSchedulingAlgorithmClusterCombinationOperatorWithCoarseGranularity(
+        sub_combination_operator
+    );
+    auto perturbation_operator =new OnlineSchedulingAlgorithmClusterPerturbationOperator(
+        sub_perturbation_operator
+    );
+    auto serialization_operator = new OnlineSchedulingAlgorithmClusterSerializationOperator(topology, sub_serialization_operator);
+
+    auto genotype = dynamic_cast<OnlineSchedulingAlgorithmCluster*>(creation_operator->create());
+
+    auto serialization = serialization_operator->serialize(genotype);
+    for (const auto& line : serialization_operator->serialize(genotype)) {
+        std::cout << line << std::endl;
+    }
+    auto deserialization = serialization_operator->deserialize(serialization);
+
+    std::cout << std::endl;
+    for (const auto& line : serialization_operator->serialize(deserialization)) {
+        std::cout << line << std::endl;
+    }
+
+    sub_blueprint->setInputs({"x", "y"});
+    std::map<std::string, double> params;
+    params["x"] = 1;
+    params["y"] = -1;
+
+    auto mep1 = dynamic_cast<MultiExpressionProgramming*>(sub_creation_operator->create());
+    auto mep2 = dynamic_cast<MultiExpressionProgramming*>(sub_creation_operator->create());
+
+    auto val = mep1->calculateScore(params);
+    std::cout << val << std::endl;
+
+    auto mep = sub_combination_operator->combine(mep1, mep2);
+    sub_perturbation_operator->perturbate(mep);
+}
+
 void online_scheduling_algorithm_cluster() {
 
     std::string const dir = "../tests/test_04/";
@@ -488,6 +560,7 @@ int main() {
     // cartesian_genetic_programming();
     // linear_genetic_programming();
     // stack_based_genetic_programming();
-    gene_expression_programming();
+    // gene_expression_programming();
+    multi_expression_programming();
     // online_scheduling_algorithm_cluster();
 }
