@@ -20,6 +20,11 @@
 #include "LinearGeneticProgrammingGenotypeBlueprint.h"
 #include "LinearGeneticProgrammingPerturbationOperator.h"
 #include "LinearGeneticProgrammingSerializationOperator.h"
+#include "MultiExpressionProgrammingCombinationOperator.h"
+#include "MultiExpressionProgrammingCreationOperator.h"
+#include "MultiExpressionProgrammingGenotypeBlueprint.h"
+#include "MultiExpressionProgrammingPerturbationOperator.h"
+#include "MultiExpressionProgrammingSerializationOperator.h"
 #include "NeuralNetworkCreationOperator.h"
 #include "NeuralNetworkGenotypeBlueprint.h"
 #include "NeuralNetworkCombinationOperator.h"
@@ -282,11 +287,51 @@ void gene_expression_programming() {
     }
 }
 
+void multi_expression_programming() {
+    int number_of_instructions = 6;
+    double perturbation_rate = 0.2;
+
+    auto blueprint = new MultiExpressionProgrammingGenotypeBlueprint(
+        number_of_instructions,
+        -1,
+        1
+    );
+
+    auto creation_operator = new MultiExpressionProgrammingCreationOperator(blueprint);
+    auto combination_operator = new MultiExpressionProgrammingCombinationOperator(blueprint);
+    auto perturbation_operator = new MultiExpressionProgrammingPerturbationOperator(blueprint, perturbation_rate);
+    auto serialization_operator = new MultiExpressionProgrammingSerializationOperator(blueprint);
+
+    auto evaluation_function = new RegressionFunction(true, {"x", "y"}, "../functions/function_01/data.txt");
+    blueprint->setInputs({"x", "y"});
+
+    int population_size = 50;
+    int iterations_count = 100000;
+
+    auto const ssga = new SteadyStateGeneticAlgorithm(
+        evaluation_function,
+        creation_operator,
+        perturbation_operator,
+        combination_operator,
+        population_size,
+        iterations_count
+    );
+
+    auto const population = new Population(population_size);
+
+    ssga->optimize(population);
+
+    for (auto line : serialization_operator->serialize(population->getGenotype(0)->genotype)) {
+        std::cout << line << std::endl;
+    }
+}
+
 int main() {
     // neural_network();
     // tree_based_genetic_programming();
     // cartesian_genetic_programming();
     // linear_genetic_programming();
     // stack_based_genetic_programming();
-    gene_expression_programming();
+    // gene_expression_programming();
+    multi_expression_programming();
 }
