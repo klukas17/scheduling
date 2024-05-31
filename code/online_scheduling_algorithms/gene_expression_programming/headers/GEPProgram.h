@@ -19,7 +19,7 @@ public:
     std::map<int, double> constant_map;
     std::map<int, std::string> param_map;
     GEPProgram(
-    std::vector<GEPGenotypeNode*> genotype_nodes,
+        std::vector<GEPGenotypeNode*> genotype_nodes,
         std::map<int, double> constant_map,
         std::map<int, std::string> param_map
     );

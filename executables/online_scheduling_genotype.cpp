@@ -22,6 +22,12 @@
 #include "GeneExpressionProgrammingGenotypeBlueprint.h"
 #include "GeneExpressionProgrammingPerturbationOperator.h"
 #include "GeneExpressionProgrammingSerializationOperator.h"
+#include "GrammaticalEvolution.h"
+#include "GrammaticalEvolutionCombinationOperator.h"
+#include "GrammaticalEvolutionCreationOperator.h"
+#include "GrammaticalEvolutionGenotypeBlueprint.h"
+#include "GrammaticalEvolutionPerturbationOperator.h"
+#include "GrammaticalEvolutionSerializationOperator.h"
 #include "JobSpecificationsParser.h"
 #include "LGPRegisterInitializationStrategyCircularLoading.h"
 #include "LGPRegisterInitializationStrategyEmptyLoading.h"
@@ -516,6 +522,86 @@ void multi_expression_programming() {
     sub_perturbation_operator->perturbate(mep);
 }
 
+void grammatical_evolution() {
+
+    std::string const dir = "../experiments/experiment_99/";
+
+    MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
+
+    JobTypeMap* job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
+    machine_type_map->constructSetupAndBatchRules(job_type_map);
+
+    Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
+
+    int codons = 200;
+    int max_number_of_wrapping = 3;
+    double perturbation_rate = 0.2;
+
+    auto sub_blueprint = new GrammaticalEvolutionGenotypeBlueprint(
+        codons,
+        256,
+        max_number_of_wrapping,
+        -1,
+        1
+    );
+
+    auto sub_creation_operator = new GrammaticalEvolutionCreationOperator(sub_blueprint);
+    auto sub_combination_operator = new GrammaticalEvolutionCombinationOperator(sub_blueprint);
+    auto sub_perturbation_operator = new GrammaticalEvolutionPerturbationOperator(sub_blueprint, perturbation_rate);
+    auto sub_serialization_operator = new GrammaticalEvolutionSerializationOperator(sub_blueprint);
+
+    auto blueprint = new OnlineSchedulingAlgorithmClusterGenotypeBlueprint(topology);
+    auto creation_operator = new OnlineSchedulingAlgorithmClusterCreationOperator(
+        blueprint,
+        sub_creation_operator
+    );
+    auto combination_operator = new OnlineSchedulingAlgorithmClusterCombinationOperatorWithCoarseGranularity(
+        sub_combination_operator
+    );
+    auto perturbation_operator =new OnlineSchedulingAlgorithmClusterPerturbationOperator(
+        sub_perturbation_operator
+    );
+    auto serialization_operator = new OnlineSchedulingAlgorithmClusterSerializationOperator(topology, sub_serialization_operator);
+
+    auto genotype = dynamic_cast<OnlineSchedulingAlgorithmCluster*>(creation_operator->create());
+
+    auto serialization = serialization_operator->serialize(genotype);
+    for (const auto& line : serialization_operator->serialize(genotype)) {
+        std::cout << line << std::endl;
+    }
+    auto deserialization = serialization_operator->deserialize(serialization);
+
+    std::cout << std::endl;
+        for (const auto& line : serialization_operator->serialize(deserialization)) {
+        std::cout << line << std::endl;
+    }
+
+    sub_blueprint->setInputs({"x", "y"});
+    std::map<std::string, double> params;
+    params["x"] = 1;
+    params["y"] = -1;
+
+    auto ge1 = dynamic_cast<GrammaticalEvolution*>(sub_creation_operator->create());
+
+    // for (const auto& line : sub_serialization_operator->serialize(ge1)) {
+    //     std::cout << line << std::endl;
+    // }
+    // std::cout << std::endl;
+    // for (const auto& line : sub_serialization_operator->serializePhenotype(ge1)) {
+    //     std::cout << line << std::endl;
+    // }
+
+    auto ge2 = dynamic_cast<GrammaticalEvolution*>(sub_creation_operator->create());
+
+    auto val = ge1->calculateScore(params);
+    std::cout << val << std::endl;
+
+    auto ge = sub_combination_operator->combine(ge1, ge2);
+    sub_perturbation_operator->perturbate(ge);
+
+    std::cout << dynamic_cast<GrammaticalEvolution*>(ge)->calculateScore(params) << std::endl;
+}
+
 void online_scheduling_algorithm_cluster() {
 
     std::string const dir = "../tests/test_04/";
@@ -561,6 +647,7 @@ int main() {
     // linear_genetic_programming();
     // stack_based_genetic_programming();
     // gene_expression_programming();
-    multi_expression_programming();
+    // multi_expression_programming();
+    grammatical_evolution();
     // online_scheduling_algorithm_cluster();
 }

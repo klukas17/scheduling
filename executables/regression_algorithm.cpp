@@ -14,6 +14,11 @@
 #include "GeneExpressionProgrammingGenotypeBlueprint.h"
 #include "GeneExpressionProgrammingPerturbationOperator.h"
 #include "GeneExpressionProgrammingSerializationOperator.h"
+#include "GrammaticalEvolutionCombinationOperator.h"
+#include "GrammaticalEvolutionCreationOperator.h"
+#include "GrammaticalEvolutionGenotypeBlueprint.h"
+#include "GrammaticalEvolutionPerturbationOperator.h"
+#include "GrammaticalEvolutionSerializationOperator.h"
 #include "LGPRegisterInitializationStrategyCircularLoading.h"
 #include "LinearGeneticProgrammingCombinationOperator.h"
 #include "LinearGeneticProgrammingCreationOperator.h"
@@ -326,6 +331,48 @@ void multi_expression_programming() {
     }
 }
 
+void grammatical_evolution() {
+    int codons = 30;
+    int max_number_of_wrapping = 0;
+    double perturbation_rate = 0.2;
+
+    auto blueprint = new GrammaticalEvolutionGenotypeBlueprint(
+        codons,
+        256,
+        max_number_of_wrapping,
+        -1,
+        1
+    );
+
+    auto creation_operator = new GrammaticalEvolutionCreationOperator(blueprint);
+    auto combination_operator = new GrammaticalEvolutionCombinationOperator(blueprint);
+    auto perturbation_operator = new GrammaticalEvolutionPerturbationOperator(blueprint, perturbation_rate);
+    auto serialization_operator = new GrammaticalEvolutionSerializationOperator(blueprint);
+
+    auto evaluation_function = new RegressionFunction(true, {"x", "y"}, "../functions/function_01/data.txt");
+    blueprint->setInputs({"x", "y"});
+
+    int population_size = 50;
+    int iterations_count = 100000;
+
+    auto const ssga = new SteadyStateGeneticAlgorithm(
+        evaluation_function,
+        creation_operator,
+        perturbation_operator,
+        combination_operator,
+        population_size,
+        iterations_count
+    );
+
+    auto const population = new Population(population_size);
+
+    ssga->optimize(population);
+
+    for (auto line : serialization_operator->serialize(population->getGenotype(0)->genotype)) {
+        std::cout << line << std::endl;
+    }
+}
+
 int main() {
     // neural_network();
     // tree_based_genetic_programming();
@@ -333,5 +380,6 @@ int main() {
     // linear_genetic_programming();
     // stack_based_genetic_programming();
     // gene_expression_programming();
-    multi_expression_programming();
+    // multi_expression_programming();
+    grammatical_evolution();
 }
