@@ -124,7 +124,7 @@ std::vector<std::string> GeneExpressionProgrammingSerializationOperator::seriali
 
     std::vector<std::string> children_node_lines;
 
-    switch (node->node_type){
+    switch (node->node_type) {
 
     case GEP_CONST:
         {

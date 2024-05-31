@@ -3,7 +3,7 @@ project(scheduling)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(CMAKE_CXX_FLAGS "-O3 -Wall -Wextra")
+#set(CMAKE_CXX_FLAGS "-O3 -Wall -Wextra")
 
 # https://github.com/jbeder/yaml-cpp
 set(YAML_CPP_DIR ~/libs/yaml-cpp)
@@ -26,6 +26,7 @@ include_directories(
         code/online_scheduling_algorithms/cartesian_genetic_programming/headers
         code/online_scheduling_algorithms/constant_programming/headers
         code/online_scheduling_algorithms/gene_expression_programming/headers
+        code/online_scheduling_algorithms/grammatical_evolution/headers
         code/online_scheduling_algorithms/linear_genetic_programming/headers
         code/online_scheduling_algorithms/multi_expression_programming/headers
         code/online_scheduling_algorithms/neural_network/headers
@@ -59,6 +60,7 @@ file(GLOB PROJECT_HEADERS
         code/online_scheduling_algorithms/cartesian_genetic_programming/headers/*.h
         code/online_scheduling_algorithms/constant_programming/headers/*.h
         code/online_scheduling_algorithms/gene_expression_programming/headers/*.h
+        code/online_scheduling_algorithms/grammatical_evolution/headers/*.h
         code/online_scheduling_algorithms/linear_genetic_programming/headers/*.h
         code/online_scheduling_algorithms/multi_expression_programming/headers/*.h
         code/online_scheduling_algorithms/neural_network/headers/*.h
@@ -92,6 +94,7 @@ file(GLOB PROJECT_SOURCES
         code/online_scheduling_algorithms/cartesian_genetic_programming/sources/*.cpp
         code/online_scheduling_algorithms/constant_programming/sources/*.cpp
         code/online_scheduling_algorithms/gene_expression_programming/sources/*.cpp
+        code/online_scheduling_algorithms/grammatical_evolution/sources/*.cpp
         code/online_scheduling_algorithms/linear_genetic_programming/sources/*.cpp
         code/online_scheduling_algorithms/multi_expression_programming/sources/*.cpp
         code/online_scheduling_algorithms/neural_network/sources/*.cpp

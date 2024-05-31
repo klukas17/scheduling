@@ -14,7 +14,6 @@ GeneExpressionProgrammingCreationOperator::GeneExpressionProgrammingCreationOper
 Genotype* GeneExpressionProgrammingCreationOperator::create() {
 
     std::vector<GEPGenotypeNode*> genotype_nodes;
-    std::vector<GEPGenotypeNode*> tail;
     std::map<int, double> constant_map;
     std::map<int, std::string> param_map;
 
