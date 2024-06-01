@@ -12,7 +12,7 @@ class GrammaticalEvolutionCombinationOperator final : public CombinationOperator
     GrammaticalEvolutionGenotypeBlueprint* blueprint;
     IntegerGenerator* generator;
 public:
-    GrammaticalEvolutionCombinationOperator(GrammaticalEvolutionGenotypeBlueprint* blueprint);
+    explicit GrammaticalEvolutionCombinationOperator(GrammaticalEvolutionGenotypeBlueprint* blueprint);
     Genotype* combine(Genotype* genotype1, Genotype* genotype2) override;
 };
 

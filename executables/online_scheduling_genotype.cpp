@@ -72,6 +72,12 @@
 #include "StackBasedGeneticProgrammingGenotypeBlueprint.h"
 #include "StackBasedGeneticProgrammingPerturbationOperator.h"
 #include "StackBasedGeneticProgrammingSerializationOperator.h"
+#include "StructuredGrammaticalEvolution.h"
+#include "StructuredGrammaticalEvolutionCombinationOperator.h"
+#include "StructuredGrammaticalEvolutionCreationOperator.h"
+#include "StructuredGrammaticalEvolutionGenotypeBlueprint.h"
+#include "StructuredGrammaticalEvolutionPerturbationOperator.h"
+#include "StructuredGrammaticalEvolutionSerializationOperator.h"
 #include "TBGPNodeFactory.h"
 #include "Topology.h"
 #include "TreeBasedGeneticProgrammingCombinationOperator.h"
@@ -91,6 +97,27 @@ void constant_programming() {
 
     auto serialization = serialization_operator->serialize(genotype);
     auto deserialization = serialization_operator->deserialize(serialization);
+
+    for (int i = 0; i < 100000000; i++) {
+        std::cout << i << std::endl;
+
+        auto x = creation_operator->create();
+        auto a = serialization_operator->serialize(x);
+        auto y = serialization_operator->deserialize(a);
+        auto b = serialization_operator->serialize(y);
+
+        if (a.size() != b.size()) {
+            throw;
+        }
+        for (int i = 0; i < a.size(); i++) {
+            if (a[i] != b[i]) {
+                throw;
+            }
+        }
+
+        delete x;
+        delete y;
+    }
 }
 
 void random_programming() {
@@ -600,6 +627,106 @@ void grammatical_evolution() {
     sub_perturbation_operator->perturbate(ge);
 
     std::cout << dynamic_cast<GrammaticalEvolution*>(ge)->calculateScore(params) << std::endl;
+
+    for (int i = 0; i < 1000000; i++) {
+        std::cout << i << std::endl;
+
+        auto x = sub_creation_operator->create();
+        auto a = sub_serialization_operator->serialize(x);
+        auto y = sub_serialization_operator->deserialize(a);
+        auto b = sub_serialization_operator->serialize(y);
+
+        if (a.size() != b.size()) {
+            throw;
+        }
+        for (int i = 0; i < a.size(); i++) {
+            if (a[i] != b[i]) {
+                throw;
+            }
+        }
+
+        delete x;
+        delete y;
+    }
+}
+
+void structured_grammatical_evolution() {
+    std::string const dir = "../experiments/experiment_99/";
+
+    MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
+
+    JobTypeMap* job_type_map = JobSpecificationsParser::parse(dir + "job_specifications.yaml");
+    machine_type_map->constructSetupAndBatchRules(job_type_map);
+
+    Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
+
+    int max_depth = 5;
+    auto perturbation_rate = 0.2;
+
+    auto sub_blueprint = new StructuredGrammaticalEvolutionGenotypeBlueprint(
+        max_depth,
+        -1,
+        1
+    );
+
+    auto sub_creation_operator = new StructuredGrammaticalEvolutionCreationOperator(sub_blueprint);
+    auto sub_combination_operator = new StructuredGrammaticalEvolutionCombinationOperator(sub_blueprint);
+    auto sub_perturbation_operator = new StructuredGrammaticalEvolutionPerturbationOperator(sub_blueprint, perturbation_rate);
+    auto sub_serialization_operator = new StructuredGrammaticalEvolutionSerializationOperator(sub_blueprint);
+
+    auto blueprint = new OnlineSchedulingAlgorithmClusterGenotypeBlueprint(topology);
+    auto creation_operator = new OnlineSchedulingAlgorithmClusterCreationOperator(
+        blueprint,
+        sub_creation_operator
+    );
+    auto combination_operator = new OnlineSchedulingAlgorithmClusterCombinationOperatorWithCoarseGranularity(
+        sub_combination_operator
+    );
+    auto perturbation_operator =new OnlineSchedulingAlgorithmClusterPerturbationOperator(
+        sub_perturbation_operator
+    );
+    auto serialization_operator = new OnlineSchedulingAlgorithmClusterSerializationOperator(topology, sub_serialization_operator);
+
+    auto genotype = dynamic_cast<OnlineSchedulingAlgorithmCluster*>(creation_operator->create());
+
+    auto serialization = serialization_operator->serialize(genotype);
+    for (const auto& line : serialization_operator->serialize(genotype)) {
+        std::cout << line << std::endl;
+    }
+    auto deserialization = serialization_operator->deserialize(serialization);
+
+    std::cout << std::endl;
+        for (const auto& line : serialization_operator->serialize(deserialization)) {
+        std::cout << line << std::endl;
+    }
+
+    sub_blueprint->setInputs({"x", "y", "z", "w"});
+    std::map<std::string, double> params;
+    params["x"] = 1;
+    params["y"] = -1;
+    params["z"] = 0.5;
+    params["w"] = -0.5;
+
+    auto sge1 = dynamic_cast<StructuredGrammaticalEvolution*>(sub_creation_operator->create());
+
+    std::cout << std::endl;
+    for (const auto& line : sub_serialization_operator->serialize(sge1)) {
+        std::cout << line << std::endl;
+    }
+    std::cout << std::endl;
+    for (const auto& line : sub_serialization_operator->serializePhenotype(sge1)) {
+        std::cout << line << std::endl;
+    }
+
+    auto sge2 = dynamic_cast<StructuredGrammaticalEvolution*>(sub_creation_operator->create());
+
+    auto val = sge1->calculateScore(params);
+    std::cout << val << std::endl;
+
+    auto sge = sub_combination_operator->combine(sge1, sge2);
+    sub_perturbation_operator->perturbate(sge);
+
+    std::cout << dynamic_cast<StructuredGrammaticalEvolution*>(sge)->calculateScore(params) << std::endl;
 }
 
 void online_scheduling_algorithm_cluster() {
@@ -648,6 +775,7 @@ int main() {
     // stack_based_genetic_programming();
     // gene_expression_programming();
     // multi_expression_programming();
-    grammatical_evolution();
+    // grammatical_evolution();
+    structured_grammatical_evolution();
     // online_scheduling_algorithm_cluster();
 }
