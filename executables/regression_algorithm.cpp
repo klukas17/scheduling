@@ -42,6 +42,11 @@
 #include "StackBasedGeneticProgrammingPerturbationOperator.h"
 #include "StackBasedGeneticProgrammingSerializationOperator.h"
 #include "SteadyStateGeneticAlgorithm.h"
+#include "StructuredGrammaticalEvolutionCombinationOperator.h"
+#include "StructuredGrammaticalEvolutionCreationOperator.h"
+#include "StructuredGrammaticalEvolutionGenotypeBlueprint.h"
+#include "StructuredGrammaticalEvolutionPerturbationOperator.h"
+#include "StructuredGrammaticalEvolutionSerializationOperator.h"
 
 #include "TreeBasedGeneticProgrammingCombinationOperator.h"
 #include "TreeBasedGeneticProgrammingCreationOperator.h"
@@ -373,6 +378,46 @@ void grammatical_evolution() {
     }
 }
 
+void structured_grammatical_evolution() {
+
+    int max_depth = 3;
+    auto perturbation_rate = 0.2;
+
+    auto blueprint = new StructuredGrammaticalEvolutionGenotypeBlueprint(
+        max_depth,
+        -1,
+        1
+    );
+
+    auto creation_operator = new StructuredGrammaticalEvolutionCreationOperator(blueprint);
+    auto combination_operator = new StructuredGrammaticalEvolutionCombinationOperator(blueprint);
+    auto perturbation_operator = new StructuredGrammaticalEvolutionPerturbationOperator(blueprint, perturbation_rate);
+    auto serialization_operator = new StructuredGrammaticalEvolutionSerializationOperator(blueprint);
+
+    auto evaluation_function = new RegressionFunction(true, {"x", "y"}, "../functions/function_01/data.txt");
+    blueprint->setInputs({"x", "y"});
+
+    int population_size = 50;
+    int iterations_count = 100000;
+
+    auto const ssga = new SteadyStateGeneticAlgorithm(
+        evaluation_function,
+        creation_operator,
+        perturbation_operator,
+        combination_operator,
+        population_size,
+        iterations_count
+    );
+
+    auto const population = new Population(population_size);
+
+    ssga->optimize(population);
+
+    for (auto line : serialization_operator->serialize(population->getGenotype(0)->genotype)) {
+        std::cout << line << std::endl;
+    }
+}
+
 int main() {
     // neural_network();
     // tree_based_genetic_programming();
@@ -381,5 +426,6 @@ int main() {
     // stack_based_genetic_programming();
     // gene_expression_programming();
     // multi_expression_programming();
-    grammatical_evolution();
+    // grammatical_evolution();
+    structured_grammatical_evolution();
 }

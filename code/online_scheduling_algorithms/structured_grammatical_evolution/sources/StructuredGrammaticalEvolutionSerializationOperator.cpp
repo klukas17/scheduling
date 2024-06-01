@@ -1,30 +1,30 @@
 //
-// Created by mihael on 5/30/24.
+// Created by mihael on 5/31/24.
 //
 
-#include "GrammaticalEvolutionSerializationOperator.h"
+#include "StructuredGrammaticalEvolutionSerializationOperator.h"
 
-#include "GEPhenotypeBuilder.h"
-#include "GEPhenotypeNodeConst.h"
-#include "GEPhenotypeNodeParam.h"
+#include "SGEPhenotypeBuilder.h"
+#include "SGEPhenotypeNodeConst.h"
+#include "SGEPhenotypeNodeParam.h"
+#include "StructuredGrammaticalEvolution.h"
 #include "sstream"
-#include "GrammaticalEvolution.h"
 
-GrammaticalEvolutionSerializationOperator::GrammaticalEvolutionSerializationOperator(GrammaticalEvolutionGenotypeBlueprint* blueprint) {
+StructuredGrammaticalEvolutionSerializationOperator::StructuredGrammaticalEvolutionSerializationOperator(StructuredGrammaticalEvolutionGenotypeBlueprint* blueprint) {
     this->blueprint = blueprint;
 }
 
-std::vector<std::string> GrammaticalEvolutionSerializationOperator::serialize(Genotype* genotype) {
+std::vector<std::string> StructuredGrammaticalEvolutionSerializationOperator::serialize(Genotype* genotype) {
 
-    auto ge = dynamic_cast<GrammaticalEvolution*>(genotype);
+    auto sge = dynamic_cast<StructuredGrammaticalEvolution*>(genotype);
 
     std::ostringstream oss;
-    for (auto input : ge->getInputs()) {
+    for (auto input : sge->getInputs()) {
         oss << input << " ";
     }
     std::vector<std::string> result = {oss.str()};
 
-    auto constants = ge->getProgram()->collectAllConstants();
+    auto constants = sge->getProgram()->collectAllConstants();
     oss.str("");
     oss << constants.size();
     result.push_back(oss.str());
@@ -34,16 +34,34 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serialize(Ge
         result.push_back(oss.str());
     }
 
-    for (auto node : ge->getProgram()->genotype_nodes) {
-        oss.str("");
-        oss << node->node_id << " " << node->codon_value;
-        result.push_back(oss.str());
+    oss.str("");
+    for (auto val : sge->getProgram()->symbol_values) {
+        oss << val << " ";
     }
+    result.push_back(oss.str());
+
+    oss.str("");
+    for (auto val : sge->getProgram()->terminal_values) {
+        oss << val << " ";
+    }
+    result.push_back(oss.str());
+
+    oss.str("");
+    for (auto val : sge->getProgram()->nonterminal_values) {
+        oss << val << " ";
+    }
+    result.push_back(oss.str());
+
+    oss.str("");
+    for (auto val : sge->getProgram()->param_values) {
+        oss << val << " ";
+    }
+    result.push_back(oss.str());
 
     return result;
 }
 
-Genotype* GrammaticalEvolutionSerializationOperator::deserialize(std::vector<std::string> representation) {
+Genotype* StructuredGrammaticalEvolutionSerializationOperator::deserialize(std::vector<std::string> representation) {
     std::istringstream iss(representation[0]);
     std::vector<std::string> inputs;
     std::string input;
@@ -64,33 +82,67 @@ Genotype* GrammaticalEvolutionSerializationOperator::deserialize(std::vector<std
         index++;
     }
 
-    std::vector<GEGenotypeNode*> nodes;
+    auto program_metadata = new SGEProgramMetadata(blueprint->max_depth, inputs);
 
-    for (int i = 0; i < blueprint->codons; i++) {
-        std::istringstream iss(representation[index]);
-        int node_id, codon_value;
-        iss >> node_id >> codon_value;
-        nodes.push_back(new GEGenotypeNode(
-            node_id,
-            codon_value
-        ));
-        index++;
+    std::vector<int> symbol_values;
+    std::vector<int> terminal_values;
+    std::vector<int> nonterminal_values;
+    std::vector<int> param_values;
+
+    symbol_values.reserve(program_metadata->max_number_of_occurences[SGE_SYMBOL]);
+    terminal_values.reserve(program_metadata->max_number_of_occurences[SGE_TERMINAL]);
+    nonterminal_values.reserve(program_metadata->max_number_of_occurences[SGE_NONTERMINAL]);
+    param_values.reserve(program_metadata->max_number_of_occurences[SGE_PARAM]);
+
+    int n;
+
+    iss.clear();
+    iss.str(representation[index]);
+    index++;
+    while (iss >> n) {
+        symbol_values.push_back(n);
     }
 
-    auto ge = new GrammaticalEvolution(new GEProgram(nodes));
-    ge->setInputs(inputs);
-    GEPhenotypeBuilder::buildPhenotype(ge, blueprint, constant_map);
+    iss.clear();
+    iss.str(representation[index]);
+    index++;
+    while (iss >> n) {
+        terminal_values.push_back(n);
+    }
 
-    return ge;
+    iss.clear();
+    iss.str(representation[index]);
+    index++;
+    while (iss >> n) {
+        nonterminal_values.push_back(n);
+    }
+
+    iss.clear();
+    iss.str(representation[index]);
+    index++;
+    while (iss >> n) {
+        param_values.push_back(n);
+    }
+
+    auto program = new SGEProgram(
+        program_metadata,
+        symbol_values,
+        terminal_values,
+        nonterminal_values,
+        param_values
+    );
+    auto sge = new StructuredGrammaticalEvolution(program);
+    sge->setInputs(inputs);
+    SGEPhenotypeBuilder::buildPhenotype(sge, blueprint, constant_map);
+    return sge;
 }
 
-std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhenotype(Genotype* genotype) {
-    auto ge = dynamic_cast<GrammaticalEvolution*>(genotype);
-    return serializePhenotypeNode(ge->getProgram()->phenotype_root_node, 0);
+std::vector<std::string> StructuredGrammaticalEvolutionSerializationOperator::serializePhenotype(Genotype* genotype) {
+    auto sge = dynamic_cast<StructuredGrammaticalEvolution*>(genotype);
+    return serializePhenotypeNode(sge->getProgram()->phenotype_root_node, 0);
 }
 
-std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhenotypeNode(GEPhenotypeNode* node, int depth) {
-
+std::vector<std::string> StructuredGrammaticalEvolutionSerializationOperator::serializePhenotypeNode(SGEPhenotypeNode* node, int depth) {
     std::ostringstream oss;
 
     for (int i = 0; i < depth; i++) {
@@ -101,7 +153,7 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhe
 
     switch(node->node_type) {
 
-    case GE_SYMBOL:
+    case SGE_SYMBOL:
         {
             oss << "SYMBOL";
             for (auto child : node->children) {
@@ -112,7 +164,7 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhe
             break;
         }
 
-    case GE_TERMINAL:
+    case SGE_TERMINAL:
         {
             oss << "TERMINAL";
             for (auto child : node->children) {
@@ -123,7 +175,7 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhe
             break;
         }
 
-    case GE_NONTERMINAL:
+    case SGE_NONTERMINAL:
         {
             oss << "NONTERMINAL";
             for (auto child : node->children) {
@@ -134,7 +186,7 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhe
             break;
         }
 
-    case GE_CONST:
+    case SGE_CONST:
         {
             oss << "CONST";
             for (auto child : node->children) {
@@ -145,7 +197,7 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhe
             break;
         }
 
-    case GE_PARAM:
+    case SGE_PARAM:
         {
             oss << "PARAM";
             for (auto child : node->children) {
@@ -156,7 +208,7 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhe
             break;
         }
 
-    case GE_UNARY_MINUS:
+    case SGE_UNARY_MINUS:
         {
             oss << "UNARY_MINUS";
             for (auto child : node->children) {
@@ -167,7 +219,7 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhe
             break;
         }
 
-    case GE_PLUS:
+    case SGE_PLUS:
         {
             oss << "PLUS";
             for (auto child : node->children) {
@@ -178,7 +230,7 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhe
             break;
         }
 
-    case GE_MINUS:
+    case SGE_MINUS:
         {
             oss << "MINUS";
             for (auto child : node->children) {
@@ -189,7 +241,7 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhe
             break;
         }
 
-    case GE_TIMES:
+    case SGE_TIMES:
         {
             oss << "TIMES";
             for (auto child : node->children) {
@@ -200,7 +252,7 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhe
             break;
         }
 
-    case GE_DIVIDE:
+    case SGE_DIVIDE:
         {
             oss << "DIVIDE";
             for (auto child : node->children) {
@@ -211,7 +263,7 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhe
             break;
         }
 
-    case GE_SQUARE:
+    case SGE_SQUARE:
         {
             oss << "SQUARE";
             for (auto child : node->children) {
@@ -222,7 +274,7 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhe
             break;
         }
 
-    case GE_ROOT:
+    case SGE_ROOT:
         {
             oss << "ROOT";
             for (auto child : node->children) {
@@ -233,7 +285,7 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhe
             break;
         }
 
-    case GE_BRANCH:
+    case SGE_BRANCH:
         {
             oss << "BRANCH";
             for (auto child : node->children) {
@@ -244,15 +296,15 @@ std::vector<std::string> GrammaticalEvolutionSerializationOperator::serializePhe
             break;
         }
 
-    case GE_LEAF_CONST:
+    case SGE_LEAF_CONST:
         {
-            oss << "LEAF_CONST " << dynamic_cast<GEPhenotypeNodeConst*>(node)->constant;
+            oss << "LEAF_CONST " << dynamic_cast<SGEPhenotypeNodeConst*>(node)->constant;
             break;
         }
 
-    case GE_LEAF_PARAM:
+    case SGE_LEAF_PARAM:
         {
-            oss << "LEAF_PARAM " << dynamic_cast<GEPhenotypeNodeParam*>(node)->param;
+            oss << "LEAF_PARAM " << dynamic_cast<SGEPhenotypeNodeParam*>(node)->param;
             break;
         }
 
