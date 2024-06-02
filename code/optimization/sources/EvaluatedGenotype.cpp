@@ -12,3 +12,7 @@ EvaluatedGenotype::EvaluatedGenotype(Genotype* genotype, double const fitness_sc
 EvaluatedGenotype::~EvaluatedGenotype() {
     delete genotype;
 }
+
+EvaluatedGenotype* EvaluatedGenotype::copy() {
+    return new EvaluatedGenotype(genotype->copy(), fitness_score);
+}

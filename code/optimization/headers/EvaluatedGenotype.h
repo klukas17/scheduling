@@ -13,6 +13,7 @@ public:
     double fitness_score;
     EvaluatedGenotype(Genotype* genotype, double fitness_score);
     ~EvaluatedGenotype();
+    EvaluatedGenotype* copy();
 };
 
 
