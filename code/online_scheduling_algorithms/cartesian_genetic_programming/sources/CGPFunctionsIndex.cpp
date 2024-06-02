@@ -39,7 +39,7 @@ double root(double a, double b, double c) {
 }
 
 double branch(double a, double b, double c) {
-    return (std::abs(a) >= 1) ? b : c;
+    return a >= 0 ? b : c;
 }
 
 CGPFunctionsIndex::CGPFunctionsIndex() {

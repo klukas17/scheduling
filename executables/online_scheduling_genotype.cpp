@@ -28,6 +28,12 @@
 #include "GrammaticalEvolutionGenotypeBlueprint.h"
 #include "GrammaticalEvolutionPerturbationOperator.h"
 #include "GrammaticalEvolutionSerializationOperator.h"
+#include "GraphBasedGeneticProgramming.h"
+#include "GraphBasedGeneticProgrammingCombinationOperator.h"
+#include "GraphBasedGeneticProgrammingCreationOperator.h"
+#include "GraphBasedGeneticProgrammingGenotypeBlueprint.h"
+#include "GraphBasedGeneticProgrammingPerturbationOperator.h"
+#include "GraphBasedGeneticProgrammingSerializationOperator.h"
 #include "JobSpecificationsParser.h"
 #include "LGPRegisterInitializationStrategyCircularLoading.h"
 #include "LGPRegisterInitializationStrategyEmptyLoading.h"
@@ -729,6 +735,61 @@ void structured_grammatical_evolution() {
     std::cout << dynamic_cast<StructuredGrammaticalEvolution*>(sge)->calculateScore(params) << std::endl;
 }
 
+void graph_based_genetic_programming() {
+    int max_number_of_nodes = 200;
+    double perturbation_rate = 0.2;
+    int max_nodes_to_delete = 5;
+    int max_nodes_to_insert = 5;
+    int max_number_of_nodes_to_crossover = 10;
+    double proceed_in_branch_chance = 0.8;
+
+    auto blueprint = new GraphBasedGeneticProgrammingGenotypeBlueprint(max_number_of_nodes, -1, 1);
+
+    auto creation_operator = new GraphBasedGeneticProgrammingCreationOperator(blueprint);
+    auto combination_operator = new GraphBasedGeneticProgrammingCombinationOperator(
+        blueprint,
+        max_number_of_nodes_to_crossover,
+        proceed_in_branch_chance
+    );
+    auto perturbation_operator = new GraphBasedGeneticProgrammingPerturbationOperator(
+        blueprint,
+        perturbation_rate,
+        max_nodes_to_delete,
+        max_nodes_to_insert
+    );
+    auto serialization_operator = new GraphBasedGeneticProgrammingSerializationOperator(blueprint);
+
+    blueprint->setInputs({"x", "y", "z", "w"});
+    std::map<std::string, double> params;
+    params["x"] = 1;
+    params["y"] = -1;
+    params["z"] = 0.5;
+    params["w"] = -0.5;
+
+    auto gbgp1 = dynamic_cast<GraphBasedGeneticProgramming*>(creation_operator->create());
+
+    auto serialization = serialization_operator->serialize(gbgp1);
+    for (const auto& line : serialization) {
+        std::cout << line << std::endl;
+    }
+    auto deserialization = serialization_operator->deserialize(serialization);
+
+    std::cout << std::endl;
+    for (const auto& line : serialization_operator->serialize(deserialization)) {
+        std::cout << line << std::endl;
+    }
+
+    std::cout << std::endl;
+    std::cout << "val = " << gbgp1->calculateScore(params) << std::endl;
+
+    auto gbgp2 = dynamic_cast<GraphBasedGeneticProgramming*>(creation_operator->create());
+
+    auto gbgp = dynamic_cast<GraphBasedGeneticProgramming*>(combination_operator->combine(gbgp1, gbgp2));
+    perturbation_operator->perturbate(gbgp);
+
+    std::cout << "val = " << gbgp->calculateScore(params) << std::endl;
+}
+
 void online_scheduling_algorithm_cluster() {
 
     std::string const dir = "../tests/test_04/";
@@ -776,6 +837,7 @@ int main() {
     // gene_expression_programming();
     // multi_expression_programming();
     // grammatical_evolution();
-    structured_grammatical_evolution();
+    // structured_grammatical_evolution();
+    graph_based_genetic_programming();
     // online_scheduling_algorithm_cluster();
 }

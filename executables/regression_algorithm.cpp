@@ -19,6 +19,11 @@
 #include "GrammaticalEvolutionGenotypeBlueprint.h"
 #include "GrammaticalEvolutionPerturbationOperator.h"
 #include "GrammaticalEvolutionSerializationOperator.h"
+#include "GraphBasedGeneticProgrammingCombinationOperator.h"
+#include "GraphBasedGeneticProgrammingCreationOperator.h"
+#include "GraphBasedGeneticProgrammingGenotypeBlueprint.h"
+#include "GraphBasedGeneticProgrammingPerturbationOperator.h"
+#include "GraphBasedGeneticProgrammingSerializationOperator.h"
 #include "LGPRegisterInitializationStrategyCircularLoading.h"
 #include "LinearGeneticProgrammingCombinationOperator.h"
 #include "LinearGeneticProgrammingCreationOperator.h"
@@ -393,6 +398,55 @@ void structured_grammatical_evolution() {
     auto combination_operator = new StructuredGrammaticalEvolutionCombinationOperator(blueprint);
     auto perturbation_operator = new StructuredGrammaticalEvolutionPerturbationOperator(blueprint, perturbation_rate);
     auto serialization_operator = new StructuredGrammaticalEvolutionSerializationOperator(blueprint);
+
+    auto evaluation_function = new RegressionFunction(true, {"x", "y"}, "../functions/function_01/data.txt");
+    blueprint->setInputs({"x", "y"});
+
+    int population_size = 50;
+    int iterations_count = 100000;
+
+    auto const ssga = new SteadyStateGeneticAlgorithm(
+        evaluation_function,
+        creation_operator,
+        perturbation_operator,
+        combination_operator,
+        population_size,
+        iterations_count
+    );
+
+    auto const population = new Population(population_size);
+
+    ssga->optimize(population);
+
+    for (auto line : serialization_operator->serialize(population->getGenotype(0)->genotype)) {
+        std::cout << line << std::endl;
+    }
+}
+
+void graph_based_genetic_programming() {
+
+    int max_number_of_nodes = 5;
+    double perturbation_rate = 0.2;
+    int max_nodes_to_delete = 2;
+    int max_nodes_to_insert = 2;
+    int max_number_of_nodes_to_crossover = 5;
+    double proceed_in_branch_chance = 0.8;
+
+    auto blueprint = new GraphBasedGeneticProgrammingGenotypeBlueprint(max_number_of_nodes, -1, 1);
+
+    auto creation_operator = new GraphBasedGeneticProgrammingCreationOperator(blueprint);
+    auto combination_operator = new GraphBasedGeneticProgrammingCombinationOperator(
+        blueprint,
+        max_number_of_nodes_to_crossover,
+        proceed_in_branch_chance
+    );
+    auto perturbation_operator = new GraphBasedGeneticProgrammingPerturbationOperator(
+        blueprint,
+        perturbation_rate,
+        max_nodes_to_delete,
+        max_nodes_to_insert
+    );
+    auto serialization_operator = new GraphBasedGeneticProgrammingSerializationOperator(blueprint);
 
     auto evaluation_function = new RegressionFunction(true, {"x", "y"}, "../functions/function_01/data.txt");
     blueprint->setInputs({"x", "y"});

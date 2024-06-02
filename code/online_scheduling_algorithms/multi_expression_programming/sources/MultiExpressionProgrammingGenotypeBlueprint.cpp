@@ -68,7 +68,7 @@ MultiExpressionProgrammingGenotypeBlueprint::MultiExpressionProgrammingGenotypeB
         MEP_MINUS,
         MEP_TIMES,
         MEP_DIVIDE,
-        MEP_CONDITION
+        MEP_BRANCH
     };
     ternary_functions_probabilites.reserve(ternary_functions.size());
     segment = 1.0 / ternary_functions.size();

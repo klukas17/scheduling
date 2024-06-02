@@ -23,7 +23,7 @@ StackBasedGeneticProgrammingCreationOperator::StackBasedGeneticProgrammingCreati
         SBGP_DIVIDE,
         SBGP_SQUARE,
         SBGP_ROOT,
-        SBGP_CONDITION,
+        SBGP_BRANCH,
         SBGP_NOP
     };
     double segment = (1 - blueprint->initialization_chance_of_nop) * (1 - blueprint->push_param_share - blueprint->push_constant_share) / (instructions.size() - 3);

@@ -29,5 +29,5 @@ TBGPNode* TBGPNodeBranch::copy() {
 }
 
 double TBGPNodeBranch::eval(std::map<std::string, double>& params) {
-    return (std::abs(if_node->eval(params)) >= 1) ? then_node->eval(params) : else_node->eval(params);
+    return if_node->eval(params) >= 0 ? then_node->eval(params) : else_node->eval(params);
 }
