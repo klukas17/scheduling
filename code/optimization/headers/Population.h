@@ -18,8 +18,11 @@ class Population {
 public:
     explicit Population(int population_size);
     void initialize(CreationOperator* creation_operator, EvaluationFunction* evaluation_function);
+    void replacePopulation(const std::vector<EvaluatedGenotype*>& new_population);
     EvaluatedGenotype* getGenotype(int index);
     void insertGenotype(EvaluatedGenotype* genotype);
+    void insertGenotypes(std::vector<EvaluatedGenotype*> genotypes);
+    void adjustPopulationSize();
 };
 
 

@@ -24,6 +24,18 @@ void Population::initialize(CreationOperator* creation_operator, EvaluationFunct
     std::sort(population.begin(), population.end(), comparator);
 }
 
+void Population::replacePopulation(const std::vector<EvaluatedGenotype*>& new_population) {
+    for (auto unit : population) {
+        delete unit;
+    }
+    population.clear();
+    for (auto unit : new_population) {
+        population.push_back(unit);
+    }
+
+    std::sort(population.begin(), population.end(), comparator);
+}
+
 EvaluatedGenotype* Population::getGenotype(int index) {
     return population[index];
 }
@@ -32,9 +44,23 @@ void Population::insertGenotype(EvaluatedGenotype* genotype) {
     auto it = std::lower_bound(population.begin(), population.end(), genotype, comparator);
     population.insert(it, genotype);
 
-    auto genotype_to_destroy = population.back();
-    population.pop_back();
-
-    delete genotype_to_destroy;
+    adjustPopulationSize();
 }
 
+void Population::insertGenotypes(std::vector<EvaluatedGenotype*> genotypes) {
+    for (auto genotype : genotypes) {
+        auto it = std::lower_bound(population.begin(), population.end(), genotype, comparator);
+        population.insert(it, genotype);
+    }
+
+    adjustPopulationSize();
+}
+
+void Population::adjustPopulationSize() {
+    while (population.size() > population_size) {
+        auto genotype_to_destroy = population.back();
+        population.pop_back();
+
+        delete genotype_to_destroy;
+    }
+}
