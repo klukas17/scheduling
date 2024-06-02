@@ -123,7 +123,7 @@ void LGPProgram::executeProgram(LGPRegistersState* registers_state, std::map<std
 
         case LGP_CONDITION:
             {
-                if (std::abs(registers_state->getValue(instruction->first_register_id)) < 1) {
+                if (registers_state->getValue(instruction->first_register_id) < 0) {
                     i++;
                 }
                 break;

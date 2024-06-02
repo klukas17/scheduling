@@ -108,12 +108,12 @@ double MEPProgram::executeProgram(std::map<std::string, double> params) {
                 break;
             }
 
-        case MEP_CONDITION:
+        case MEP_BRANCH:
             {
                 auto arg1 = results[instruction->first_param];
                 auto arg2 = results[instruction->second_param];
                 auto arg3 = results[instruction->third_param];
-                results.push_back(std::abs(arg1) >= 1 ? arg2 : arg3);
+                results.push_back(arg1 >= 0 ? arg2 : arg3);
                 break;
             }
         }

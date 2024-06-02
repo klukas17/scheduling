@@ -120,7 +120,7 @@ double SBGPProgram::executeProgram(std::map<std::string, double> params) {
                 break;
             }
 
-        case SBGP_CONDITION:
+        case SBGP_BRANCH:
             {
                 if (stack.size() < 3) break;
                 auto c = stack.top();
@@ -129,7 +129,7 @@ double SBGPProgram::executeProgram(std::map<std::string, double> params) {
                 stack.pop();
                 auto a = stack.top();
                 stack.pop();
-                stack.push((std::abs(a) >= 1) ? b : c);
+                stack.push(a >= 0 ? b : c);
                 break;
             }
 

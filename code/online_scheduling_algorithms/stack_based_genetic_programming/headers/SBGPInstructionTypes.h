@@ -15,7 +15,7 @@ enum SBGPInstructionType {
     SBGP_DIVIDE,
     SBGP_SQUARE,
     SBGP_ROOT,
-    SBGP_CONDITION,
+    SBGP_BRANCH,
     SBGP_NOP
 };
 

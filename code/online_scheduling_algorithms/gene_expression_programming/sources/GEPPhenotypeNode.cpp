@@ -91,7 +91,7 @@ double GEPPhenotypeNode::eval(std::map<std::string, double>& params) {
     case GEP_BRANCH:
         {
             auto arg1 = children[0]->eval(params);
-            if (std::abs(arg1) >= 1) return children[1]->eval(params);
+            if (arg1 >= 0) return children[1]->eval(params);
             return children[2]->eval(params);
         }
 

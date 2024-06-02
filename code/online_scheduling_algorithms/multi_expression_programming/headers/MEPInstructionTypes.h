@@ -15,7 +15,7 @@ enum MEPInstructionType {
     MEP_DIVIDE,
     MEP_SQUARE,
     MEP_ROOT,
-    MEP_CONDITION
+    MEP_BRANCH
 };
 
 #endif //MEPINSTRUCTIONTYPES_H
