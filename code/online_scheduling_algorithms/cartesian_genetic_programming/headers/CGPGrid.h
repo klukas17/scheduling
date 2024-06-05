@@ -36,6 +36,7 @@ public:
     void addConstant(long cell_id, double constant);
     void removeConstant(long cell_id);
     double calculateOutput(std::map<std::string, double> params);
+    double calculateOutputForCell(int cell_index, std::map<int, double>& values, std::map<std::string, double> params);
 };
 
 

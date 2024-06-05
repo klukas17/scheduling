@@ -64,22 +64,38 @@ double CGPGrid::calculateOutput(std::map<std::string, double> params) {
     for (int i = 0; i < inputs.size(); i++) {
         cell_outputs[i + 1] = params[inputs[i]];
     }
-    for (auto cell : cells) {
-        auto cell_index = cell->cell_index;
-        auto f_index = cell->function_index;
-        // constant
-        if (f_index == functions_index->getNumberOfFunctions() + 1) {
-            cell_outputs[cell_index] = constants[cell_index];
-        } else {
-            cell_outputs[cell_index] = functions_index->executeFunction(
-                f_index,
-                cell_outputs[cell->first_input_index],
-                cell_outputs[cell->second_input_index],
-                cell_outputs[cell->third_input_index]
-            );
-        }
-    }
 
-    return cell_outputs[output_index];
+    return calculateOutputForCell(output_index, cell_outputs, params);
 }
 
+double CGPGrid::calculateOutputForCell(int cell_index, std::map<int, double>& values, std::map<std::string, double> params) {
+    if (values.contains(cell_index)) {
+        return values[cell_index];
+    }
+
+    double value;
+
+    auto cell = cells[cell_index - inputs.size() - 1];
+
+    if (cell->cell_index != cell_index)
+    {
+        throw;
+    }
+
+    auto f_index = cell->function_index;
+
+    // constant
+    if (f_index == functions_index->getNumberOfFunctions() + 1) {
+        value = constants[cell_index];
+    } else {
+        value = functions_index->executeFunction(
+            f_index,
+            calculateOutputForCell(cell->first_input_index, values, params),
+            calculateOutputForCell(cell->second_input_index, values, params),
+            calculateOutputForCell(cell->third_input_index, values, params)
+        );
+    }
+
+    values[cell_index] = value;
+    return value;
+}

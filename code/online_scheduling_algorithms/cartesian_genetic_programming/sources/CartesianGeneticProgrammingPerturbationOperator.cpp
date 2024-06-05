@@ -29,21 +29,30 @@ void CartesianGeneticProgrammingPerturbationOperator::perturbate(Genotype* genot
     auto changes = cells * perturbation_rate;
 
     for (int i = 0; i < changes; i++) {
-        auto cell_index = generator->generate() % cells;
+        auto cell_index = generator->generate() % (cells - inputs_number - 1) + inputs_number + 1;
         // output cell
         if (cell_index == cells - 1) {
             grid->output_index = generator->generate() % (blueprint->rows * blueprint->cols + blueprint->getInputs().size()) + 1;
         } else {
-            auto cell = grid->cells[cell_index];
+            auto cell = grid->cells[cell_index - inputs_number - 1];
             auto index_to_change = generator->generate() % 4;
             if (index_to_change == 0) {
                 auto range = (cell->cell_index - inputs_number) / blueprint->rows * blueprint->rows + inputs_number;
+                if ((cell->cell_index - inputs_number) % blueprint->rows == 0) {
+                    range--;
+                }
                 cell->first_input_index = generator->generate() % range + 1;
             } else if (index_to_change == 1) {
                 auto range = (cell->cell_index - inputs_number) / blueprint->rows * blueprint->rows + inputs_number;
+                if ((cell->cell_index - inputs_number) % blueprint->rows == 0) {
+                    range--;
+                }
                 cell->second_input_index = generator->generate() % range + 1;
             } else if (index_to_change == 2) {
                 auto range = (cell->cell_index - inputs_number) / blueprint->rows * blueprint->rows + inputs_number;
+                if ((cell->cell_index - inputs_number) % blueprint->rows == 0) {
+                    range--;
+                }
                 cell->third_input_index = generator->generate() % range + 1;
             } else if (index_to_change == 3) {
                 if (cell->function_index == constant_index) {
