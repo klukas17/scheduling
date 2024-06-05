@@ -9,6 +9,7 @@
 #include "RouteGroup.h"
 #include "OpenGroup.h"
 #include "SchedulingError.h"
+#include <climits>
 
 Topology *MachineTopologyParser::parse(const std::string& path, MachineTypeMap* machine_type_map) {
 
