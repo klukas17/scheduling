@@ -10,6 +10,7 @@
 class BasicTopologyEnumerator final : public TopologyEnumerator {
 public:
     explicit BasicTopologyEnumerator(Topology* topology);
+    ~BasicTopologyEnumerator();
     std::set<long> getPartition() override;
 };
 

@@ -13,6 +13,11 @@ CartesianGeneticProgrammingGenotypeBlueprint::CartesianGeneticProgrammingGenotyp
     this->constant_generator = new UniformRealDistributionGenerator(constant_min, constant_max);
 }
 
+CartesianGeneticProgrammingGenotypeBlueprint::~CartesianGeneticProgrammingGenotypeBlueprint() {
+    delete functions_index;
+    delete constant_generator;
+}
+
 double CartesianGeneticProgrammingGenotypeBlueprint::generateConstant() {
     return constant_generator->generate();
 }

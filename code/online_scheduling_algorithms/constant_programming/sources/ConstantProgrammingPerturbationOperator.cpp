@@ -6,5 +6,7 @@
 
 ConstantProgrammingPerturbationOperator::ConstantProgrammingPerturbationOperator() = default;
 
+ConstantProgrammingPerturbationOperator::~ConstantProgrammingPerturbationOperator() = default;
+
 void ConstantProgrammingPerturbationOperator::perturbate(Genotype* genotype) {}
 

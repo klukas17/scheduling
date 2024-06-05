@@ -13,6 +13,7 @@ class RandomProgrammingCreationOperator final : public CreationOperator {
     RandomProgrammingGenotypeBlueprint* blueprint;
 public:
     explicit RandomProgrammingCreationOperator(GenotypeBlueprint* genotype_blueprint);
+    ~RandomProgrammingCreationOperator() override;
     Genotype* create() override;
 };
 

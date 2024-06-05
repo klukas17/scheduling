@@ -14,6 +14,8 @@ StructuredGrammaticalEvolutionSerializationOperator::StructuredGrammaticalEvolut
     this->blueprint = blueprint;
 }
 
+StructuredGrammaticalEvolutionSerializationOperator::~StructuredGrammaticalEvolutionSerializationOperator() = default;
+
 std::vector<std::string> StructuredGrammaticalEvolutionSerializationOperator::serialize(Genotype* genotype) {
 
     auto sge = dynamic_cast<StructuredGrammaticalEvolution*>(genotype);

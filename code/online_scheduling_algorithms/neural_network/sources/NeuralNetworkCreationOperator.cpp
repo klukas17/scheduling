@@ -9,6 +9,8 @@ NeuralNetworkCreationOperator::NeuralNetworkCreationOperator(GenotypeBlueprint* 
     this->blueprint = dynamic_cast<NeuralNetworkGenotypeBlueprint*>(genotype_blueprint);
 }
 
+NeuralNetworkCreationOperator::~NeuralNetworkCreationOperator() = default;
+
 Genotype* NeuralNetworkCreationOperator::create() {
     std::vector<Eigen::MatrixXd> matrices;
 
@@ -42,5 +44,5 @@ Genotype* NeuralNetworkCreationOperator::create() {
         matrices.push_back(m);
     }
 
-    return new NeuralNetwork(matrices);
+    return new NeuralNetwork(matrices, blueprint->activation_function_name);
 }

@@ -16,6 +16,7 @@ protected:
     IntegerGenerator* generator;
 public:
     explicit OnlineSchedulingAlgorithmClusterCombinationOperator(CombinationOperator* algorithm_combination_operator);
+    ~OnlineSchedulingAlgorithmClusterCombinationOperator();
     void setModifiableMachines(std::set<long> machines);
 };
 

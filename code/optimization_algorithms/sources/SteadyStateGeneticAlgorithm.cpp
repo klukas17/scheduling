@@ -18,6 +18,10 @@ SteadyStateGeneticAlgorithm::SteadyStateGeneticAlgorithm(EvaluationFunction* eva
     this->selection_random_unit_generator = new UniformIntDistributionGenerator(0, population_size - 1);
 }
 
+SteadyStateGeneticAlgorithm::~SteadyStateGeneticAlgorithm() {
+    delete selection_random_unit_generator;
+}
+
 void SteadyStateGeneticAlgorithm::optimize(Population* population) {
     population->initialize(creation_operator, evaluation_function);
 
@@ -34,6 +38,6 @@ void SteadyStateGeneticAlgorithm::optimize(Population* population) {
         auto const fitness = evaluation_function->evaluate(new_unit_genotype);
         auto evaluated_unit = new EvaluatedGenotype(new_unit_genotype, fitness);
         population->insertGenotype(evaluated_unit);
-        std::cout << "  ITER " << i + 1 << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
+        std::cout << "SSGA ITER " << i + 1 << "/" << iterations_count << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
     }
 }

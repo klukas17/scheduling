@@ -11,6 +11,7 @@
 class RandomProgrammingPerturbationOperator final : public PerturbationOperator {
 public:
     RandomProgrammingPerturbationOperator();
+    ~RandomProgrammingPerturbationOperator() override;
     void perturbate(Genotype* genotype) override;
 };
 

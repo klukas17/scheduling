@@ -10,6 +10,7 @@
 class ConstantProgrammingSerializationOperator final : public SerializationOperator {
 public:
     ConstantProgrammingSerializationOperator();
+    ~ConstantProgrammingSerializationOperator() override;
     std::vector<std::string> serialize(Genotype* genotype) override;
     Genotype* deserialize(std::vector<std::string> representation) override;
 };

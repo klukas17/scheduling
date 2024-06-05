@@ -12,6 +12,7 @@ class NeuralNetworkPerturbationOperator final : public PerturbationOperator {
     DoubleGenerator* delta_generator;
 public:
     explicit NeuralNetworkPerturbationOperator(DoubleGenerator* delta_generator);
+    ~NeuralNetworkPerturbationOperator() override;
     void perturbate(Genotype* genotype) override;
 };
 

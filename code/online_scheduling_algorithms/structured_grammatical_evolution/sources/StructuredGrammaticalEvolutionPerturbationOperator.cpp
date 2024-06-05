@@ -16,6 +16,10 @@ StructuredGrammaticalEvolutionPerturbationOperator::StructuredGrammaticalEvoluti
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+StructuredGrammaticalEvolutionPerturbationOperator::~StructuredGrammaticalEvolutionPerturbationOperator() {
+    delete generator;
+}
+
 void StructuredGrammaticalEvolutionPerturbationOperator::perturbate(Genotype* genotype) {
 
     auto sge = dynamic_cast<StructuredGrammaticalEvolution*>(genotype);

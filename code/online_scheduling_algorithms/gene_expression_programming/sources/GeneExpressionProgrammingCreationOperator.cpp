@@ -11,6 +11,8 @@ GeneExpressionProgrammingCreationOperator::GeneExpressionProgrammingCreationOper
     this->blueprint = dynamic_cast<GeneExpressionProgrammingGenotypeBlueprint*>(blueprint);
 }
 
+GeneExpressionProgrammingCreationOperator::~GeneExpressionProgrammingCreationOperator() = default;
+
 Genotype* GeneExpressionProgrammingCreationOperator::create() {
 
     std::vector<GEPGenotypeNode*> genotype_nodes;

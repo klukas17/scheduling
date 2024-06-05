@@ -10,6 +10,7 @@
 class RandomProgrammingSerializationOperator final : public SerializationOperator {
 public:
     RandomProgrammingSerializationOperator();
+    ~RandomProgrammingSerializationOperator() override;
     std::vector<std::string> serialize(Genotype* genotype) override;
     Genotype* deserialize(std::vector<std::string> representation) override;
 };

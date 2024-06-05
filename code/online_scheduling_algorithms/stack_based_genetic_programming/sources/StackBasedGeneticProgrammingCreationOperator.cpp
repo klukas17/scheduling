@@ -38,6 +38,10 @@ StackBasedGeneticProgrammingCreationOperator::StackBasedGeneticProgrammingCreati
     this->instruction_type_generator = new UniformRealDistributionGenerator(0, 1);
 }
 
+StackBasedGeneticProgrammingCreationOperator::~StackBasedGeneticProgrammingCreationOperator() {
+    delete instruction_type_generator;
+}
+
 Genotype* StackBasedGeneticProgrammingCreationOperator::create() {
     std::vector<SBGPInstruction*> instructions;
     instructions.reserve(blueprint->number_of_instructions);

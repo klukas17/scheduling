@@ -140,16 +140,43 @@ void random_programming() {
 }
 
 void neural_network() {
-    auto blueprint = new NeuralNetworkGenotypeBlueprint(new NormalDistribution(0, 1), {2, 4, 6});
+    auto blueprint = new NeuralNetworkGenotypeBlueprint(new NormalDistribution(0, 1), {1}, "sigm");
     auto creation_operator = new NeuralNetworkCreationOperator(blueprint);
     auto combination_operator = new NeuralNetworkCombinationOperator();
     auto perturbation_operator = new NeuralNetworkPerturbationOperator(new NormalDistribution(0, 1));
-    auto serialization_operator = new NeuralNetworkSerializationOperator();
+    auto serialization_operator = new NeuralNetworkSerializationOperator(blueprint);
 
     auto genotype = dynamic_cast<NeuralNetwork*>(creation_operator->create());
 
-    auto serialization = serialization_operator->serialize(genotype);
+    blueprint->setInputs({"x", "y", "z", "w"});
+    std::map<std::string, double> params;
+    params["x"] = 1;
+    params["y"] = -1;
+    params["z"] = 0.5;
+    params["w"] = -0.5;
+
+    auto gbgp1 = dynamic_cast<GraphBasedGeneticProgramming*>(creation_operator->create());
+
+    auto serialization = serialization_operator->serialize(gbgp1);
+    for (const auto& line : serialization) {
+        std::cout << line << std::endl;
+    }
     auto deserialization = serialization_operator->deserialize(serialization);
+
+    std::cout << std::endl;
+    for (const auto& line : serialization_operator->serialize(deserialization)) {
+        std::cout << line << std::endl;
+    }
+
+    std::cout << std::endl;
+    std::cout << "val = " << gbgp1->calculateScore(params) << std::endl;
+
+    auto gbgp2 = dynamic_cast<GraphBasedGeneticProgramming*>(creation_operator->create());
+
+    auto gbgp = dynamic_cast<GraphBasedGeneticProgramming*>(combination_operator->combine(gbgp1, gbgp2));
+    perturbation_operator->perturbate(gbgp);
+
+    std::cout << "val = " << gbgp->calculateScore(params) << std::endl;
 }
 
 void tree_based_genetic_programming() {
@@ -801,11 +828,11 @@ void online_scheduling_algorithm_cluster() {
 
     Topology* topology = MachineTopologyParser::parse(dir + "machine_topology.yaml", machine_type_map);
 
-    auto sub_blueprint = new NeuralNetworkGenotypeBlueprint(new NormalDistribution(0, 1), {2, 4, 6});
+    auto sub_blueprint = new NeuralNetworkGenotypeBlueprint(new NormalDistribution(0, 1), {2, 4, 6}, "sigm");
     auto sub_creation_operator = new NeuralNetworkCreationOperator(sub_blueprint);
     auto sub_combination_operator = new NeuralNetworkCombinationOperator();
     auto sub_perturbation_operator = new NeuralNetworkPerturbationOperator(new NormalDistribution(0, 1));
-    auto sub_serialization_operator = new NeuralNetworkSerializationOperator();
+    auto sub_serialization_operator = new NeuralNetworkSerializationOperator(sub_blueprint);
 
     auto blueprint = new OnlineSchedulingAlgorithmClusterGenotypeBlueprint(topology);
     auto creation_operator = new OnlineSchedulingAlgorithmClusterCreationOperator(
@@ -829,7 +856,7 @@ void online_scheduling_algorithm_cluster() {
 int main() {
     // constant_programming();
     // random_programming();
-    // neural_network();
+    neural_network();
     // tree_based_genetic_programming();
     // cartesian_genetic_programming();
     // linear_genetic_programming();
@@ -838,6 +865,6 @@ int main() {
     // multi_expression_programming();
     // grammatical_evolution();
     // structured_grammatical_evolution();
-    graph_based_genetic_programming();
+    // graph_based_genetic_programming();
     // online_scheduling_algorithm_cluster();
 }

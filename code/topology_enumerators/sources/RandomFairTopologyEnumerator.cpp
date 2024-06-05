@@ -11,6 +11,10 @@ RandomFairTopologyEnumerator::RandomFairTopologyEnumerator(Topology* topology, i
     createPartitions();
 }
 
+RandomFairTopologyEnumerator::~RandomFairTopologyEnumerator() {
+    delete choice_generator;
+}
+
 std::set<long> RandomFairTopologyEnumerator::getPartition() {
     if (partition_index == partitions.size()) {
         createPartitions();

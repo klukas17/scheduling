@@ -24,6 +24,8 @@ TreeBasedGeneticProgrammingSerializationOperator::TreeBasedGeneticProgrammingSer
     this->blueprint = blueprint;
 }
 
+TreeBasedGeneticProgrammingSerializationOperator::~TreeBasedGeneticProgrammingSerializationOperator() = default;
+
 std::vector<std::string> TreeBasedGeneticProgrammingSerializationOperator::serialize(Genotype* genotype) {
     auto tbgp = dynamic_cast<TreeBasedGeneticProgramming*>(genotype);
     std::ostringstream oss;

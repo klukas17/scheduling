@@ -20,6 +20,7 @@ public:
         int max_number_of_nodes_to_crossover,
         double proceed_in_branch_chance
     );
+    ~GraphBasedGeneticProgrammingCombinationOperator() override;
     Genotype* combine(Genotype* genotype1, Genotype* genotype2) override;
 };
 

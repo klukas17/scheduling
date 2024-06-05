@@ -11,6 +11,8 @@ GeneExpressionProgrammingSerializationOperator::GeneExpressionProgrammingSeriali
     this->blueprint = blueprint;
 }
 
+GeneExpressionProgrammingSerializationOperator::~GeneExpressionProgrammingSerializationOperator() = default;
+
 std::vector<std::string> GeneExpressionProgrammingSerializationOperator::serialize(Genotype* genotype) {
     auto gep = dynamic_cast<GeneExpressionProgramming*>(genotype);
 

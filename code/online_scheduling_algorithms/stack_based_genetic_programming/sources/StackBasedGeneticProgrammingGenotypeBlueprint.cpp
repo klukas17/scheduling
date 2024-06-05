@@ -25,6 +25,11 @@ StackBasedGeneticProgrammingGenotypeBlueprint::StackBasedGeneticProgrammingGenot
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+StackBasedGeneticProgrammingGenotypeBlueprint::~StackBasedGeneticProgrammingGenotypeBlueprint() {
+    delete constant_generator;
+    delete generator;
+}
+
 double StackBasedGeneticProgrammingGenotypeBlueprint::generateConstant() {
     return constant_generator->generate();
 }

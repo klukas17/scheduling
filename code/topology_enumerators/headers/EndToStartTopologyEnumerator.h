@@ -12,6 +12,7 @@ class EndToStartTopologyEnumerator final : public TopologyEnumerator {
     int partition_index;
 public:
     EndToStartTopologyEnumerator(Topology* topology, int partition_size);
+    ~EndToStartTopologyEnumerator();
     std::set<long> getPartition() override;
 };
 

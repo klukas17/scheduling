@@ -40,6 +40,11 @@ LinearGeneticProgrammingPerturbationOperator::LinearGeneticProgrammingPerturbati
     this->perturbation_rate = perturbation_rate;
 }
 
+LinearGeneticProgrammingPerturbationOperator::~LinearGeneticProgrammingPerturbationOperator() {
+    delete instruction_type_generator;
+    delete generator;
+}
+
 void LinearGeneticProgrammingPerturbationOperator::perturbate(Genotype* genotype) {
     auto lgp = dynamic_cast<LinearGeneticProgramming*>(genotype);
     auto program = lgp->getProgram();

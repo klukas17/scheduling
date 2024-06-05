@@ -25,6 +25,12 @@ LinearGeneticProgrammingGenotypeBlueprint::LinearGeneticProgrammingGenotypeBluep
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+LinearGeneticProgrammingGenotypeBlueprint::~LinearGeneticProgrammingGenotypeBlueprint() {
+    delete register_initialization_strategy;
+    delete constant_generator;
+    delete generator;
+}
+
 double LinearGeneticProgrammingGenotypeBlueprint::generateConstant() {
     return constant_generator->generate();
 }

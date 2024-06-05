@@ -8,6 +8,8 @@
 
 ConstantProgrammingSerializationOperator::ConstantProgrammingSerializationOperator() = default;
 
+ConstantProgrammingSerializationOperator::~ConstantProgrammingSerializationOperator() = default;
+
 std::vector<std::string> ConstantProgrammingSerializationOperator::serialize(Genotype* genotype) {
     auto constant_programming = dynamic_cast<ConstantProgramming*>(genotype);
     auto constant = constant_programming->getConstant();

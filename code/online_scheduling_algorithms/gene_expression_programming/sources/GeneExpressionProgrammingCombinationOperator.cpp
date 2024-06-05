@@ -14,6 +14,10 @@ GeneExpressionProgrammingCombinationOperator::GeneExpressionProgrammingCombinati
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+GeneExpressionProgrammingCombinationOperator::~GeneExpressionProgrammingCombinationOperator() {
+    delete generator;
+}
+
 Genotype* GeneExpressionProgrammingCombinationOperator::combine(Genotype* genotype1, Genotype* genotype2) {
     auto gep1 = dynamic_cast<GeneExpressionProgramming*>(genotype1);
     auto gep2 = dynamic_cast<GeneExpressionProgramming*>(genotype2);

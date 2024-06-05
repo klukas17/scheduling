@@ -23,6 +23,7 @@ class StackBasedGeneticProgrammingPerturbationOperator final : public Perturbati
     SBGPInstructionType generateInstructionType();
 public:
     StackBasedGeneticProgrammingPerturbationOperator(StackBasedGeneticProgrammingGenotypeBlueprint* blueprint, double perturbation_rate, double perturbation_chance_of_nop);
+    ~StackBasedGeneticProgrammingPerturbationOperator() override;
     void perturbate(Genotype* genotype) override;
 };
 

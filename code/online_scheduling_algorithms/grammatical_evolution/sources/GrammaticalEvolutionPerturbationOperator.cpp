@@ -16,6 +16,10 @@ GrammaticalEvolutionPerturbationOperator::GrammaticalEvolutionPerturbationOperat
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+GrammaticalEvolutionPerturbationOperator::~GrammaticalEvolutionPerturbationOperator() {
+    delete generator;
+}
+
 void GrammaticalEvolutionPerturbationOperator::perturbate(Genotype* genotype) {
     auto ge = dynamic_cast<GrammaticalEvolution*>(genotype);
     auto program = ge->getProgram();

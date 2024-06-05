@@ -8,6 +8,8 @@
 
 NeuralNetworkCombinationOperator::NeuralNetworkCombinationOperator() = default;
 
+NeuralNetworkCombinationOperator::~NeuralNetworkCombinationOperator() = default;
+
 Genotype* NeuralNetworkCombinationOperator::combine(Genotype* genotype1, Genotype* genotype2) {
     auto nn_1 = dynamic_cast<NeuralNetwork*>(genotype1);
     auto nn_2 = dynamic_cast<NeuralNetwork*>(genotype2);
@@ -21,5 +23,5 @@ Genotype* NeuralNetworkCombinationOperator::combine(Genotype* genotype1, Genotyp
         matrices.push_back((matrices_1[i] + matrices_2[i]) / 2);
     }
 
-    return new NeuralNetwork(matrices);
+    return new NeuralNetwork(matrices, nn_1->activation_function_name);
 }

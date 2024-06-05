@@ -24,6 +24,12 @@ GrammaticalEvolutionGenotypeBlueprint::GrammaticalEvolutionGenotypeBlueprint(
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+GrammaticalEvolutionGenotypeBlueprint::~GrammaticalEvolutionGenotypeBlueprint() {
+    delete grammar;
+    delete constant_generator;
+    delete generator;
+}
+
 double GrammaticalEvolutionGenotypeBlueprint::generateConstant() {
     return constant_generator->generate();
 }

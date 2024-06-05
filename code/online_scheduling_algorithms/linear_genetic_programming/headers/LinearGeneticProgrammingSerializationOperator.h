@@ -12,6 +12,7 @@ class LinearGeneticProgrammingSerializationOperator final : public Serialization
     LinearGeneticProgrammingGenotypeBlueprint* blueprint;
 public:
     explicit LinearGeneticProgrammingSerializationOperator(LinearGeneticProgrammingGenotypeBlueprint* blueprint);
+    ~LinearGeneticProgrammingSerializationOperator() override;
     std::vector<std::string> serialize(Genotype* genotype) override;
     Genotype* deserialize(std::vector<std::string> representation) override;
 };

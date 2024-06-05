@@ -116,7 +116,7 @@ double SBGPProgram::executeProgram(std::map<std::string, double> params) {
                 if (stack.size() < 1) break;
                 auto a = stack.top();
                 stack.pop(),
-                stack.push(std::sqrt(std::abs(a)));
+                stack.push((a >= 0 ? 1 : -1) * std::sqrt(std::abs(a)));
                 break;
             }
 

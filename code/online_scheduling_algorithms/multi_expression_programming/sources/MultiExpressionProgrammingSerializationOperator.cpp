@@ -10,6 +10,8 @@ MultiExpressionProgrammingSerializationOperator::MultiExpressionProgrammingSeria
     this->blueprint = blueprint;
 }
 
+MultiExpressionProgrammingSerializationOperator::~MultiExpressionProgrammingSerializationOperator() = default;
+
 std::vector<std::string> MultiExpressionProgrammingSerializationOperator::serialize(Genotype* genotype) {
     auto mep = dynamic_cast<MultiExpressionProgramming*>(genotype);
 

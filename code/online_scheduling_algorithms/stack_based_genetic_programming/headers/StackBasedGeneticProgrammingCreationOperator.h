@@ -20,6 +20,7 @@ class StackBasedGeneticProgrammingCreationOperator final : public CreationOperat
     SBGPInstructionType generateInstructionType();
 public:
     explicit StackBasedGeneticProgrammingCreationOperator(GenotypeBlueprint* genotype_blueprint);
+    ~StackBasedGeneticProgrammingCreationOperator() override;
     Genotype* create() override;
 };
 

@@ -14,6 +14,7 @@ class MultiExpressionProgrammingPerturbationOperator final : public Perturbation
     double perturbation_rate;
 public:
     MultiExpressionProgrammingPerturbationOperator(MultiExpressionProgrammingGenotypeBlueprint* blueprint, double perturbation_rate);
+    ~MultiExpressionProgrammingPerturbationOperator() override;
     void perturbate(Genotype* genotype) override;
 };
 

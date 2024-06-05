@@ -16,6 +16,11 @@ RandomPathTopologyEnumerator::RandomPathTopologyEnumerator(Topology* topology, d
     this->choice_generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+RandomPathTopologyEnumerator::~RandomPathTopologyEnumerator() {
+    delete chance_generator;
+    delete choice_generator;
+}
+
 std::set<long> RandomPathTopologyEnumerator::getPartition() {
     std::set<long> result;
     traverseTopology(result, topology->getRootElement());

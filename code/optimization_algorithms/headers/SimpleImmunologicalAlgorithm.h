@@ -25,6 +25,7 @@ public:
         int number_of_evaluations,
         int number_of_clones
     );
+    ~SimpleImmunologicalAlgorithm();
     void optimize(Population* population) override;
 };
 

@@ -10,6 +10,10 @@ RandomTopologyEnumerator::RandomTopologyEnumerator(Topology* topology, int parti
     this->choice_generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+RandomTopologyEnumerator::~RandomTopologyEnumerator() {
+    delete choice_generator;
+}
+
 std::set<long> RandomTopologyEnumerator::getPartition() {
     auto candidates = machines_with_algorithms;
     std::set<long> result;

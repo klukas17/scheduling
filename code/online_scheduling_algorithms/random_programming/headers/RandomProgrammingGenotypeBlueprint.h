@@ -13,6 +13,7 @@ public:
     double lower;
     double upper;
     RandomProgrammingGenotypeBlueprint(double lower, double upper);
+    ~RandomProgrammingGenotypeBlueprint() override;
 };
 
 

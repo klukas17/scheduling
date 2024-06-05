@@ -10,6 +10,11 @@ NeuralNetworkPerturbationOperator::NeuralNetworkPerturbationOperator(DoubleGener
     this->delta_generator = delta_generator;
 }
 
+NeuralNetworkPerturbationOperator::~NeuralNetworkPerturbationOperator() {
+    delete delta_generator;
+}
+
+
 void NeuralNetworkPerturbationOperator::perturbate(Genotype* genotype) {
     auto nn = dynamic_cast<NeuralNetwork*>(genotype);
     auto matrices = nn->getMatrices();

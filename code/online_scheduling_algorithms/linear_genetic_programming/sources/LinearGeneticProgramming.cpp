@@ -36,5 +36,7 @@ double LinearGeneticProgramming::calculateScore(std::map<std::string, double> pa
     auto registers_state = new LGPRegistersState(number_of_registers);
     register_initialization_strategy->initializeRegisters(registers_state, inputs, params);
     program->executeProgram(registers_state, params);
-    return registers_state->getValue(0);
+    auto res = registers_state->getValue(0);
+    delete registers_state;
+    return res;
 }

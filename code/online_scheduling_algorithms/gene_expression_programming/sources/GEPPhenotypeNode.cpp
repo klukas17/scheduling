@@ -85,7 +85,7 @@ double GEPPhenotypeNode::eval(std::map<std::string, double>& params) {
     case GEP_ROOT:
         {
             auto arg = children[0]->eval(params);
-            return std::sqrt(std::abs(arg));
+            return (arg >= 0 ? 1 : -1) * std::sqrt(std::abs(arg));
         }
 
     case GEP_BRANCH:

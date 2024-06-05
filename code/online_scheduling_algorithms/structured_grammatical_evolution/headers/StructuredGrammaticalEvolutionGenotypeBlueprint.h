@@ -21,6 +21,7 @@ public:
         double constant_min,
         double constant_max
     );
+    ~StructuredGrammaticalEvolutionGenotypeBlueprint() override;
     double generateConstant();
     int generateCodonValue(int possible_values);
 };

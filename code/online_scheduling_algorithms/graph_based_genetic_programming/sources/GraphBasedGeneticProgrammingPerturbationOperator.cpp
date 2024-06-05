@@ -4,8 +4,7 @@
 
 #include "GraphBasedGeneticProgrammingPerturbationOperator.h"
 
-#include <iostream>
-#include <limits.h>
+#include <climits>
 
 #include "GraphBasedGeneticProgramming.h"
 #include "UniformIntDistributionGenerator.h"
@@ -23,6 +22,11 @@ GraphBasedGeneticProgrammingPerturbationOperator::GraphBasedGeneticProgrammingPe
     this->max_nodes_to_insert = max_nodes_to_insert;
     this->chance_generator = new UniformRealDistributionGenerator(0, 1);
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
+}
+
+GraphBasedGeneticProgrammingPerturbationOperator::~GraphBasedGeneticProgrammingPerturbationOperator() {
+    delete chance_generator;
+    delete generator;
 }
 
 void GraphBasedGeneticProgrammingPerturbationOperator::perturbate(Genotype* genotype) {

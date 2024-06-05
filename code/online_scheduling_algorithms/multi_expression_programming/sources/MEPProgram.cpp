@@ -104,7 +104,7 @@ double MEPProgram::executeProgram(std::map<std::string, double> params) {
         case MEP_ROOT:
             {
                 auto arg = results[instruction->first_param];
-                results.push_back(std::sqrt(std::abs(arg)));
+                results.push_back((arg >= 0 ? 1 : -1) * std::sqrt(std::abs(arg)));
                 break;
             }
 

@@ -20,6 +20,9 @@ GEProgram::~GEProgram() {
     for (auto & node : genotype_nodes) {
         delete node;
     }
+    if (phenotype_root_node != nullptr) {
+        delete phenotype_root_node;
+    }
 }
 
 GEProgram* GEProgram::copy() {
@@ -28,7 +31,7 @@ GEProgram* GEProgram::copy() {
     for (auto node : genotype_nodes) {
         nodes_copy.push_back(node->copy());
     }
-    return new GEProgram(nodes_copy, phenotype_root_node->copy());
+    return new GEProgram(nodes_copy, (phenotype_root_node != nullptr) ? phenotype_root_node->copy() : nullptr);
 }
 
 std::map<int, double> GEProgram::collectAllConstants() {

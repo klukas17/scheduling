@@ -15,6 +15,10 @@ StructuredGrammaticalEvolutionCombinationOperator::StructuredGrammaticalEvolutio
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+StructuredGrammaticalEvolutionCombinationOperator::~StructuredGrammaticalEvolutionCombinationOperator() {
+    delete generator;
+}
+
 Genotype* StructuredGrammaticalEvolutionCombinationOperator::combine(Genotype* genotype1, Genotype* genotype2) {
     auto sge1 = dynamic_cast<StructuredGrammaticalEvolution*>(genotype1);
     auto sge2 = dynamic_cast<StructuredGrammaticalEvolution*>(genotype2);

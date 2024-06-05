@@ -15,6 +15,7 @@ class TreeBasedGeneticProgrammingSerializationOperator final : public Serializat
     TBGPNode* deserializeNode(std::vector<std::string>& representation, int& index);
 public:
     TreeBasedGeneticProgrammingSerializationOperator(TreeBasedGeneticProgrammingGenotypeBlueprint* blueprint);
+    ~TreeBasedGeneticProgrammingSerializationOperator() override;
     std::vector<std::string> serialize(Genotype* genotype) override;
     Genotype* deserialize(std::vector<std::string> representation) override;
 };

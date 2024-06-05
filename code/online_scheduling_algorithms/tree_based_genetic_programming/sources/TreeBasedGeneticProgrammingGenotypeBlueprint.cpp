@@ -9,6 +9,10 @@ TreeBasedGeneticProgrammingGenotypeBlueprint::TreeBasedGeneticProgrammingGenotyp
     this->max_height = max_height;
 }
 
+TreeBasedGeneticProgrammingGenotypeBlueprint::~TreeBasedGeneticProgrammingGenotypeBlueprint() {
+    delete node_factory;
+}
+
 void TreeBasedGeneticProgrammingGenotypeBlueprint::setInputs(std::vector<std::string> inputs) {
     this->inputs = inputs;
     this->node_factory->setInputs(inputs);

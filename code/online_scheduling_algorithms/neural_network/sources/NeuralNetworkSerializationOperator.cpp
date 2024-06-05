@@ -6,7 +6,11 @@
 #include "NeuralNetwork.h"
 #include "sstream"
 
-NeuralNetworkSerializationOperator::NeuralNetworkSerializationOperator() = default;
+NeuralNetworkSerializationOperator::NeuralNetworkSerializationOperator(NeuralNetworkGenotypeBlueprint* blueprint) {
+    this->blueprint = blueprint;
+}
+
+NeuralNetworkSerializationOperator::~NeuralNetworkSerializationOperator() = default;
 
 std::vector<std::string> NeuralNetworkSerializationOperator::serialize(Genotype* genotype) {
     auto neural_network = dynamic_cast<NeuralNetwork*>(genotype);
@@ -65,6 +69,6 @@ Genotype* NeuralNetworkSerializationOperator::deserialize(std::vector<std::strin
         i++;
     }
 
-    return new NeuralNetwork(matrices);
+    return new NeuralNetwork(matrices, blueprint->activation_function_name);
 }
 

@@ -21,11 +21,15 @@ EvolutionStrategy::EvolutionStrategy(
     OptimizationAlgorithmWithCombinationOperator(evaluation_function, combination_operator)
 {
     this->number_of_evaluations = number_of_evaluations;
-    this->new_units_per_generation = static_cast<int>(population_size * new_units_per_generation_percentage);
+    this->new_units_per_generation = std::ceil(population_size * new_units_per_generation_percentage);
     if (this->new_units_per_generation == 0) {
         this->new_units_per_generation = 1;
     }
     this->selection_random_unit_generator = new UniformIntDistributionGenerator(0, population_size - 1);
+}
+
+EvolutionStrategy::~EvolutionStrategy() {
+    delete selection_random_unit_generator;
 }
 
 void EvolutionStrategy::optimize(Population* population) {
@@ -56,7 +60,7 @@ void EvolutionStrategy::optimize(Population* population) {
         }
         population->insertGenotypes(new_units);
         iter++;
-        std::cout << "  ITER " << iter << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
+        std::cout << "ES ITER " << iter << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
     }
 }
 

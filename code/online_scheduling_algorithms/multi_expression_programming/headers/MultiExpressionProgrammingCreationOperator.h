@@ -12,6 +12,7 @@ class MultiExpressionProgrammingCreationOperator final : public CreationOperator
     MultiExpressionProgrammingGenotypeBlueprint* blueprint;
 public:
     explicit MultiExpressionProgrammingCreationOperator(GenotypeBlueprint* genotype_blueprint);
+    ~MultiExpressionProgrammingCreationOperator() override;
     Genotype* create() override;
 };
 

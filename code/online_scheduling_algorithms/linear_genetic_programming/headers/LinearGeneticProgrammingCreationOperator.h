@@ -17,6 +17,7 @@ class LinearGeneticProgrammingCreationOperator final : public CreationOperator {
     LGPInstructionType generateInstructionType();
 public:
     explicit LinearGeneticProgrammingCreationOperator(GenotypeBlueprint* genotype_blueprint);
+    ~LinearGeneticProgrammingCreationOperator() override;
     Genotype* create() override;
 };
 

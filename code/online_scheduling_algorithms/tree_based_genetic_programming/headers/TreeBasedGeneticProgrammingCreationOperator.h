@@ -12,6 +12,7 @@ class TreeBasedGeneticProgrammingCreationOperator final : public CreationOperato
     TreeBasedGeneticProgrammingGenotypeBlueprint* blueprint;
 public:
     explicit TreeBasedGeneticProgrammingCreationOperator(GenotypeBlueprint* genotype_blueprint);
+    ~TreeBasedGeneticProgrammingCreationOperator() override;
     Genotype* create() override;
 };
 

@@ -12,6 +12,7 @@ class MultiExpressionProgrammingSerializationOperator final : public Serializati
     MultiExpressionProgrammingGenotypeBlueprint* blueprint;
 public:
     explicit MultiExpressionProgrammingSerializationOperator(MultiExpressionProgrammingGenotypeBlueprint* blueprint);
+    ~MultiExpressionProgrammingSerializationOperator() override;
     std::vector<std::string> serialize(Genotype* genotype) override;
     Genotype* deserialize(std::vector<std::string> representation) override;
 };

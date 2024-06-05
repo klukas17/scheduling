@@ -14,6 +14,10 @@ LinearGeneticProgrammingCombinationOperator::LinearGeneticProgrammingCombination
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+LinearGeneticProgrammingCombinationOperator::~LinearGeneticProgrammingCombinationOperator() {
+    delete generator;
+}
+
 Genotype* LinearGeneticProgrammingCombinationOperator::combine(Genotype* genotype1, Genotype* genotype2) {
     auto lgp1 = dynamic_cast<LinearGeneticProgramming*>(genotype1);
     auto lgp2 = dynamic_cast<LinearGeneticProgramming*>(genotype2);

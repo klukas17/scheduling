@@ -12,6 +12,7 @@ class StackBasedGeneticProgrammingSerializationOperator final : public Serializa
     StackBasedGeneticProgrammingGenotypeBlueprint* blueprint;
 public:
     explicit StackBasedGeneticProgrammingSerializationOperator(StackBasedGeneticProgrammingGenotypeBlueprint* blueprint);
+    ~StackBasedGeneticProgrammingSerializationOperator() override;
     std::vector<std::string> serialize(Genotype* genotype) override;
     Genotype* deserialize(std::vector<std::string> representation) override;
 };

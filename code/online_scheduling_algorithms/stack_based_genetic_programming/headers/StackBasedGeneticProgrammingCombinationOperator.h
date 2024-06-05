@@ -14,6 +14,7 @@ class StackBasedGeneticProgrammingCombinationOperator final : public Combination
     IntegerGenerator* generator;
 public:
     explicit StackBasedGeneticProgrammingCombinationOperator(StackBasedGeneticProgrammingGenotypeBlueprint* blueprint);
+    ~StackBasedGeneticProgrammingCombinationOperator() override;
     Genotype* combine(Genotype* genotype1, Genotype* genotype2) override;
 };
 

@@ -14,6 +14,7 @@ class GraphBasedGeneticProgrammingCreationOperator final : public CreationOperat
     IntegerGenerator* generator;
 public:
     explicit GraphBasedGeneticProgrammingCreationOperator(GenotypeBlueprint* genotype_blueprint);
+    ~GraphBasedGeneticProgrammingCreationOperator() override;
     Genotype* create() override;
 };
 

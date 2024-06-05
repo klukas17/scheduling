@@ -14,7 +14,9 @@ class NeuralNetworkGenotypeBlueprint final : public OnlineSchedulingAlgorithmGen
 public:
     DoubleGenerator* double_generator;
     std::vector<int> layer_sizes;
-    NeuralNetworkGenotypeBlueprint(DoubleGenerator* double_generator, std::vector<int> layer_sizes);
+    std::string activation_function_name;
+    NeuralNetworkGenotypeBlueprint(DoubleGenerator* double_generator, std::vector<int> layer_sizes, std::string activation_function_name);
+    ~NeuralNetworkGenotypeBlueprint() override;
 };
 
 

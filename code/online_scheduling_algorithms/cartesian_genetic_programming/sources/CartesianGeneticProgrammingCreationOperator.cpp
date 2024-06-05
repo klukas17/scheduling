@@ -14,6 +14,10 @@ CartesianGeneticProgrammingCreationOperator::CartesianGeneticProgrammingCreation
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+CartesianGeneticProgrammingCreationOperator::~CartesianGeneticProgrammingCreationOperator() {
+    delete generator;
+}
+
 Genotype* CartesianGeneticProgrammingCreationOperator::create() {
 
     int output_index = generator->generate() % (blueprint->rows * blueprint->cols + blueprint->getInputs().size()) + 1;

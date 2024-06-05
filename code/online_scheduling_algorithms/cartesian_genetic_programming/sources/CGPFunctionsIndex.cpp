@@ -35,7 +35,7 @@ double square(double a, double b, double c) {
 }
 
 double root(double a, double b, double c) {
-    return std::sqrt(std::abs(a));
+    return (a >= 0 ? 1 : -1) * std::sqrt(std::abs(a));
 }
 
 double branch(double a, double b, double c) {

@@ -14,6 +14,8 @@ GrammaticalEvolutionSerializationOperator::GrammaticalEvolutionSerializationOper
     this->blueprint = blueprint;
 }
 
+GrammaticalEvolutionSerializationOperator::~GrammaticalEvolutionSerializationOperator() = default;
+
 std::vector<std::string> GrammaticalEvolutionSerializationOperator::serialize(Genotype* genotype) {
 
     auto ge = dynamic_cast<GrammaticalEvolution*>(genotype);

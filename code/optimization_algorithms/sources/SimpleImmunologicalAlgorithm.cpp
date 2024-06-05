@@ -23,6 +23,8 @@ SimpleImmunologicalAlgorithm::SimpleImmunologicalAlgorithm(
     this->population_size = population_size;
 }
 
+SimpleImmunologicalAlgorithm::~SimpleImmunologicalAlgorithm() = default;
+
 void SimpleImmunologicalAlgorithm::optimize(Population* population) {
     population->initialize(creation_operator, evaluation_function);
 
@@ -54,6 +56,6 @@ void SimpleImmunologicalAlgorithm::optimize(Population* population) {
         population->insertGenotypes(new_units);
 
         iter++;
-        std::cout << "  ITER " << iter << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
+        std::cout << "SIA ITER " << iter << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
     }
 }

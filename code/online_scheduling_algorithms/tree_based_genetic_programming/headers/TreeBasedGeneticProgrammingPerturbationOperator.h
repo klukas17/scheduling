@@ -15,6 +15,7 @@ class TreeBasedGeneticProgrammingPerturbationOperator final : public Perturbatio
     IntegerGenerator* generator;
 public:
     explicit TreeBasedGeneticProgrammingPerturbationOperator(TreeBasedGeneticProgrammingGenotypeBlueprint* blueprint);
+    ~TreeBasedGeneticProgrammingPerturbationOperator() override;
     void perturbate(Genotype* genotype) override;
 };
 

@@ -15,6 +15,10 @@ CartesianGeneticProgrammingPerturbationOperator::CartesianGeneticProgrammingPert
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+CartesianGeneticProgrammingPerturbationOperator::~CartesianGeneticProgrammingPerturbationOperator() {
+    delete generator;
+}
+
 void CartesianGeneticProgrammingPerturbationOperator::perturbate(Genotype* genotype) {
     auto cgp = dynamic_cast<CartesianGeneticProgramming*>(genotype);
     auto grid = cgp->getGrid();
@@ -45,7 +49,7 @@ void CartesianGeneticProgrammingPerturbationOperator::perturbate(Genotype* genot
                 if (cell->function_index == constant_index) {
                     grid->removeConstant(cell->cell_index);
                 }
-                cell->function_index = generator->generate() % (inputs_number + 1) + 1;
+                cell->function_index = generator->generate() % (grid->functions_index->getNumberOfFunctions() + 1) + 1;
                 if (cell->function_index == constant_index) {
                     auto constant = blueprint->generateConstant();
                     grid->addConstant(cell->cell_index, constant);

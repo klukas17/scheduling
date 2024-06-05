@@ -14,6 +14,7 @@ class CartesianGeneticProgrammingCreationOperator final : public CreationOperato
     IntegerGenerator* generator;
 public:
     explicit CartesianGeneticProgrammingCreationOperator(GenotypeBlueprint* genotype_blueprint);
+    ~CartesianGeneticProgrammingCreationOperator() override;
     Genotype* create() override;
 };
 

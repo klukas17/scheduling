@@ -10,6 +10,7 @@
 class ConstantProgrammingPerturbationOperator final : public PerturbationOperator {
 public:
     ConstantProgrammingPerturbationOperator();
+    ~ConstantProgrammingPerturbationOperator() override;
     void perturbate(Genotype* genotype) override;
 };
 

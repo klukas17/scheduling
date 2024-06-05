@@ -14,6 +14,7 @@ class TreeBasedGeneticProgrammingCombinationOperator final : public CombinationO
     IntegerGenerator* generator;
 public:
     explicit TreeBasedGeneticProgrammingCombinationOperator(TreeBasedGeneticProgrammingGenotypeBlueprint* blueprint);
+    ~TreeBasedGeneticProgrammingCombinationOperator() override;
     Genotype* combine(Genotype* genotype1, Genotype* genotype2) override;
 };
 

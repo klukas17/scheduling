@@ -15,6 +15,7 @@ class GeneExpressionProgrammingSerializationOperator final : public Serializatio
     std::vector<std::string> serializePhenotypeNode(GEPPhenotypeNode* node, GEPProgram* program, int depth);
 public:
     explicit GeneExpressionProgrammingSerializationOperator(GeneExpressionProgrammingGenotypeBlueprint* blueprint);
+    ~GeneExpressionProgrammingSerializationOperator() override;
     std::vector<std::string> serialize(Genotype* genotype) override;
     Genotype* deserialize(std::vector<std::string> representation) override;
     std::vector<std::string> serializePhenotype(Genotype* genotype) override;

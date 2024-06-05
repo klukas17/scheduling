@@ -13,6 +13,7 @@ class LinearGeneticProgrammingCombinationOperator final : public CombinationOper
     IntegerGenerator* generator;
 public:
     explicit LinearGeneticProgrammingCombinationOperator(LinearGeneticProgrammingGenotypeBlueprint* blueprint);
+    ~LinearGeneticProgrammingCombinationOperator() override;
     Genotype* combine(Genotype* genotype1, Genotype* genotype2) override;
 };
 

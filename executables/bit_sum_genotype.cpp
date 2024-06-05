@@ -76,7 +76,7 @@ void es() {
 void gga() {
 
     int population_size = 200;
-    int generations_count = 100;
+    int generations_count = 20000;
     double worst_unit_coef = 0.1;
     int number_of_bits = 100;
     double bit_flip_chance = 0.02;
@@ -136,11 +136,12 @@ void sia() {
 void clonalg() {
 
     int population_size = 200;
-    int number_of_evaluations = 100000;
-    double beta = 0.1;
-    int number_of_bits = 100;
-    double bit_flip_chance = 0.02;
+    int number_of_evaluations = 1000000;
+    double beta = 0.5;
+    int number_of_bits = 1000;
+    double bit_flip_chance = 0.005;
     double new_random_units_percentage = 0.1;
+    int perturbations_per_worst_unit = 20;
 
     auto const evaluation_function = new BitSumEvaluationFunction(false);
     auto const blueprint = new BitSumGenotypeBlueprint(number_of_bits);
@@ -153,7 +154,8 @@ void clonalg() {
         population_size,
         number_of_evaluations,
         beta,
-        new_random_units_percentage
+        new_random_units_percentage,
+        perturbations_per_worst_unit
     );
     auto const population = new Population(population_size);
     clonalg->optimize(population);

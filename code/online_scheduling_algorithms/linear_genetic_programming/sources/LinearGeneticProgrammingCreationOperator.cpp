@@ -33,6 +33,10 @@ LinearGeneticProgrammingCreationOperator::LinearGeneticProgrammingCreationOperat
     this->instruction_type_generator = new UniformRealDistributionGenerator(0, 1);
 }
 
+LinearGeneticProgrammingCreationOperator::~LinearGeneticProgrammingCreationOperator() {
+    delete instruction_type_generator;
+}
+
 Genotype* LinearGeneticProgrammingCreationOperator::create() {
     std::vector<LGPInstruction*> instructions;
     instructions.reserve(blueprint->number_of_instructions);

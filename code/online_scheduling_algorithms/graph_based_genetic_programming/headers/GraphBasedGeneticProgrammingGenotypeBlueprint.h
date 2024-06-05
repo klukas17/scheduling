@@ -17,6 +17,7 @@ public:
     IntegerGenerator* generator;
     std::vector<GBGPNodeType> node_types;
     GraphBasedGeneticProgrammingGenotypeBlueprint(int max_number_of_nodes, double constant_min, double constant_max);
+    ~GraphBasedGeneticProgrammingGenotypeBlueprint() override;
     double generateConstant();
     GBGPNodeType generateNodeType();
 };

@@ -12,6 +12,7 @@ class GeneExpressionProgrammingCreationOperator final : public CreationOperator 
     GeneExpressionProgrammingGenotypeBlueprint* blueprint;
 public:
     explicit GeneExpressionProgrammingCreationOperator(GenotypeBlueprint* blueprint);
+    ~GeneExpressionProgrammingCreationOperator() override;
     Genotype* create() override;
 };
 

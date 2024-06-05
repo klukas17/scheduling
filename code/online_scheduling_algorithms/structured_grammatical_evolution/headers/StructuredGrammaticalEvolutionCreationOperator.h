@@ -11,7 +11,8 @@
 class StructuredGrammaticalEvolutionCreationOperator final : public CreationOperator {
     StructuredGrammaticalEvolutionGenotypeBlueprint* blueprint;
 public:
-    StructuredGrammaticalEvolutionCreationOperator(GenotypeBlueprint* blueprint);
+    explicit StructuredGrammaticalEvolutionCreationOperator(GenotypeBlueprint* blueprint);
+    ~StructuredGrammaticalEvolutionCreationOperator() override;
     Genotype* create() override;
 };
 

@@ -13,6 +13,7 @@ class MultiExpressionProgrammingCombinationOperator final : public CombinationOp
     IntegerGenerator* generator;
 public:
     explicit MultiExpressionProgrammingCombinationOperator(MultiExpressionProgrammingGenotypeBlueprint* blueprint);
+    ~MultiExpressionProgrammingCombinationOperator() override;
     Genotype* combine(Genotype* genotype1, Genotype* genotype2) override;
 };
 

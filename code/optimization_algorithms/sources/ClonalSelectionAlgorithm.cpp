@@ -13,7 +13,8 @@ ClonalSelectionAlgorithm::ClonalSelectionAlgorithm(
     int population_size,
     int number_of_evaluations,
     double beta,
-    double new_random_units_percentage
+    double new_random_units_percentage,
+    int perturbations_per_worst_unit
 ) :
     OptimizationAlgorithm(evaluation_function),
     OptimizationAlgorithmWithCreationOperator(evaluation_function, creation_operator),
@@ -23,7 +24,10 @@ ClonalSelectionAlgorithm::ClonalSelectionAlgorithm(
     this->population_size = population_size;
     this->beta = beta;
     this->new_random_units_percentage = new_random_units_percentage;
+    this->perturbations_per_worst_unit = perturbations_per_worst_unit;
 }
+
+ClonalSelectionAlgorithm::~ClonalSelectionAlgorithm() = default;
 
 void ClonalSelectionAlgorithm::optimize(Population* population) {
     population->initialize(creation_operator, evaluation_function);
@@ -39,7 +43,10 @@ void ClonalSelectionAlgorithm::optimize(Population* population) {
             auto number_of_clones = beta * population_size / (i + 1);
             for (int j = 0; j < number_of_clones; j++) {
                 auto new_unit_genotype = population->getGenotype(i)->genotype->copy();
-                perturbation_operator->perturbate(new_unit_genotype);
+                auto number_of_perturbations = perturbations_per_worst_unit * (i + 1.0) / population_size;
+                for (int p = 0; p < number_of_perturbations; p++) {
+                    perturbation_operator->perturbate(new_unit_genotype);
+                }
                 auto const fitness = evaluation_function->evaluate(new_unit_genotype);
                 auto evaluated_unit = new EvaluatedGenotype(new_unit_genotype, fitness);
                 new_units.push_back(evaluated_unit);
@@ -68,6 +75,6 @@ void ClonalSelectionAlgorithm::optimize(Population* population) {
         population->insertGenotypes(new_units);
 
         iter++;
-        std::cout << "  ITER " << iter << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
+        std::cout << "CLONALG ITER " << iter << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
     }
 }

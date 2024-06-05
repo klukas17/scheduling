@@ -22,6 +22,7 @@ public:
         int max_nodes_to_delete,
         int max_nodes_to_insert
     );
+    ~GraphBasedGeneticProgrammingPerturbationOperator() override;
     void perturbate(Genotype* genotype) override;
 };
 

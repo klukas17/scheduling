@@ -14,6 +14,10 @@ StackBasedGeneticProgrammingCombinationOperator::StackBasedGeneticProgrammingCom
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+StackBasedGeneticProgrammingCombinationOperator::~StackBasedGeneticProgrammingCombinationOperator() {
+    delete generator;
+}
+
 Genotype* StackBasedGeneticProgrammingCombinationOperator::combine(Genotype* genotype1, Genotype* genotype2) {
     auto sbgp1 = dynamic_cast<StackBasedGeneticProgramming*>(genotype1);
     auto sbgp2 = dynamic_cast<StackBasedGeneticProgramming*>(genotype2);

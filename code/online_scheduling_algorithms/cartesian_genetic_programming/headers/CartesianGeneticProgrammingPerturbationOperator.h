@@ -15,6 +15,7 @@ class CartesianGeneticProgrammingPerturbationOperator final : public Perturbatio
     double perturbation_rate;
 public:
     CartesianGeneticProgrammingPerturbationOperator(CartesianGeneticProgrammingGenotypeBlueprint* blueprint, double perturbation_rate);
+    ~CartesianGeneticProgrammingPerturbationOperator() override;
     void perturbate(Genotype* genotype) override;
 };
 

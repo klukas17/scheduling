@@ -16,6 +16,7 @@ class ClonalSelectionAlgorithm final :
     int population_size;
     double beta;
     double new_random_units_percentage;
+    int perturbations_per_worst_unit;
 public:
     ClonalSelectionAlgorithm(
         EvaluationFunction* evaluation_function,
@@ -24,8 +25,10 @@ public:
         int population_size,
         int number_of_evaluations,
         double beta,
-        double new_random_units_percentage
+        double new_random_units_percentage,
+        int perturbations_per_worst_unit
     );
+    ~ClonalSelectionAlgorithm();
     void optimize(Population* population) override;
 };
 

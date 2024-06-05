@@ -9,11 +9,12 @@
 #include "SerializationOperatorWithDistinctPhenotype.h"
 
 
-class GrammaticalEvolutionSerializationOperator : public SerializationOperatorWithDistinctPhenotype {
+class GrammaticalEvolutionSerializationOperator final : public SerializationOperatorWithDistinctPhenotype {
     GrammaticalEvolutionGenotypeBlueprint* blueprint;
     std::vector<std::string> serializePhenotypeNode(GEPhenotypeNode* node, int depth);
 public:
     explicit GrammaticalEvolutionSerializationOperator(GrammaticalEvolutionGenotypeBlueprint* blueprint);
+    ~GrammaticalEvolutionSerializationOperator() override;
     std::vector<std::string> serialize(Genotype* genotype) override;
     Genotype* deserialize(std::vector<std::string> representation) override;
     std::vector<std::string> serializePhenotype(Genotype* genotype) override;

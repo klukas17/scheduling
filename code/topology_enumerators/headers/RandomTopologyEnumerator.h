@@ -13,6 +13,7 @@ class RandomTopologyEnumerator final : public TopologyEnumerator {
     UniformIntDistributionGenerator* choice_generator;
 public:
     RandomTopologyEnumerator(Topology* topology, int partition_size);
+    ~RandomTopologyEnumerator();
     std::set<long> getPartition() override;
 };
 

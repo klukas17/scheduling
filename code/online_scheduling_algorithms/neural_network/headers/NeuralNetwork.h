@@ -10,9 +10,11 @@
 #include "OnlineSchedulingAlgorithm.h"
 
 class NeuralNetwork final : public OnlineSchedulingAlgorithm {
-    std::vector<Eigen::MatrixXd> matrices;
 public:
-    NeuralNetwork(std::vector<Eigen::MatrixXd> matrices);
+    std::vector<Eigen::MatrixXd> matrices;
+    double (*activation_function)(double);
+    std::string activation_function_name;
+    NeuralNetwork(std::vector<Eigen::MatrixXd> matrices, const std::string& activation_function_name);
     ~NeuralNetwork();
     std::vector<Eigen::MatrixXd> getMatrices();
     void setMatrices(std::vector<Eigen::MatrixXd> matrices);

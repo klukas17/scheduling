@@ -4,7 +4,14 @@
 
 #include "NeuralNetworkGenotypeBlueprint.h"
 
-NeuralNetworkGenotypeBlueprint::NeuralNetworkGenotypeBlueprint(DoubleGenerator* double_generator, std::vector<int> layer_sizes) {
+#include <utility>
+
+NeuralNetworkGenotypeBlueprint::NeuralNetworkGenotypeBlueprint(DoubleGenerator* double_generator, std::vector<int> layer_sizes, std::string activation_function_name) {
     this->double_generator = double_generator;
-    this->layer_sizes = layer_sizes;
+    this->layer_sizes = std::move(layer_sizes);
+    this->activation_function_name = std::move(activation_function_name);
+}
+
+NeuralNetworkGenotypeBlueprint::~NeuralNetworkGenotypeBlueprint() {
+    delete double_generator;
 }

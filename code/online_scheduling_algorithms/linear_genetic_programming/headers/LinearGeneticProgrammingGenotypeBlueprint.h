@@ -26,6 +26,7 @@ public:
         double constant_min,
         double constant_max
     );
+    ~LinearGeneticProgrammingGenotypeBlueprint() override;
     double generateConstant();
     std::string generateParam(std::vector<std::string> params);
     int generateRegister();

@@ -6,5 +6,7 @@
 
 RandomProgrammingPerturbationOperator::RandomProgrammingPerturbationOperator() = default;
 
+RandomProgrammingPerturbationOperator::~RandomProgrammingPerturbationOperator() = default;
+
 void RandomProgrammingPerturbationOperator::perturbate(Genotype* genotype) {}
 

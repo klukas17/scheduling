@@ -11,6 +11,7 @@
 class RandomProgrammingCombinationOperator final : public CombinationOperator {
 public:
     RandomProgrammingCombinationOperator();
+    ~RandomProgrammingCombinationOperator() override;
     Genotype* combine(Genotype* genotype1, Genotype* genotype2) override;
 };
 

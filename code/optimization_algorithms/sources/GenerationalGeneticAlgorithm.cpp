@@ -14,7 +14,7 @@ GenerationalGeneticAlgorithm::GenerationalGeneticAlgorithm(
     PerturbationOperator* perturbation_operator,
     CombinationOperator* combination_operator,
     int population_size,
-    int generations_count,
+    int number_of_evaluations,
     double worst_unit_coef
 ) :
     OptimizationAlgorithm(evaluation_function),
@@ -23,12 +23,16 @@ GenerationalGeneticAlgorithm::GenerationalGeneticAlgorithm(
     OptimizationAlgorithmWithCombinationOperator(evaluation_function, combination_operator)
 {
     this->population_size = population_size;
-    this->generations_count = generations_count;
+    this->number_of_evaluations = number_of_evaluations;
     this->worst_unit_coef = worst_unit_coef;
 }
 
+GenerationalGeneticAlgorithm::~GenerationalGeneticAlgorithm() = default;
+
 void GenerationalGeneticAlgorithm::optimize(Population* population) {
     population->initialize(creation_operator, evaluation_function);
+
+    int generations_count = std::ceil(number_of_evaluations / population_size);
 
     for (int gen = 0; gen < generations_count; gen++) {
 
@@ -90,6 +94,6 @@ void GenerationalGeneticAlgorithm::optimize(Population* population) {
         population->replacePopulation(new_population);
 
         delete generator;
-        std::cout << "  ITER " << gen + 1 << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
+        std::cout << "GGA ITER " << gen + 1 << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
     }
 }

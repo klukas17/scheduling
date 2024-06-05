@@ -13,6 +13,7 @@ class StructuredGrammaticalEvolutionCombinationOperator final : public Combinati
     IntegerGenerator* generator;
 public:
     explicit StructuredGrammaticalEvolutionCombinationOperator(StructuredGrammaticalEvolutionGenotypeBlueprint* blueprint);
+    ~StructuredGrammaticalEvolutionCombinationOperator() override;
     Genotype* combine(Genotype* genotype1, Genotype* genotype2) override;
 };
 
