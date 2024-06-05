@@ -4,7 +4,8 @@
 
 #include "MachineSpecificationsParser.h"
 #include "SchedulingError.h"
-#include "yaml-cpp/yaml.h"
+#include <yaml-cpp/yaml.h>
+#include <climits>
 
 MachineTypeMap* MachineSpecificationsParser::parse(const std::string& path) {
     auto machine_type_map = new MachineTypeMap();

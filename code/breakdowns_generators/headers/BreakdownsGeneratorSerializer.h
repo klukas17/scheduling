@@ -6,7 +6,7 @@
 #define BREAKDOWNSGENERATORSERIALIZER_H
 
 #include <string>
-#include <yaml-cpp/emitter.h>
+#include <yaml-cpp/yaml.h>
 #include "Topology.h"
 
 
