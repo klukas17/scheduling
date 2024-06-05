@@ -14,6 +14,7 @@ class StructuredGrammaticalEvolutionSerializationOperator final : public Seriali
     std::vector<std::string> serializePhenotypeNode(SGEPhenotypeNode* node, int depth);
 public:
     explicit StructuredGrammaticalEvolutionSerializationOperator(StructuredGrammaticalEvolutionGenotypeBlueprint* blueprint);
+    ~StructuredGrammaticalEvolutionSerializationOperator() override;
     std::vector<std::string> serialize(Genotype* genotype) override;
     Genotype* deserialize(std::vector<std::string> representation) override;
     std::vector<std::string> serializePhenotype(Genotype* genotype) override;

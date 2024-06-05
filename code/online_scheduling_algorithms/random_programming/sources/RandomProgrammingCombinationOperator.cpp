@@ -6,6 +6,8 @@
 
 RandomProgrammingCombinationOperator::RandomProgrammingCombinationOperator() = default;
 
+RandomProgrammingCombinationOperator::~RandomProgrammingCombinationOperator() = default;
+
 Genotype* RandomProgrammingCombinationOperator::combine(Genotype* genotype1, Genotype* genotype2) {
     return genotype1->copy();
 }

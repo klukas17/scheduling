@@ -11,7 +11,8 @@
 class ConstantProgrammingGenotypeBlueprint final : public OnlineSchedulingAlgorithmGenotypeBlueprint {
 public:
     double constant;
-    ConstantProgrammingGenotypeBlueprint(double constant);
+    explicit ConstantProgrammingGenotypeBlueprint(double constant);
+    ~ConstantProgrammingGenotypeBlueprint() override;
 };
 
 

@@ -8,6 +8,8 @@
 
 RandomProgrammingSerializationOperator::RandomProgrammingSerializationOperator() = default;
 
+RandomProgrammingSerializationOperator::~RandomProgrammingSerializationOperator() = default;
+
 std::vector<std::string> RandomProgrammingSerializationOperator::serialize(Genotype* genotype) {
     auto random_programming = dynamic_cast<RandomProgramming*>(genotype);
     auto lower = random_programming->getLower();

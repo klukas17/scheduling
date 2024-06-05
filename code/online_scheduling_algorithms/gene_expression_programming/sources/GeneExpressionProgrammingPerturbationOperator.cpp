@@ -23,6 +23,11 @@ GeneExpressionProgrammingPerturbationOperator::GeneExpressionProgrammingPerturba
     this->transposition_chance_generator = new UniformRealDistributionGenerator(0, 1);
 }
 
+GeneExpressionProgrammingPerturbationOperator::~GeneExpressionProgrammingPerturbationOperator() {
+    delete generator;
+    delete transposition_chance_generator;
+}
+
 void GeneExpressionProgrammingPerturbationOperator::perturbate(Genotype* genotype) {
     auto gep = dynamic_cast<GeneExpressionProgramming*>(genotype);
     auto program = gep->getProgram();

@@ -41,6 +41,6 @@ void SchedulingMetaAlgorithm::optimize(Population* population) {
         auto genotype_evaluation = evaluation_function->evaluate(best_genotype);
         auto evaluated_genotype = new EvaluatedGenotype(best_genotype, genotype_evaluation);
         population->insertGenotype(evaluated_genotype);
-        std::cout << "ITER " << i + 1 << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
+        std::cout << "SMA ITER " << i + 1 << ", err = " << population->getGenotype(0)->fitness_score << std::endl;
     }
 }

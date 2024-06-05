@@ -27,6 +27,7 @@ public:
         int population_size,
         int iterations_count
     );
+    ~SteadyStateGeneticAlgorithm();
     void optimize(Population* population) override;
 };
 

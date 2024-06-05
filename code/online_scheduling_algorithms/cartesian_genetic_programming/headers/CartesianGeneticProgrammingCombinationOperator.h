@@ -15,6 +15,7 @@ class CartesianGeneticProgrammingCombinationOperator final : public CombinationO
     IntegerGenerator* generator;
 public:
     explicit CartesianGeneticProgrammingCombinationOperator(CartesianGeneticProgrammingGenotypeBlueprint* blueprint);
+    ~CartesianGeneticProgrammingCombinationOperator() override;
     Genotype* combine(Genotype* genotype1, Genotype* genotype2) override;
 };
 

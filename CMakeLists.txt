@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.22)
 project(scheduling)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -20,6 +20,7 @@ include_directories(
         code/evaluation/headers
         code/events/headers
         code/genotype/headers
+        code/hyperparameter_tuning/headers
         code/job_sequence_generators/headers
         code/jobs/headers
         code/machines/headers
@@ -56,6 +57,7 @@ file(GLOB PROJECT_HEADERS
         code/evaluation/headers/*.h
         code/events/headers/*.h
         code/genotype/headers/*.h
+        code/hyperparameter_tuning/headers/*.h
         code/job_sequence_generators/headers/*.h
         code/jobs/headers/*.h
         code/machines/headers/*.h
@@ -92,6 +94,7 @@ file(GLOB PROJECT_SOURCES
         code/evaluation/sources/*.cpp
         code/events/sources/*.cpp
         code/genotype/sources/*.cpp
+        code/hyperparameter_tuning/sources/*.cpp
         code/job_sequence_generators/sources/*.cpp
         code/jobs/sources/*.cpp
         code/machines/sources/*.cpp
@@ -141,6 +144,19 @@ add_executable(simple_experiment executables/simple_experiment.cpp ${PROJECT_SOU
 add_executable(experiment_generate_jobs executables/experiments/experiment_generate_jobs.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(experiment_generate_breakdowns executables/experiments/experiment_generate_breakdowns.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(experiment_constant_programming executables/experiments/experiment_constant_programming.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(hyperparameter_tuning_cgp executables/hyperparameter_tuning/hyperparameter_tuning_cgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(hyperparameter_tuning_gbgp executables/hyperparameter_tuning/hyperparameter_tuning_gbgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(hyperparameter_tuning_ge executables/hyperparameter_tuning/hyperparameter_tuning_ge.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(hyperparameter_tuning_gep executables/hyperparameter_tuning/hyperparameter_tuning_gep.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(hyperparameter_tuning_lgp executables/hyperparameter_tuning/hyperparameter_tuning_lgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(hyperparameter_tuning_mep executables/hyperparameter_tuning/hyperparameter_tuning_mep.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(hyperparameter_tuning_nn executables/hyperparameter_tuning/hyperparameter_tuning_nn.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(hyperparameter_tuning_sbgp executables/hyperparameter_tuning/hyperparameter_tuning_sbgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(hyperparameter_tuning_sge executables/hyperparameter_tuning/hyperparameter_tuning_sge.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(hyperparameter_tuning_tbgp executables/hyperparameter_tuning/hyperparameter_tuning_tbgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(memory_management_experiment executables/memory_management/memory_management_experiment.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(memory_management_genotype executables/memory_management/memory_management_genotype.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(memory_management_algorithm executables/memory_management/memory_management_algorithm.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 
 target_link_libraries(scheduling yaml-cpp)
 target_link_libraries(bit_sum_genotype yaml-cpp)
@@ -158,3 +174,29 @@ target_link_libraries(simple_experiment yaml-cpp)
 target_link_libraries(experiment_generate_jobs yaml-cpp)
 target_link_libraries(experiment_generate_breakdowns yaml-cpp)
 target_link_libraries(experiment_constant_programming yaml-cpp)
+target_link_libraries(hyperparameter_tuning_cgp yaml-cpp)
+target_link_libraries(hyperparameter_tuning_gbgp yaml-cpp)
+target_link_libraries(hyperparameter_tuning_ge yaml-cpp)
+target_link_libraries(hyperparameter_tuning_gep yaml-cpp)
+target_link_libraries(hyperparameter_tuning_lgp yaml-cpp)
+target_link_libraries(hyperparameter_tuning_mep yaml-cpp)
+target_link_libraries(hyperparameter_tuning_nn yaml-cpp)
+target_link_libraries(hyperparameter_tuning_sbgp yaml-cpp)
+target_link_libraries(hyperparameter_tuning_sge yaml-cpp)
+target_link_libraries(hyperparameter_tuning_tbgp yaml-cpp)
+target_link_libraries(memory_management_experiment yaml-cpp)
+target_link_libraries(memory_management_genotype yaml-cpp)
+target_link_libraries(memory_management_algorithm yaml-cpp)
+
+add_custom_target(hyperparameter_tuning
+    DEPENDS hyperparameter_tuning_cgp
+            hyperparameter_tuning_gbgp
+            hyperparameter_tuning_ge
+            hyperparameter_tuning_gep
+            hyperparameter_tuning_lgp
+            hyperparameter_tuning_mep
+            hyperparameter_tuning_nn
+            hyperparameter_tuning_sbgp
+            hyperparameter_tuning_sge
+            hyperparameter_tuning_tbgp
+)

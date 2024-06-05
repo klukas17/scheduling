@@ -28,6 +28,7 @@ public:
         double constant_min,
         double constant_max
     );
+    ~GrammaticalEvolutionGenotypeBlueprint() override;
     double generateConstant();
     std::string generateParam(std::vector<std::string> params);
     int generateCodonValue();

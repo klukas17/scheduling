@@ -13,6 +13,8 @@ GraphBasedGeneticProgrammingSerializationOperator::GraphBasedGeneticProgrammingS
     this->blueprint = blueprint;
 }
 
+GraphBasedGeneticProgrammingSerializationOperator::~GraphBasedGeneticProgrammingSerializationOperator() = default;
+
 std::vector<std::string> GraphBasedGeneticProgrammingSerializationOperator::serialize(Genotype* genotype) {
     auto gbgp = dynamic_cast<GraphBasedGeneticProgramming*>(genotype);
     auto program = gbgp->getProgram();

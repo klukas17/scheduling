@@ -93,7 +93,7 @@ double SGEPhenotypeNode::eval(std::map<std::string, double>& params) {
     case SGE_ROOT:
         {
             auto arg = children[0]->eval(params);
-            return std::sqrt(std::abs(arg));
+            return (arg >= 0 ? 1 : -1) * std::sqrt(std::abs(arg));
         }
 
     case SGE_BRANCH:

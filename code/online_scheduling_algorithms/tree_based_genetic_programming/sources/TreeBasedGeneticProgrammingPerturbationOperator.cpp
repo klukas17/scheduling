@@ -16,14 +16,23 @@ TreeBasedGeneticProgrammingPerturbationOperator::TreeBasedGeneticProgrammingPert
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+TreeBasedGeneticProgrammingPerturbationOperator::~TreeBasedGeneticProgrammingPerturbationOperator() {
+    delete generator;
+}
+
 void TreeBasedGeneticProgrammingPerturbationOperator::perturbate(Genotype* genotype) {
     auto tbgp = dynamic_cast<TreeBasedGeneticProgramming*>(genotype);
+
+    auto inputs_copy = blueprint->getInputs();
+
     blueprint->setInputs(tbgp->getInputs());
 
     auto candidates = TBGPNodeCollector::collect(tbgp, blueprint->max_height);
     auto candidate_id = generator->generate() % candidates.size();
     auto candidate = candidates[candidate_id];
     auto candidate_replacement = blueprint->node_factory->createNode(candidate->max_depth);
+
+    candidate_replacement->parent = candidate->parent;
 
     if (candidate->parent == nullptr) {
         tbgp->setRootNode(candidate_replacement);
@@ -35,6 +44,6 @@ void TreeBasedGeneticProgrammingPerturbationOperator::perturbate(Genotype* genot
 
     TBGPNodeDepthAdjuster::adjustDepths(tbgp, blueprint->max_height);
 
-    blueprint->setInputs({});
+    blueprint->setInputs(inputs_copy);
 }
 

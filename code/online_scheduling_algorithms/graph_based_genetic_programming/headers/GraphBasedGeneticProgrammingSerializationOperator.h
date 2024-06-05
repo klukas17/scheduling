@@ -11,7 +11,8 @@
 class GraphBasedGeneticProgrammingSerializationOperator final : public SerializationOperator {
     GraphBasedGeneticProgrammingGenotypeBlueprint* blueprint;
 public:
-    GraphBasedGeneticProgrammingSerializationOperator(GraphBasedGeneticProgrammingGenotypeBlueprint* blueprint);
+    explicit GraphBasedGeneticProgrammingSerializationOperator(GraphBasedGeneticProgrammingGenotypeBlueprint* blueprint);
+    ~GraphBasedGeneticProgrammingSerializationOperator() override;
     std::vector<std::string> serialize(Genotype* genotype) override;
     Genotype* deserialize(std::vector<std::string> representation) override;
 };

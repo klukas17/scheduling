@@ -12,7 +12,9 @@ RandomProgramming::RandomProgramming(double lower, double upper) {
     this->generator = new UniformRealDistributionGenerator(lower, upper);
 }
 
-RandomProgramming::~RandomProgramming() = default;
+RandomProgramming::~RandomProgramming() {
+    delete generator;
+}
 
 double RandomProgramming::getLower() {
     return lower;

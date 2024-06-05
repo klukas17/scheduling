@@ -21,6 +21,7 @@ class TBGPNodeFactory {
 public:
     static std::vector<TBGPNodeType> inner_node_types;
     TBGPNodeFactory(double leaf_const_chance, double leaf_param_chance, double constant_min, double constant_max);
+    ~TBGPNodeFactory();
     void setInputs(std::vector<std::string> inputs);
     TBGPNode* createNode(int max_height);
 };

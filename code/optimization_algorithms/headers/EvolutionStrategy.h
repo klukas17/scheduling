@@ -28,6 +28,7 @@ public:
         int number_of_evaluations,
         double new_units_per_generation_percentage
     );
+    ~EvolutionStrategy();
     void optimize(Population* population) override;
 };
 

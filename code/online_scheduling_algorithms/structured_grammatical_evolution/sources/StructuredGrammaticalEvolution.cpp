@@ -4,6 +4,8 @@
 
 #include "StructuredGrammaticalEvolution.h"
 
+#include "SGEPhenotypeBuilder.h"
+
 StructuredGrammaticalEvolution::StructuredGrammaticalEvolution(SGEProgram* program) {
     this->program = program;
 }

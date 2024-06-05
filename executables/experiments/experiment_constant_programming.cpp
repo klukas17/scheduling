@@ -3,18 +3,12 @@
 //
 
 #include "BasicTopologyEnumerator.h"
-#include "ConstantProgramming.h"
-#include "ConstantProgrammingCombinationOperator.h"
-#include "ConstantProgrammingCreationOperator.h"
-#include "ConstantProgrammingGenotypeBlueprint.h"
-#include "ConstantProgrammingPerturbationOperator.h"
 #include "DiscountedTotalWeightedCompletionTimeObjectiveFunction.h"
 #include "MachineSpecificationsParser.h"
 #include "MachineTopologyParser.h"
 #include "JobSpecificationsParser.h"
 #include "JobSequenceParser.h"
 #include "Simulator.h"
-#include "TopologyUtils.h"
 #include "filesystem"
 #include "MakespanObjectiveFunction.h"
 #include "OnlineSchedulingAlgorithmClusterCombinationOperatorWithCoarseGranularity.h"
@@ -22,13 +16,17 @@
 #include "OnlineSchedulingAlgorithmClusterGenotypeBlueprint.h"
 #include "OnlineSchedulingAlgorithmClusterPerturbationOperator.h"
 #include "Population.h"
+#include "RandomProgrammingCombinationOperator.h"
+#include "RandomProgrammingCreationOperator.h"
+#include "RandomProgrammingGenotypeBlueprint.h"
+#include "RandomProgrammingPerturbationOperator.h"
 #include "SchedulingEvaluationFunction.h"
 #include "SchedulingMetaAlgorithm.h"
 #include "SteadyStateGeneticAlgorithm.h"
 
 int main() {
 
-    std::string const dir = "../experiments/experiment_05/";
+    std::string const dir = "../experiments/experiment_00/";
 
     MachineTypeMap* machine_type_map = MachineSpecificationsParser::parse(dir + "machine_specifications.yaml");
 
@@ -62,10 +60,10 @@ int main() {
         ""
     );
 
-    auto sub_genotype_blueprint = new ConstantProgrammingGenotypeBlueprint(0);
-    auto sub_creation_operator = new ConstantProgrammingCreationOperator(sub_genotype_blueprint);
-    auto sub_perturbation_operator = new ConstantProgrammingPerturbationOperator();
-    auto sub_combination_operator = new ConstantProgrammingCombinationOperator();
+    auto sub_genotype_blueprint = new RandomProgrammingGenotypeBlueprint(0, 1);
+    auto sub_creation_operator = new RandomProgrammingCreationOperator(sub_genotype_blueprint);
+    auto sub_perturbation_operator = new RandomProgrammingPerturbationOperator();
+    auto sub_combination_operator = new RandomProgrammingCombinationOperator();
 
     auto genotype_blueprint = new OnlineSchedulingAlgorithmClusterGenotypeBlueprint(topology);
     auto creation_operator = new OnlineSchedulingAlgorithmClusterCreationOperator(

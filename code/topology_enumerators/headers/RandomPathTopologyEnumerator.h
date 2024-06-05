@@ -16,6 +16,7 @@ class RandomPathTopologyEnumerator final : public TopologyEnumerator {
     void traverseTopology(std::set<long>& partition, TopologyElement* element);
 public:
     RandomPathTopologyEnumerator(Topology* topology, double change_element_chance);
+    ~RandomPathTopologyEnumerator();
     std::set<long> getPartition() override;
 };
 

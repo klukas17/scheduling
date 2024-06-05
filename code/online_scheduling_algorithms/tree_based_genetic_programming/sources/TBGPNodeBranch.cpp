@@ -22,7 +22,7 @@ TBGPNode* TBGPNodeBranch::copy() {
     copy->else_node = else_node->copy();
     copy->if_node->parent = copy;
     copy->then_node->parent = copy;
-    copy->then_node->parent = copy;
+    copy->else_node->parent = copy;
     copy->height = height;
     copy->max_depth = max_depth;
     return copy;

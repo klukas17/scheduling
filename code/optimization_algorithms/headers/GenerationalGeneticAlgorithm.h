@@ -15,7 +15,7 @@ class GenerationalGeneticAlgorithm final :
     public OptimizationAlgorithmWithCombinationOperator
 {
     int population_size;
-    int generations_count;
+    int number_of_evaluations;
     double worst_unit_coef;
 public:
     GenerationalGeneticAlgorithm(
@@ -24,9 +24,10 @@ public:
         PerturbationOperator* perturbation_operator,
         CombinationOperator* combination_operator,
         int population_size,
-        int generations_count,
+        int number_of_evaluations,
         double worst_unit_coef
     );
+    ~GenerationalGeneticAlgorithm();
     void optimize(Population* population) override;
 };
 

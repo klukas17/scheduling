@@ -14,6 +14,7 @@ class StructuredGrammaticalEvolutionPerturbationOperator final : public Perturba
     IntegerGenerator* generator;
 public:
     StructuredGrammaticalEvolutionPerturbationOperator(StructuredGrammaticalEvolutionGenotypeBlueprint* blueprint, double perturbation_rate);
+    ~StructuredGrammaticalEvolutionPerturbationOperator() override;
     void perturbate(Genotype* genotype) override;
 };
 

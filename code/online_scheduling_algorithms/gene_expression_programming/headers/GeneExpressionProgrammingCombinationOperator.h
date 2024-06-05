@@ -13,6 +13,7 @@ class GeneExpressionProgrammingCombinationOperator final : public CombinationOpe
     IntegerGenerator* generator;
 public:
     explicit GeneExpressionProgrammingCombinationOperator(GeneExpressionProgrammingGenotypeBlueprint* blueprint);
+    ~GeneExpressionProgrammingCombinationOperator() override;
     Genotype* combine(Genotype* genotype1, Genotype* genotype2) override;
 };
 

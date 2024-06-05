@@ -13,6 +13,8 @@ GrammaticalEvolutionCreationOperator::GrammaticalEvolutionCreationOperator(Genot
     this->blueprint = dynamic_cast<GrammaticalEvolutionGenotypeBlueprint*>(genotype_blueprint);
 }
 
+GrammaticalEvolutionCreationOperator::~GrammaticalEvolutionCreationOperator() = default;
+
 Genotype* GrammaticalEvolutionCreationOperator::create() {
 
     std::vector<GEGenotypeNode*> genotype_nodes;

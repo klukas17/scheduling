@@ -23,6 +23,11 @@ GraphBasedGeneticProgrammingCombinationOperator::GraphBasedGeneticProgrammingCom
     this->chance_generator = new UniformRealDistributionGenerator(0, 1);
 }
 
+GraphBasedGeneticProgrammingCombinationOperator::~GraphBasedGeneticProgrammingCombinationOperator() {
+    delete generator;
+    delete chance_generator;
+}
+
 Genotype* GraphBasedGeneticProgrammingCombinationOperator::combine(Genotype* genotype1, Genotype* genotype2) {
     auto gbgp1 = dynamic_cast<GraphBasedGeneticProgramming*>(genotype1);
     auto gbgp2 = dynamic_cast<GraphBasedGeneticProgramming*>(genotype2);

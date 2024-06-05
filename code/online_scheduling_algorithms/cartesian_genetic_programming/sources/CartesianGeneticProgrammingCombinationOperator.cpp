@@ -14,6 +14,10 @@ CartesianGeneticProgrammingCombinationOperator::CartesianGeneticProgrammingCombi
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+CartesianGeneticProgrammingCombinationOperator::~CartesianGeneticProgrammingCombinationOperator() {
+    delete generator;
+}
+
 Genotype* CartesianGeneticProgrammingCombinationOperator::combine(Genotype* genotype1, Genotype* genotype2) {
     auto cgp1 = dynamic_cast<CartesianGeneticProgramming*>(genotype1);
     auto cgp2 = dynamic_cast<CartesianGeneticProgramming*>(genotype2);

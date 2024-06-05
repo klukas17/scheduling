@@ -116,7 +116,7 @@ void LGPProgram::executeProgram(LGPRegistersState* registers_state, std::map<std
             {
                 registers_state->setValue(
                    instruction->first_register_id,
-                   std::sqrt(std::abs(registers_state->getValue(instruction->second_register_id)))
+                   (registers_state->getValue(instruction->second_register_id) >= 0 ? 1 : -1) * std::sqrt(std::abs(registers_state->getValue(instruction->second_register_id)))
                );
                 break;
             }

@@ -41,6 +41,12 @@ GeneExpressionProgrammingGenotypeBlueprint::GeneExpressionProgrammingGenotypeBlu
     nodes_probabilites.push_back(1);
 }
 
+GeneExpressionProgrammingGenotypeBlueprint::~GeneExpressionProgrammingGenotypeBlueprint() {
+    delete constant_generator;
+    delete generator;
+    delete node_type_generator;
+}
+
 double GeneExpressionProgrammingGenotypeBlueprint::generateConstant() {
     return constant_generator->generate();
 }

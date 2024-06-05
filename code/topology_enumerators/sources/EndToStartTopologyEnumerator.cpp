@@ -24,7 +24,10 @@ EndToStartTopologyEnumerator::EndToStartTopologyEnumerator(Topology* topology, i
         index -= partition_size;
         partitions.push_back(partition);
     }
+    partition_index = 0;
 }
+
+EndToStartTopologyEnumerator::~EndToStartTopologyEnumerator() = default;
 
 std::set<long> EndToStartTopologyEnumerator::getPartition() {
     int index = partition_index;

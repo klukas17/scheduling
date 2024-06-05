@@ -172,7 +172,7 @@ double GBGPProgram::executeSubProgram(int node_id, std::map<int, double>& values
                 values,
                 params
             );
-            value = std::sqrt(std::abs(arg1));
+            value = (arg1 >= 0 ? 1 : -1) * std::sqrt(std::abs(arg1));
             break;
         }
 

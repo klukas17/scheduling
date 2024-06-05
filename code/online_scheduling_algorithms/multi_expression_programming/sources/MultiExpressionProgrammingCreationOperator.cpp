@@ -15,6 +15,8 @@ MultiExpressionProgrammingCreationOperator::MultiExpressionProgrammingCreationOp
     this->blueprint = dynamic_cast<MultiExpressionProgrammingGenotypeBlueprint*>(genotype_blueprint);
 }
 
+MultiExpressionProgrammingCreationOperator::~MultiExpressionProgrammingCreationOperator() = default;
+
 Genotype* MultiExpressionProgrammingCreationOperator::create() {
     std::vector<MEPInstruction*> instructions;
     instructions.reserve(blueprint->number_of_instructions);

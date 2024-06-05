@@ -10,6 +10,10 @@ OnlineSchedulingAlgorithmClusterCombinationOperator::OnlineSchedulingAlgorithmCl
     this->generator = new UniformIntDistributionGenerator(0, 1);
 }
 
+OnlineSchedulingAlgorithmClusterCombinationOperator::~OnlineSchedulingAlgorithmClusterCombinationOperator() {
+    delete generator;
+}
+
 void OnlineSchedulingAlgorithmClusterCombinationOperator::setModifiableMachines(std::set<long> machines) {
     this->modifiable_machines = std::move(machines);
 }

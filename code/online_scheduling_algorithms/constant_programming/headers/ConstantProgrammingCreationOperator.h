@@ -11,7 +11,8 @@
 class ConstantProgrammingCreationOperator final : public CreationOperator {
     ConstantProgrammingGenotypeBlueprint* blueprint;
 public:
-    ConstantProgrammingCreationOperator(GenotypeBlueprint* genotype_blueprint);
+    explicit ConstantProgrammingCreationOperator(GenotypeBlueprint* genotype_blueprint);
+    ~ConstantProgrammingCreationOperator() override;
     Genotype* create() override;
 };
 

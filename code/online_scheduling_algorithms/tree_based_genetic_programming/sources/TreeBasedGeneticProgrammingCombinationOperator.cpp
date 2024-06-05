@@ -16,6 +16,10 @@ TreeBasedGeneticProgrammingCombinationOperator::TreeBasedGeneticProgrammingCombi
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+TreeBasedGeneticProgrammingCombinationOperator::~TreeBasedGeneticProgrammingCombinationOperator() {
+    delete generator;
+}
+
 Genotype* TreeBasedGeneticProgrammingCombinationOperator::combine(Genotype* genotype1, Genotype* genotype2) {
     auto tbgp1 = dynamic_cast<TreeBasedGeneticProgramming*>(genotype1);
     auto tbgp2 = dynamic_cast<TreeBasedGeneticProgramming*>(genotype2);
@@ -28,6 +32,8 @@ Genotype* TreeBasedGeneticProgrammingCombinationOperator::combine(Genotype* geno
     auto parent_2_candidates = TBGPNodeCollector::collect(tbgp2, parent1_candidate->height);
     auto parent2_candidate_id = generator->generate() % parent_2_candidates.size();
     auto parent2_candidate = parent_2_candidates[parent2_candidate_id]->copy();
+
+    parent2_candidate->parent = parent1_candidate->parent;
 
     if (parent1_candidate->parent == nullptr) {
         tbgp->setRootNode(parent2_candidate);

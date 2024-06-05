@@ -10,6 +10,8 @@ ConstantProgrammingCreationOperator::ConstantProgrammingCreationOperator(Genotyp
     this->blueprint = dynamic_cast<ConstantProgrammingGenotypeBlueprint*>(genotype_blueprint);
 }
 
+ConstantProgrammingCreationOperator::~ConstantProgrammingCreationOperator() = default;
+
 Genotype* ConstantProgrammingCreationOperator::create() {
     return new ConstantProgramming(blueprint->constant);
 }

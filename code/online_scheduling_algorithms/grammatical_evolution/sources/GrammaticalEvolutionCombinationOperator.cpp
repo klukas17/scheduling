@@ -15,6 +15,10 @@ GrammaticalEvolutionCombinationOperator::GrammaticalEvolutionCombinationOperator
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+GrammaticalEvolutionCombinationOperator::~GrammaticalEvolutionCombinationOperator() {
+    delete generator;
+}
+
 Genotype* GrammaticalEvolutionCombinationOperator::combine(Genotype* genotype1, Genotype* genotype2) {
     auto ge1 = dynamic_cast<GrammaticalEvolution*>(genotype1);
     auto ge2 = dynamic_cast<GrammaticalEvolution*>(genotype2);

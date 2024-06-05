@@ -22,6 +22,7 @@ public:
         double chance_of_transposition,
         int transposition_max_length
     );
+    ~GeneExpressionProgrammingPerturbationOperator() override;
     void perturbate(Genotype* genotype) override;
 };
 

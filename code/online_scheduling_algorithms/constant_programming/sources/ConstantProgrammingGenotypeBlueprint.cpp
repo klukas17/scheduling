@@ -7,3 +7,5 @@
 ConstantProgrammingGenotypeBlueprint::ConstantProgrammingGenotypeBlueprint(double constant) {
     this->constant = constant;
 }
+
+ConstantProgrammingGenotypeBlueprint::~ConstantProgrammingGenotypeBlueprint() = default;

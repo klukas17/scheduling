@@ -16,6 +16,7 @@ class RandomFairTopologyEnumerator final : public TopologyEnumerator {
     void createPartitions();
 public:
     RandomFairTopologyEnumerator(Topology* topology, int partition_size);
+    ~RandomFairTopologyEnumerator();
     std::set<long> getPartition() override;
 };
 

@@ -17,6 +17,12 @@ StructuredGrammaticalEvolutionGenotypeBlueprint::StructuredGrammaticalEvolutionG
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+StructuredGrammaticalEvolutionGenotypeBlueprint::~StructuredGrammaticalEvolutionGenotypeBlueprint() {
+    delete grammar;
+    delete constant_generator;
+    delete generator;
+}
+
 double StructuredGrammaticalEvolutionGenotypeBlueprint::generateConstant() {
     return constant_generator->generate();
 }

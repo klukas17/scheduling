@@ -39,6 +39,12 @@ TBGPNodeFactory::TBGPNodeFactory(double leaf_const_chance, double leaf_param_cha
     this->index_generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+TBGPNodeFactory::~TBGPNodeFactory() {
+    delete chance_generator;
+    delete constant_generator;
+    delete index_generator;
+}
+
 void TBGPNodeFactory::setInputs(std::vector<std::string> inputs) {
     this->inputs = std::move(inputs);
 }

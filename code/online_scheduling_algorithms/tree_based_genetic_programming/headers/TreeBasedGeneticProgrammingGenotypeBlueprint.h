@@ -13,6 +13,7 @@ public:
     TBGPNodeFactory* node_factory;
     int max_height;
     explicit TreeBasedGeneticProgrammingGenotypeBlueprint(TBGPNodeFactory* node_factory, int max_height);
+    ~TreeBasedGeneticProgrammingGenotypeBlueprint() override;
     void setInputs(std::vector<std::string> inputs) override;
 };
 

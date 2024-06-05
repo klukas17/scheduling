@@ -12,6 +12,7 @@ class CartesianGeneticProgrammingSerializationOperator final : public Serializat
     CartesianGeneticProgrammingGenotypeBlueprint* blueprint;
 public:
     explicit CartesianGeneticProgrammingSerializationOperator(CartesianGeneticProgrammingGenotypeBlueprint* blueprint);
+    ~CartesianGeneticProgrammingSerializationOperator() override;
     std::vector<std::string> serialize(Genotype* genotype) override;
     Genotype* deserialize(std::vector<std::string> representation) override;
 };

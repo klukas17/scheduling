@@ -19,6 +19,7 @@ class LinearGeneticProgrammingPerturbationOperator final : public PerturbationOp
     LGPInstructionType generateInstructionType();
 public:
     LinearGeneticProgrammingPerturbationOperator(LinearGeneticProgrammingGenotypeBlueprint* blueprint, double perturbation_rate, double perturbation_chance_of_nop);
+    ~LinearGeneticProgrammingPerturbationOperator() override;
     void perturbate(Genotype* genotype) override;
 };
 

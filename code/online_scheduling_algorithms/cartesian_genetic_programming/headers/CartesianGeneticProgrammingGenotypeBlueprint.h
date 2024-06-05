@@ -16,6 +16,7 @@ public:
     CGPFunctionsIndex* functions_index;
     DoubleGenerator* constant_generator;
     CartesianGeneticProgrammingGenotypeBlueprint(int rows, int cols, CGPFunctionsIndex* functions_index, double constant_min, double constant_max);
+    ~CartesianGeneticProgrammingGenotypeBlueprint() override;
     double generateConstant();
 };
 

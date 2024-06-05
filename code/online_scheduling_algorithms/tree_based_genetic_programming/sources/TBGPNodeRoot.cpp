@@ -24,5 +24,6 @@ TBGPNode* TBGPNodeRoot::copy() {
 }
 
 double TBGPNodeRoot::eval(std::map<std::string, double>& params) {
-    return std::sqrt(std::abs(radicand_node->eval(params)));
+    auto a = radicand_node->eval(params);
+    return (a >= 0 ? 1 : -1) * std::sqrt(std::abs(a));
 }

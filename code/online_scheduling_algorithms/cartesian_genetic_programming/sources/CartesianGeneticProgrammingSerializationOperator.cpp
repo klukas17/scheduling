@@ -11,6 +11,8 @@ CartesianGeneticProgrammingSerializationOperator::CartesianGeneticProgrammingSer
     this->blueprint = blueprint;
 }
 
+CartesianGeneticProgrammingSerializationOperator::~CartesianGeneticProgrammingSerializationOperator() = default;
+
 std::vector<std::string> CartesianGeneticProgrammingSerializationOperator::serialize(Genotype* genotype) {
     auto cgp = dynamic_cast<CartesianGeneticProgramming*>(genotype);
     auto grid = cgp->getGrid();

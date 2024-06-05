@@ -26,6 +26,11 @@ GraphBasedGeneticProgrammingGenotypeBlueprint::GraphBasedGeneticProgrammingGenot
     };
 }
 
+GraphBasedGeneticProgrammingGenotypeBlueprint::~GraphBasedGeneticProgrammingGenotypeBlueprint() {
+    delete constant_generator;
+    delete generator;
+}
+
 double GraphBasedGeneticProgrammingGenotypeBlueprint::generateConstant() {
     return constant_generator->generate();
 }

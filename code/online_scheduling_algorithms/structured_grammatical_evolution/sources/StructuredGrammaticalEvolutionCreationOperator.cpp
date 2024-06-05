@@ -13,6 +13,8 @@ StructuredGrammaticalEvolutionCreationOperator::StructuredGrammaticalEvolutionCr
     this->blueprint = dynamic_cast<StructuredGrammaticalEvolutionGenotypeBlueprint*>(genotype_blueprint);
 }
 
+StructuredGrammaticalEvolutionCreationOperator::~StructuredGrammaticalEvolutionCreationOperator() = default;
+
 Genotype* StructuredGrammaticalEvolutionCreationOperator::create() {
 
     auto program_metadata = new SGEProgramMetadata(blueprint->max_depth, blueprint->getInputs());

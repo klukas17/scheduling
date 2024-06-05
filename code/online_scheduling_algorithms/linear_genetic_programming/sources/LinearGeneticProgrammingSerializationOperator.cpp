@@ -11,6 +11,8 @@ LinearGeneticProgrammingSerializationOperator::LinearGeneticProgrammingSerializa
     this->blueprint = blueprint;
 }
 
+LinearGeneticProgrammingSerializationOperator::~LinearGeneticProgrammingSerializationOperator() = default;
+
 std::vector<std::string> LinearGeneticProgrammingSerializationOperator::serialize(Genotype* genotype) {
     auto lgp = dynamic_cast<LinearGeneticProgramming*>(genotype);
 

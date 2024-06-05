@@ -15,6 +15,10 @@ GraphBasedGeneticProgrammingCreationOperator::GraphBasedGeneticProgrammingCreati
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+GraphBasedGeneticProgrammingCreationOperator::~GraphBasedGeneticProgrammingCreationOperator() {
+    delete generator;
+}
+
 Genotype* GraphBasedGeneticProgrammingCreationOperator::create() {
 
     std::map<int, GBGPNode*> nodes;

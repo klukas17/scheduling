@@ -10,6 +10,7 @@
 class ConstantProgrammingCombinationOperator final : public CombinationOperator {
 public:
     ConstantProgrammingCombinationOperator();
+    ~ConstantProgrammingCombinationOperator() override;
     Genotype* combine(Genotype* genotype1, Genotype* genotype2) override;
 };
 

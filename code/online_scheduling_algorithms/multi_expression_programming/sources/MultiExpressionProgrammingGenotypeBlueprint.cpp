@@ -78,6 +78,12 @@ MultiExpressionProgrammingGenotypeBlueprint::MultiExpressionProgrammingGenotypeB
     ternary_functions_probabilites.push_back(1);
 }
 
+MultiExpressionProgrammingGenotypeBlueprint::~MultiExpressionProgrammingGenotypeBlueprint() {
+    delete constant_generator;
+    delete instruction_type_generator;
+    delete generator;
+}
+
 double MultiExpressionProgrammingGenotypeBlueprint::generateConstant() {
     return constant_generator->generate();
 }

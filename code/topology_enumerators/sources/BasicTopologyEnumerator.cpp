@@ -6,6 +6,8 @@
 
 BasicTopologyEnumerator::BasicTopologyEnumerator(Topology* topology) : TopologyEnumerator(topology) {}
 
+BasicTopologyEnumerator::~BasicTopologyEnumerator() = default;
+
 std::set<long> BasicTopologyEnumerator::getPartition() {
     return machines_with_algorithms;
 }

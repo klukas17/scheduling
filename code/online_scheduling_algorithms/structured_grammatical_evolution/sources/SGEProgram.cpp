@@ -27,13 +27,15 @@ SGEProgram::~SGEProgram() {
 }
 
 SGEProgram* SGEProgram::copy() {
-    return new SGEProgram(
+    auto program = new SGEProgram(
         metadata->copy(),
         symbol_values,
         terminal_values,
         nonterminal_values,
         param_values
     );
+    program->phenotype_root_node = this->phenotype_root_node->copy();
+    return program;
 }
 
 std::map<int, double> SGEProgram::collectAllConstants() {

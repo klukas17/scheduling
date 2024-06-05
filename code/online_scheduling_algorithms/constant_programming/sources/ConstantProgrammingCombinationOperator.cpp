@@ -6,6 +6,8 @@
 
 ConstantProgrammingCombinationOperator::ConstantProgrammingCombinationOperator() = default;
 
+ConstantProgrammingCombinationOperator::~ConstantProgrammingCombinationOperator() = default;
+
 Genotype* ConstantProgrammingCombinationOperator::combine(Genotype* genotype1, Genotype* genotype2) {
     return genotype1->copy();
 }

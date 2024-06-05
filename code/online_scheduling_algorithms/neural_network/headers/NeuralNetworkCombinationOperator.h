@@ -10,6 +10,7 @@
 class NeuralNetworkCombinationOperator final : public CombinationOperator {
 public:
     NeuralNetworkCombinationOperator();
+    ~NeuralNetworkCombinationOperator() override;
     Genotype* combine(Genotype* genotype1, Genotype* genotype2) override;
 };
 

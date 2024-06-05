@@ -43,6 +43,11 @@ StackBasedGeneticProgrammingPerturbationOperator::StackBasedGeneticProgrammingPe
     this->perturbation_rate = perturbation_rate;
 }
 
+StackBasedGeneticProgrammingPerturbationOperator::~StackBasedGeneticProgrammingPerturbationOperator() {
+    delete instruction_type_generator;
+    delete generator;
+}
+
 void StackBasedGeneticProgrammingPerturbationOperator::perturbate(Genotype* genotype) {
     auto sbgp = dynamic_cast<StackBasedGeneticProgramming*>(genotype);
     auto program = sbgp->getProgram();

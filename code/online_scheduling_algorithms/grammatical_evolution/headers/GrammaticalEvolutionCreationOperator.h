@@ -12,6 +12,7 @@ class GrammaticalEvolutionCreationOperator final : public CreationOperator {
     GrammaticalEvolutionGenotypeBlueprint* blueprint;
 public:
     explicit GrammaticalEvolutionCreationOperator(GenotypeBlueprint* genotype_blueprint);
+    ~GrammaticalEvolutionCreationOperator() override;
     Genotype* create() override;
 };
 

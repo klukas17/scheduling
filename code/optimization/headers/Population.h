@@ -17,6 +17,7 @@ class Population {
     static bool (*comparator)(EvaluatedGenotype*, EvaluatedGenotype*);
 public:
     explicit Population(int population_size);
+    ~Population();
     void initialize(CreationOperator* creation_operator, EvaluationFunction* evaluation_function);
     void replacePopulation(const std::vector<EvaluatedGenotype*>& new_population);
     EvaluatedGenotype* getGenotype(int index);

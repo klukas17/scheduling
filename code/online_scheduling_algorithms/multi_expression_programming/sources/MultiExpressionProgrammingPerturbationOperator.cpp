@@ -15,6 +15,10 @@ MultiExpressionProgrammingPerturbationOperator::MultiExpressionProgrammingPertur
     this->generator = new UniformIntDistributionGenerator(0, INT_MAX);
 }
 
+MultiExpressionProgrammingPerturbationOperator::~MultiExpressionProgrammingPerturbationOperator() {
+    delete generator;
+}
+
 void MultiExpressionProgrammingPerturbationOperator::perturbate(Genotype* genotype) {
     auto mep = dynamic_cast<MultiExpressionProgramming*>(genotype);
     auto program = mep->getProgram();

@@ -29,6 +29,7 @@ public:
         double constant_min,
         double constant_max
     );
+    ~MultiExpressionProgrammingGenotypeBlueprint() override;
     double generateConstant();
     std::string generateParam(std::vector<std::string> params);
     int generateArgument(int instruction_index);

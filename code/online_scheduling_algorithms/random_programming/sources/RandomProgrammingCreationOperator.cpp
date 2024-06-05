@@ -9,6 +9,8 @@ RandomProgrammingCreationOperator::RandomProgrammingCreationOperator(GenotypeBlu
     this->blueprint = dynamic_cast<RandomProgrammingGenotypeBlueprint*>(genotype_blueprint);
 }
 
+RandomProgrammingCreationOperator::~RandomProgrammingCreationOperator() = default;
+
 Genotype* RandomProgrammingCreationOperator::create() {
     return new RandomProgramming(blueprint->lower, blueprint->upper);
 }

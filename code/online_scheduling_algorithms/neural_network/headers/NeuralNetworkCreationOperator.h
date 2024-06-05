@@ -12,6 +12,7 @@ class NeuralNetworkCreationOperator final : public CreationOperator {
     NeuralNetworkGenotypeBlueprint* blueprint;
 public:
     explicit NeuralNetworkCreationOperator(GenotypeBlueprint* genotype_blueprint);
+    ~NeuralNetworkCreationOperator() override;
     Genotype* create() override;
 };
 

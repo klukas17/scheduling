@@ -7,6 +7,7 @@
 #include "OnlineScheduler.h"
 #include "OnlineSchedulingAlgorithmCluster.h"
 #include "Simulator.h"
+#include "StructuredGrammaticalEvolution.h"
 
 SchedulingEvaluationFunction::SchedulingEvaluationFunction(
     ObjectiveFunction* objective_function,

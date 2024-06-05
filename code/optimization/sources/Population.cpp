@@ -4,6 +4,8 @@
 
 #include "Population.h"
 
+#include <iostream>
+
 bool (*Population::comparator)(EvaluatedGenotype*, EvaluatedGenotype*) =
     [](EvaluatedGenotype* a, EvaluatedGenotype* b){
         return a->fitness_score < b->fitness_score;
@@ -13,8 +15,15 @@ Population::Population(int population_size) {
     this->population_size = population_size;
 }
 
+Population::~Population() {
+    for (auto unit : population) {
+        delete unit;
+    }
+}
+
 void Population::initialize(CreationOperator* creation_operator, EvaluationFunction* evaluation_function) {
     while (population.size() < population_size) {
+        std::cout << "Initializing population: " << population.size() + 1 << "/" << population_size << std::endl;
         auto const new_unit_genotype = creation_operator->create();
         auto const fitness = evaluation_function->evaluate(new_unit_genotype);
         auto evaluated_unit = new EvaluatedGenotype(new_unit_genotype, fitness);

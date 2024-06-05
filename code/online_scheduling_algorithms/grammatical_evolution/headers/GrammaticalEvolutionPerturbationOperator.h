@@ -17,6 +17,7 @@ public:
         GrammaticalEvolutionGenotypeBlueprint* blueprint,
         double perturbation_rate
     );
+    ~GrammaticalEvolutionPerturbationOperator() override;
     void perturbate(Genotype* genotype) override;
 };
 

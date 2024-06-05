@@ -10,6 +10,8 @@ StackBasedGeneticProgrammingSerializationOperator::StackBasedGeneticProgrammingS
     this->blueprint = blueprint;
 }
 
+StackBasedGeneticProgrammingSerializationOperator::~StackBasedGeneticProgrammingSerializationOperator() = default;
+
 std::vector<std::string> StackBasedGeneticProgrammingSerializationOperator::serialize(Genotype* genotype) {
     auto sbgp = dynamic_cast<StackBasedGeneticProgramming*>(genotype);
 
