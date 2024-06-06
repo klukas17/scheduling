@@ -20,12 +20,16 @@ std::vector<std::string> OnlineSchedulingAlgorithmClusterSerializationOperator::
     std::vector<std::string> result;
 
     for (auto [machine_id, algorithm] : cluster->getAlgorithms()) {
-        oss << "machine " << machine_id;
-        result.push_back(oss.str());
-        oss.str("");
-        auto algorithm_serialized = algorithm_serialization_operator->serialize(algorithm);
-        for (const auto& line : algorithm_serialized) {
-            result.push_back(line);
+        auto topology_element = topology->getTopologyElementsMap().at(machine_id);
+        auto element_type = topology_element->getTopologyElementType();
+        if (element_type == MACHINE_TOPOLOGY_ELEMENT || element_type == PARALLEL_GROUP_TOPOLOGY_ELEMENT || element_type == OPEN_GROUP_TOPOLOGY_ELEMENT) {
+            oss << "machine " << machine_id;
+            result.push_back(oss.str());
+            oss.str("");
+            auto algorithm_serialized = algorithm_serialization_operator->serialize(algorithm);
+            for (const auto& line : algorithm_serialized) {
+                result.push_back(line);
+            }
         }
     }
 
