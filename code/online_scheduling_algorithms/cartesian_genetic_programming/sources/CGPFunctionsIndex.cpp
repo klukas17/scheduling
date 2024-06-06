@@ -26,7 +26,8 @@ double divide(double a, double b, double c) {
     if (b >= -1e-6 && b <= 1e-6) {
         return 1;
     }
-    return a / b;
+    auto res = a / b;
+    return std::isinf(res) ? 1 : res;
 }
 
 double square(double a, double b, double c) {
