@@ -157,6 +157,17 @@ add_executable(hyperparameter_tuning_tbgp executables/hyperparameter_tuning/hype
 add_executable(memory_management_experiment executables/memory_management/memory_management_experiment.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(memory_management_genotype executables/memory_management/memory_management_genotype.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(memory_management_algorithm executables/memory_management/memory_management_algorithm.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_cgp executables/runs/run_cgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_gbgp executables/runs/run_gbgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_tbgp executables/runs/run_tbgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_ge executables/runs/run_ge.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_gep executables/runs/run_gep.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_lgp executables/runs/run_lgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_mep executables/runs/run_mep.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_nn executables/runs/run_nn.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_rp executables/runs/run_rp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_sbgp executables/runs/run_sbgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_sge executables/runs/run_sge.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 
 target_link_libraries(scheduling yaml-cpp)
 target_link_libraries(bit_sum_genotype yaml-cpp)
@@ -187,6 +198,17 @@ target_link_libraries(hyperparameter_tuning_tbgp yaml-cpp)
 target_link_libraries(memory_management_experiment yaml-cpp)
 target_link_libraries(memory_management_genotype yaml-cpp)
 target_link_libraries(memory_management_algorithm yaml-cpp)
+target_link_libraries(run_cgp yaml-cpp)
+target_link_libraries(run_gbgp yaml-cpp)
+target_link_libraries(run_tbgp yaml-cpp)
+target_link_libraries(run_ge yaml-cpp)
+target_link_libraries(run_gep yaml-cpp)
+target_link_libraries(run_lgp yaml-cpp)
+target_link_libraries(run_mep yaml-cpp)
+target_link_libraries(run_nn yaml-cpp)
+target_link_libraries(run_rp yaml-cpp)
+target_link_libraries(run_sbgp yaml-cpp)
+target_link_libraries(run_sge yaml-cpp)
 
 add_custom_target(hyperparameter_tuning
     DEPENDS hyperparameter_tuning_cgp
@@ -199,4 +221,18 @@ add_custom_target(hyperparameter_tuning
             hyperparameter_tuning_sbgp
             hyperparameter_tuning_sge
             hyperparameter_tuning_tbgp
+)
+
+add_custom_target(runs
+    DEPENDS run_cgp
+            run_gbgp
+            run_tbgp
+            run_ge
+            run_gep
+            run_lgp
+            run_mep
+            run_nn
+            run_rp
+            run_sbgp
+            run_sge
 )
