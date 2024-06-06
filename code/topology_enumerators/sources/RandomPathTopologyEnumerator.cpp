@@ -28,7 +28,11 @@ std::set<long> RandomPathTopologyEnumerator::getPartition() {
 }
 
 void RandomPathTopologyEnumerator::traverseTopology(std::set<long>& partition, TopologyElement* element) {
-    partition.insert(element->getId());
+
+    auto element_type = element->getTopologyElementType();
+    if (element_type == MACHINE_TOPOLOGY_ELEMENT || element_type == PARALLEL_GROUP_TOPOLOGY_ELEMENT || element_type == OPEN_GROUP_TOPOLOGY_ELEMENT) {
+        partition.insert(element->getId());
+    }
 
     switch(element->getTopologyElementType()) {
         case ABSTRACT_TOPOLOGY_ELEMENT:
