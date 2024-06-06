@@ -46,6 +46,7 @@
 #include "NeuralNetworkPerturbationOperator.h"
 #include "NeuralNetworkSerializationOperator.h"
 #include "NormalDistribution.h"
+#include "OnlineSchedulingAlgorithm.h"
 #include "RandomProgrammingCombinationOperator.h"
 #include "RandomProgrammingCreationOperator.h"
 #include "RandomProgrammingGenotypeBlueprint.h"
@@ -67,6 +68,7 @@
 #include "TreeBasedGeneticProgrammingGenotypeBlueprint.h"
 #include "TreeBasedGeneticProgrammingPerturbationOperator.h"
 #include "TreeBasedGeneticProgrammingSerializationOperator.h"
+#include "UniformRealDistributionGenerator.h"
 
 void loop(
     CreationOperator* creation_operator,
@@ -74,6 +76,9 @@ void loop(
     PerturbationOperator* perturbation_operator,
     SerializationOperator* serialization_operator
 ) {
+
+    DoubleGenerator* generator = new UniformRealDistributionGenerator(-1, 1);
+
     for (int i = 0; i < 100000000; i++) {
 
         std::cout << i << std::endl;
@@ -100,6 +105,20 @@ void loop(
             auto y_ = y;
             y = combination_operator->combine(x, y);
             perturbation_operator->perturbate(y);
+
+            std::map<std::string, double> params;
+            params["a"] = generator->generate();
+            params["b"] = generator->generate();
+            params["c"] = generator->generate();
+            params["d"] = generator->generate();
+            params["e"] = generator->generate();
+            params["f"] = generator->generate();
+            params["g"] = generator->generate();
+            params["h"] = generator->generate();
+            params["i"] = generator->generate();
+            params["j"] = generator->generate();
+            dynamic_cast<OnlineSchedulingAlgorithm*>(y)->calculateScore(params);
+
             delete y_;
         }
 
@@ -171,7 +190,7 @@ void cgp() {
         -1,
         1
     );
-    blueprint->setInputs({"x", "y", "z", "w"});
+    blueprint->setInputs({"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"});
     auto creation_operator = new CartesianGeneticProgrammingCreationOperator(blueprint);
     auto combination_operator = new CartesianGeneticProgrammingCombinationOperator(blueprint);
     auto perturbation_operator = new CartesianGeneticProgrammingPerturbationOperator(blueprint, perturbation_rate);
@@ -354,8 +373,8 @@ int main() {
     // cp();
     // rp();
     // nn();
-    tbgp();
-    // cgp();
+    // tbgp();
+    cgp();
     // lgp();
     // sbgp();
     // gep();

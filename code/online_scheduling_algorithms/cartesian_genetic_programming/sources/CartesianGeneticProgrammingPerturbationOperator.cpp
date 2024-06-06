@@ -29,29 +29,29 @@ void CartesianGeneticProgrammingPerturbationOperator::perturbate(Genotype* genot
     auto changes = cells * perturbation_rate;
 
     for (int i = 0; i < changes; i++) {
-        auto cell_index = generator->generate() % (cells - inputs_number - 1) + inputs_number + 1;
+        auto cell_index = generator->generate() % cells;
         // output cell
         if (cell_index == cells - 1) {
             grid->output_index = generator->generate() % (blueprint->rows * blueprint->cols + blueprint->getInputs().size()) + 1;
         } else {
-            auto cell = grid->cells[cell_index - inputs_number - 1];
+            auto cell = grid->cells[cell_index];
             auto index_to_change = generator->generate() % 4;
             if (index_to_change == 0) {
                 auto range = (cell->cell_index - inputs_number) / blueprint->rows * blueprint->rows + inputs_number;
                 if ((cell->cell_index - inputs_number) % blueprint->rows == 0) {
-                    range--;
+                    range -= blueprint->rows;
                 }
                 cell->first_input_index = generator->generate() % range + 1;
             } else if (index_to_change == 1) {
                 auto range = (cell->cell_index - inputs_number) / blueprint->rows * blueprint->rows + inputs_number;
                 if ((cell->cell_index - inputs_number) % blueprint->rows == 0) {
-                    range--;
+                    range -= blueprint->rows;
                 }
                 cell->second_input_index = generator->generate() % range + 1;
             } else if (index_to_change == 2) {
                 auto range = (cell->cell_index - inputs_number) / blueprint->rows * blueprint->rows + inputs_number;
                 if ((cell->cell_index - inputs_number) % blueprint->rows == 0) {
-                    range--;
+                    range -= blueprint->rows;
                 }
                 cell->third_input_index = generator->generate() % range + 1;
             } else if (index_to_change == 3) {
