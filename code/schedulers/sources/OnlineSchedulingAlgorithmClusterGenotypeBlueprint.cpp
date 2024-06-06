@@ -13,7 +13,7 @@ OnlineSchedulingAlgorithmClusterGenotypeBlueprint::OnlineSchedulingAlgorithmClus
             topology_elements_with_algorithms_in_leaves.insert(element_id);
             break;
         case PARALLEL_GROUP_TOPOLOGY_ELEMENT:
-        case ROUTE_GROUP_TOPOLOGY_ELEMENT:
+        case OPEN_GROUP_TOPOLOGY_ELEMENT:
             topology_elements_with_algorithms_in_inner_nodes.insert(element_id);
             break;
         default:
