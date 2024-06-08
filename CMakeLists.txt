@@ -168,6 +168,16 @@ add_executable(run_nn executables/runs/run_nn.cpp ${PROJECT_SOURCES} ${PROJECT_H
 add_executable(run_rp executables/runs/run_rp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(run_sbgp executables/runs/run_sbgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 add_executable(run_sge executables/runs/run_sge.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_single_cgp executables/runs_single/run_single_cgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_single_gbgp executables/runs_single/run_single_gbgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_single_tbgp executables/runs_single/run_single_tbgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_single_ge executables/runs_single/run_single_ge.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_single_gep executables/runs_single/run_single_gep.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_single_lgp executables/runs_single/run_single_lgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_single_mep executables/runs_single/run_single_mep.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_single_nn executables/runs_single/run_single_nn.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_single_sbgp executables/runs_single/run_single_sbgp.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
+add_executable(run_single_sge executables/runs_single/run_single_sge.cpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})
 
 target_link_libraries(scheduling yaml-cpp)
 target_link_libraries(bit_sum_genotype yaml-cpp)
@@ -209,6 +219,16 @@ target_link_libraries(run_nn yaml-cpp)
 target_link_libraries(run_rp yaml-cpp)
 target_link_libraries(run_sbgp yaml-cpp)
 target_link_libraries(run_sge yaml-cpp)
+target_link_libraries(run_single_cgp yaml-cpp)
+target_link_libraries(run_single_gbgp yaml-cpp)
+target_link_libraries(run_single_tbgp yaml-cpp)
+target_link_libraries(run_single_ge yaml-cpp)
+target_link_libraries(run_single_gep yaml-cpp)
+target_link_libraries(run_single_lgp yaml-cpp)
+target_link_libraries(run_single_mep yaml-cpp)
+target_link_libraries(run_single_nn yaml-cpp)
+target_link_libraries(run_single_sbgp yaml-cpp)
+target_link_libraries(run_single_sge yaml-cpp)
 
 add_custom_target(hyperparameter_tuning
     DEPENDS hyperparameter_tuning_cgp
@@ -224,7 +244,7 @@ add_custom_target(hyperparameter_tuning
 )
 
 add_custom_target(runs
-    DEPENDS run_cgp
+    DEPENDS run_si_cgp
             run_gbgp
             run_tbgp
             run_ge
@@ -235,4 +255,17 @@ add_custom_target(runs
             run_rp
             run_sbgp
             run_sge
+)
+
+add_custom_target(runs_single
+    DEPENDS run_single_cgp
+            run_single_gbgp
+            run_single_tbgp
+            run_single_ge
+            run_single_gep
+            run_single_lgp
+            run_single_mep
+            run_single_nn
+            run_single_sbgp
+            run_single_sge
 )
